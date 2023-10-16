@@ -68,7 +68,7 @@ import {
 const Menuitems: MenuitemsType[] = [
   {
     navlabel: true,
-    subheader: "Home",
+    subheader: "Аналитика",
   },
 
   {

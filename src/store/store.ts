@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
+import userReducer from "./user/userSlice";
 import counterReducer from "./counter/counterSlice";
 import CustomizerReducer from "./customizer/CustomizerSlice";
 import EcommerceReducer from "./apps/eCommerce/ECommerceSlice";
@@ -14,6 +15,7 @@ import BlogReducer from "./apps/blog/BlogSlice";
 
 export const store = configureStore({
   reducer: {
+    user: userReducer,
     counter: counterReducer,
     customizer: CustomizerReducer,
     ecommerceReducer: EcommerceReducer,
@@ -29,6 +31,7 @@ export const store = configureStore({
 });
 
 const rootReducer = combineReducers({
+  user: userReducer,
   counter: counterReducer,
   customizer: CustomizerReducer,
   ecommerceReducer: EcommerceReducer,

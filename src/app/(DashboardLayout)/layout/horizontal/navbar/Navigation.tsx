@@ -38,7 +38,7 @@ const Navigation = () => {
         sx: {
           width: customizer.SidebarWidth,
           border: '0 !important',
-          boxShadow: (theme) => theme.shadows[8],
+          boxShadow: (theme : any) => theme.shadows[8],
         },
       }}
     >
