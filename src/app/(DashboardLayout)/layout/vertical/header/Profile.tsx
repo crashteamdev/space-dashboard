@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React, { useState } from "react";
+import Link from "next/link";
 import {
   Box,
   Menu,
@@ -8,21 +8,38 @@ import {
   Divider,
   Button,
   IconButton,
-} from '@mui/material';
-import * as dropdownData from './data';
+} from "@mui/material";
+import * as dropdownData from "./data";
 
-import { IconMail } from '@tabler/icons-react';
-import { Stack } from '@mui/system';
-import Image from 'next/image';
-
+import { Stack } from "@mui/system";
+import Image from "next/image";
+import { logout } from "@/app/api/auth/logout/logout";
+import { useDispatch, useSelector } from "@/store/hooks";
+import { AppState } from "@/store/store";
+import { getAuth } from "firebase/auth";
+import firebase_app from "@/firebase/firebase";
+import { deleteUser } from "@/store/user/userSlice";
 
 const Profile = () => {
+  const user = useSelector((state: AppState) => state.user);
+
+  const dispatch = useDispatch();
+  const auth = getAuth(firebase_app);
+
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
   };
   const handleClose2 = () => {
     setAnchorEl2(null);
+  };
+
+  const exit = () => {
+    if (auth.currentUser) {
+      dispatch(deleteUser());
+    }
+    logout();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   return (
@@ -34,15 +51,15 @@ const Profile = () => {
         aria-controls="msgs-menu"
         aria-haspopup="true"
         sx={{
-          ...(typeof anchorEl2 === 'object' && {
-            color: 'primary.main',
+          ...(typeof anchorEl2 === "object" && {
+            color: "primary.main",
           }),
         }}
         onClick={handleClick2}
       >
         <Avatar
-          src={"/images/profile/user-1.jpg"}
-          alt={'ProfileImg'}
+          src={user.data.photoURL ? user.data.photoURL : "/images/profile/user-1.jpg"}
+          alt={"ProfileImg"}
           sx={{
             width: 35,
             height: 35,
@@ -58,36 +75,43 @@ const Profile = () => {
         keepMounted
         open={Boolean(anchorEl2)}
         onClose={handleClose2}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
         sx={{
-          '& .MuiMenu-paper': {
-            width: '360px',
+          "& .MuiMenu-paper": {
+            width: "360px",
             p: 4,
           },
         }}
       >
         <Typography variant="h5">User Profile</Typography>
-        <Stack direction="row" py={3} spacing={2} alignItems="center">
-        <Avatar src={"/images/profile/user-1.jpg"} alt={"ProfileImg"} sx={{ width: 95, height: 95 }} />
+        <Stack direction="row" pt={3} pb={2} spacing={2} alignItems="center">
+          <Avatar
+            src={
+              user.data.photoURL
+                ? user.data.photoURL
+                : "/images/profile/user-1.jpg"
+            }
+            alt={"ProfileImg"}
+            sx={{ width: 64, height: 64 }}
+          />
           <Box>
-            <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
-              Mathew Anderson
-            </Typography>
-            <Typography variant="subtitle2" color="textSecondary">
-              Designer
-            </Typography>
             <Typography
               variant="subtitle2"
-              color="textSecondary"
-              display="flex"
-              alignItems="center"
-              gap={1}
+              color="textPrimary"
+              fontWeight={600}
             >
-              <IconMail width={15} height={15} />
-              info@modernize.com
+              {user.data ? user.data.email : ""}
+            </Typography>
+            <Typography variant="subtitle2" color="textSecondary">
+              Balance: {100} руб
             </Typography>
           </Box>
+        </Stack>
+        <Stack direction="column" pb={3} spacing={2} alignItems="center">
+          <Button variant="contained" color="info" fullWidth>
+            Пополнить баланс
+          </Button>
         </Stack>
         <Divider />
         {dropdownData.profile.map((profile) => (
@@ -101,7 +125,8 @@ const Profile = () => {
                     bgcolor="primary.light"
                     display="flex"
                     alignItems="center"
-                    justifyContent="center" flexShrink="0"
+                    justifyContent="center"
+                    flexShrink="0"
                   >
                     <Avatar
                       src={profile.icon}
@@ -121,7 +146,7 @@ const Profile = () => {
                       className="text-hover"
                       noWrap
                       sx={{
-                        width: '240px',
+                        width: "240px",
                       }}
                     >
                       {profile.title}
@@ -130,7 +155,7 @@ const Profile = () => {
                       color="textSecondary"
                       variant="subtitle2"
                       sx={{
-                        width: '240px',
+                        width: "240px",
                       }}
                       noWrap
                     >
@@ -143,7 +168,13 @@ const Profile = () => {
           </Box>
         ))}
         <Box mt={2}>
-          <Box bgcolor="primary.light" p={3} mb={3} overflow="hidden" position="relative">
+          <Box
+            bgcolor="primary.light"
+            p={3}
+            mb={3}
+            overflow="hidden"
+            position="relative"
+          >
             <Box display="flex" justifyContent="space-between">
               <Box>
                 <Typography variant="h5" mb={2}>
@@ -154,10 +185,23 @@ const Profile = () => {
                   Upgrade
                 </Button>
               </Box>
-              <Image src={"/images/backgrounds/unlimited-bg.png"} width={150} height={183} alt="unlimited" className="signup-bg" />
+              <Image
+                src={"/images/backgrounds/unlimited-bg.png"}
+                width={150}
+                height={183}
+                alt="unlimited"
+                className="signup-bg"
+              />
             </Box>
           </Box>
-          <Button href="/auth/auth1/login" variant="outlined" color="primary" component={Link} fullWidth>
+          <Button
+            onClick={exit}
+            href="/auth/auth2/login"
+            variant="outlined"
+            color="primary"
+            component={Link}
+            fullWidth
+          >
             Logout
           </Button>
         </Box>

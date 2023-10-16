@@ -43,7 +43,7 @@ const BpCheckedIcon = styled(BpIcon)({
       "1.003 0 00-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0012 5z' fill='%23fff'/%3E%3C/svg%3E\")",
     content: '""',
   },
-});
+}) as any; 
 
 // Inspired by blueprintjs
 function CustomCheckbox(props: CheckboxProps) {

@@ -1,29 +1,46 @@
-import Menuitems from './MenuItems';
+import { useState } from "react";
+import Menuitems from "./MenuItems";
 import { usePathname } from "next/navigation";
-import { Box, List, useMediaQuery } from '@mui/material';
-import { useDispatch, useSelector } from '@/store/hooks';
-import NavItem from './NavItem';
-import NavCollapse from './NavCollapse';
-import NavGroup from './NavGroup/NavGroup';
-import { AppState } from '@/store/store'
-import { toggleMobileSidebar } from '@/store/customizer/CustomizerSlice';
-
+import { Box, List, useMediaQuery, Grid, Divider } from "@mui/material";
+import { useDispatch, useSelector } from "@/store/hooks";
+import NavItem from "./NavItem";
+import NavCollapse from "./NavCollapse";
+import NavGroup from "./NavGroup/NavGroup";
+import { AppState } from "@/store/store";
+import { toggleMobileSidebar } from "@/store/customizer/CustomizerSlice";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import ChildCard from "@/app/(DashboardLayout)/components/shared/ChildCard";
+import TabPanel from "@mui/lab/TabPanel";
+import SwitchCompany from "@/app/(DashboardLayout)/components/switchCompany/switchCompany";
+import Wallet from "@/app/(DashboardLayout)/components/wallet/wallet";
 
 const SidebarItems = () => {
-  const  pathname  = usePathname();
+  const [value, setValue] = useState("1");
+
+  const pathname = usePathname();
   const pathDirect = pathname;
-  const pathWithoutLastPart = pathname.slice(0, pathname.lastIndexOf('/'));
+  const pathWithoutLastPart = pathname.slice(0, pathname.lastIndexOf("/"));
   const customizer = useSelector((state: AppState) => state.customizer);
-  const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
-  const hideMenu: any = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
+  const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
+  const hideMenu: any = lgUp
+    ? customizer.isCollapse && !customizer.isSidebarHover
+    : "";
   const dispatch = useDispatch();
   return (
     <Box sx={{ px: 3 }}>
+      <Box>
+        <Wallet />
+        <SwitchCompany />
+      </Box>
       <List sx={{ pt: 0 }} className="sidebarNav">
         {Menuitems.map((item) => {
           // {/********SubHeader**********/}
           if (item.subheader) {
-            return <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />;
+            return (
+              <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />
+            );
 
             // {/********If Sub Menu**********/}
             /* eslint no-else-return: "off" */
@@ -43,7 +60,13 @@ const SidebarItems = () => {
             // {/********If Sub No Menu**********/}
           } else {
             return (
-              <NavItem item={item} key={item.id} pathDirect={pathDirect} hideMenu={hideMenu} onClick={() => dispatch(toggleMobileSidebar())} />
+              <NavItem
+                item={item}
+                key={item.id}
+                pathDirect={pathDirect}
+                hideMenu={hideMenu}
+                onClick={() => dispatch(toggleMobileSidebar())}
+              />
             );
           }
         })}
