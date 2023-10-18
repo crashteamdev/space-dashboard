@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Menuitems from "./MenuItems";
+import { useState, useEffect } from "react";
+import MenuitemsKazan from "./MenuItems";
 import { usePathname } from "next/navigation";
 import { Box, List, useMediaQuery, Grid, Divider } from "@mui/material";
 import { useDispatch, useSelector } from "@/store/hooks";
@@ -18,6 +18,7 @@ import Wallet from "@/app/(DashboardLayout)/components/wallet/wallet";
 
 const SidebarItems = () => {
   const [value, setValue] = useState("1");
+  const companyChanger = useSelector((state: AppState) => state.companyChanger);
 
   const pathname = usePathname();
   const pathDirect = pathname;
@@ -28,6 +29,9 @@ const SidebarItems = () => {
     ? customizer.isCollapse && !customizer.isSidebarHover
     : "";
   const dispatch = useDispatch();
+
+  console.log(companyChanger)
+  
   return (
     <Box sx={{ px: 3 }}>
       <Box>
@@ -35,7 +39,7 @@ const SidebarItems = () => {
         <SwitchCompany />
       </Box>
       <List sx={{ pt: 0 }} className="sidebarNav">
-        {Menuitems.map((item) => {
+        {MenuitemsKazan[companyChanger.activeCompany].map((item) => {
           // {/********SubHeader**********/}
           if (item.subheader) {
             return (

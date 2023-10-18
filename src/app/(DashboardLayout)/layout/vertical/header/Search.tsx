@@ -15,6 +15,8 @@ import {
 import { IconSearch, IconX } from '@tabler/icons-react';
 import Menuitems from '../sidebar/MenuItems';
 import Link from 'next/link';
+import { useSelector } from '@/store/hooks';
+import { AppState } from '@/store/store';
 
 interface menuType {
   title: string;
@@ -28,18 +30,22 @@ const Search = () => {
   // drawer top
   const [showDrawer2, setShowDrawer2] = useState(false);
   const [search, setSerach] = useState('');
+  const companyChanger = useSelector((state: AppState) => state.companyChanger);
 
   const handleDrawerClose2 = () => {
     setShowDrawer2(false);
   };
 
   const filterRoutes = (rotr: any, cSearch: string) => {
-    if (rotr.length > 1)
-      return rotr.filter((t: any) =>
+
+    const set = rotr[companyChanger.activeCompany]
+
+    if (set.length > 1)
+      return set.filter((t: any) =>
         t.title ? t.href.toLocaleLowerCase().includes(cSearch.toLocaleLowerCase()) : '',
       );
 
-    return rotr;
+    return set;
   };
   const searchData = filterRoutes(Menuitems, search);
 

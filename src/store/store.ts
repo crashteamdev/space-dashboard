@@ -12,10 +12,14 @@ import TicketReducer from "./apps/tickets/TicketSlice";
 import ContactsReducer from "./apps/contacts/ContactSlice";
 import UserProfileReducer from "./apps/userProfile/UserProfileSlice";
 import BlogReducer from "./apps/blog/BlogSlice";
+import WalletPopupReducer from "./apps/walletPopup/WalletPopupSlice";
+import CompanyChangerReducer from "./apps/companyChanger/CompanyChangerSlice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    walletPopup: WalletPopupReducer,
+    companyChanger: CompanyChangerReducer,
     counter: counterReducer,
     customizer: CustomizerReducer,
     ecommerceReducer: EcommerceReducer,
@@ -32,6 +36,8 @@ export const store = configureStore({
 
 const rootReducer = combineReducers({
   user: userReducer,
+  walletPopup: WalletPopupReducer,
+  companyChanger: CompanyChangerReducer,
   counter: counterReducer,
   customizer: CustomizerReducer,
   ecommerceReducer: EcommerceReducer,

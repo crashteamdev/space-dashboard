@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import React from 'react';
+import React from "react";
 import {
   Grid,
   Typography,
@@ -13,116 +13,126 @@ import {
   ListItemIcon,
   Chip,
   Switch,
-} from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/material/styles';
-import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
-import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
+import Breadcrumb from "@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb";
+import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 
-import { IconCheck, IconX } from '@tabler/icons-react';
-import BlankCard from '@/app/(DashboardLayout)/components/shared/BlankCard';
-import Image from 'next/image';
-
+import { IconCheck, IconX } from "@tabler/icons-react";
+import BlankCard from "@/app/(DashboardLayout)/components/shared/BlankCard";
+import Image from "next/image";
 
 const BCrumb = [
   {
-    to: '/',
-    title: 'Home',
+    to: "/",
+    title: "Home",
   },
   {
-    title: 'Pricing',
+    title: "Pricing",
   },
 ];
 
 const pricing = [
   {
     id: 1,
-    package: 'Silver',
-    plan: 'Free',
-    monthlyplan: 'Free',
+    package: "Базовый",
+    monthlyplan: 1470,
     avatar: "/images/backgrounds/silver.png",
     badge: false,
-    btntext: 'Choose Silver',
+    btntext: "Выбрать",
     rules: [
       {
         limit: true,
-        title: '3 Members',
+        title: "Доступ к расширению",
       },
       {
         limit: true,
-        title: 'Single Device',
+        title: "30 дней периода аналитики",
       },
       {
-        limit: false,
-        title: '50GB Storage',
+        limit: true,
+        title: "История позиций товара",
       },
       {
-        limit: false,
-        title: 'Monthly Backups',
+        limit: true,
+        title: "Возможные конкурентные товары",
       },
       {
-        limit: false,
-        title: 'Permissions & workflows',
+        limit: true,
+        title: "3 отчета по магазинам в сутки",
       },
     ],
   },
   {
     id: 2,
-    package: 'Bronze',
-    monthlyplan: 10.99,
+    package: "Расширенный",
+    monthlyplan: 2190,
     avatar: "/images/backgrounds/bronze.png",
     badge: true,
-    btntext: 'Choose Bronze',
+    btntext: "Выбрать",
     rules: [
       {
         limit: true,
-        title: '5 Members',
+        title: "Доступ к расширению",
       },
       {
         limit: true,
-        title: 'Multiple Device',
+        title: "30 / 60 / 90 дней периода аналитики",
       },
       {
         limit: true,
-        title: '80GB Storage',
+        title: "История позиций товара",
       },
       {
-        limit: false,
-        title: 'Monthly Backups',
+        limit: true,
+        title: "Возможные конкурентные товары",
       },
       {
-        limit: false,
-        title: 'Permissions & workflows',
+        limit: true,
+        title: "6 отчетов Excel по магазинам в сутки",
+      },
+      {
+        limit: true,
+        title: "2 отчета Excel по категориям в сутки",
+      },
+      {
+        limit: true,
+        title: "24/7 поддержка",
       },
     ],
   },
   {
     id: 3,
-    package: 'Gold',
-    monthlyplan: 22.99,
+    package: "Продвинутый",
+    monthlyplan: 3200,
     avatar: "/images/backgrounds/gold.png",
     badge: false,
-    btntext: 'Choose Gold',
+    btntext: "Выбрать",
     rules: [
       {
         limit: true,
-        title: 'Unlimited Members',
+        title: "Доступ к расширению",
       },
       {
         limit: true,
-        title: 'Multiple Device',
+        title: "История позиций товара",
       },
       {
         limit: true,
-        title: '150GB Storage',
+        title: "Возможные конкурентные товары",
       },
       {
         limit: true,
-        title: 'Monthly Backups',
+        title: "15 отчетов Excel по магазинам в сутки",
       },
       {
         limit: true,
-        title: 'Permissions & workflows',
+        title: "4 отчета Excel по категориям в сутки",
+      },
+      {
+        limit: true,
+        title: "24/7 поддержка",
       },
     ],
   },
@@ -138,13 +148,13 @@ const Pricing = () => {
   const warning = theme.palette.warning.main;
 
   const StyledChip = styled(Chip)({
-    position: 'absolute',
-    top: '15px',
-    right: '30px',
+    position: "absolute",
+    top: "15px",
+    right: "30px",
     backgroundColor: warninglight,
     color: warning,
-    textTransform: 'uppercase',
-    fontSize: '11px',
+    textTransform: "uppercase",
+    fontSize: "11px",
   });
 
   return (
@@ -155,47 +165,56 @@ const Pricing = () => {
 
       <Grid container spacing={3} justifyContent="center" mt={3}>
         <Grid item xs={12} sm={10} lg={8} textAlign="center">
-          <Typography variant="h2">
-            Flexible Plans Tailored to Fit Your Community&apos;s Unique Needs!
+          <Typography variant="h1">Тарифы</Typography>
+          <Typography color="h3" mt={3}>
+            Без привязки карты. Доступы мгновенно
           </Typography>
-          <Box display="flex" alignItems="center" mt={3} justifyContent="center">
-            <Typography variant="subtitle1">Monthly</Typography>
+          <Box
+            display="flex"
+            alignItems="center"
+            mt={3}
+            justifyContent="center"
+          >
+            <Typography variant="subtitle1">Месяц</Typography>
             <Switch onChange={() => setShow(!show)} />
-            <Typography variant="subtitle1">Yearly</Typography>
+            <Typography variant="subtitle1">3 Месяца</Typography>
           </Box>
         </Grid>
       </Grid>
       <Grid container spacing={3} mt={5}>
         {pricing.map((price, i) => (
           <Grid item xs={12} lg={4} sm={6} key={i}>
-            <BlankCard>
-              <CardContent sx={{ p: '30px' }}>
-                {price.badge ? <StyledChip label="Popular" size="small"></StyledChip> : null}
+            <BlankCard sx={{height: '100% !important'}}>
+              <CardContent sx={{ p: "30px", height: '100%', display: 'flex', flexDirection: 'column' ,justifyContent: 'space-between' }}>
+                <Box>
+                  {price.badge ? (
+                    <StyledChip label="Popular" size="small"></StyledChip>
+                  ) : null}
 
-                <Typography
-                  variant="subtitle1"
-                  fontSize="12px"
-                  mb={3}
-                  color="textSecondary"
-                  textTransform="uppercase"
-                >
-                  {price.package}
-                </Typography>
-                <Image src={price.avatar} alt={price.avatar} width={90} height={90} />
-                <Box my={4}>
-                  {price.plan == 'Free' ? (
-                    <Box fontSize="50px" mt={5} fontWeight="600">
-                      {price.plan}
-                    </Box>
-                  ) : (
+                  <Typography
+                    variant="subtitle1"
+                    fontSize="12px"
+                    mb={3}
+                    color="textSecondary"
+                    textTransform="uppercase"
+                  >
+                    {price.package}
+                  </Typography>
+                  <Image
+                    src={price.avatar}
+                    alt={price.avatar}
+                    width={90}
+                    height={90}
+                  />
+                  <Box my={4}>
                     <Box display="flex">
                       <Typography variant="h6" mr="8px" mt="-12px">
-                        $
+                        ₽
                       </Typography>
                       {show ? (
                         <>
                           <Typography fontSize="48px" fontWeight="600">
-                            {yearlyPrice(`${price.monthlyplan}`, 12)}
+                            {yearlyPrice(`${price.monthlyplan}`, 3)}
                           </Typography>
                           <Typography
                             fontSize="15px"
@@ -204,7 +223,7 @@ const Pricing = () => {
                             color="textSecondary"
                             mt={1}
                           >
-                            /yr
+                            /год
                           </Typography>
                         </>
                       ) : (
@@ -219,42 +238,49 @@ const Pricing = () => {
                             color="textSecondary"
                             mt={1}
                           >
-                            /mo
+                            /месяц
                           </Typography>
                         </>
                       )}
                     </Box>
-                  )}
-                </Box>
+                  </Box>
 
-                <Box mt={3}>
-                  <List>
-                    {price.rules.map((rule, i) => (
-                      <Box key={i}>
-                        {rule.limit ? (
-                          <>
-                            <ListItem disableGutters>
-                              <ListItemIcon sx={{ color: 'primary.main', minWidth: '32px' }}>
-                                <IconCheck width={18} />
+                  <Box mt={3}>
+                    <List>
+                      {price.rules.map((rule, i) => (
+                        <Box key={i}>
+                          {rule.limit ? (
+                            <>
+                              <ListItem disableGutters>
+                                <ListItemIcon
+                                  sx={{
+                                    color: "primary.main",
+                                    minWidth: "32px",
+                                  }}
+                                >
+                                  <IconCheck width={18} />
+                                </ListItemIcon>
+                                <ListItemText>{rule.title}</ListItemText>
+                              </ListItem>
+                            </>
+                          ) : (
+                            <ListItem disableGutters sx={{ color: "grey.400" }}>
+                              <ListItemIcon
+                                sx={{ color: "grey.400", minWidth: "32px" }}
+                              >
+                                <IconX width={18} />
                               </ListItemIcon>
                               <ListItemText>{rule.title}</ListItemText>
                             </ListItem>
-                          </>
-                        ) : (
-                          <ListItem disableGutters sx={{ color: 'grey.400' }}>
-                            <ListItemIcon sx={{ color: 'grey.400', minWidth: '32px' }}>
-                              <IconX width={18} />
-                            </ListItemIcon>
-                            <ListItemText>{rule.title}</ListItemText>
-                          </ListItem>
-                        )}
-                      </Box>
-                    ))}
-                  </List>
+                          )}
+                        </Box>
+                      ))}
+                    </List>
+                  </Box>
                 </Box>
 
                 <Button
-                  sx={{ width: '100%', mt: 3 }}
+                  sx={{ width: "100%", mt: 3 }}
                   variant="contained"
                   size="large"
                   color="primary"

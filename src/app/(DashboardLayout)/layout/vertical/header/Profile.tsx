@@ -19,12 +19,20 @@ import { AppState } from "@/store/store";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/firebase";
 import { deleteUser } from "@/store/user/userSlice";
+import { setOpen } from "@/store/apps/walletPopup/WalletPopupSlice";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
   const user = useSelector((state: AppState) => state.user);
 
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const auth = getAuth(firebase_app);
+
+  const handleClickOpen = () => {
+    dispatch(setOpen(true));
+  };
 
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event: any) => {
@@ -84,7 +92,7 @@ const Profile = () => {
           },
         }}
       >
-        <Typography variant="h5">User Profile</Typography>
+        <Typography variant="h5">Профиль</Typography>
         <Stack direction="row" pt={3} pb={2} spacing={2} alignItems="center">
           <Avatar
             src={
@@ -104,12 +112,12 @@ const Profile = () => {
               {user.data ? user.data.email : ""}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              Balance: {100} руб
+              {t("balance.title")}: {100}₽
             </Typography>
           </Box>
         </Stack>
         <Stack direction="column" pb={3} spacing={2} alignItems="center">
-          <Button variant="contained" color="info" fullWidth>
+          <Button onClick={handleClickOpen} variant="contained" color="info" fullWidth>
             Пополнить баланс
           </Button>
         </Stack>
@@ -168,32 +176,6 @@ const Profile = () => {
           </Box>
         ))}
         <Box mt={2}>
-          <Box
-            bgcolor="primary.light"
-            p={3}
-            mb={3}
-            overflow="hidden"
-            position="relative"
-          >
-            <Box display="flex" justifyContent="space-between">
-              <Box>
-                <Typography variant="h5" mb={2}>
-                  Unlimited <br />
-                  Access
-                </Typography>
-                <Button variant="contained" color="primary">
-                  Upgrade
-                </Button>
-              </Box>
-              <Image
-                src={"/images/backgrounds/unlimited-bg.png"}
-                width={150}
-                height={183}
-                alt="unlimited"
-                className="signup-bg"
-              />
-            </Box>
-          </Box>
           <Button
             onClick={exit}
             href="/auth/auth2/login"
@@ -202,8 +184,8 @@ const Profile = () => {
             component={Link}
             fullWidth
           >
-            Logout
-          </Button>
+            Выйти из аккаунта
+        </Button>
         </Box>
       </Menu>
     </Box>
