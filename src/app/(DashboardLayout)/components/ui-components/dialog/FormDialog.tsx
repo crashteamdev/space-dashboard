@@ -40,7 +40,7 @@ const FormDialog = () => {
                 <DialogActions>
                     <Button color="error" onClick={handleClose}>Cancel</Button>
                     <Button onClick={handleClose}>Subscribe</Button>
-                </DialogActions>
+                </DialogActions>z
             </Dialog>
         </>
     );

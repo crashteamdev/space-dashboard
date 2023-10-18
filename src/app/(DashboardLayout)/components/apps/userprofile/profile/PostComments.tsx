@@ -4,7 +4,6 @@ import { IconArrowBackUp, IconCircle, IconThumbUp } from '@tabler/icons-react';
 
 import { useDispatch } from'@/store/hooks';
 import uniqueId from 'lodash/uniqueId';
-import { addReply } from '@/store/apps/userProfile/UserProfileSlice';
 import {
   PostType,
   Comment as CommentType,
@@ -45,7 +44,6 @@ const PostComments = ({ comment, post }: CommentProps) => {
         replies: [],
       },
     };
-    dispatch(addReply(id, commentid, newReply));
     setReplyTxt('');
     setShowReply(false);
   };

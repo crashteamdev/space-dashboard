@@ -1,16 +1,12 @@
 import { Grid } from '@mui/material';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from'@/store/hooks';
-import { fetchPosts } from '@/store/apps/userProfile/UserProfileSlice';
 import PostItem from './PostItem';
 import { PostTextBox } from './PostTextBox';
 import { PostType } from '../../../../types/apps/userProfile';
 
 const Post = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
 
   const getPosts: PostType[] = useSelector((state) => state.userpostsReducer.posts);
 

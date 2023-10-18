@@ -1,4 +1,37 @@
 {
+    "welcome": "Welcome",
+    "profile": "Personal profile",
+    "main": "Main page",
+    "profileT": {
+        "informationTitle": "Subscription information",
+        "informationDesc": "If you have any problems, write to us in",
+        "tarifNotFound": "You have not selected a tariff",
+        "selectTarif": "Select tariff"
+    },
+    "balance": {
+        "title": "Balance"
+    },
+    "ChangePassword": {
+        "title": "Password",
+        "button": "Change password"
+    },
+    "Token": {
+        "title": "Token",
+        "description": "The token begins to operate after payment. The token is generated forever.",
+        "upInput": "Token to enter into the extension:",
+        "buttonGenerate": "Generate new token"
+    },
+    "MoreInfo": {
+        "title": "More information",
+        "description": "Our extension:",
+        "descButton": "Download extension",
+        "title1": "Chats/Channels",
+        "desc1": "News channel",
+        "desc2": "Chat with users",
+        "title2": "Knowledge base",
+        "desc3": "How to start using the extension",
+        "desc4": "Extension installation instructions (Obsolete)"
+    },
     "Starter": "Starter",
     "Menu Level": "Menu Level",
     "Disabled": "Disabled",

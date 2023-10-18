@@ -9,25 +9,19 @@ import { AppState } from '@/store/store';
 
 const Languages = [
   {
+    flagname: 'Russian',
+    icon: "/images/flag/icon-flag-ru.svg",
+    value: 'ru',
+  },
+  {
     flagname: 'English (UK)',
     icon: "/images/flag/icon-flag-en.svg",
     value: 'en',
   },
   {
-    flagname: '中国人 (Chinese)',
-    icon: "/images/flag/icon-flag-cn.svg",
-    value: 'ch',
-  },
-  {
-    flagname: 'français (French)',
-    icon: "/images/flag/icon-flag-fr.svg",
-    value: 'fr',
-  },
-
-  {
-    flagname: 'عربي (Arabic)',
-    icon: "/images/flag/icon-flag-sa.svg",
-    value: 'ar',
+    flagname: 'Uzbekistan',
+    icon: "/images/flag/icon-flag-uz.svg",
+    value: 'uz',
   },
 ];
 

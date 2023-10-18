@@ -1,37 +1,48 @@
 "use client"
 
-import { Grid } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 
 import ProfileBanner from '@/app/(DashboardLayout)/components/apps/userprofile/profile/ProfileBanner';
 import IntroCard from '@/app/(DashboardLayout)/components/apps/userprofile/profile/IntroCard';
 import PhotosCard from '@/app/(DashboardLayout)/components/apps/userprofile/profile/PhotosCard';
 import Post from '@/app/(DashboardLayout)/components/apps/userprofile/profile/Post';
+import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
+import TokenGenerator from '@/app/(DashboardLayout)/components/apps/userprofile/tokenGenerator/tokenGenerator';
+import { getAuth } from "firebase/auth";
+import firebase_app from "@/firebase/firebase";
+import { useTranslation } from 'react-i18next';
 
 const UserProfile = () => {
+  const { t } = useTranslation();
+
+  const BCrumb = [
+    {
+      to: '/',
+      title: t('main'),
+    },
+    {
+      title: t('profile'),
+    },
+  ] as any;
+
+  const auth = getAuth(firebase_app) as any;
+
   return (
-    <PageContainer title="Profile" description="this is Profile">
-
-      <Grid container spacing={3}>
-        <Grid item sm={12}>
-          <ProfileBanner />
-        </Grid>
-
+    <PageContainer title="Profile" description="this is profile">
+      <Box mt={4}>
+      </Box>
+      <Breadcrumb title={`${t("welcome")}${auth.currentUser.displayName ? ', ' + auth?.currentUser.displayName : '!'}`} items={BCrumb} />
+      <Grid container spacing={3} mt={4}>
         {/* intro and Photos Card */}
-        <Grid item sm={12} lg={4} xs={12}>
+        <Grid item sm={12}>
           <Grid container spacing={3}>
             <Grid item sm={12}>
-              <IntroCard />
-            </Grid>
-            <Grid item sm={12}>
-              <PhotosCard />
+              <TokenGenerator />
             </Grid>
           </Grid>
         </Grid>
         {/* Posts Card */}
-        <Grid item sm={12} lg={8} xs={12}>
-          <Post />
-        </Grid>
       </Grid>
     </PageContainer>
   );

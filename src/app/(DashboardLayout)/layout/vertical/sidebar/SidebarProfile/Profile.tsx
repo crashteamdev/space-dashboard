@@ -19,6 +19,7 @@ import { deleteUser } from "@/store/user/userSlice";
 export const Profile = () => {
   const customizer = useSelector((state: AppState) => state.customizer);
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
+  
   const hideMenu = lgUp
     ? customizer.isCollapse && !customizer.isSidebarHover
     : "";

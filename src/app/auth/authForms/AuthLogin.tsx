@@ -20,12 +20,14 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "@/store/hooks";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/firebase";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IUser } from "@/types/user";
 import { setUser } from "@/store/user/userSlice";
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const router = useRouter();
+
+  const [check, setCheck] = useState(false) as any;
 
   const dispatch = useDispatch();
   const auth = getAuth(firebase_app);
@@ -44,9 +46,10 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const signIn = async (email: string, password: string) => {
     console.log("signIn");
 
-    const user = (await signInEmail(email, password)) as any;
-
-    if (user?.email) {
+    const user = await signInEmail(email, password) as any;
+    console.log('w', user);
+    
+    if (user.email) {
       router.push("/");
     }
 
@@ -77,7 +80,8 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
       signIn(values.email, values.password);
     },
   });
-
+  console.log(check);
+  
   return (
     <>
       {title ? (
@@ -140,13 +144,13 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
         >
           <FormGroup>
             <FormControlLabel
-              control={<CustomCheckbox defaultChecked />}
+              control={<CustomCheckbox onChange={(value) => setCheck(value.currentTarget.value)} />}
               label="Remeber this Device"
             />
           </FormGroup>
           <Typography
             component={Link}
-            href="/auth/auth1/forgot-password"
+            href="/auth/auth2/forgot-password"
             fontWeight={600}
             sx={{
               textDecoration: "none",
