@@ -30,12 +30,12 @@ const SidebarItems = () => {
     : "";
   const dispatch = useDispatch();
 
-  console.log(companyChanger)
+  console.log(MenuitemsKazan)
   
   return (
     <Box sx={{ px: 3 }}>
-      <Box>
-        <Wallet />
+      <Box sx={{ pt: 0 }}>
+        <Wallet hideMenu={hideMenu}/>
         <SwitchCompany />
       </Box>
       <List sx={{ pt: 0 }} className="sidebarNav">

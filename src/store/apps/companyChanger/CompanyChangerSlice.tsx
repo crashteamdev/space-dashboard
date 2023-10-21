@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface StateType {
-  activeCompany: string | "KazanExpress" | "Uzum";
+  activeCompany: string | "ke" | "uzum";
 }
 
 const initialState = {
-  activeCompany: "KazanExpress",
+  activeCompany: "ke",
 };
 
 export const CompanyChangerSlice = createSlice({

@@ -9,7 +9,37 @@ const nextConfig = {
     //   transform: '@mui/material/{{member}}',
     // },
   },
-  
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "alllogos.ru",
+        port: "",
+        pathname: "/images/logotip-free-kassa.png",
+      },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        port: "",
+        pathname:
+          "/wikipedia/commons/thumb/7/73/Tether_Logo.svg/2560px-Tether_Logo.svg.png",
+      },
+      {
+        protocol: "https",
+        hostname: "w7.pngwing.com",
+        port: "",
+        pathname:
+          "/pngs/698/439/png-transparent-bitcoin-cryptocurrency-logo-bitcoin-text-orange-logo.png",
+      },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        port: "",
+        pathname:
+          "/wikipedia/commons/thumb/8/8f/QIWI_logo.svg/2560px-QIWI_logo.svg.png",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

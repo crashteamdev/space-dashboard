@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { map } from "lodash";
 import { AppDispatch } from "../../store";
 
-const API_URL = '/api/data/postData';
+const API_URL = "/api/data/postData";
+
 interface StateType {
   posts: any[];
   token: string;
@@ -79,12 +80,12 @@ export const {
   getSubscription,
 } = UserProfileSlice.actions;
 
-export const fetchToken = (token: string) => async (dispatch: AppDispatch) => {
+export const fetchToken = (token: string, context: string) => async (dispatch: AppDispatch) => {
   try {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: "https://api.marketdb.ru/v1/user/api-key",
+      url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -104,12 +105,12 @@ export const fetchToken = (token: string) => async (dispatch: AppDispatch) => {
 };
 
 export const fetchRefreshToken =
-  (token: string) => async (dispatch: AppDispatch) => {
+  (token: string, context: string) => async (dispatch: AppDispatch) => {
     try {
       let config = {
         method: "put",
         maxBodyLength: Infinity,
-        url: "https://api.marketdb.ru/v1/user/api-key",
+        url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -129,12 +130,12 @@ export const fetchRefreshToken =
   };
 
 export const fetchGenerateToken =
-  (token: string) => async (dispatch: AppDispatch) => {
+  (token: string, context: string) => async (dispatch: AppDispatch) => {
     try {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://api.marketdb.ru/v1/user/api-key",
+        url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -154,12 +155,12 @@ export const fetchGenerateToken =
   };
 
 export const fetchProfileStatus =
-  (token: string) => async (dispatch: AppDispatch) => {
+  (token: string, context: string) => async (dispatch: AppDispatch) => {
     try {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: "https://api.marketdb.ru/v1/user/subscription",
+        url: `https://${context}-api.marketdb.pro/v1/user/subscription`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
