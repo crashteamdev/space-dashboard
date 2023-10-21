@@ -112,7 +112,7 @@ const Profile = () => {
               {user.data ? user.data.email : ""}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              {t("balance.title")}: {100}₽
+              {t("balance.title")}: $ 500
             </Typography>
           </Box>
         </Stack>

@@ -5,8 +5,15 @@
     "profileT": {
         "informationTitle": "Obuna ma'lumotlari",
         "informationDesc": "Agar sizda biron bir muammo bo'lsa, bizga yozing",
+        "yourRate": "Your rate",
+        "status": "Status",
+        "validUntil": "Valid until",
         "tarifNotFound": "Siz tarif tanlamadingiz",
         "selectTarif": "Tarifni tanlang"
+    },
+    "extension": {
+        "informationTitle": "Kengaytma",
+        "tokenTitle": "Token"
     },
     "balance": {
         "title": "Balans"

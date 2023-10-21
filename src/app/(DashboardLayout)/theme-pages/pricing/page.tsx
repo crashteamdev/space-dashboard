@@ -37,7 +37,7 @@ const pricing = [
   {
     id: 1,
     package: "Базовый",
-    monthlyplan: 1470,
+    monthlyplan: 15,
     avatar: "/images/backgrounds/silver.png",
     badge: false,
     btntext: "Выбрать",
@@ -67,7 +67,7 @@ const pricing = [
   {
     id: 2,
     package: "Расширенный",
-    monthlyplan: 2190,
+    monthlyplan: 30,
     avatar: "/images/backgrounds/bronze.png",
     badge: true,
     btntext: "Выбрать",
@@ -105,7 +105,7 @@ const pricing = [
   {
     id: 3,
     package: "Продвинутый",
-    monthlyplan: 3200,
+    monthlyplan: 40,
     avatar: "/images/backgrounds/gold.png",
     badge: false,
     btntext: "Выбрать",
@@ -209,7 +209,7 @@ const Pricing = () => {
                   <Box my={4}>
                     <Box display="flex">
                       <Typography variant="h6" mr="8px" mt="-12px">
-                        ₽
+                        $
                       </Typography>
                       {show ? (
                         <>

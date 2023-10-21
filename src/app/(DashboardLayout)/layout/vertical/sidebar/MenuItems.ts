@@ -71,10 +71,10 @@ import {
 } from "@tabler/icons-react";
 
 const MenuitemsKazan: MenuitemsT = {
-  'KazanExpress': [
+  'ke': [
     {
       navlabel: true,
-      subheader: "Аналитика",
+      subheader: " ",
     },
     {
       id: uniqueId(),
@@ -92,7 +92,7 @@ const MenuitemsKazan: MenuitemsT = {
           id: uniqueId(),
           title: "Расширение",
           icon: IconPoint,
-          href: "/apps/blog/post",
+          href: "/apps/extension",
         },
       ],
     },
@@ -136,10 +136,10 @@ const MenuitemsKazan: MenuitemsT = {
       ],
     },
   ],
-  "Uzum": [
+  "uzum": [
     {
       navlabel: true,
-      subheader: "Аналитика",
+      subheader: " ",
     },
     {
       id: uniqueId(),
@@ -157,7 +157,7 @@ const MenuitemsKazan: MenuitemsT = {
           id: uniqueId(),
           title: "Расширение",
           icon: IconPoint,
-          href: "/apps/blog/post",
+          href: "/apps/extension",
         },
       ],
     },

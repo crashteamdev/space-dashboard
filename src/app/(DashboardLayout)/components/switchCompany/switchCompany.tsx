@@ -21,8 +21,8 @@ const BCrumb = [
 ];
 
 const COMMON_TAB = [
-  { value: "1", icon: "", label: "KazanExpress", disabled: false },
-  { value: "2", icon: "", label: "Uzum", disabled: false },
+  { value: "1", icon: "", label: "KazanExpress", ul: "ke", disabled: false },
+  { value: "2", icon: "", label: "Uzum", ul: "uzum", disabled: false },
 ];
 
 const SwitchCompany = () => {
@@ -36,7 +36,7 @@ const SwitchCompany = () => {
     if (localStorage.getItem("switch-company")) {
       localStorage.setItem("switch-company", newValue);
     } else {
-      localStorage.setItem("switch-company", "KazanExpress");
+      localStorage.setItem("switch-company", "ke");
     }
   };
 
@@ -45,9 +45,9 @@ const SwitchCompany = () => {
       dispatch(changeCompany(localStorage.getItem("switch-company")));
       setValue(localStorage.getItem("switch-company"))
     } else {
-      localStorage.setItem("switch-company", "KazanExpress");
-      setValue("KazanExpress")
-      dispatch(changeCompany('KazanExpress'));
+      localStorage.setItem("switch-company", "ke");
+      setValue("ke")
+      dispatch(changeCompany('ke'));
     }
   }, [])
 
@@ -56,7 +56,7 @@ const SwitchCompany = () => {
       <Box mt={2} justifyContent="space-between">
         <TabList onChange={handleChange} aria-label="lab API tabs example">
           {COMMON_TAB.map((tab: any, index: number) => (
-            <Tab key={tab.value} label={tab.label} value={tab.label} />
+            <Tab key={tab.value} label={tab.label} value={tab.ul} />
           ))}
         </TabList>
       </Box>

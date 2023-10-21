@@ -5,8 +5,15 @@
     "profileT": {
         "informationTitle": "Информация о подписке",
         "informationDesc": "Если у вас возниклы проблемы, пишите нам в",
+        "yourRate": "Your rate",
+        "status": "Status",
+        "validUntil": "Valid until",
         "tarifNotFound": "У вас не выбран тариф",
         "selectTarif": "Выбрать тариф"
+    },
+    "extension": {
+        "informationTitle": "Расширение",
+        "tokenTitle": "Токен"
     },
     "balance": {
         "title": "Баланс"
