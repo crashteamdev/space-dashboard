@@ -26,10 +26,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "w7.pngwing.com",
+        hostname: "pngimg.com",
         port: "",
         pathname:
-          "/pngs/698/439/png-transparent-bitcoin-cryptocurrency-logo-bitcoin-text-orange-logo.png",
+          "/d/bitcoin_PNG35.png",
       },
       {
         protocol: "https",

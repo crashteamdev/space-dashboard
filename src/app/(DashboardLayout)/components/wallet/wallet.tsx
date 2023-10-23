@@ -56,7 +56,9 @@ const Wallet = ({ hideMenu } : any) => {
     <>
     {
       hideMenu ? (
-
+        <>
+          
+        </>
       ) : (
         <Box bgcolor={"info.light"} mt={4} p={2}>
           <Typography variant="h6" fontWeight={400} mb={1}>
