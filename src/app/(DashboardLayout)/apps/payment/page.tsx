@@ -219,18 +219,8 @@ const Payment = () => {
             <>
               <Stack spacing={2} mt={3}>
                 <Alert severity="success">
-                  All steps completed - you&apos;re finished
+                  Все этапы завершены, сейчас вас перенаправит на провайдера
                 </Alert>
-
-                <Box textAlign="right">
-                  <Button
-                    onClick={handleReset}
-                    variant="contained"
-                    color="error"
-                  >
-                    Reset
-                  </Button>
-                </Box>
               </Stack>
             </>
           ) : (
