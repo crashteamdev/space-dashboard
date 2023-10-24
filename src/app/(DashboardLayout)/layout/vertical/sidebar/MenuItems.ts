@@ -94,13 +94,13 @@ const MenuitemsKazan: MenuitemsT = {
           icon: IconPoint,
           href: "/apps/extension",
         },
+        {
+          id: uniqueId(),
+          title: "Тарифы",
+          icon: IconPoint,
+          href: "/theme-pages/pricing",
+        },
       ],
-    },
-    {
-      id: uniqueId(),
-      title: "Тарифы",
-      icon: IconTicket,
-      href: "/theme-pages/pricing",
     },
     {
       navlabel: true,
