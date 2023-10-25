@@ -100,39 +100,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [loading, setLoading] = React.useState(false);
-  const router = useRouter();
-  const auth = getAuth(firebase_app);
-
-  const checkAuth = async () => {
-    setLoading(true);
-  };
-
-  React.useEffect(() => {
-    // Проверка статуса аутентификации при загрузке страницы
-    checkAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
         <Provider store={store}>
-          {loading ? (
-            // eslint-disable-next-line react/no-children-prop
-            <MyApp children={children} />
-          ) : (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "100%",
-                height: "100vh",
-              }}
-            >
-              <CircularProgress />
-            </Box>
-          )}
+            {
+              // eslint-disable-next-line react/no-children-prop
+              <MyApp children={children} />
+            }
         </Provider>
       </body>
     </html>
