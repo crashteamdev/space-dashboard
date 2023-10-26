@@ -27,11 +27,11 @@ const Header = () => {
     [theme.breakpoints.up('lg')]: {
       minHeight: customizer.TopbarHeight,
     },
-  }));
+  })) as any;
   const ToolbarStyled = styled(Toolbar)(({ theme }) => ({
     width: '100%',
     color: theme.palette.text.secondary,
-  }));
+  })) as any;
 
   return (
     <AppBarStyled position="sticky" color="default">

@@ -8,7 +8,7 @@ import { useDispatch } from "@/store/hooks";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/firebase";
 import { useEffect } from "react";
-import { IUser } from "@/types/user";
+import { IUser } from "@/app/(DashboardLayout)/types/apps/user";
 import { setUser } from "@/store/user/userSlice";
 
 const AuthSocialButtons = ({ title }: signInType) => {
@@ -17,8 +17,8 @@ const AuthSocialButtons = ({ title }: signInType) => {
   const auth = getAuth(firebase_app);
 
   const signIn = async () => {
-    const user = await signInGoogle()
-    
+    const user = await signInGoogle();
+
     if (user?.email) {
       router.push("/");
     }
@@ -36,11 +36,14 @@ const AuthSocialButtons = ({ title }: signInType) => {
 
       dispatch(setUser(user));
     }
-  }
+  };
 
   return (
     <Stack direction="row" justifyContent="center" spacing={2} mt={3}>
-      <CustomSocialButton onClick={() => signIn()} style={{maxWidth: '340px', width: '100%'}}>
+      <CustomSocialButton
+        onClick={() => signIn()}
+        style={{ maxWidth: "340px", width: "100%" }}
+      >
         <Avatar
           src={"/images/svgs/google-icon.svg"}
           alt={"icon1"}
@@ -63,7 +66,7 @@ const AuthSocialButtons = ({ title }: signInType) => {
         Google
       </CustomSocialButton>
     </Stack>
-  )
+  );
 };
 
 export default AuthSocialButtons;

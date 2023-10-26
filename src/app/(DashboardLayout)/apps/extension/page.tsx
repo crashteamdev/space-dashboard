@@ -27,7 +27,7 @@ const Extension = () => {
     <PageContainer title="Extension" description="this is extension">
       <Box mt={4}>
       </Box>
-      <Breadcrumb title={`${t("welcome")}${auth.currentUser.displayName ? ', ' + auth?.currentUser.displayName : '!'}`} items={BCrumb} />
+      <Breadcrumb title={`${t("welcome")}${auth.currentUser?.displayName ? ', ' + auth?.currentUser.displayName : '!'}`} items={BCrumb} />
       <Grid container spacing={3} mt={4}>
         {/* intro and Photos Card */}
         <Grid item sm={12}>

@@ -102,39 +102,6 @@ const MenuitemsKazan: MenuitemsT = {
         },
       ],
     },
-    {
-      navlabel: true,
-      subheader: "Прочее",
-    },
-    {
-      id: uniqueId(),
-      title: "Контакты",
-      icon: IconPackage,
-      chip: "2",
-      chipColor: "secondary",
-      href: "/apps/contacts",
-    },
-  
-    {
-      id: uniqueId(),
-      title: "Блог",
-      icon: IconChartDonut3,
-      href: "/apps/blog/",
-      children: [
-        {
-          id: uniqueId(),
-          title: "Posts",
-          icon: IconPoint,
-          href: "/apps/blog/post",
-        },
-        {
-          id: uniqueId(),
-          title: "Detail",
-          icon: IconPoint,
-          href: "/apps/blog/detail/streaming-video-way-before-it-was-cool-go-dark-tomorrow",
-        },
-      ],
-    },
   ],
   "uzum": [
     {

@@ -21,7 +21,7 @@ import { useDispatch } from "@/store/hooks";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/firebase";
 import { useEffect, useState } from "react";
-import { IUser } from "@/types/user";
+import { IUser } from "@/app/(DashboardLayout)/types/apps/user";
 import { setUser } from "@/store/user/userSlice";
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
@@ -46,9 +46,9 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const signIn = async (email: string, password: string) => {
     console.log("signIn");
 
-    const user = await signInEmail(email, password) as any;
-    console.log('w', user);
-    
+    const user = (await signInEmail(email, password)) as any;
+    console.log("w", user);
+
     if (user.email) {
       router.push("/");
     }
@@ -66,7 +66,6 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
 
       dispatch(setUser(user));
     }
-
   };
 
   const formik = useFormik({
@@ -81,7 +80,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     },
   });
   console.log(check);
-  
+
   return (
     <>
       {title ? (
@@ -144,7 +143,11 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
         >
           <FormGroup>
             <FormControlLabel
-              control={<CustomCheckbox onChange={(value) => setCheck(value.currentTarget.value)} />}
+              control={
+                <CustomCheckbox
+                  onChange={(value) => setCheck(value.currentTarget.value)}
+                />
+              }
               label="Remeber this Device"
             />
           </FormGroup>

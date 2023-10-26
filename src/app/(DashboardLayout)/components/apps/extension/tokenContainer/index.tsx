@@ -26,6 +26,7 @@ const TokenContainer = () => {
     paper: {
       border: `2px solid 'blue'`,
       cursor: 'pointer',
+      overflow: "hidden",
       transition: 'border-color 0.3s, background-color 0.3s',
     },
   };

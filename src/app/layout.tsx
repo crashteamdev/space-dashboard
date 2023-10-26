@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import RTL from "@/app/(DashboardLayout)/layout/shared/customizer/RTL";
 import { ThemeSettings } from "@/utils/theme/Theme";
 import { store } from "@/store/store";
 import { useDispatch, useSelector } from "@/store/hooks";
@@ -23,8 +22,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/navigation";
 import { setUser } from "@/store/user/userSlice";
-import { IUser } from "@/types/user";
+import { IUser } from "@/app/(DashboardLayout)/types/apps/user";
 import i18n from "@/utils/i18n";
+import RTL from "./(DashboardLayout)/layout/shared/customizer/RTL";
 
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = React.useState(false);
@@ -33,14 +33,16 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const customizer = useSelector((state: AppState) => state.customizer);
   const dispatch = useDispatch();
   const router = useRouter();
-  const auth = getAuth(firebase_app);
+
   const checkAuth = async () => {
+    const auth = getAuth(firebase_app);
     await auth.onAuthStateChanged((user: any) => {
       console.log(user);
-      if (!user.email) {
+      if (!user) {
         // Пользователь не авторизован, перенаправляем
         router.push("/auth/auth2/login");
       } else {
+        console.log("logined");
         const { uid, accessToken, displayName, email, photoURL } = user as any;
         const userdata = {
           uid,
@@ -51,8 +53,8 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
         } as IUser;
 
         dispatch(setUser(userdata));
-        setLoading(true);
       }
+      setLoading(true);
     });
   };
 
@@ -69,11 +71,11 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
         <ThemeProvider theme={theme}>
           <RTL direction={customizer.activeDir}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            
+
             {loading ? (
               <>
                 <CssBaseline />
-                { children }
+                {children}
               </>
             ) : (
               <Box
@@ -101,13 +103,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ru" suppressHydrationWarning>
       <body>
         <Provider store={store}>
-            {
-              // eslint-disable-next-line react/no-children-prop
-              <MyApp children={children} />
-            }
+          {
+            // eslint-disable-next-line react/no-children-prop
+            <MyApp children={children} />
+          }
         </Provider>
       </body>
     </html>

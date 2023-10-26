@@ -16,12 +16,12 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
-import Breadcrumb from "@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb";
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 
 import { IconCheck, IconX } from "@tabler/icons-react";
 import BlankCard from "@/app/(DashboardLayout)/components/shared/BlankCard";
 import Image from "next/image";
+import Breadcrumb from "../../layout/shared/breadcrumb/Breadcrumb";
 
 const BCrumb = [
   {
@@ -155,7 +155,7 @@ const Pricing = () => {
     color: warning,
     textTransform: "uppercase",
     fontSize: "11px",
-  });
+  }) as any;
 
   return (
     <PageContainer title="Pricing" description="this is Pricing">

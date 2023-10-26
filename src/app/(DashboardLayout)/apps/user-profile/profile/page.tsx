@@ -3,15 +3,11 @@
 import { Grid, Box } from '@mui/material';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
 
-import ProfileBanner from '@/app/(DashboardLayout)/components/apps/userprofile/profile/ProfileBanner';
-import IntroCard from '@/app/(DashboardLayout)/components/apps/userprofile/profile/IntroCard';
-import PhotosCard from '@/app/(DashboardLayout)/components/apps/userprofile/profile/PhotosCard';
-import Post from '@/app/(DashboardLayout)/components/apps/userprofile/profile/Post';
-import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
 import TokenGenerator from '@/app/(DashboardLayout)/components/apps/userprofile/tokenGenerator/tokenGenerator';
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/firebase";
 import { useTranslation } from 'react-i18next';
+import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
 
 const UserProfile = () => {
   const { t } = useTranslation();

@@ -2,18 +2,18 @@
 import { styled, Container, Box, useTheme } from "@mui/material";
 import React, { useState } from "react";
 import Header from "./layout/vertical/header/Header";
-import Sidebar from "./layout/vertical/sidebar/Sidebar";
-import Customizer from "./layout/shared/customizer/Customizer";
 import Navigation from "./layout/horizontal/navbar/Navigation";
 import HorizontalHeader from "./layout/horizontal/header/Header";
 import { useSelector } from "@/store/hooks";
 import { AppState } from "@/store/store";
+import Sidebar from "./layout/vertical/sidebar/Sidebar";
+import Customizer from "./layout/shared/customizer/Customizer";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
   minHeight: "100vh",
   width: "100%",
-}));
+})) as any;
 
 const PageWrapper = styled("div")(() => ({
   display: "flex",
@@ -22,7 +22,7 @@ const PageWrapper = styled("div")(() => ({
   flexDirection: "column",
   zIndex: 1,
   backgroundColor: "transparent",
-}));
+})) as any;
 
 interface Props {
   children: React.ReactNode;
@@ -82,7 +82,6 @@ export default function RootLayout({
           {/* End Page */}
           {/* ------------------------------------------- */}
         </Container>
-        <Customizer />
       </PageWrapper>
     </MainWrapper>
   );
