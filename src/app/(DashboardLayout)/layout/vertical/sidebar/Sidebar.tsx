@@ -1,14 +1,17 @@
-import { useMediaQuery, Box, Drawer, useTheme } from '@mui/material';
-import SidebarItems from './SidebarItems';
-import Logo from '../../shared/logo/Logo';
-import { useSelector, useDispatch } from '@/store/hooks';
-import { hoverSidebar, toggleMobileSidebar } from '@/store/customizer/CustomizerSlice';
-import Scrollbar from '@/app/(DashboardLayout)/components/custom-scroll/Scrollbar';
-import { Profile } from './SidebarProfile/Profile';
-import { AppState } from '@/store/store';
+import { useMediaQuery, Box, Drawer, useTheme } from "@mui/material";
+import SidebarItems from "./SidebarItems";
+import Logo from "../../shared/logo/Logo";
+import { useSelector, useDispatch } from "@/store/hooks";
+import {
+  hoverSidebar,
+  toggleMobileSidebar,
+} from "@/store/customizer/CustomizerSlice";
+import Scrollbar from "@/app/(DashboardLayout)/components/custom-scroll/Scrollbar";
+import { Profile } from "./SidebarProfile/Profile";
+import { AppState } from "@/store/store";
 
 const Sidebar = () => {
-  const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
+  const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
   const customizer = useSelector((state: AppState) => state.customizer);
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -35,13 +38,10 @@ const Sidebar = () => {
           width: toggleWidth,
           flexShrink: 0,
           ...(customizer.isCollapse && {
-            position: 'absolute',
+            position: "absolute",
           }),
         }}
       >
-        {/* ------------------------------------------- */}
-        {/* Sidebar for desktop */}
-        {/* ------------------------------------------- */}
         <Drawer
           anchor="left"
           open
@@ -50,33 +50,23 @@ const Sidebar = () => {
           variant="permanent"
           PaperProps={{
             sx: {
-              transition: theme.transitions.create('width', {
+              transition: theme.transitions.create("width", {
                 duration: theme.transitions.duration.shortest,
               }),
               width: toggleWidth,
-              boxSizing: 'border-box',
+              boxSizing: "border-box",
             },
           }}
         >
-          {/* ------------------------------------------- */}
-          {/* Sidebar Box */}
-          {/* ------------------------------------------- */}
           <Box
             sx={{
-              height: '100%',
+              height: "100%",
             }}
           >
-            {/* ------------------------------------------- */}
-            {/* Logo */}
-            {/* ------------------------------------------- */}
             <Box px={3}>
               <Logo />
             </Box>
-            <Scrollbar sx={{ height: 'calc(100% - 190px)' }}>
-
-              {/* ------------------------------------------- */}
-              {/* Sidebar Items */}
-              {/* ------------------------------------------- */}
+            <Scrollbar sx={{ height: "calc(100% - 190px)" }}>
               <SidebarItems />
             </Scrollbar>
             <Profile />
@@ -88,7 +78,6 @@ const Sidebar = () => {
 
   return (
     <Drawer
-    
       anchor="left"
       open={customizer.isMobileSidebar}
       onClose={() => dispatch(toggleMobileSidebar())}
@@ -96,26 +85,14 @@ const Sidebar = () => {
       PaperProps={{
         sx: {
           width: customizer.SidebarWidth,
-
-          // backgroundColor:
-          //   customizer.activeMode === 'dark'
-          //     ? customizer.darkBackground900
-          //     : customizer.activeSidebarBg,
-          // color: customizer.activeSidebarBg === '#ffffff' ? '' : 'white',
-          border: '0 !important',
+          border: "0 !important",
           boxShadow: (theme) => theme.shadows[8],
         },
       }}
     >
-      {/* ------------------------------------------- */}
-      {/* Logo */}
-      {/* ------------------------------------------- */}
       <Box px={2}>
         <Logo />
       </Box>
-      {/* ------------------------------------------- */}
-      {/* Sidebar For Mobile */}
-      {/* ------------------------------------------- */}
       <SidebarItems />
     </Drawer>
   );

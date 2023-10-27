@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import { Grid, Box } from '@mui/material';
-import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
-import Breadcrumb from '@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb';
+import { Grid, Box } from "@mui/material";
+import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
+import Breadcrumb from "@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/firebase";
-import { useTranslation } from 'react-i18next';
-import TokenContainer from '../../components/apps/extension/tokenContainer';
+import { useTranslation } from "react-i18next";
+import TokenContainer from "../components/apps/extension/tokenContainer";
 
 const Extension = () => {
   const { t } = useTranslation();
 
   const BCrumb = [
     {
-      to: '/',
-      title: t('main'),
+      to: "/",
+      title: t("main"),
     },
     {
-      title: t('extension.informationTitle'),
+      title: t("extension.informationTitle"),
     },
   ] as any;
 
@@ -25,9 +25,15 @@ const Extension = () => {
 
   return (
     <PageContainer title="Extension" description="this is extension">
-      <Box mt={4}>
-      </Box>
-      <Breadcrumb title={`${t("welcome")}${auth.currentUser?.displayName ? ', ' + auth?.currentUser.displayName : '!'}`} items={BCrumb} />
+      <Box mt={4}></Box>
+      <Breadcrumb
+        title={`${t("welcome")}${
+          auth.currentUser?.displayName
+            ? ", " + auth?.currentUser.displayName
+            : "!"
+        }`}
+        items={BCrumb}
+      />
       <Grid container spacing={3} mt={4}>
         {/* intro and Photos Card */}
         <Grid item sm={12}>

@@ -80,7 +80,7 @@ const MenuitemsKazan: MenuitemsT = {
       id: uniqueId(),
       title: "Личный профиль",
       icon: IconStar,
-      href: "/apps/user-profile/profile",
+      href: "/profile",
     },
     {
       id: uniqueId(),
@@ -92,13 +92,13 @@ const MenuitemsKazan: MenuitemsT = {
           id: uniqueId(),
           title: "Расширение",
           icon: IconPoint,
-          href: "/apps/extension",
+          href: "/extension",
         },
         {
           id: uniqueId(),
           title: "Тарифы",
           icon: IconPoint,
-          href: "/theme-pages/pricing",
+          href: "/pricing",
         },
       ],
     },
@@ -112,19 +112,19 @@ const MenuitemsKazan: MenuitemsT = {
       id: uniqueId(),
       title: "Личный профиль",
       icon: IconStar,
-      href: "/apps/user-profile/profile",
+      href: "/profile",
     },
     {
       id: uniqueId(),
       title: "Аналитика",
       icon: IconChartDonut3,
-      href: "/apps/blog/",
+      href: "/",
       children: [
         {
           id: uniqueId(),
           title: "Расширение",
           icon: IconPoint,
-          href: "/apps/extension",
+          href: "/extension",
         },
       ],
     },
@@ -132,7 +132,7 @@ const MenuitemsKazan: MenuitemsT = {
       id: uniqueId(),
       title: "Тарифы",
       icon: IconTicket,
-      href: "/theme-pages/pricing",
+      href: "/pricing",
     },
   ]
 };

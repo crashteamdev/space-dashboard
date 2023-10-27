@@ -2,18 +2,12 @@ import { IconButton, Box, AppBar, useMediaQuery, Toolbar, styled, Stack } from '
 import { useSelector, useDispatch } from '@/store/hooks';
 import { toggleSidebar, toggleMobileSidebar } from '@/store/customizer/CustomizerSlice';
 import { IconMenu2 } from '@tabler/icons-react';
-import Notifications from './Notification';
 import Profile from './Profile';
-import Cart from './Cart';
-import Search from './Search';
 import Language from './Language';
 import { AppState } from '@/store/store';
-import Navigation from './Navigation';
-import MobileRightSidebar from './MobileRightSidebar';
 
 const Header = () => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
-  const lgDown = useMediaQuery((theme: any) => theme.breakpoints.down('lg'));
 
   // drawer
   const customizer = useSelector((state: AppState) => state.customizer);
@@ -36,9 +30,6 @@ const Header = () => {
   return (
     <AppBarStyled position="sticky" color="default">
       <ToolbarStyled>
-        {/* ------------------------------------------- */}
-        {/* Toggle Button Sidebar */}
-        {/* ------------------------------------------- */}
         <IconButton
           color="inherit"
           aria-label="menu"
@@ -46,26 +37,9 @@ const Header = () => {
         >
           <IconMenu2 size="20" />
         </IconButton>
-
-        {/* ------------------------------------------- */}
-        {/* Search Dropdown */}
-        {/* ------------------------------------------- */}
-
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
           <Language />
-          {/* ------------------------------------------- */}
-          {/* Ecommerce Dropdown */}
-          {/* ------------------------------------------- */}
-          {/* <Cart /> */}
-          {/* ------------------------------------------- */}
-          {/* End Ecommerce Dropdown */}
-          {/* ------------------------------------------- */}
-          {/* <Notifications /> */}
-          {/* ------------------------------------------- */}
-          {/* Toggle Right Sidebar for mobile */}
-          {/* ------------------------------------------- */}
-          {lgDown ? <MobileRightSidebar /> : null}
           <Profile />
         </Stack>
       </ToolbarStyled>

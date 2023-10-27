@@ -1,42 +1,18 @@
-import {
-  Box,
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  Button,
-  Stack,
-  Divider,
-} from "@mui/material";
-import Link from "next/link";
+import { Box, Typography, Button, Stack, Divider } from "@mui/material";
 import CustomTextField from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomTextField";
 import CustomFormLabel from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomFormLabel";
 import { registerType } from "@/app/(DashboardLayout)/types/auth/auth";
-import { validationEmail } from "@/hooks/validationEmail";
-import { validationPassword } from "@/hooks/validationPassword";
 import { registrationEmail } from "@/app/api/auth/registrationEmail/registrationEmail";
-import CustomCheckbox from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomCheckbox";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "@/store/hooks";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/firebase";
 import AuthSocialButtons from "./AuthSocialButtons";
 
-type InputTypes = {
-  value: string;
-  error: string;
-};
-
-enum ValidationTypes {
-  email,
-  password,
-}
-
 const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
   const router = useRouter();
 
-  const dispatch = useDispatch();
   const auth = getAuth(firebase_app);
 
   const validationSchema = yup.object({
@@ -51,12 +27,10 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
   });
 
   const signUp = async (email: string, password: string) => {
-    console.log("signIn");
-
-    const user = await registrationEmail(auth, email, password) as any;
+    const user = (await registrationEmail(auth, email, password)) as any;
 
     if (user?.email) {
-      router.push("/auth/auth2/login");
+      router.push("/auth/login");
     }
   };
 
@@ -67,7 +41,6 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("login", JSON.stringify(values, null, 2));
       signUp(values.email, values.password);
     },
   });
@@ -127,7 +100,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
           </Box>
         </Stack>
         <Button color="primary" variant="contained" type="submit">
-        Sign Up
+          Sign Up
         </Button>
       </form>
       {subtitle}

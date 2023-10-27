@@ -61,7 +61,7 @@ export default function NavItem({
     ) : (
       <Icon stroke={1.5} size="1.3rem" />
     );
-  console.log(t('hello'))
+
   const ListItemStyled = styled(ListItemButton)(() => ({
     whiteSpace: "nowrap",
     marginBottom: "2px",

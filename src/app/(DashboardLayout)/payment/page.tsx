@@ -8,25 +8,24 @@ import {
   StepLabel,
   Button,
   Typography,
-  FormControlLabel,
   Alert,
   Grid,
   Autocomplete,
 } from "@mui/material";
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
-import Breadcrumb from "@/app/(DashboardLayout)/layout/shared/breadcrumb/Breadcrumb";
 import Image from "next/image";
 
 import CustomTextField from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomTextField";
-import CustomCheckbox from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomCheckbox";
 import CustomFormLabel from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomFormLabel";
 import ParentCard from "@/app/(DashboardLayout)/components/shared/ParentCard";
 import { Stack } from "@mui/system";
-import ChildCard from "../../components/shared/ChildCard";
-import data from "../../components/forms/form-elements/autoComplete/data";
+import data from "../components/forms/form-elements/autoComplete/data";
 import { useDispatch, useSelector } from "@/store/hooks";
 import { AppState } from "@/store/store";
-import { setProvider, setValue } from "@/store/apps/walletPopup/WalletPopupSlice";
+import {
+  setProvider,
+  setValue,
+} from "@/store/apps/walletPopup/WalletPopupSlice";
 
 const steps = ["Сумма пополнения", "Выбор платежного средства", "Оплата"];
 
@@ -36,8 +35,6 @@ const Payment = () => {
 
   const [activeStep, setActiveStep] = React.useState(walletPopup.value ? 1 : 0);
   const [skipped, setSkipped] = React.useState(new Set());
-  
-  const isStepOptional = (step: any) => step === 1;
 
   const isStepSkipped = (step: any) => skipped.has(step);
 
@@ -45,10 +42,10 @@ const Payment = () => {
 
   const handleChange = (value: string) => {
     setValueText(
-        value
-          .replace(/\d $/, "")
-          .replace(/\D/g, "")
-          .replace(/(\d)(?=(\d{3})+([^\d]|$))/g, "$1 ")
+      value
+        .replace(/\d $/, "")
+        .replace(/\D/g, "")
+        .replace(/(\d)(?=(\d{3})+([^\d]|$))/g, "$1 ")
     );
   };
 
@@ -58,7 +55,7 @@ const Payment = () => {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-    dispatch(setValue(valueText))
+    dispatch(setValue(valueText));
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
   };
@@ -124,19 +121,33 @@ const Payment = () => {
       case 1:
         return (
           <Box mt={4}>
-              <CustomFormLabel>Платежное средство</CustomFormLabel>
-              <Autocomplete
+            <CustomFormLabel>Платежное средство</CustomFormLabel>
+            <Autocomplete
               id="country-select-demo"
               fullWidth
               options={data}
               autoHighlight
-              onChange={(e : any) => dispatch(setProvider(e.target.innerText))}
+              onChange={(e: any) => dispatch(setProvider(e.target.innerText))}
               getOptionLabel={(option) => option.title}
               renderOption={(props, option) => (
-                <li {...props} style={{display: "flex", alignItems: "center", gap: '16px'}}>
-                  <div style={{width: "86px", height: '48px', position: 'relative'}}>
+                <li
+                  {...props}
+                  style={{ display: "flex", alignItems: "center", gap: "16px" }}
+                >
+                  <div
+                    style={{
+                      width: "86px",
+                      height: "48px",
+                      position: "relative",
+                    }}
+                  >
                     <Image
-                      style={{ objectFit: 'contain', width: "86px", height: '48px', position: 'relative'}}
+                      style={{
+                        objectFit: "contain",
+                        width: "86px",
+                        height: "48px",
+                        position: "relative",
+                      }}
                       width={86}
                       height={48}
                       src={option.photo}
@@ -176,7 +187,7 @@ const Payment = () => {
               <CustomTextField
                 fullWidth
                 autoFocus
-                placeholder={'Введите промокод'}
+                placeholder={"Введите промокод"}
                 margin="dense"
                 id="email"
                 name="email"
@@ -196,62 +207,62 @@ const Payment = () => {
   return (
     <PageContainer title="Form Wizard" description="this is Form Wizard">
       <Box mt={5}>
-      <ParentCard title="Пополнение баланса">
-        <Box width="100%">
-          <Stepper activeStep={activeStep}>
-            {steps.map((label, index) => {
-              const stepProps: { completed?: boolean } = {};
-              const labelProps: {
-                optional?: React.ReactNode;
-              } = {};
-              if (isStepSkipped(index)) {
-                stepProps.completed = false;
-              }
+        <ParentCard title="Пополнение баланса">
+          <Box width="100%">
+            <Stepper activeStep={activeStep}>
+              {steps.map((label, index) => {
+                const stepProps: { completed?: boolean } = {};
+                const labelProps: {
+                  optional?: React.ReactNode;
+                } = {};
+                if (isStepSkipped(index)) {
+                  stepProps.completed = false;
+                }
 
-              return (
-                <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
-                </Step>
-              );
-            })}
-          </Stepper>
-          {activeStep === steps.length ? (
-            <>
-              <Stack spacing={2} mt={3}>
-                <Alert severity="success">
-                  Все этапы завершены, сейчас вас перенаправит на провайдера
-                </Alert>
-              </Stack>
-            </>
-          ) : (
-            <>
-              <Box>{handleSteps(activeStep)}</Box>
+                return (
+                  <Step key={label} {...stepProps}>
+                    <StepLabel {...labelProps}>{label}</StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
+            {activeStep === steps.length ? (
+              <>
+                <Stack spacing={2} mt={3}>
+                  <Alert severity="success">
+                    Все этапы завершены, сейчас вас перенаправит на провайдера
+                  </Alert>
+                </Stack>
+              </>
+            ) : (
+              <>
+                <Box>{handleSteps(activeStep)}</Box>
 
-              <Box display="flex" flexDirection="row" mt={3}>
-                <Button
-                  color="inherit"
-                  variant="contained"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Назад
-                </Button>
-                <Box flex="1 1 auto" />
-                <Button
-                  onClick={handleNext}
-                  variant="contained"
-                  color={
-                    activeStep === steps.length - 1 ? "success" : "secondary"
-                  }
-                >
-                  {activeStep === steps.length - 1 ? "Оплатить" : "Дальше"}
-                </Button>
-              </Box>
-            </>
-          )}
-        </Box>
-      </ParentCard>
+                <Box display="flex" flexDirection="row" mt={3}>
+                  <Button
+                    color="inherit"
+                    variant="contained"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Назад
+                  </Button>
+                  <Box flex="1 1 auto" />
+                  <Button
+                    onClick={handleNext}
+                    variant="contained"
+                    color={
+                      activeStep === steps.length - 1 ? "success" : "secondary"
+                    }
+                  >
+                    {activeStep === steps.length - 1 ? "Оплатить" : "Дальше"}
+                  </Button>
+                </Box>
+              </>
+            )}
+          </Box>
+        </ParentCard>
       </Box>
     </PageContainer>
   );

@@ -22,14 +22,14 @@ import ChildCard from "../shared/ChildCard";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
-const Wallet = ({ hideMenu } : any) => {
+const Wallet = ({ hideMenu }: any) => {
   const [valueText, setValueText] = React.useState("");
 
   const { t } = useTranslation();
 
   const walletPopup = useSelector((state: AppState) => state.walletPopup);
   const dispatch = useDispatch();
-  
+
   const handleClickOpen = () => {
     dispatch(setOpen(true));
   };
@@ -54,11 +54,8 @@ const Wallet = ({ hideMenu } : any) => {
 
   return (
     <>
-    {
-      hideMenu ? (
-        <>
-          
-        </>
+      {hideMenu ? (
+        <></>
       ) : (
         <Box bgcolor={"info.light"} mt={4} p={2}>
           <Typography variant="h6" fontWeight={400} mb={1}>
@@ -79,9 +76,8 @@ const Wallet = ({ hideMenu } : any) => {
             </Button>
           </Box>
         </Box>
-      )
-    }
-     
+      )}
+
       <Dialog open={walletPopup.open} onClose={handleClose}>
         <DialogTitle mt={2}>Пополнить баланс</DialogTitle>
         <DialogContent>
@@ -131,7 +127,13 @@ const Wallet = ({ hideMenu } : any) => {
           <Button variant="contained" color="error" onClick={handleClose}>
             Отменить
           </Button>
-          <Button variant="contained" component={Link} color="primary" href="/apps/payment" onClick={handleLink}>
+          <Button
+            variant="contained"
+            component={Link}
+            color="primary"
+            href="/payment"
+            onClick={handleLink}
+          >
             Оплатить
           </Button>
         </Stack>

@@ -19,9 +19,8 @@ export default function AuthForgotPassword() {
   });
 
   const forgot = () => {
-    
-    forgotPassword(email.value)
-  }
+    forgotPassword(email.value);
+  };
 
   return (
     <>
@@ -55,7 +54,7 @@ export default function AuthForgotPassword() {
           size="large"
           fullWidth
           component={Link}
-          href="/auth/auth2/login"
+          href="/auth/login"
         >
           Back to Login
         </Button>

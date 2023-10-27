@@ -1,23 +1,16 @@
-import { useState, useEffect } from "react";
 import MenuitemsKazan from "./MenuItems";
 import { usePathname } from "next/navigation";
-import { Box, List, useMediaQuery, Grid, Divider } from "@mui/material";
+import { Box, List, useMediaQuery } from "@mui/material";
 import { useDispatch, useSelector } from "@/store/hooks";
 import NavItem from "./NavItem";
 import NavCollapse from "./NavCollapse";
 import NavGroup from "./NavGroup/NavGroup";
 import { AppState } from "@/store/store";
 import { toggleMobileSidebar } from "@/store/customizer/CustomizerSlice";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import ChildCard from "@/app/(DashboardLayout)/components/shared/ChildCard";
-import TabPanel from "@mui/lab/TabPanel";
 import SwitchCompany from "@/app/(DashboardLayout)/components/switchCompany/switchCompany";
 import Wallet from "@/app/(DashboardLayout)/components/wallet/wallet";
 
 const SidebarItems = () => {
-  const [value, setValue] = useState("1");
   const companyChanger = useSelector((state: AppState) => state.companyChanger);
 
   const pathname = usePathname();
@@ -30,12 +23,10 @@ const SidebarItems = () => {
     : "";
   const dispatch = useDispatch();
 
-  console.log(MenuitemsKazan)
-  
   return (
     <Box sx={{ px: 3 }}>
       <Box sx={{ pt: 0 }}>
-        <Wallet hideMenu={hideMenu}/>
+        <Wallet hideMenu={hideMenu} />
         <SwitchCompany />
       </Box>
       <List sx={{ pt: 0 }} className="sidebarNav">

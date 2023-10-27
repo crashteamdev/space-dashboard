@@ -178,7 +178,7 @@ const Profile = () => {
         <Box mt={2}>
           <Button
             onClick={exit}
-            href="/auth/auth2/login"
+            href="/auth/login"
             variant="outlined"
             color="primary"
             component={Link}

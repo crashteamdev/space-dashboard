@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { getApps, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
@@ -10,16 +10,7 @@ const firebaseConfig = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
-  // apiKey: "AIzaSyAX7-yDIk5KIHsYE-8W0fwC3Ya6zK0bUmM",
-  // authDomain: "englishpet-1db19.firebaseapp.com",
-  // projectId: "englishpet-1db19",
-  // storageBucket: "englishpet-1db19.appspot.com",
-  // messagingSenderId: "422593476442",
-  // appId: "1:422593476442:web:97ec39cf6a120f96826563",
-  // measurementId: "G-23WYM7P64P"
 };
-
-console.log(firebaseConfig)
 
 // Initialize Firebase
 let firebase_app = initializeApp(firebaseConfig);

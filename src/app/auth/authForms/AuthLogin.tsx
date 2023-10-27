@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "@/store/hooks";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/firebase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IUser } from "@/app/(DashboardLayout)/types/apps/user";
 import { setUser } from "@/store/user/userSlice";
 
@@ -44,13 +44,16 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   });
 
   const signIn = async (email: string, password: string) => {
-    console.log("signIn");
-
     const user = (await signInEmail(email, password)) as any;
-    console.log("w", user);
 
     if (user.email) {
       router.push("/");
+    }
+    
+    if (check) {
+      localStorage.setItem('remember', 'on')
+    } else {
+      localStorage.setItem('remember', 'off')
     }
 
     if (auth.currentUser) {
@@ -75,11 +78,9 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("login", JSON.stringify(values, null, 2));
       signIn(values.email, values.password);
     },
   });
-  console.log(check);
 
   return (
     <>
@@ -153,7 +154,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           </FormGroup>
           <Typography
             component={Link}
-            href="/auth/auth2/forgot-password"
+            href="/auth/forgot-password"
             fontWeight={600}
             sx={{
               textDecoration: "none",

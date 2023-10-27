@@ -6,9 +6,6 @@ import ParentCard from "../../../shared/ParentCard";
 import { useDispatch, useSelector } from "@/store/hooks";
 import {
   fetchProfileStatus,
-  fetchToken,
-  fetchRefreshToken,
-  fetchGenerateToken,
 } from "@/store/apps/userProfile/UserProfileSlice";
 import firebase_app from "@/firebase/firebase";
 import { AppState } from "@/store/store";
@@ -17,7 +14,6 @@ import { useTranslation } from "react-i18next";
 import Link from "next/link";
 
 const TokenGenerator = () => {
-  const user = useSelector((state: AppState) => state.user) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const auth = getAuth(firebase_app) as any;
 
@@ -27,14 +23,14 @@ const TokenGenerator = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany));
+    dispatch(
+      fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany)
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <ParentCard
-      title={t("profile")}
-    >
+    <ParentCard title={t("profile")}>
       <>
         <form>
           <Grid container spacing={3}>
@@ -48,7 +44,9 @@ const TokenGenerator = () => {
                       </Typography>
                       <Typography color="textSecondary" mb={3}>
                         {t("profileT.informationDesc")}{" "}
-                        <a href={"https://t.me/marketdbchat"}>Telegram</a>
+                        <a target="_blank" href={"https://t.me/marketdbchat"}>
+                          Telegram
+                        </a>
                       </Typography>
                       {token.subscription?.active ? (
                         <>
@@ -87,7 +85,7 @@ const TokenGenerator = () => {
                         <Button
                           variant="contained"
                           component={Link}
-                          href={"/theme-pages/pricing"}
+                          href={"/pricing"}
                           color="primary"
                         >
                           {t("profileT.selectTarif")}
@@ -108,7 +106,7 @@ const TokenGenerator = () => {
                     <Box pt={1}>
                       <Button
                         variant="contained"
-                        href={"/auth/auth2/forgot-password"}
+                        href={"/auth/forgot-password"}
                         color="primary"
                       >
                         {t("ChangePassword.button")}

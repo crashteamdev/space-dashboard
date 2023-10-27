@@ -11,10 +11,8 @@ import NextTopLoader from "nextjs-toploader";
 import firebase_app from "../firebase/firebase";
 import { getAuth } from "firebase/auth";
 
-// import NextNProgress from "nextjs-progressbar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import "@/app/api/index";
 import "@/utils/i18n";
 import { NextAppDirEmotionCacheProvider } from "@/utils/theme/EmotionCache";
 import "react-quill/dist/quill.snow.css";
@@ -23,8 +21,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { useRouter } from "next/navigation";
 import { setUser } from "@/store/user/userSlice";
 import { IUser } from "@/app/(DashboardLayout)/types/apps/user";
-import i18n from "@/utils/i18n";
 import RTL from "./(DashboardLayout)/layout/shared/customizer/RTL";
+import { logout } from "./api/auth/logout/logout";
 
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = React.useState(false);
@@ -33,16 +31,14 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const customizer = useSelector((state: AppState) => state.customizer);
   const dispatch = useDispatch();
   const router = useRouter();
+  const auth = getAuth(firebase_app);
 
-  const checkAuth = async () => {
-    const auth = getAuth(firebase_app);
-    await auth.onAuthStateChanged((user: any) => {
-      console.log(user);
-      if (!user) {
+  React.useEffect(() => {
+    // Проверка статуса аутентификации при загрузке страницы
+    const unsubscribe = auth.onAuthStateChanged((user: any) => {
+      console.log(user)
+      if (user) {
         // Пользователь не авторизован, перенаправляем
-        router.push("/auth/auth2/login");
-      } else {
-        console.log("logined");
         const { uid, accessToken, displayName, email, photoURL } = user as any;
         const userdata = {
           uid,
@@ -53,16 +49,25 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
         } as IUser;
 
         dispatch(setUser(userdata));
+      } else {
+        router.push("/auth/login");
       }
       setLoading(true);
     });
-  };
 
-  React.useEffect(() => {
-    // Проверка статуса аутентификации при загрузке страницы
-    checkAuth();
+    return () => unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [router]);
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', function (e) {
+      // Выход пользователя при закрытии браузера
+      if(localStorage.getItem('remember') === 'off') {
+        logout()
+        localStorage.setItem('remember', 'off')
+      }
+    });
+  }, [])
 
   return (
     <>

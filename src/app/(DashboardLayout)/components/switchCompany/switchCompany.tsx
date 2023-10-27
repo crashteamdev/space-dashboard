@@ -1,12 +1,11 @@
 "use client";
 
-import React, {useEffect} from "react";
-import { Grid, Box, Divider } from "@mui/material";
+import React, { useEffect } from "react";
+import { Box } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import { IconHeart, IconPhone, IconUser } from "@tabler/icons-react";
 import { useDispatch } from "@/store/hooks";
 import { changeCompany } from "@/store/apps/companyChanger/CompanyChangerSlice";
 
@@ -26,7 +25,9 @@ const COMMON_TAB = [
 ];
 
 const SwitchCompany = () => {
-  const [value, setValue] = React.useState(localStorage.getItem("switch-company")) as any;
+  const [value, setValue] = React.useState(
+    localStorage.getItem("switch-company")
+  ) as any;
 
   const dispatch = useDispatch();
   const handleChange = (event: React.SyntheticEvent, newValue: any) => {
@@ -43,13 +44,14 @@ const SwitchCompany = () => {
   useEffect(() => {
     if (localStorage.getItem("switch-company")) {
       dispatch(changeCompany(localStorage.getItem("switch-company")));
-      setValue(localStorage.getItem("switch-company"))
+      setValue(localStorage.getItem("switch-company"));
     } else {
       localStorage.setItem("switch-company", "ke");
-      setValue("ke")
-      dispatch(changeCompany('ke'));
+      setValue("ke");
+      dispatch(changeCompany("ke"));
     }
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <TabContext value={value}>

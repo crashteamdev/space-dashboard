@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "@/store/hooks";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/firebase";
-import { useEffect } from "react";
 import { IUser } from "@/app/(DashboardLayout)/types/apps/user";
 import { setUser } from "@/store/user/userSlice";
 
@@ -22,7 +21,7 @@ const AuthSocialButtons = ({ title }: signInType) => {
     if (user?.email) {
       router.push("/");
     }
-    console.log(auth?.currentUser);
+    localStorage.setItem('remember', 'on')
     if (auth.currentUser) {
       const { uid, accessToken, displayName, email, photoURL } =
         auth.currentUser as any;
