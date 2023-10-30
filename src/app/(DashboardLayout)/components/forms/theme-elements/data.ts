@@ -5,4 +5,5 @@ const data = [
   { title: 'Qiwi', photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/QIWI_logo.svg/2560px-QIWI_logo.svg.png' },
 ];
 
+
 export default data;

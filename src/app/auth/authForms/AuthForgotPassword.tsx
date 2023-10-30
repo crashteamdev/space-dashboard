@@ -1,11 +1,11 @@
 import { Button, Stack } from "@mui/material";
 import Link from "next/link";
 
-import CustomTextField from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomTextField";
-import CustomFormLabel from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomFormLabel";
 import { useState } from "react";
 import { validationEmail } from "@/hooks/validationEmail";
 import { forgotPassword } from "@/app/api/auth/forgot/forgot";
+import CustomFormLabel from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomFormLabel";
+import CustomTextField from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomTextField";
 
 type InputTypes = {
   value: string;

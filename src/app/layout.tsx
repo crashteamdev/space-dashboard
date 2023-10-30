@@ -75,8 +75,6 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       <NextAppDirEmotionCacheProvider options={{ key: "modernize" }}>
         <ThemeProvider theme={theme}>
           <RTL direction={customizer.activeDir}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-
             {loading ? (
               <>
                 <CssBaseline />

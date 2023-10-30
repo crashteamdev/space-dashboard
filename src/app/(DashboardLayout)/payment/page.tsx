@@ -15,17 +15,17 @@ import {
 import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
 import Image from "next/image";
 
-import CustomTextField from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomTextField";
 import CustomFormLabel from "@/app/(DashboardLayout)/components/forms/theme-elements/CustomFormLabel";
 import ParentCard from "@/app/(DashboardLayout)/components/shared/ParentCard";
 import { Stack } from "@mui/system";
-import data from "../components/forms/form-elements/autoComplete/data";
+import data from "../components/forms/theme-elements/data";
 import { useDispatch, useSelector } from "@/store/hooks";
 import { AppState } from "@/store/store";
 import {
   setProvider,
   setValue,
 } from "@/store/apps/walletPopup/WalletPopupSlice";
+import CustomTextField from "../components/forms/theme-elements/CustomTextField";
 
 const steps = ["Сумма пополнения", "Выбор платежного средства", "Оплата"];
 
