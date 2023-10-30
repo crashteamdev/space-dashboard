@@ -3,7 +3,9 @@
 export default function Dashboard (){
 
   return (
-    232
+    <>
+      
+    </>
   )
 }
 
