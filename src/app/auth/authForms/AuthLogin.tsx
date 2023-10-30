@@ -47,7 +47,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     const user = (await signInEmail(email, password)) as any;
 
     if (user.email) {
-      router.push("/");
+      router.push("/profile");
     }
     
     if (check) {
