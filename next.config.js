@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  swcMinify: true,
+  output: "standalone",
   modularizeImports: {
     "@mui/icons-material": {
       transform: "@mui/icons-material/{{member}}",
@@ -24,8 +26,7 @@ const nextConfig = {
         protocol: "https",
         hostname: "pngimg.com",
         port: "",
-        pathname:
-          "/d/bitcoin_PNG35.png",
+        pathname: "/d/bitcoin_PNG35.png",
       },
       {
         protocol: "https",
