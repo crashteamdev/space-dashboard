@@ -19,8 +19,6 @@
     "@mui/x-date-pickers": "^5.0.15",
     "@reduxjs/toolkit": "^1.9.3",
     "@tabler/icons-react": "^2.1.1",
-    "@types/node": "20.2.3",
-    "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "apexcharts": "3.36.3",
     "axios": "^1.2.5",
@@ -53,7 +51,6 @@
     "simplebar-react": "^3.2.0",
     "slick-carousel": "^1.8.1",
     "stylis-plugin-rtl": "^2.1.1",
-    "typescript": "5.0.4",
     "yup": "^0.32.11"
   },
   "devDependencies": {
