@@ -1,0 +1,49 @@
+{
+    "welcome": "Xush kelibsiz",
+    "profile": "Profil",
+    "main": "Bosh sahifa",
+    "profileT": {
+        "informationTitle": "Obuna ma'lumotlari",
+        "informationDesc": "Agar sizda biron bir muammo bo'lsa, bizga yozing",
+        "yourRate": "Your rate",
+        "status": "Status",
+        "validUntil": "Valid until",
+        "tarifNotFound": "Siz tarif tanlamadingiz",
+        "selectTarif": "Tarifni tanlang"
+    },
+    "extension": {
+        "informationTitle": "Kengaytma",
+        "tokenTitle": "Token"
+    },
+    "balance": {
+        "title": "Balans"
+    },
+    "ChangePassword": {
+        "title": "Parol",
+        "button": "Parolni o'zgartirish"
+    },
+    "Token": {
+        "title": "Token",
+        "description": "Token to'lovdan keyin ishlay boshlaydi. Token abadiy ishlab chiqariladi.",
+        "upInput": "Kengaytmaga kirish uchun token:",
+        "buttonGenerate": "Yangi token yarating"
+    },
+    "MoreInfo": {
+        "title": "Batafsil ma'lumot",
+        "description": "Bizning kengaytmamiz:",
+        "descButton": "Kengaytma yuklab olish",
+        "title1": "Chat / kanallar",
+        "desc1": "Yangiliklar kanali",
+        "desc2": "Foydalanuvchilar bilan suhbat",
+        "title2": "Bilimlar bazasi",
+        "desc3": "Kengaytmadan foydalanishni qanday boshlash kerak",
+        "desc4": "Kengaytmani o'rnatish bo'yicha ko'rsatmalar (eskirgan)"
+    },
+    "Starter": "بداية",
+    "Menu Level": "مستوى القائمة",
+    "Disabled": "عاجز",
+    "SubCaption": "التسمية الفرعية",
+    "Chip": "رقاقة",
+    "Outlined": "موجز",
+    "External Link": "رابط خارجي"
+}
