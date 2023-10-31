@@ -159,10 +159,7 @@ const Pricing = () => {
 
   return (
     <PageContainer title="Pricing" description="this is Pricing">
-      {/* breadcrumb */}
       <Breadcrumb title="Pricing" items={BCrumb} />
-      {/* end breadcrumb */}
-
       <Grid container spacing={3} justifyContent="center" mt={3}>
         <Grid item xs={12} sm={10} lg={8} textAlign="center">
           <Typography variant="h2">Тарифы</Typography>

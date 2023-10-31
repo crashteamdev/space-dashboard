@@ -44,8 +44,6 @@ export default function AuthForgotPassword() {
           size="large"
           fullWidth
           onClick={forgot}
-          // component={Link}
-          // href="/"
         >
           Forgot Password
         </Button>

@@ -165,7 +165,7 @@ const Payment = () => {
                   autoComplete="off"
                   inputProps={{
                     ...params.inputProps,
-                    autoComplete: "new-password", // disable autocomplete and autofill
+                    autoComplete: "new-password",
                   }}
                 />
               )}
@@ -198,10 +198,6 @@ const Payment = () => {
       default:
         break;
     }
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
   };
 
   return (

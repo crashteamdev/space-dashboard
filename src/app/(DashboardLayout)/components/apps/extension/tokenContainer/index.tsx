@@ -18,7 +18,6 @@ import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 
 const TokenContainer = () => {
-  const user = useSelector((state: AppState) => state.user) as any;
   const auth = getAuth(firebase_app) as any;
   const [copy, setCopy] = useState(false);
 
@@ -53,19 +52,15 @@ const TokenContainer = () => {
     const textArea = document.createElement("textarea");
     textArea.value = token?.token?.apiKey;
 
-    // Добавляем textarea на страницу
     document.body.appendChild(textArea);
 
-    // Выделяем текст в textarea
     textArea.select();
     document.execCommand("copy");
     document.body.removeChild(textArea);
-    console.log("w");
     setTimeout(() => setCopy(false), 1800);
   };
 
   useEffect(() => {
-    console.log(user, auth.currentUser);
     dispatch(fetchToken(auth.currentUser.accessToken, company.activeCompany));
     dispatch(
       fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany)

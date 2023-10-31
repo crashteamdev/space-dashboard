@@ -1,11 +1,10 @@
 "use client";
 import { styled, Container, Box, useTheme } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import Header from "./layout/vertical/header/Header";
 import { useSelector } from "@/store/hooks";
 import { AppState } from "@/store/store";
 import Sidebar from "./layout/vertical/sidebar/Sidebar";
-import Customizer from "./layout/shared/customizer/Customizer";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -21,10 +20,6 @@ const PageWrapper = styled("div")(() => ({
   zIndex: 1,
   backgroundColor: "transparent",
 })) as any;
-
-interface Props {
-  children: React.ReactNode;
-}
 
 export default function RootLayout({
   children,
@@ -48,25 +43,14 @@ export default function RootLayout({
         }}
       >
         <Header />
-        {/* PageContent */}
         <Container
           sx={{
             maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important",
           }}
         >
-          {/* ------------------------------------------- */}
-          {/* PageContent */}
-          {/* ------------------------------------------- */}
-
           <Box sx={{ minHeight: "calc(100vh - 170px)" }}>
-            {/* <Outlet /> */}
             {children}
-            {/* <Index /> */}
           </Box>
-
-          {/* ------------------------------------------- */}
-          {/* End Page */}
-          {/* ------------------------------------------- */}
         </Container>
       </PageWrapper>
     </MainWrapper>

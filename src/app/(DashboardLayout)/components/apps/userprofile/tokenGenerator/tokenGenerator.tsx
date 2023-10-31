@@ -4,9 +4,7 @@ import { Box, Button, Grid } from "@mui/material";
 import BlankCard from "../../../shared/BlankCard";
 import ParentCard from "../../../shared/ParentCard";
 import { useDispatch, useSelector } from "@/store/hooks";
-import {
-  fetchProfileStatus,
-} from "@/store/apps/userProfile/UserProfileSlice";
+import { fetchProfileStatus } from "@/store/apps/userProfile/UserProfileSlice";
 import firebase_app from "@/firebase/firebase";
 import { AppState } from "@/store/store";
 import { getAuth } from "firebase/auth";
@@ -15,11 +13,11 @@ import Link from "next/link";
 
 const TokenGenerator = () => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
+  const token = useSelector((state: AppState) => state.userpostsReducer) as any;
+
   const auth = getAuth(firebase_app) as any;
 
   const { t } = useTranslation();
-
-  const token = useSelector((state: AppState) => state.userpostsReducer) as any;
   const dispatch = useDispatch();
 
   useEffect(() => {

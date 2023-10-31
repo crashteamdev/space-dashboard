@@ -10,7 +10,6 @@ import {
   DialogContent,
   Grid,
   DialogContentText,
-  DialogActions,
 } from "@mui/material";
 import * as React from "react";
 import CustomTextField from "../forms/theme-elements/CustomTextField";
@@ -54,9 +53,7 @@ const Wallet = ({ hideMenu }: any) => {
 
   return (
     <>
-      {hideMenu ? (
-        <></>
-      ) : (
+      {!hideMenu ? (
         <Box bgcolor={"info.light"} mt={4} p={2}>
           <Typography variant="h6" fontWeight={400} mb={1}>
             {t("balance.title")}:
@@ -76,7 +73,7 @@ const Wallet = ({ hideMenu }: any) => {
             </Button>
           </Box>
         </Box>
-      )}
+      ) : null}
 
       <Dialog open={walletPopup.open} onClose={handleClose}>
         <DialogTitle mt={2}>Пополнить баланс</DialogTitle>

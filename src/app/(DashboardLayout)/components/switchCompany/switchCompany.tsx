@@ -2,22 +2,11 @@
 
 import React, { useEffect } from "react";
 import { Box } from "@mui/material";
-import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import { useDispatch } from "@/store/hooks";
 import { changeCompany } from "@/store/apps/companyChanger/CompanyChangerSlice";
-
-const BCrumb = [
-  {
-    to: "/",
-    title: "Home",
-  },
-  {
-    title: "Tabs",
-  },
-];
 
 const COMMON_TAB = [
   { value: "1", icon: "", label: "KazanExpress", ul: "ke", disabled: false },
@@ -33,7 +22,6 @@ const SwitchCompany = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: any) => {
     setValue(newValue);
     dispatch(changeCompany(newValue));
-    console.log(localStorage.getItem("switch-company"));
     if (localStorage.getItem("switch-company")) {
       localStorage.setItem("switch-company", newValue);
     } else {

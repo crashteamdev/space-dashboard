@@ -36,7 +36,6 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   React.useEffect(() => {
     // Проверка статуса аутентификации при загрузке страницы
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
-      console.log(user)
       if (user) {
         // Пользователь не авторизован, перенаправляем
         const { uid, accessToken, displayName, email, photoURL } = user as any;

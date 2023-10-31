@@ -35,7 +35,6 @@ const Extension = () => {
         items={BCrumb}
       />
       <Grid container spacing={3} mt={4}>
-        {/* intro and Photos Card */}
         <Grid item sm={12}>
           <Grid container spacing={3}>
             <Grid item sm={12}>
@@ -43,7 +42,6 @@ const Extension = () => {
             </Grid>
           </Grid>
         </Grid>
-        {/* Posts Card */}
       </Grid>
     </PageContainer>
   );
