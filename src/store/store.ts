@@ -7,6 +7,7 @@ import UserProfileReducer from "./apps/userProfile/UserProfileSlice";
 import WalletPopupReducer from "./apps/walletPopup/WalletPopupSlice";
 import CompanyChangerReducer from "./apps/companyChanger/CompanyChangerSlice";
 import BalanceSlice from "./apps/balance/BalanceSlice";
+import AccountSlice from "./apps/account/AccountSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     companyChanger: CompanyChangerReducer,
     customizer: CustomizerReducer,
     userpostsReducer: UserProfileReducer,
-    balanceReducer: BalanceSlice
+    balanceReducer: BalanceSlice,
+    accountReducer: AccountSlice
   },
   devTools: process.env.NODE_ENV !== "production",
 });
@@ -26,7 +28,8 @@ const rootReducer = combineReducers({
   companyChanger: CompanyChangerReducer,
   customizer: CustomizerReducer,
   userpostsReducer: UserProfileReducer,
-  balanceReducer: BalanceSlice
+  balanceReducer: BalanceSlice,
+  accountReducer: AccountSlice
 });
 
 export type RootState = ReturnType<typeof store.getState>;

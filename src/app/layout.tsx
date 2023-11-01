@@ -47,10 +47,12 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
         } as IUser;
 
         dispatch(setUser(userdata));
+        setLoading(true);
+        console.log(userdata.accessToken);
       } else {
         router.push("/auth/login");
+        setLoading(true);
       }
-      setLoading(true);
     });
 
     return () => unsubscribe();
