@@ -4,6 +4,9 @@ on:
     branches:
       - 'master'
       - 'main'
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 jobs:
   build:
     name: Build
@@ -25,15 +28,11 @@ jobs:
         shell: bash
       - name: Build
         run: npm run build
-      - name: Login to GitHub Packages
-        uses: docker/login-action@v1
+      - name: Deploy image
+        uses: valitydev/action-deploy-docker@v1.0.16
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
+          registry-username: ${{ github.actor }}
+          registry-access-token: ${{ secrets.GITHUB_TOKEN }}
+          dockerfile-path: .
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
