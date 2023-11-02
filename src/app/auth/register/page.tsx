@@ -1,9 +1,9 @@
 "use client";
 import { Grid, Box, Card, Typography, Stack } from "@mui/material";
 import Link from "next/link";
-import Logo from "@/app/(DashboardLayout)/layout/shared/logo/Logo";
-import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
-import AuthRegister from "../authForms/AuthRegister";
+import Logo from "@/components/ui/logo/Logo";
+import PageContainer from "@/components/ui/container/PageContainer";
+import AuthRegister from "../../../processes/auth/AuthRegister";
 
 export default function Register2() {
   return (
@@ -54,7 +54,7 @@ export default function Register2() {
                     color="textSecondary"
                     mb={1}
                   >
-                    Your Social Campaigns
+                    Аналитика маркетплейсов
                   </Typography>
                 }
                 subtitle={
@@ -64,7 +64,7 @@ export default function Register2() {
                       variant="h6"
                       fontWeight="400"
                     >
-                      Already have an Account?
+                      У вас уже есть учетная запись?
                     </Typography>
                     <Typography
                       component={Link}
@@ -75,7 +75,7 @@ export default function Register2() {
                         color: "primary.main",
                       }}
                     >
-                      Sign In
+                      Войти
                     </Typography>
                   </Stack>
                 }

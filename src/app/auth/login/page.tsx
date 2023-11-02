@@ -2,9 +2,9 @@
 import Link from "next/link";
 import { Grid, Box, Card, Stack, Typography } from "@mui/material";
 
-import Logo from "@/app/(DashboardLayout)/layout/shared/logo/Logo";
-import PageContainer from "@/app/(DashboardLayout)/components/container/PageContainer";
-import AuthLogin from "../authForms/AuthLogin";
+import Logo from "@/components/ui/logo/Logo";
+import PageContainer from "@/components/ui/container/PageContainer";
+import AuthLogin from "../../../processes/auth/AuthLogin";
 
 export default function Login2() {
   return (
@@ -60,7 +60,7 @@ export default function Login2() {
                       variant="h6"
                       fontWeight="500"
                     >
-                      New to MarketDB?
+                      Впервые в MarketDB?
                     </Typography>
                     <Typography
                       component={Link}
@@ -71,7 +71,7 @@ export default function Login2() {
                         color: "primary.main",
                       }}
                     >
-                      Create an account
+                      Создать аккаунт
                     </Typography>
                   </Stack>
                 }
