@@ -14,9 +14,7 @@ const COMMON_TAB = [
 ];
 
 const SwitchCompany = () => {
-  const [value, setValue] = React.useState(
-    localStorage.getItem("switch-company")
-  ) as any;
+  const [value, setValue] = React.useState('ke') as any;
 
   const dispatch = useDispatch();
   const handleChange = (event: React.SyntheticEvent, newValue: any) => {

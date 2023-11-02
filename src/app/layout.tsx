@@ -31,7 +31,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loadingPage, setLoadingPage] = React.useState(false);
   const theme = ThemeSettings();
-
+  
   const customizer = useSelector((state: AppState) => state.customizer);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -47,7 +47,11 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     } else {
       localStorage.setItem("lng", "ru");
     }
-    dispatch(setDarkMode(localStorage.getItem("theme")));
+    if (localStorage.getItem("theme")) {
+      dispatch(setDarkMode(localStorage.getItem("theme")));
+    } else {
+      dispatch(setDarkMode('light'));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
   useEffect(() => {

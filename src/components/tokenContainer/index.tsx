@@ -68,9 +68,6 @@ const TokenContainer = () => {
   useEffect(() => {
     if (auth.currentUser) {
       dispatch(fetchToken(auth.currentUser.accessToken, company.activeCompany));
-      dispatch(
-        fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany)
-      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);

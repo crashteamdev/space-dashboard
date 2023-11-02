@@ -56,7 +56,6 @@ export const fetchToken =
       axios
         .request(config)
         .then((response) => {
-          console.log(response.data);
           dispatch(getTokens(response.data));
         })
         .catch((error) => {
@@ -81,7 +80,6 @@ export const fetchRefreshToken =
       axios
         .request(config)
         .then((response) => {
-          console.log(response.data);
           dispatch(getTokens(response.data));
         })
         .catch((error) => {
@@ -106,7 +104,6 @@ export const fetchGenerateToken =
       axios
         .request(config)
         .then((response) => {
-          console.log(response.data);
           dispatch(getTokens(response.data));
         })
         .catch((error) => {
