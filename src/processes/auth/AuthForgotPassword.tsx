@@ -39,7 +39,6 @@ export default function AuthForgotPassword() {
           variant="outlined"
           fullWidth
         />
-
         <Button
           color="primary"
           variant="contained"

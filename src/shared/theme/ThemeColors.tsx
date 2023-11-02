@@ -12,6 +12,11 @@ const ThemeColors = [
         light: '#EDFBF7',
         dark: '#39C7AD',
       },
+      background: {
+        default: '#f8fffc',
+        dark: '#ffffff',
+        paper: '#ffffff',
+      },
     },
   },
   {
@@ -47,6 +52,11 @@ const ThemeColors = [
         light: '#EDF8FA',
         dark: '#8BC8CE',
       },
+      background: {
+        default: '#f8fffc',
+        dark: '#ffffff',
+        paper: '#ffffff',
+      },
     },
   },
   {
@@ -62,6 +72,11 @@ const ThemeColors = [
         light: '#EFF9FF',
         dark: '#006FB1',
       },
+      background: {
+        default: '#f8fffc',
+        dark: '#ffffff',
+        paper: '#ffffff',
+      },
     },
   },
   {
@@ -76,6 +91,11 @@ const ThemeColors = [
         main: '#FB9678',
         light: '#FFF5F2',
         dark: '#F48B6C',
+      },
+      background: {
+        default: '#f8fffc',
+        dark: '#ffffff',
+        paper: '#ffffff',
       },
     },
   },
