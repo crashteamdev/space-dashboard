@@ -73,7 +73,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       setLoadingPage(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loading, router]);
+  }, [loading, router]);
 
   useEffect(() => {
     window.addEventListener("beforeunload", function (e) {

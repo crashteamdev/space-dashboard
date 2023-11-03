@@ -9,10 +9,11 @@ import { useRouter } from "next/navigation";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import AuthSocialButtons from "./AuthSocialButtons";
+import { useState } from "react";
 
 const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
   const router = useRouter();
-
+  const [empty, setEmpty] = useState(false) as any;
   const auth = getAuth(firebase_app);
 
   const validationSchema = yup.object({
@@ -27,8 +28,15 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
   });
 
   const signUp = async (email: string, password: string) => {
-    const user = (await registrationEmail(auth, email, password)) as any;
-
+    const user = await registrationEmail(email, password);
+    console.log(user)
+    if (!user) {
+      setEmpty(true);
+      setTimeout(() => {
+        setEmpty(false);
+      }, 3000);
+      return false;
+    }
     router.push("/auth/login");
   };
 
@@ -95,6 +103,21 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
+            {empty ? (
+              <Box mt={2}>
+                <Typography
+                  component="span"
+                  color="error"
+                  variant="h6"
+                  fontWeight="400"
+                  position="relative"
+                >
+                  Эта почта уже используется
+                </Typography>
+              </Box>
+            ) : (
+              ""
+            )}
           </Box>
         </Stack>
         <Button color="primary" variant="contained" type="submit">

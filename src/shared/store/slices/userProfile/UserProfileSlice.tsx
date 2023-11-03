@@ -59,7 +59,7 @@ export const fetchToken =
           dispatch(getTokens(response.data));
         })
         .catch((error) => {
-          console.log(error);
+          dispatch(getTokens(''));
         });
     } catch (err: any) {
       throw new Error(err);
