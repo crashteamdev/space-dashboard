@@ -26,15 +26,23 @@ import {
   setValue,
 } from "@/shared/store/slices/walletPopup/WalletPopupSlice";
 import CustomTextField from "../../../../components/ui/theme-elements/CustomTextField";
+import { checkPromoCode, topUpBalance } from "@/shared/store/slices/balance/BalanceSlice";
+import { getAuth } from "firebase/auth";
+import firebase_app from "@/shared/firebase/firebase";
 
 const steps = ["Сумма пополнения", "Выбор платежного средства", "Оплата"];
 
 const Payment = () => {
   const walletPopup = useSelector((state: AppState) => state.walletPopup);
+  const auth = getAuth(firebase_app) as any;
+  const balanceReducer = useSelector(
+    (state: AppState) => state.balanceReducer
+  ) as any;
   const dispatch = useDispatch();
 
   const [activeStep, setActiveStep] = React.useState(walletPopup.value ? 1 : 0);
   const [skipped, setSkipped] = React.useState(new Set());
+  const [promocode, setPromocode] = React.useState("");
 
   const isStepSkipped = (step: any) => skipped.has(step);
 
@@ -49,7 +57,7 @@ const Payment = () => {
     );
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -58,10 +66,24 @@ const Payment = () => {
     dispatch(setValue(valueText));
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
+    if (activeStep === 2) {
+      dispatch(
+        topUpBalance(
+          auth.currentUser.accessToken,
+          "",
+          walletPopup.value,
+          walletPopup.provider
+        )
+      );
+    }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const checkPromo = () => {
+    dispatch(checkPromoCode(auth.currentUser.accessToken, promocode, ""));
   };
 
   // eslint-disable-next-line consistent-return
@@ -187,11 +209,19 @@ const Payment = () => {
               <CustomTextField
                 fullWidth
                 autoFocus
+                onChange={(e: any) => setPromocode(e.target.value)}
                 placeholder={"Введите промокод"}
                 margin="dense"
                 id="email"
                 name="email"
               />
+              <Button
+                onClick={() => checkPromo()}
+                variant="contained"
+                color={"secondary"}
+              >
+                Использовать
+              </Button>
             </Box>
           </Box>
         );

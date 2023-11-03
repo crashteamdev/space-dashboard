@@ -30,6 +30,7 @@ const Wallet = ({ hideMenu }: any) => {
   const { t } = useTranslation();
 
   const walletPopup = useSelector((state: AppState) => state.walletPopup);
+  const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
   const dispatch = useDispatch();
 
   const handleClickOpen = () => {
@@ -62,7 +63,7 @@ const Wallet = ({ hideMenu }: any) => {
             {t("balance.title")}:
           </Typography>
           <Stack direction="row" spacing={2} justifyContent="space-between">
-            <Typography variant="h4">$ 500</Typography>
+            <Typography variant="h4">$ {balanceReducer.amount}</Typography>
           </Stack>
           <Box mt={2}>
             <Button

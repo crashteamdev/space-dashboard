@@ -24,6 +24,7 @@ import { useTranslation } from "react-i18next";
 
 const Profile = () => {
   const user = useSelector((state: AppState) => state.user);
+  const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
 
   const { t } = useTranslation();
 
@@ -116,7 +117,7 @@ const Profile = () => {
               {user.data ? user.data.email : ""}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              {t("balance.title")}: $ 500
+              {t("balance.title")}: $ {balanceReducer.amount}
             </Typography>
           </Box>
         </Stack>
