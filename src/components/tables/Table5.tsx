@@ -10,7 +10,6 @@ import {
   TableHead,
   Chip,
   Box,
-  AvatarGroup,
   Menu,
   MenuItem,
   IconButton,
@@ -88,17 +87,17 @@ const Table5 = () => {
                   <Chip
                     sx={{
                       bgcolor:
-                        basic.status === "active"
+                        basic.status === "Active"
                           ? (theme) => theme.palette.success.light
-                          : basic.status === "suspended"
-                          ? (theme) => theme.palette.warning.light
+                          : basic.status === "Unactive"
+                          ? (theme) => theme.palette.error.light
                           : (theme) => theme.palette.secondary.light,
                       color:
-                        basic.status === "active"
-                          ? (theme) => theme.palette.success.light
-                          : basic.status === "suspended"
-                          ? (theme) => theme.palette.warning.light
-                          : (theme) => theme.palette.secondary.light,
+                        basic.status === "Active"
+                          ? (theme) => theme.palette.success.main
+                          : basic.status === "Unactive"
+                          ? (theme) => theme.palette.error.main
+                          : (theme) => theme.palette.secondary.main,
                       borderRadius: "8px",
                     }}
                     size="small"

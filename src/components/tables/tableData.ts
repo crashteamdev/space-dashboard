@@ -44,7 +44,7 @@ const basicsTableData: TableType[] = [
         text: 'D',
       },
     ],
-    status: 'active',
+    status: 'Unactive',
     budget: '3.9',
   },
   {
@@ -70,7 +70,7 @@ const basicsTableData: TableType[] = [
         text: 'N',
       },
     ],
-    status: 'suspended',
+    status: 'Unactive',
     budget: '24.5',
   },
   {
@@ -86,7 +86,7 @@ const basicsTableData: TableType[] = [
         text: 'X',
       },
     ],
-    status: 'Completed',
+    status: 'Active',
     budget: '12.8',
   },
   {
@@ -123,7 +123,7 @@ const basicsTableData: TableType[] = [
         text: 'S',
       },
     ],
-    status: 'Cancel',
+    status: 'Unactive',
     budget: '9.3',
   },
 ];
