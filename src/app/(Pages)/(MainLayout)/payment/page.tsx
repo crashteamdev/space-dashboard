@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Stepper,
@@ -29,7 +29,23 @@ import CustomTextField from "../../../../components/ui/theme-elements/CustomText
 import { checkPromoCode, topUpBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
+import { useRouter } from "next/navigation";
 
+const checkStep = (value: string) => {
+  switch (value) {
+    case "validPromoCode":
+      return "Промокод применен"
+    case "invalidPromoCodeDate":
+      return "У промокода истек срок использования"
+    case "invalidPromoCodeUseLimit":
+      return "Превышен лимит использования промокода"
+    case "notFoundPromoCode":
+      return "Промокод не найден"
+    default: 
+      return "Промокод не найден"
+
+  }
+}
 const steps = ["Сумма пополнения", "Выбор платежного средства", "Оплата"];
 
 const Payment = () => {
@@ -37,16 +53,16 @@ const Payment = () => {
   const auth = getAuth(firebase_app) as any;
   const balanceReducer = useSelector(
     (state: AppState) => state.balanceReducer
-  ) as any;
+  ) as any; 
   const dispatch = useDispatch();
 
   const [activeStep, setActiveStep] = React.useState(walletPopup.value ? 1 : 0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [promocode, setPromocode] = React.useState("");
-
+  const router = useRouter();
   const isStepSkipped = (step: any) => skipped.has(step);
 
-  const [valueText, setValueText] = React.useState(walletPopup.value) as any;
+  const [valueText, setValueText] = React.useState(walletPopup.value || 0) as any;
 
   const handleChange = (value: string) => {
     setValueText(
@@ -58,6 +74,12 @@ const Payment = () => {
   };
 
   const handleNext = async () => {
+    if (activeStep === 0 && parseFloat(valueText) === 0 || !valueText) {
+      return null
+    }
+    if (activeStep === 1 && !walletPopup.provider) {
+      return null
+    }
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -86,7 +108,11 @@ const Payment = () => {
     dispatch(checkPromoCode(auth.currentUser.accessToken, promocode, ""));
   };
 
-  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    router.push(balanceReducer.linkPayment)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balanceReducer.linkPayment])
+
   const handleSteps = (step: any) => {
     switch (step) {
       case 0:
@@ -215,13 +241,20 @@ const Payment = () => {
                 id="email"
                 name="email"
               />
-              <Button
-                onClick={() => checkPromo()}
-                variant="contained"
-                color={"secondary"}
-              >
-                Использовать
-              </Button>
+              <Box display={"flex"} flexDirection={"row"} gap={2}>
+                <Button
+                  onClick={() => checkPromo()}
+                  variant="contained"
+                  color={"secondary"}
+                >
+                  Использовать
+                </Button>
+                {balanceReducer.resultPromo ? (
+                  <Typography variant="body1" sx={{ mt: 1 }}>
+                    {checkStep(balanceReducer.resultPromo)}
+                  </Typography>
+                ) : ''}
+              </Box>
             </Box>
           </Box>
         );

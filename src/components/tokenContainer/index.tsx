@@ -71,7 +71,7 @@ const TokenContainer = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
-  console.log(token)
+  
   return (
     <ParentCard title={t("extension.informationTitle")}>
       <>

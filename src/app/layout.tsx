@@ -38,7 +38,6 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const auth = getAuth(firebase_app);
   const [user, loading] = useAuthState(auth);
-  console.log(user)
   useEffect(() => {
     const curLang = localStorage.getItem("lng") as string;
     if (curLang) {
@@ -64,7 +63,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     }
     if (user) {
       const { uid, accessToken, displayName, email, photoURL } = user as any;
-      getBalance(accessToken)
+      dispatch(getBalance(accessToken))
       const userdata = {
         uid,
         accessToken,
@@ -81,7 +80,6 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     window.addEventListener("beforeunload", function (e) {
       // Выход пользователя при закрытии браузера
-      console.log(localStorage.getItem("remember"));
       if (localStorage.getItem("remember") === "off") {
         logout();
         localStorage.setItem("remember", "off");

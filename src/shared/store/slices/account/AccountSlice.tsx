@@ -53,7 +53,6 @@ export const createNewAccount =
   (token: string, context: string, login: string, password: string) =>
   async (dispatch: AppDispatch) => {
     try {
-      console.log(2);
       let config = {
         method: "POST",
         maxBodyLength: Infinity,
@@ -69,11 +68,9 @@ export const createNewAccount =
       axios
         .request(config)
         .then((response) => {
-          console.log(3);
           console.log(response.data);
         })
         .catch((error) => {
-          console.log(4);
           console.log(error);
         });
     } catch (err: any) {

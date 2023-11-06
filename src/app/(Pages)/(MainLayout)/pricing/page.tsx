@@ -13,6 +13,8 @@ import {
   ListItemIcon,
   Chip,
   Switch,
+  Stack,
+  Autocomplete,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
@@ -22,6 +24,16 @@ import PageContainer from "@/components/ui/container/PageContainer";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import BlankCard from "@/components/ui/shared/BlankCard";
 import Image from "next/image";
+import Popup from "@/components/ui/popup/popup";
+import CheckPromoCode from "@/components/ui/checkPromoCode/checkPromoCode";
+import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { AppState } from "@/shared/store/store";
+import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
+import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
+import { purchaseService } from "@/shared/store/slices/balance/BalanceSlice";
+import { getAuth } from "firebase/auth";
+import firebase_app from "@/shared/firebase/firebase";
+import { data, pricing } from "@/components/ui/popup/data";
 
 const BCrumb = [
   {
@@ -33,114 +45,14 @@ const BCrumb = [
   },
 ];
 
-const pricing = [
-  {
-    id: 1,
-    package: "Базовый",
-    monthlyplan: 15,
-    avatar: "/images/backgrounds/silver.png",
-    badge: false,
-    btntext: "Выбрать",
-    rules: [
-      {
-        limit: true,
-        title: "Доступ к расширению",
-      },
-      {
-        limit: true,
-        title: "Позиции товара",
-      },
-      {
-        limit: true,
-        title: "30 дней периода аналитики",
-      },
-      {
-        limit: true,
-        title: "3 отчета по магазинам в сутки",
-      },
-      {
-        limit: false,
-        title: "2 отчета Excel по категориям в сутки",
-      },
-      {
-        limit: false,
-        title: "Приоритетная поддержка",
-      },
-    ],
-  },
-  {
-    id: 2,
-    package: "Расширенный",
-    monthlyplan: 30,
-    avatar: "/images/backgrounds/bronze.png",
-    badge: false,
-    btntext: "Выбрать",
-    rules: [
-      {
-        limit: true,
-        title: "Доступ к расширению",
-      },
-      {
-        limit: true,
-        title: "Позиции товара",
-      },
-      {
-        limit: true,
-        title: "30 / 60 дней периода аналитики",
-      },
-      {
-        limit: true,
-        title: "6 отчетов Excel по магазинам в сутки",
-      },
-      {
-        limit: true,
-        title: "2 отчета Excel по категориям в сутки",
-      },
-      {
-        limit: true,
-        title: "Приоритетная поддержка",
-      },
-    ],
-  },
-  {
-    id: 3,
-    package: "Продвинутый",
-    monthlyplan: 40,
-    avatar: "/images/backgrounds/gold.png",
-    badge: false,
-    btntext: "Выбрать",
-    rules: [
-      {
-        limit: true,
-        title: "Доступ к расширению",
-      },
-      {
-        limit: true,
-        title: "Позиции товара",
-      },
-      {
-        limit: true,
-        title: "30 / 60 / 90 / 120 дней периода аналитики",
-      },
-      {
-        limit: true,
-        title: "15 отчетов Excel по магазинам в сутки",
-      },
-      {
-        limit: true,
-        title: "4 отчета Excel по категориям в сутки",
-      },
-      {
-        limit: true,
-        title: "Приоритетная поддержка",
-      },
-    ],
-  },
-];
-
 const Pricing = () => {
   const [show, setShow] = React.useState(false);
+  const [open, setOpen] = React.useState(0);
+  const [context, setContext] = React.useState("") as any;
+  const [promoCode, setPromoCode] = React.useState("");
+  const auth = getAuth(firebase_app) as any;
 
+  const dispatch = useDispatch();
   const yearlyPrice = (a: any, b: number) => a * b;
 
   const theme = useTheme();
@@ -156,6 +68,23 @@ const Pricing = () => {
     textTransform: "uppercase",
     fontSize: "11px",
   });
+
+  const handleLink = () => {
+    if (!context) {
+      return null
+    }
+    dispatch(
+      purchaseService(
+        auth.currentUser.accessToken,
+        "ke-analytics",
+        pricing[open - 1]?.package.toLowerCase(),
+        promoCode,
+        show ? '3' : '1',
+        "freekassa",
+        context === "Прямая оплата" ? 'one-time' : 'from-balance'
+      )
+    );
+  };
 
   return (
     <PageContainer title="Pricing" description="this is Pricing">
@@ -276,10 +205,10 @@ const Pricing = () => {
                     ))}
                   </List>
                 </Box>
-
                 <Button
                   sx={{ width: "100%", mt: 3 }}
                   variant="contained"
+                  onClick={() => setOpen(i + 1)}
                   size="large"
                   color="primary"
                 >
@@ -289,6 +218,91 @@ const Pricing = () => {
             </BlankCard>
           </Grid>
         ))}
+        <Popup
+          open={open}
+          setOpen={setOpen}
+          title={"Оплата"}
+          description={`Вы выбрали тариф ${
+            pricing[open - 1]?.package
+          }, проверьте еще раз чтобы не ошибится`}
+        >
+          <>
+            <Stack px={3}>
+              <Typography variant="h6">
+                Тариф: {pricing[open - 1]?.package}
+              </Typography>
+              <Typography variant="h6" sx={{ mt: 1 }}>
+                Сумма: $
+                {show
+                  ? pricing[open - 1]?.monthlyplan * 3
+                  : pricing[open - 1]?.monthlyplan}
+              </Typography>
+              <Typography variant="h6" sx={{ mt: 1 }}>
+                Срок: {show ? 1 * 3 : 1} м.
+              </Typography>
+              <Box mt={2}>
+                <CustomFormLabel>Метод оплаты</CustomFormLabel>
+                <Autocomplete
+                  id="balanceMethod"
+                  fullWidth
+                  options={data}
+                  autoHighlight
+                  onChange={(e: any) => setContext(e.target.innerText)}
+                  getOptionLabel={(option) => option}
+                  renderOption={(props, option) => (
+                    <li
+                      key={option}
+                      {...props}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "16px",
+                      }}
+                    >
+                      <b>{option}</b>
+                    </li>
+                  )}
+                  renderInput={(params) => (
+                    <CustomTextField
+                      {...params}
+                      placeholder="Выберите метод оплаты"
+                      aria-label="Выберите метод оплаты"
+                      autoComplete="off"
+                      inputProps={{
+                        ...params.inputProps,
+                        autoComplete: "new-password",
+                      }}
+                    />
+                  )}
+                />
+              </Box>
+              <CheckPromoCode setCheck={setPromoCode} />
+            </Stack>
+            <Stack
+              direction="row"
+              px={3}
+              pb={2}
+              mb={2}
+              mt={2}
+              justifyContent={"space-between"}
+            >
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => setOpen(0)}
+              >
+                Отменить
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleLink}
+              >
+                Оплатить тариф
+              </Button>
+            </Stack>
+          </>
+        </Popup>
       </Grid>
     </PageContainer>
   );
