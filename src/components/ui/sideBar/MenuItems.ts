@@ -59,12 +59,12 @@ const MenuitemsKazan: MenuitemsT = {
         },
       ],
     },
-    // {
-    //   id: uniqueId(),
-    //   title: "Управление ценами",
-    //   icon: IconFileDots,
-    //   href: "/reprice",
-    // },
+    {
+      id: uniqueId(),
+      title: "Управление ценами",
+      icon: IconFileDots,
+      href: "/reprice",
+    },
   ],
   "uzum": [
     {
@@ -97,12 +97,12 @@ const MenuitemsKazan: MenuitemsT = {
       icon: IconTicket,
       href: "/pricing",
     },
-    // {
-    //   id: uniqueId(),
-    //   title: "Управление ценами",
-    //   icon: IconFileDots,
-    //   href: "/reprice",
-    // },
+    {
+      id: uniqueId(),
+      title: "Управление ценами",
+      icon: IconFileDots,
+      href: "/reprice",
+    },
   ]
 };
 
