@@ -5,6 +5,8 @@ import { Box } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
 import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
 import { t } from "i18next";
+import HeaderAccount from "@/components/headerAccount/headerAccount";
+import ProductTableList from "@/components/ProductTableList/ProductTableList";
 
 const BCrumb = [
   {
@@ -12,7 +14,11 @@ const BCrumb = [
     title: t("main"),
   },
   {
-    title: "Ваш reprice аккаунт",
+    to: "/reprice",
+    title: "Управление ценами",
+  },
+  {
+    title: "Ваш аккаунт",
   },
 ] as any;
 
@@ -25,7 +31,8 @@ const Accounts = () => {
       <Box mt={4}></Box>
       <Breadcrumb title={`Ваш аккаунт`} items={BCrumb} />
       <Box mb={2}>
-        Account
+        <HeaderAccount />
+        <ProductTableList />
       </Box>
     </PageContainer>
   )

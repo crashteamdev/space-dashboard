@@ -18,23 +18,30 @@ import {
 import BlankCard from "../ui/shared/BlankCard";
 import { basicsTableData, TableType } from "./tableData";
 import { Stack } from "@mui/system";
+import Link from "next/link";
 import {
   IconDots,
   IconEdit,
   IconTrash,
   IconRefresh,
 } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 
 const basics: TableType[] = basicsTableData;
 
 const Table5 = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOpenSettings = () => {
+    router.push("/reprice/accounts/{userid}");
   };
 
   return (
@@ -132,7 +139,11 @@ const Table5 = () => {
                       "aria-labelledby": "basic-button",
                     }}
                   >
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem
+                      LinkComponent={Link}
+                      href="/"
+                      onClick={handleOpenSettings}
+                    >
                       <ListItemIcon>
                         <IconEdit width={18} />
                       </ListItemIcon>

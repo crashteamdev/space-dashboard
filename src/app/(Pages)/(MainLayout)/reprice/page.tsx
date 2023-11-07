@@ -21,9 +21,9 @@ const Reprice = () => {
   const [open, setOpen] = useState(false) as any;
 
   return (
-    <PageContainer title="Profile" description="this is profile">
+    <PageContainer title="Master settings" description="Master settings">
       <Box mt={4}></Box>
-      <Breadcrumb title={`Управление ценами`} items={BCrumb} />
+      <Breadcrumb title={`Мастер настройки`} items={BCrumb} />
       <Box mb={2}>
         <Button
           variant="contained"

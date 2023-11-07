@@ -17,7 +17,7 @@ export const store = configureStore({
     customizer: CustomizerReducer,
     userpostsReducer: UserProfileReducer,
     balanceReducer: BalanceSlice,
-    accountReducer: AccountSlice
+    accountReducer: AccountSlice,
   },
   devTools: process.env.NODE_ENV !== "production",
 });
@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
   customizer: CustomizerReducer,
   userpostsReducer: UserProfileReducer,
   balanceReducer: BalanceSlice,
-  accountReducer: AccountSlice
+  accountReducer: AccountSlice,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
