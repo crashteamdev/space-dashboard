@@ -1,0 +1,12 @@
+
+.rightPopup {
+
+  div:nth-child(3) {
+    justify-content: flex-end !important;
+    div:only-child {
+      margin: 0;
+      height: 100%;
+      max-height: inherit;
+    }
+  }
+}

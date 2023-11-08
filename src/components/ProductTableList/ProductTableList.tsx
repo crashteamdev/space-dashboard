@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { alpha, useTheme } from '@mui/material/styles';
-import { format } from 'date-fns';
+import * as React from "react";
+import { alpha, useTheme } from "@mui/material/styles";
+import { format } from "date-fns";
 import {
   Box,
   Table,
@@ -14,19 +14,37 @@ import {
   Toolbar,
   IconButton,
   Tooltip,
+  Menu,
+  MenuItem,
+  ListItemIcon,
   FormControlLabel,
   Typography,
   Avatar,
   TextField,
   InputAdornment,
   Paper,
-} from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
-import { IconDotsVertical, IconFilter, IconSearch, IconTrash } from '@tabler/icons-react';
-import { useDispatch, useSelector } from '@/shared/store/hooks';
-import CustomCheckbox from '../ui/forms/CustomCheckbox';
-import CustomSwitch from '../ui/forms/CustomSwitch';
-import ProductsData from '@/shared/store/slices/eCommerce/data';
+} from "@mui/material";
+import { visuallyHidden } from "@mui/utils";
+import {
+  IconDotsVertical,
+  IconFilter,
+  IconSearch,
+  IconTrash,
+} from "@tabler/icons-react";
+import { useDispatch, useSelector } from "@/shared/store/hooks";
+import CustomCheckbox from "../ui/forms/CustomCheckbox";
+import CustomSwitch from "../ui/forms/CustomSwitch";
+import ProductsData from "@/shared/store/slices/eCommerce/data";
+import Autocomplete from "@mui/material/Autocomplete";
+import CustomTextField from "../ui/theme-elements/CustomTextField";
+import Link from "next/link";
+import {
+  IconDots,
+  IconEdit,
+  IconRefresh,
+} from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
+import ProductTableEdit from "../productTableEdit/productTableEdit";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -39,13 +57,16 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-type Order = 'asc' | 'desc';
+type Order = "asc" | "desc";
 
 function getComparator<Key extends keyof any>(
   order: Order,
-  orderBy: Key,
-): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
-  return order === 'desc'
+  orderBy: Key
+): (
+  a: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
+) => number {
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -73,47 +94,47 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: 'name',
+    id: "name",
     numeric: false,
     disablePadding: false,
-    label: 'Фото',
+    label: "Фото",
   },
   {
-    id: 'pname',
+    id: "pname",
     numeric: false,
     disablePadding: false,
-    label: 'Название',
+    label: "Название",
   },
 
   {
-    id: 'status',
+    id: "status",
     numeric: false,
     disablePadding: false,
-    label: 'Цена',
+    label: "Цена",
   },
   {
-    id: 'price',
+    id: "price",
     numeric: false,
     disablePadding: false,
-    label: 'Пул',
+    label: "Пул",
   },
   {
-    id: 'action',
+    id: "action",
     numeric: false,
     disablePadding: false,
-    label: 'Настройки пула',
+    label: "Настройки пула",
   },
   {
-    id: 'action',
+    id: "action",
     numeric: false,
     disablePadding: false,
-    label: 'На складе',
+    label: "На складе",
   },
   {
-    id: 'action',
+    id: "action",
     numeric: false,
     disablePadding: false,
-    label: 'Настройки',
+    label: "Настройки",
   },
 ];
 
@@ -127,10 +148,18 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
-    onRequestSort(event, property);
-  };
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
+  const createSortHandler =
+    (property: any) => (event: React.MouseEvent<unknown>) => {
+      onRequestSort(event, property);
+    };
 
   return (
     <TableHead>
@@ -141,26 +170,26 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              'aria-label': 'select all desserts',
+              "aria-label": "select all desserts",
             }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -187,16 +216,45 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity
+            ),
         }),
       }}
     >
       {numSelected > 0 ? (
-        <Typography sx={{ flex: '1 1 100%' }} color="inherit" variant="subtitle2" component="div">
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          color="inherit"
+          variant="subtitle2"
+          component="div"
+        >
           {numSelected} selected
         </Typography>
       ) : (
-        <Box sx={{ flex: '1 1 100%' }}>
+        <Box sx={{ flex: "1 1 100%", display: "flex", gap: "24px" }}>
+          <Box sx={{ display: "flex", gap: "24px", alignItems: "center" }}>
+            <Typography color="inherit" variant="h6">
+              Выберите магазин:
+            </Typography>
+            <Autocomplete
+              disablePortal
+              style={{
+                width: "200px",
+              }}
+              id="medium-combo-box-demo"
+              options={["gege", "jeje"]}
+              size="small"
+              renderInput={(params) => (
+                <CustomTextField
+                  {...params}
+                  placeholder="Не выбранно"
+                  aria-label="Size Small"
+                />
+              )}
+            />
+          </Box>
           <TextField
             InputProps={{
               startAdornment: (
@@ -205,8 +263,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
                 </InputAdornment>
               ),
             }}
-            placeholder="Search Product"
+            placeholder="Поиск по наименованию или SKU"
             size="small"
+            style={{ width: "350px" }}
             onChange={handleSearch}
             value={search}
           />
@@ -231,19 +290,18 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 };
 
 const ProductTableList = () => {
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<any>('calories');
+  const [order, setOrder] = React.useState<Order>("asc");
+  const [orderBy, setOrderBy] = React.useState<any>("calories");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const dispatch = useDispatch();
 
-  const getProducts: any[] = ProductsData
+  const getProducts: any[] = ProductsData;
 
   const [rows, setRows] = React.useState<any>(getProducts);
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = React.useState("");
 
   React.useEffect(() => {
     setRows(getProducts);
@@ -258,9 +316,12 @@ const ProductTableList = () => {
   };
 
   // This is for the sorting
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: any) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: any
+  ) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -289,7 +350,7 @@ const ProductTableList = () => {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
 
@@ -300,19 +361,18 @@ const ProductTableList = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-  };
-
-  const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDense(event.target.checked);
   };
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const theme = useTheme();
   const borderColor = theme.palette.divider;
@@ -325,12 +385,15 @@ const ProductTableList = () => {
           search={search}
           handleSearch={(event: any) => handleSearch(event)}
         />
-        <Paper variant="outlined" sx={{ mx: 2, mt: 1, border: `1px solid ${borderColor}` }}>
+        <Paper
+          variant="outlined"
+          sx={{ mx: 2, mt: 1, border: `1px solid ${borderColor}` }}
+        >
           <TableContainer>
             <Table
               sx={{ minWidth: 750 }}
               aria-labelledby="tableTitle"
-              size={dense ? 'small' : 'medium'}
+              size={"small"}
             >
               <EnhancedTableHead
                 numSelected={selected.length}
@@ -350,7 +413,6 @@ const ProductTableList = () => {
                     return (
                       <TableRow
                         hover
-                        onClick={(event) => handleClick(event, row.title)}
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
@@ -360,16 +422,21 @@ const ProductTableList = () => {
                         <TableCell padding="checkbox">
                           <CustomCheckbox
                             color="primary"
+                            onClick={(event) => handleClick(event, row.title)}
                             checked={isItemSelected}
                             inputProps={{
-                              'aria-labelledby': labelId,
+                              "aria-labelledby": labelId,
                             }}
                           />
                         </TableCell>
 
                         <TableCell>
                           <Box display="flex" alignItems="center">
-                            <Avatar src={row.photo} alt="product" sx={{ width: 56, height: 56 }} />
+                            <Avatar
+                              src={row.photo}
+                              alt="product"
+                              sx={{ width: 56, height: 56 }}
+                            />
                             <Box
                               sx={{
                                 ml: 2,
@@ -378,7 +445,10 @@ const ProductTableList = () => {
                               <Typography variant="h6" fontWeight="600">
                                 {row.title}
                               </Typography>
-                              <Typography color="textSecondary" variant="subtitle2">
+                              <Typography
+                                color="textSecondary"
+                                variant="subtitle2"
+                              >
                                 {row.category}
                               </Typography>
                             </Box>
@@ -401,9 +471,9 @@ const ProductTableList = () => {
                                 backgroundColor: row.stock
                                   ? (theme) => theme.palette.success.main
                                   : (theme) => theme.palette.error.main,
-                                borderRadius: '100%',
-                                height: '10px',
-                                width: '10px',
+                                borderRadius: "100%",
+                                height: "10px",
+                                width: "10px",
                               }}
                             />
                             <Typography
@@ -413,7 +483,7 @@ const ProductTableList = () => {
                                 ml: 1,
                               }}
                             >
-                              {row.stock ? 'InStock' : 'Out of Stock'}
+                              {row.stock ? "InStock" : "Out of Stock"}
                             </Typography>
                           </Box>
                         </TableCell>
@@ -424,11 +494,7 @@ const ProductTableList = () => {
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Tooltip title="Edit">
-                            <IconButton size="small">
-                              <IconDotsVertical size="1.1rem" />
-                            </IconButton>
-                          </Tooltip>
+                          <ProductTableEdit />
                         </TableCell>
                       </TableRow>
                     );
@@ -436,7 +502,7 @@ const ProductTableList = () => {
                 {emptyRows > 0 && (
                   <TableRow
                     style={{
-                      height: (dense ? 33 : 53) * emptyRows,
+                      height: 33 * emptyRows,
                     }}
                   >
                     <TableCell colSpan={6} />
@@ -455,12 +521,6 @@ const ProductTableList = () => {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-        <Box ml={2}>
-          <FormControlLabel
-            control={<CustomSwitch checked={dense} onChange={handleChangeDense} />}
-            label="Dense padding"
-          />
-        </Box>
       </Box>
     </Box>
   );

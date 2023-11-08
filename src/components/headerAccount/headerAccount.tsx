@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Theme } from "@mui/material";
+import { Box, Button, Grid, Theme, Typography } from "@mui/material";
 import React from "react";
 
 const HeaderAccount = () => {
@@ -18,13 +18,24 @@ const HeaderAccount = () => {
       }}
     >
       <Box>
-        Аккаунт: test@mail.ru | Последний обход: 22.10.2023
+        <Typography
+          variant="h6"
+          fontWeight={500}
+          color="textPrimary"
+          className="text-hover"
+          noWrap
+        >
+          Аккаунт: test@mail.ru | Последний обход: 22.10.2023
+        </Typography>
       </Box>
 
-      <Box mt={2} sx={{
-        display: "flex",
-        gap: "20px"
-      }}>
+      <Box
+        mt={2}
+        sx={{
+          display: "flex",
+          gap: "20px",
+        }}
+      >
         <Button color="primary" variant="contained" type="submit">
           Изменить данные аккаунта
         </Button>
