@@ -230,32 +230,6 @@ const Payment = () => {
             <Typography variant="h6" sx={{ mt: 1 }}>
               Сумма: ${walletPopup.value} - {+walletPopup.value * 98}рублей
             </Typography>
-            <Box mt={4}>
-              <CustomFormLabel>Промокод (необязательно)</CustomFormLabel>
-              <CustomTextField
-                fullWidth
-                autoFocus
-                onChange={(e: any) => setPromocode(e.target.value)}
-                placeholder={"Введите промокод"}
-                margin="dense"
-                id="email"
-                name="email"
-              />
-              <Box display={"flex"} flexDirection={"row"} gap={2}>
-                <Button
-                  onClick={() => checkPromo()}
-                  variant="contained"
-                  color={"secondary"}
-                >
-                  Использовать
-                </Button>
-                {balanceReducer.resultPromo ? (
-                  <Typography variant="body1" sx={{ mt: 1 }}>
-                    {checkStep(balanceReducer.resultPromo)}
-                  </Typography>
-                ) : ''}
-              </Box>
-            </Box>
           </Box>
         );
       default:
