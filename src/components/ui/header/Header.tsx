@@ -19,6 +19,8 @@ import { AppState } from "@/shared/store/store";
 import SwitchTheme from "@/components/switchTheme/SwitchTheme";
 
 const Header = () => {
+  
+  const lgDown = useMediaQuery((theme: any) => theme.breakpoints.down('lg'));
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
 
   const customizer = useSelector((state: AppState) => state.customizer);
@@ -41,6 +43,20 @@ const Header = () => {
   return (
     <AppBarStyled position="sticky" color="default">
       <ToolbarStyled>
+        {lgDown ? (
+          <IconButton
+            color="inherit"
+            aria-label="menu"
+            onClick={() => dispatch(toggleMobileSidebar())}
+          >
+            <IconMenu2 />
+          </IconButton>
+        ) : (
+          ""
+        )}
+        {/* ------------------------------------------- */}
+        {/* Search Dropdown */}
+        {/* ------------------------------------------- */}
         <Box flexGrow={1} />
         <Stack spacing={1} direction="row" alignItems="center">
           <SwitchTheme />
