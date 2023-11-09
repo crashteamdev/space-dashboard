@@ -7,6 +7,8 @@ import * as yup from "yup";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import styles from "./productTableEditConcurents.module.scss"
+import ThemeColors from "@/shared/theme/ThemeColors";
+import ProductTableEditConcurentsTable from "../productTableEditConcurentsTable/productTableEditConcurentsTable";
 
 const ProductTableEditConcurents = ({ open, setOpen }: any) => {
   const handleClose = () => {
@@ -69,8 +71,9 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
             />
           </Box>
         </Stack>
-        <Box display={"flex"} justifyContent={"center"}>
-          <Typography color="textSecondary" variant="subtitle2">
+        <Box display={"flex"} position={"relative"}  mt={4} justifyContent={"center"}>
+          <div className={styles.line}></div>
+          <Typography sx={{backgroundColor: "background.default"}} className={styles.text} color="textSecondary" variant="subtitle2">
             Или
           </Typography>
         </Box>
@@ -119,6 +122,15 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
             Добавить
           </Button>
         </Stack>
+        <Box display={"flex"} position={"relative"}  mt={2} justifyContent={"center"}>
+          <div className={styles.line}></div>
+          <Typography sx={{backgroundColor: "background.default"}} className={styles.text} color="textSecondary" variant="subtitle2">
+            Возможные конкуренты
+          </Typography>
+        </Box>
+        <Box mx={3} mt={3}>
+          <ProductTableEditConcurentsTable />
+        </Box>
       </form>
     </Dialog>
   );

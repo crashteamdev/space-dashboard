@@ -10,3 +10,19 @@
     }
   }
 }
+
+.text {
+  text-align: center;
+  padding: 0 16px;
+  position: relative;
+}
+
+.line {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 100%;
+  background-color: #7C8FAC;
+  height: 1px;
+}

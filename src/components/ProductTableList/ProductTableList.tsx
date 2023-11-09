@@ -437,21 +437,6 @@ const ProductTableList = () => {
                               alt="product"
                               sx={{ width: 56, height: 56 }}
                             />
-                            <Box
-                              sx={{
-                                ml: 2,
-                              }}
-                            >
-                              <Typography variant="h6" fontWeight="600">
-                                {row.title}
-                              </Typography>
-                              <Typography
-                                color="textSecondary"
-                                variant="subtitle2"
-                              >
-                                {row.category}
-                              </Typography>
-                            </Box>
                           </Box>
                         </TableCell>
                         <TableCell>

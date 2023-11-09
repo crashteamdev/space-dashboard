@@ -25,7 +25,7 @@ const HeaderAccount = () => {
           className="text-hover"
           noWrap
         >
-          Аккаунт: test@mail.ru | Последний обход: 22.10.2023
+          Аккаунт: <b>test@mail.ru</b> | Последний обход: <b>22.10.2023</b>
         </Typography>
       </Box>
 
