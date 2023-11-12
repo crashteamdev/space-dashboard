@@ -27,6 +27,7 @@ import {
 } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
 
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loadingPage, setLoadingPage] = React.useState(false);
@@ -37,7 +38,6 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const auth = getAuth(firebase_app);
   const [user, loading] = useAuthState(auth);
-
   useEffect(() => {
     const curLang = localStorage.getItem("lng") as string;
     if (curLang) {
@@ -54,6 +54,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
+
   useEffect(() => {
     // Если пользователь не загрузился или не авторизован, перенаправьте на страницу входа.
     if (!loading && !user) {
@@ -62,6 +63,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     }
     if (user) {
       const { uid, accessToken, displayName, email, photoURL } = user as any;
+      dispatch(getBalance(accessToken))
       const userdata = {
         uid,
         accessToken,
@@ -73,12 +75,11 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       setLoadingPage(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, loading, router]);
+  }, [loading, router]);
 
   useEffect(() => {
     window.addEventListener("beforeunload", function (e) {
       // Выход пользователя при закрытии браузера
-      console.log(localStorage.getItem("remember"));
       if (localStorage.getItem("remember") === "off") {
         logout();
         localStorage.setItem("remember", "off");

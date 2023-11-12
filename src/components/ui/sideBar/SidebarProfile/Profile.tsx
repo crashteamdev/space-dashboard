@@ -56,7 +56,20 @@ export const Profile = () => {
           />
 
           <Box>
-            <Typography variant="h6">{user.data.displayName}</Typography>
+            <Typography
+              style={{
+                maxWidth: "96px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+              variant="h6"
+            >
+              {user.data.displayName
+                ? user.data.displayName
+                : user.data.email
+                ? user.data.email
+                : ""}
+            </Typography>
           </Box>
           <Box sx={{ ml: "auto" }}>
             <Tooltip title="Logout" placement="top">

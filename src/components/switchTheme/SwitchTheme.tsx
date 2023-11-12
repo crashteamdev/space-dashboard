@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+"use client"
+
+import React, { useMemo, useEffect, useState } from "react";
 import styles from "./SwitchTheme.module.scss";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { setDarkMode } from "@/shared/store/slices/customizer/CustomizerSlice";
@@ -9,19 +11,23 @@ import Moon from "../../shared/assets/imageComponents/Moon";
 const SwitchTheme = () => {
   const theme = useSelector((state: AppState) => state.customizer) as any;
   const dispatch = useDispatch();
+  const [light, setLight] = useState(localStorage.getItem("theme") != 'light');
 
   const changeTheme = () => {
-    dispatch(setDarkMode(theme.activeMode === "light" ? "dark" : "light"));
     localStorage.setItem(
       "theme",
       theme.activeMode === "light" ? "dark" : "light"
     );
-  };
+    setLight(localStorage.getItem("theme") === "dark")
 
+    dispatch(setDarkMode(theme.activeMode === "light" ? "dark" : "light"))
+
+  }
   useEffect(() => {
     if (localStorage.getItem("theme")) {
-      localStorage.getItem("theme");
+      setLight(localStorage.getItem("theme") === "light");
     } else {
+      setLight(true)
       localStorage.setItem("theme", "light");
     }
   }, []);
@@ -30,7 +36,7 @@ const SwitchTheme = () => {
     <label className={styles.container}>
       <div className={styles.switch}>
         <input
-          checked={theme.activeMode === "light" ? true : false}
+          checked={light}
           onChange={() => changeTheme()}
           type="checkbox"
         />

@@ -71,7 +71,7 @@ const TokenContainer = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
-
+  
   return (
     <ParentCard title={t("extension.informationTitle")}>
       <>
@@ -87,7 +87,7 @@ const TokenContainer = () => {
                     <Typography color="textSecondary" mb={3}>
                       {t("Token.description")}
                     </Typography>
-                    {token?.token?.apiKey ? (
+                    {token.token?.apiKey ? (
                       <>
                         <Typography variant="h6" mb={1}>
                           {t("Token.upInput")}
@@ -139,7 +139,11 @@ const TokenContainer = () => {
                     <Button
                       variant="contained"
                       target="_blank"
-                      href="https://vk.cc/c8C8MW"
+                      href={
+                        company.activeCompany === "ke"
+                          ? "https://chrome.google.com/webstore/detail/marketdb-%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-kazane/cfkfachbapidmnjkcandfhlbnfiialei?hl=ru"
+                          : "https://chrome.google.com/webstore/detail/marketdb-%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-uzumuz/blgbandfopjlfnfpgknfmdkboekolpcc?hl=ru"
+                      }
                       color="primary"
                     >
                       {t("MoreInfo.descButton")}
@@ -149,12 +153,18 @@ const TokenContainer = () => {
                     <b>{t("MoreInfo.title1")}</b>
                   </Typography>
                   <Typography variant="body1" mb={1}>
-                    <CustomLink isExternal={false} href="https://t.me/marketdbru">
+                    <CustomLink
+                      isExternal={false}
+                      href="https://t.me/marketdbru"
+                    >
                       {t("MoreInfo.desc1")}
                     </CustomLink>
                   </Typography>
                   <Typography variant="body1" mb={2}>
-                    <CustomLink isExternal={false} href="https://t.me/marketdbchat">
+                    <CustomLink
+                      isExternal={false}
+                      href="https://t.me/marketdbchat"
+                    >
                       {t("MoreInfo.desc2")}
                     </CustomLink>
                   </Typography>
@@ -162,14 +172,18 @@ const TokenContainer = () => {
                     <b>{t("MoreInfo.title2")}</b>
                   </Typography>
                   <Typography color="h6" mb={1}>
-                    <CustomLink isExternal={false}
+                    <CustomLink
+                      isExternal={false}
                       href="https://wiki.marketdb.ru/ru/base/getting-started"
                     >
                       {t("MoreInfo.desc3")}
                     </CustomLink>
                   </Typography>
                   <Typography color="h6" mb={2}>
-                    <CustomLink isExternal={false} href="https://youtu.be/6LiMoU-cZCU">
+                    <CustomLink
+                      isExternal={false}
+                      href="https://youtu.be/6LiMoU-cZCU"
+                    >
                       {t("MoreInfo.desc4")}
                     </CustomLink>
                   </Typography>

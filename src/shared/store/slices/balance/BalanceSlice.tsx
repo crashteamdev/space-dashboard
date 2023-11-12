@@ -2,13 +2,33 @@ import { TopUpBalanceType } from "@/shared/types/balance/balance";
 import { AppDispatch } from "@/shared/store/store";
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { v4 as uuidv4 } from 'uuid';
 interface StateType {
   amount: number;
+  linkPayment: string;
+  resultPromo: string;
+  selectTarif: {
+    title: string;
+    amount: number;
+    context: string;
+    plan: string;
+    promoCode: string;
+    multiply: number;
+  };
 }
 
 const initialState = {
   amount: 0,
+  linkPayment: '',
+  resultPromo: '',
+  selectTarif: {
+    title: '',
+    amount: 0,
+    context: '',
+    plan: '',
+    promoCode: '',
+    multiply: 0
+  }
 };
 
 export const BalanceSlice = createSlice({
@@ -18,28 +38,35 @@ export const BalanceSlice = createSlice({
     setAmount: (state: StateType, action) => {
       state.amount = action.payload;
     },
+    setLinkPayment: (state: StateType, action) => {
+      state.linkPayment = action.payload;
+    },
+    setResultPromo: (state: StateType, action) => {
+      state.resultPromo = action.payload;
+    },
   },
 });
 
-export const { setAmount } = BalanceSlice.actions;
+export const { setAmount, setLinkPayment, setResultPromo } = BalanceSlice.actions;
 
 export default BalanceSlice.reducer;
 
 export const getBalance =
-  (token: string, context: string) => async (dispatch: AppDispatch) => {
+  (token: string) => async (dispatch: AppDispatch) => {
     try {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments/user/balance`,
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
+          "X-Request-ID": `${uuidv4()}`,
         },
       };
       axios
         .request(config)
         .then((response) => {
-          console.log(response.data);
+          dispatch(setAmount(response.data.amount));
         })
         .catch((error) => {
           console.log(error);
@@ -74,29 +101,31 @@ export const getListPayments =
   };
 
 export const topUpBalance =
-  (token: string, context: string, amount: number, provider: "freekassa") =>
+  (token: string, context: string, amount: number, provider: string) =>
   async (dispatch: AppDispatch) => {
     try {
+      let data = JSON.stringify({
+        "amount": +amount,
+        "successRedirectUrl": "/payment/success",
+        "failRedirectUrl": "/payment/error",
+        "provider": {
+          "provider": `${provider}`
+        }
+      });
       let config = {
-        method: "get",
+        method: 'post',
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/payments`,
+        url: `https://api.marketdb.pro/gateway/payments/topup`,
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Authorization': `Bearer ${token}`,
+          'X-Request-ID': `${uuidv4()}`,
+          'Content-Type': "application/json",
         },
-        body: {
-          amount: amount,
-          successRedirectUrl: "/payment/success",
-          failRedirectUrl: "/payment/error",
-          provider: {
-            provider: provider,
-          },
-        },
+        data: data
       };
-      axios
-        .request(config)
+      axios.request(config)
         .then((response) => {
-          console.log(response.data);
+          dispatch(setLinkPayment(response.data.redirectUrl))
         })
         .catch((error) => {
           console.log(error);
@@ -109,39 +138,59 @@ export const topUpBalance =
 export const purchaseService =
   (
     token: string,
-    context: string,
     serviceContext: string,
+    plan: string,
     promoCode: string,
     multiply: string,
-    provider: "freekassa",
+    provider: string,
     method: string
   ) =>
   async (dispatch: AppDispatch) => {
     try {
+      let data = JSON.stringify({
+        "service": {
+          "context": serviceContext,
+          "plan": plan,
+        },
+        "multiply": multiply,
+        "method": method,
+      })
+      let dataOneTime = JSON.stringify({
+        "service": {
+          "context": serviceContext,
+          "plan": plan,
+        },
+        "promoCode": promoCode,
+        "multiply": multiply,
+        "method": method,
+        "provider": {
+          "provider": provider,
+        },
+        "successRedirectUrl": '/payment/success',
+        "failRedirectUrl": '/payment/error',
+      })
       let config = {
-        method: "get",
+        method: "post",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/payments`,
+        url: `https://api.marketdb.pro/gateway/payments/purchase`,
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
+          'X-Request-ID': `${uuidv4()}`,
+          'Content-Type': "application/json",
         },
-        body: {
-          service: {
-            context: serviceContext,
-            plan: "default",
-          },
-          promoCode: promoCode,
-          multiply: multiply,
-          provider: {
-            provider: provider,
-          },
-          method: method,
-        },
+        data: method === 'one-time' ? data : dataOneTime,
       };
       axios
         .request(config)
         .then((response) => {
-          console.log(response.data);
+          if (method === 'one-time') {
+            console.log(response.data);
+            dispatch(setLinkPayment(response.data.redirectUrl))
+          } else {
+            console.log(response.data);
+            dispatch(setAmount(response.data.balance));
+          }
+          
         })
         .catch((error) => {
           console.log(error);
@@ -158,17 +207,16 @@ export const checkPromoCode =
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/payments`,
+        url: `https://api.marketdb.pro/gateway/promo-code/${promoCode}/check`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: {
-          code: promoCode,
+          'Authorization': `Bearer ${token}`,
+          'X-Request-ID': `${uuidv4()}`,
         },
       };
       axios
         .request(config)
         .then((response) => {
+          dispatch(setResultPromo(response.data.code));
           return response.data;
         })
         .catch((error) => {

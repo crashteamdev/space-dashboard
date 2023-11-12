@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Stepper,
@@ -26,19 +26,43 @@ import {
   setValue,
 } from "@/shared/store/slices/walletPopup/WalletPopupSlice";
 import CustomTextField from "../../../../components/ui/theme-elements/CustomTextField";
+import { checkPromoCode, topUpBalance } from "@/shared/store/slices/balance/BalanceSlice";
+import { getAuth } from "firebase/auth";
+import firebase_app from "@/shared/firebase/firebase";
+import { useRouter } from "next/navigation";
 
+const checkStep = (value: string) => {
+  switch (value) {
+    case "validPromoCode":
+      return "Промокод применен"
+    case "invalidPromoCodeDate":
+      return "У промокода истек срок использования"
+    case "invalidPromoCodeUseLimit":
+      return "Превышен лимит использования промокода"
+    case "notFoundPromoCode":
+      return "Промокод не найден"
+    default: 
+      return "Промокод не найден"
+
+  }
+}
 const steps = ["Сумма пополнения", "Выбор платежного средства", "Оплата"];
 
 const Payment = () => {
   const walletPopup = useSelector((state: AppState) => state.walletPopup);
+  const auth = getAuth(firebase_app) as any;
+  const balanceReducer = useSelector(
+    (state: AppState) => state.balanceReducer
+  ) as any; 
   const dispatch = useDispatch();
 
   const [activeStep, setActiveStep] = React.useState(walletPopup.value ? 1 : 0);
   const [skipped, setSkipped] = React.useState(new Set());
-
+  const [promocode, setPromocode] = React.useState("");
+  const router = useRouter();
   const isStepSkipped = (step: any) => skipped.has(step);
 
-  const [valueText, setValueText] = React.useState(walletPopup.value) as any;
+  const [valueText, setValueText] = React.useState(walletPopup.value || 0) as any;
 
   const handleChange = (value: string) => {
     setValueText(
@@ -49,7 +73,13 @@ const Payment = () => {
     );
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    if (activeStep === 0 && parseFloat(valueText) === 0 || !valueText) {
+      return null
+    }
+    if (activeStep === 1 && !walletPopup.provider) {
+      return null
+    }
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -58,13 +88,31 @@ const Payment = () => {
     dispatch(setValue(valueText));
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
+    if (activeStep === 2) {
+      dispatch(
+        topUpBalance(
+          auth.currentUser.accessToken,
+          "",
+          walletPopup.value,
+          walletPopup.provider
+        )
+      );
+    }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  // eslint-disable-next-line consistent-return
+  const checkPromo = () => {
+    dispatch(checkPromoCode(auth.currentUser.accessToken, promocode, ""));
+  };
+
+  useEffect(() => {
+    router.push(balanceReducer.linkPayment)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balanceReducer.linkPayment])
+
   const handleSteps = (step: any) => {
     switch (step) {
       case 0:
@@ -182,17 +230,6 @@ const Payment = () => {
             <Typography variant="h6" sx={{ mt: 1 }}>
               Сумма: ${walletPopup.value} - {+walletPopup.value * 98}рублей
             </Typography>
-            <Box mt={4}>
-              <CustomFormLabel>Промокод (необязательно)</CustomFormLabel>
-              <CustomTextField
-                fullWidth
-                autoFocus
-                placeholder={"Введите промокод"}
-                margin="dense"
-                id="email"
-                name="email"
-              />
-            </Box>
           </Box>
         );
       default:

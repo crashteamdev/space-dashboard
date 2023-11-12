@@ -1,14 +1,17 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
-export const registrationEmail = (auth: any, email: string, password: string) => {
-  console.log(email, password);
-  
-  createUserWithEmailAndPassword(auth, email, password)
+const auth = getAuth();
+export const registrationEmail = (email: string, password: string) => {
+  return createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
+    // Учетная запись успешно создана
     const user = userCredential.user;
+    console.log('Учетная запись создана успешно', user);
+    return user
   })
   .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    // Обработка ошибок
+    console.error('Ошибка создания учетной записи', error);
+    return false
   });
 };
