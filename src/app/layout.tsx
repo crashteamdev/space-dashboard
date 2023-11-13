@@ -28,11 +28,12 @@ import {
 import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
+import AlertList from "@/components/alertList/alertList";
 
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loadingPage, setLoadingPage] = React.useState(false);
   const theme = ThemeSettings();
-  
+
   const customizer = useSelector((state: AppState) => state.customizer);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -50,11 +51,11 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     if (localStorage.getItem("theme")) {
       dispatch(setDarkMode(localStorage.getItem("theme")));
     } else {
-      dispatch(setDarkMode('light'));
+      dispatch(setDarkMode("light"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
-
+  console.log(user)
   useEffect(() => {
     // Если пользователь не загрузился или не авторизован, перенаправьте на страницу входа.
     if (!loading && !user) {
@@ -63,7 +64,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     }
     if (user) {
       const { uid, accessToken, displayName, email, photoURL } = user as any;
-      dispatch(getBalance(accessToken))
+      dispatch(getBalance(accessToken));
       const userdata = {
         uid,
         accessToken,
@@ -78,13 +79,11 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   }, [loading, router]);
 
   useEffect(() => {
-    window.addEventListener("beforeunload", function (e) {
-      // Выход пользователя при закрытии браузера
-      if (localStorage.getItem("remember") === "off") {
-        logout();
-        localStorage.setItem("remember", "off");
-      }
-    });
+    if (!sessionStorage.getItem("remember") || !localStorage.getItem("remember")) {
+      console.log("w");
+      logout();
+      sessionStorage.removeItem("remember");
+    }
   }, []);
 
   return (
@@ -93,24 +92,26 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       <NextAppDirEmotionCacheProvider options={{ key: "modernize" }}>
         <ThemeProvider theme={theme}>
           <RTL direction={customizer.activeDir}>
-            {loadingPage ? (
-              <>
-                <CssBaseline />
-                {children}
-              </>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "100%",
-                  height: "100vh",
-                }}
-              >
-                <CircularProgress />
-              </Box>
-            )}
+            <AlertList>
+              {loadingPage ? (
+                <>
+                  <CssBaseline />
+                  {children}
+                </>
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    height: "100vh",
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
+            </AlertList>
           </RTL>
         </ThemeProvider>
       </NextAppDirEmotionCacheProvider>

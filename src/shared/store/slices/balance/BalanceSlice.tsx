@@ -106,10 +106,10 @@ export const topUpBalance =
     try {
       let data = JSON.stringify({
         "amount": +amount,
-        "successRedirectUrl": "/payment/success",
-        "failRedirectUrl": "/payment/error",
+        "successRedirectUrl": 'https://space.marketdb.pro/payment/success',
+        "failRedirectUrl": 'https://space.marketdb.pro/payment/error',
         "provider": {
-          "provider": `${provider}`
+          "provider": `${provider.toLowerCase()}`
         }
       });
       let config = {
@@ -153,7 +153,7 @@ export const purchaseService =
           "plan": plan,
         },
         "multiply": multiply,
-        "method": method,
+        "method": "from-balance",
       })
       let dataOneTime = JSON.stringify({
         "service": {
@@ -166,8 +166,8 @@ export const purchaseService =
         "provider": {
           "provider": provider,
         },
-        "successRedirectUrl": '/payment/success',
-        "failRedirectUrl": '/payment/error',
+        "successRedirectUrl": 'https://space.marketdb.pro/payment/success',
+        "failRedirectUrl": 'https://space.marketdb.pro/payment/error',
       })
       let config = {
         method: "post",
@@ -178,7 +178,7 @@ export const purchaseService =
           'X-Request-ID': `${uuidv4()}`,
           'Content-Type': "application/json",
         },
-        data: method === 'one-time' ? data : dataOneTime,
+        data: method === 'one-time' ? dataOneTime : data,
       };
       axios
         .request(config)

@@ -23,6 +23,8 @@ import firebase_app from "@/shared/firebase/firebase";
 import { useState } from "react";
 import { IUser } from "@/shared/types/apps/user";
 import { setUser } from "@/shared/store/slices/user/userSlice";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
+import { v4 as uuidv4 } from 'uuid';
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const router = useRouter();
@@ -47,21 +49,19 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const signIn = async (email: string, password: string) => {
     const user = (await signInEmail(email, password)) as any;
     if (!user) {
-      setEmpty(true);
-      setTimeout(() => {
-        setEmpty(false);
-      }, 3000);
+      dispatch(addItem({title: 'Не удалось войти в аккаунт', description: 'Возможно такого аккаунта не существует', status: 'error', timelife: 5000, id: uuidv4()}));
       return false;
     }
 
     if (user.email) {
+      dispatch(addItem({title: 'Вы успешно вошли в аккаунт', status: 'success', timelife: 4000, id: uuidv4()}));
       router.push("/profile");
     }
 
     if (check) {
       localStorage.setItem("remember", "on");
     } else {
-      localStorage.setItem("remember", "off");
+      sessionStorage.setItem("remember", "off");
     }
 
     if (auth.currentUser) {
@@ -151,7 +151,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
                   fontWeight="400"
                   position="relative"
                 >
-                  Такого аккаунта не существует
+                  Введен не верный логин или пароль
                 </Typography>
               </Box>
             ) : (
