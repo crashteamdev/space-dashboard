@@ -1,174 +1,80 @@
 import React from "react";
 import {
-  TableContainer,
-  Table,
-  TableRow,
-  TableCell,
-  TableBody,
   Avatar,
   Typography,
-  TableHead,
-  Chip,
   Box,
-  Menu,
-  MenuItem,
-  IconButton,
+  Grid,
+  CardContent,
+  Divider,
   ListItemIcon,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
-import { basicsTableData, TableType } from "./tableData";
+import { basicsTableData, AccountsType } from "./tableData";
 import { Stack } from "@mui/system";
-import Link from "next/link";
-import {
-  IconDots,
-  IconEdit,
-  IconTrash,
-  IconRefresh,
-} from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import { IconEdit, IconRefresh, IconTrash } from "@tabler/icons-react";
+import styles from "./table.module.scss";
+import { Edit, Delete, Refresh } from "@mui/icons-material";
 
-const basics: TableType[] = basicsTableData;
+const basics: AccountsType[] = basicsTableData;
 
 const Table5 = () => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const router = useRouter();
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleOpenSettings = () => {
-    router.push("/reprice/accounts/{userid}");
-  };
 
   return (
-    <BlankCard>
-      <TableContainer>
-        <Table
-          aria-label="simple table"
-          sx={{
-            whiteSpace: "nowrap",
-          }}
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography variant="h6">Аккаунт</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6">Мониторинг</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6">Последнее обновление</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="h6"></Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {basics.map((basic) => (
-              <TableRow key={basic.id}>
-                <TableCell>
-                  <Stack direction="row" spacing={2}>
-                    <Avatar
-                      src={basic.imgsrc}
-                      alt={basic.imgsrc}
-                      sx={{ width: 40, height: 40 }}
-                    />
-                    <Box>
-                      <Typography variant="h6" fontWeight="600">
-                        {basic.name}
-                      </Typography>
-                      <Typography color="textSecondary" variant="subtitle2">
-                        {basic.post}
-                      </Typography>
-                    </Box>
-                  </Stack>
-                </TableCell>
-                <TableCell>
-                  {/* <Chip chipcolor={basic.status == 'Active' ? 'success' : basic.status == 'Pending' ? 'warning' : basic.status == 'Completed' ? 'primary' : basic.status == 'Cancel' ? 'error' : 'secondary'} */}
-                  <Chip
-                    sx={{
-                      bgcolor:
-                        basic.status === "Active"
-                          ? (theme) => theme.palette.success.light
-                          : basic.status === "Unactive"
-                          ? (theme) => theme.palette.error.light
-                          : (theme) => theme.palette.secondary.light,
-                      color:
-                        basic.status === "Active"
-                          ? (theme) => theme.palette.success.main
-                          : basic.status === "Unactive"
-                          ? (theme) => theme.palette.error.main
-                          : (theme) => theme.palette.secondary.main,
-                      borderRadius: "8px",
-                    }}
-                    size="small"
-                    label={basic.status}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    color="textSecondary"
-                    variant="h6"
-                    fontWeight={400}
-                  >
-                    {basic.pname}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <IconButton
-                    id="basic-button"
-                    aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={handleClick}
-                  >
-                    <IconDots width={18} />
-                  </IconButton>
-                  <Menu
-                    id="basic-menu"
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                      "aria-labelledby": "basic-button",
-                    }}
-                  >
-                    <MenuItem
-                      LinkComponent={Link}
-                      href="/"
-                      onClick={handleOpenSettings}
-                    >
-                      <ListItemIcon>
-                        <IconEdit width={18} />
-                      </ListItemIcon>
-                      Настройки
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <ListItemIcon>
-                        <IconRefresh width={18} />
-                      </ListItemIcon>
-                      Обновить
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <ListItemIcon>
-                        <IconTrash width={18} />
-                      </ListItemIcon>
-                      Удалить
-                    </MenuItem>
-                  </Menu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </BlankCard>
+    <Box display={"flex"} gap={"24px"} flexWrap={"wrap"}>
+      {basics.map((item) => {
+        return (
+          <Grid
+            style={{ cursor: "pointer" }}
+            item
+            sm={12}
+            lg={12}
+            key={item.id}
+          >
+            <BlankCard className="hoverCard">
+              <CardContent>
+                <Stack direction={"column"} gap={4} alignItems="center">
+                  <Box padding={"6px 24px"} textAlign={"center"}>
+                    <Typography variant="h5">{item.email}</Typography>
+                  </Box>
+                </Stack>
+              </CardContent>
+              <Divider />
+              <Box
+                p={2}
+                py={1}
+                textAlign={"center"}
+                sx={{ backgroundColor: "grey.100" }}
+              >
+                <Box justifyContent={"space-between"} display="flex" gap={2}>
+                  {/* Редактирование */}
+                  <Tooltip title="Редактировать">
+                    <IconButton color="primary">
+                      <Edit />
+                    </IconButton>
+                  </Tooltip>
+                  {/* Перезагрузка */}
+                  <Tooltip title="Перезагрузить">
+                    <IconButton color="info">
+                      <Refresh />
+                    </IconButton>
+                  </Tooltip>
+                  {/* Удаление */}
+                  <Tooltip title="Удалить">
+                    <IconButton color="error">
+                      <Delete />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Box>
+            </BlankCard>
+          </Grid>
+        );
+      })}
+    </Box>
   );
 };
 
