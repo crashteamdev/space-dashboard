@@ -15,6 +15,7 @@ import {
   Switch,
   Stack,
   Autocomplete,
+  MenuItem,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
@@ -34,6 +35,7 @@ import { purchaseService } from "@/shared/store/slices/balance/BalanceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { data, pricing } from "@/components/ui/popup/data";
+import CustomSelect from "@/components/ui/theme-elements/CustomSelect";
 
 const BCrumb = [
   {
@@ -80,8 +82,8 @@ const Pricing = () => {
         pricing[open - 1]?.package.toLowerCase(),
         promoCode,
         show ? '3' : '1',
-        "freekassa",
-        context === "Прямая оплата" ? 'one-time' : 'from-balance'
+        context.toLowerCase(),
+        context === "Оплата с баланса" ? context.toLowerCase() : 'one-time'
       )
     );
   };
@@ -241,40 +243,20 @@ const Pricing = () => {
                 Срок: {show ? 1 * 3 : 1} м.
               </Typography>
               <Box mt={2}>
-                <CustomFormLabel>Метод оплаты</CustomFormLabel>
-                <Autocomplete
-                  id="balanceMethod"
+              <Grid item xs={12} sm={12} lg={12}>
+                <CustomFormLabel htmlFor="demo-simple-select">Платежное средство</CustomFormLabel>
+                <CustomSelect
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={context}
+                  onChange={(e: any) => setContext(e.target.value)}
                   fullWidth
-                  options={data}
-                  autoHighlight
-                  onChange={(e: any) => setContext(e.target.innerText)}
-                  getOptionLabel={(option) => option}
-                  renderOption={(props, option) => (
-                    <li
-                      key={option}
-                      {...props}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "16px",
-                      }}
-                    >
-                      <b>{option}</b>
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <CustomTextField
-                      {...params}
-                      placeholder="Выберите метод оплаты"
-                      aria-label="Выберите метод оплаты"
-                      autoComplete="off"
-                      inputProps={{
-                        ...params.inputProps,
-                        autoComplete: "new-password",
-                      }}
-                    />
-                  )}
-                />
+                >
+                  <MenuItem value={'Freekassa'}>Freekassa</MenuItem>
+                  <MenuItem value={'uz-click'}>uz-click</MenuItem>
+                  <MenuItem value={'Оплата с баланса'}>Оплата с баланса</MenuItem>
+                </CustomSelect>
+              </Grid>
               </Box>
               <CheckPromoCode setCheck={setPromoCode} />
             </Stack>

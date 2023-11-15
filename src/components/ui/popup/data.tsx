@@ -1,4 +1,4 @@
-export const data = ["Прямая оплата", "Оплата с баланса"];
+export const data = ["freekassa", "uz-click", "Оплата с баланса"];
 
 export const pricing = [
   {

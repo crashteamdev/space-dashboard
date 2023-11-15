@@ -11,6 +11,7 @@ import {
   Alert,
   Grid,
   Autocomplete,
+  MenuItem,
 } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
 import Image from "next/image";
@@ -30,6 +31,7 @@ import { checkPromoCode, topUpBalance } from "@/shared/store/slices/balance/Bala
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useRouter } from "next/navigation";
+import CustomSelect from "@/components/ui/theme-elements/CustomSelect";
 
 const checkStep = (value: string) => {
   switch (value) {
@@ -59,6 +61,7 @@ const Payment = () => {
   const [activeStep, setActiveStep] = React.useState(walletPopup.value ? 1 : 0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [promocode, setPromocode] = React.useState("");
+  const [context, setContext] = React.useState("");
   const router = useRouter();
   const isStepSkipped = (step: any) => skipped.has(step);
 
@@ -77,7 +80,7 @@ const Payment = () => {
     if (activeStep === 0 && parseFloat(valueText) === 0 || !valueText) {
       return null
     }
-    if (activeStep === 1 && !walletPopup.provider) {
+    if (activeStep === 1 && !context) {
       return null
     }
     let newSkipped = skipped;
@@ -94,7 +97,7 @@ const Payment = () => {
           auth.currentUser.accessToken,
           "",
           walletPopup.value,
-          walletPopup.provider
+          context
         )
       );
     }
@@ -168,56 +171,19 @@ const Payment = () => {
       case 1:
         return (
           <Box mt={4}>
-            <CustomFormLabel>Платежное средство</CustomFormLabel>
-            <Autocomplete
-              id="country-select-demo"
-              fullWidth
-              options={data}
-              autoHighlight
-              onChange={(e: any) => dispatch(setProvider(e.target.innerText))}
-              getOptionLabel={(option) => option.title}
-              renderOption={(props, option) => (
-                <li
-                  key={option.key}
-                  {...props}
-                  style={{ display: "flex", alignItems: "center", gap: "16px" }}
-                >
-                  <div
-                    style={{
-                      width: "86px",
-                      height: "48px",
-                      position: "relative",
-                    }}
-                  >
-                    <Image
-                      style={{
-                        objectFit: "contain",
-                        width: "86px",
-                        height: "48px",
-                        position: "relative",
-                      }}
-                      width={86}
-                      height={48}
-                      src={option.photo}
-                      alt={option.title}
-                    />
-                  </div>
-                  <b>{option.title}</b>
-                </li>
-              )}
-              renderInput={(params) => (
-                <CustomTextField
-                  {...params}
-                  placeholder="Выбери платежное средство"
-                  aria-label="Выбери платежное средство"
-                  autoComplete="off"
-                  inputProps={{
-                    ...params.inputProps,
-                    autoComplete: "new-password",
-                  }}
-                />
-              )}
-            />
+            <Grid item xs={12} sm={12} lg={4}>
+              <CustomFormLabel htmlFor="demo-simple-select">Платежное средство</CustomFormLabel>
+              <CustomSelect
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={context}
+                onChange={(e: any) => setContext(e.target.value)}
+                fullWidth
+              >
+                <MenuItem value={'Freekassa'}>Freekassa</MenuItem>
+                <MenuItem value={'uz-click'}>uz-click</MenuItem>
+              </CustomSelect>
+            </Grid>
           </Box>
         );
       case 2:
@@ -225,7 +191,7 @@ const Payment = () => {
           <Box pt={3}>
             <Typography variant="h5">MarketDB KazanExpress</Typography>
             <Typography variant="h6" sx={{ mt: 1 }}>
-              Провайдер: {walletPopup.provider}
+              Провайдер: {context}
             </Typography>
             <Typography variant="h6" sx={{ mt: 1 }}>
               Сумма: ${walletPopup.value} - {+walletPopup.value * 98}рублей

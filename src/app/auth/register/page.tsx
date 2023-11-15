@@ -1,11 +1,24 @@
 "use client";
-import { Grid, Box, Card, Typography, Stack } from "@mui/material";
+import { Grid, Box, Card, Typography, Stack, Button } from "@mui/material";
 import Link from "next/link";
 import Logo from "@/components/ui/logo/Logo";
 import PageContainer from "@/components/ui/container/PageContainer";
 import AuthRegister from "../../../processes/auth/AuthRegister";
+import { useState } from "react";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
+import { useDispatch } from "@/shared/store/hooks";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Register2() {
+
+  const [isCreated, setIsCreated] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  const setState: () => void = () => {
+    setIsCreated(!isCreated);
+    dispatch(addItem({title: 'Аккаунт создан', description: 'Теперь вы можете зайти в личный кабинет', status: 'success', timelife: 3000, id: uuidv4()}));
+  }
+  
   return (
     <PageContainer title="Register Page" description="this is Sample page">
       <Box
@@ -46,7 +59,19 @@ export default function Register2() {
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Logo />
               </Box>
-              <AuthRegister
+              {
+                isCreated? (
+                  <>
+                    <Typography variant="h6" fontWeight="500" mb={2}>
+                      Вы успешно зарегистрировались!
+                    </Typography>
+                    <Button component={Link} color="primary" fullWidth variant="contained" href={'/auth/login'} type="submit">
+                      Перейти к авторизации
+                    </Button>
+                  </>
+                ) : (
+                  <AuthRegister
+                setIsCreated={setState}
                 subtext={
                   <Typography
                     variant="subtitle1"
@@ -80,6 +105,8 @@ export default function Register2() {
                   </Stack>
                 }
               />
+                )
+              }
             </Card>
           </Grid>
         </Grid>

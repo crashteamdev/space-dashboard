@@ -38,7 +38,6 @@ export default function RootLayout({
 
   useEffect(() => {
     // Если пользователь не загрузился или не авторизован, перенаправьте на страницу входа.
-    console.log(user, 'work')
     if (!loading && !user) {
       router.push("/auth/login");
     }

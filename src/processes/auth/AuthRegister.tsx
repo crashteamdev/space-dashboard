@@ -10,11 +10,16 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import AuthSocialButtons from "./AuthSocialButtons";
 import { useState } from "react";
+import { useDispatch } from "@/shared/store/hooks";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
+import { v4 as uuidv4 } from 'uuid';
 
-const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
+const AuthRegister = ({ title, subtitle, subtext, setIsCreated = () => {} }: registerType) => {
   const router = useRouter();
   const [empty, setEmpty] = useState(false) as any;
   const auth = getAuth(firebase_app);
+
+  const dispatch = useDispatch()
 
   const validationSchema = yup.object({
     email: yup
@@ -31,13 +36,10 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
     const user = await registrationEmail(email, password);
     console.log(user)
     if (!user) {
-      setEmpty(true);
-      setTimeout(() => {
-        setEmpty(false);
-      }, 3000);
+      dispatch(addItem({title: 'Не удалось создать аккаунт', description: 'Возможно такой аккаунт уже существует', status: 'error', timelife: 6000, id: uuidv4()}));
       return false;
     }
-    router.push("/auth/login");
+    setIsCreated()
   };
 
   const formik = useFormik({
@@ -103,21 +105,6 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
-            {empty ? (
-              <Box mt={2}>
-                <Typography
-                  component="span"
-                  color="error"
-                  variant="h6"
-                  fontWeight="400"
-                  position="relative"
-                >
-                  Эта почта уже используется
-                </Typography>
-              </Box>
-            ) : (
-              ""
-            )}
           </Box>
         </Stack>
         <Button color="primary" variant="contained" type="submit">
