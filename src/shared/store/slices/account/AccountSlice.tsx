@@ -2,13 +2,16 @@ import { TopUpBalanceType } from "@/shared/types/balance/balance";
 import { AppDispatch } from "@/shared/store/store";
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 
 interface StateType {
   amount: number;
+  accounts: any;
 }
 
 const initialState = {
   amount: 0,
+  accounts: []
 };
 
 export const AccountSlice = createSlice({
@@ -18,10 +21,13 @@ export const AccountSlice = createSlice({
     setAmount: (state: StateType, action) => {
       state.amount = action.payload;
     },
+    setAccounts: (state: StateType, action) => {
+      state.accounts = action.payload;
+    },
   },
 });
 
-export const { setAmount } = AccountSlice.actions;
+export const { setAmount, setAccounts } = AccountSlice.actions;
 
 export default AccountSlice.reducer;
 
@@ -31,15 +37,16 @@ export const getAccounts =
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.ru/v1/accounts`,
+        url: `https://${context}-api.marketdb.pro/space/accounts`,
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-Request-ID": `${uuidv4()}`,
         },
       };
       axios
         .request(config)
         .then((response) => {
-          console.log(response.data);
+          setAccounts(response.data)
         })
         .catch((error) => {
           console.log(error);
@@ -54,13 +61,14 @@ export const createNewAccount =
   async (dispatch: AppDispatch) => {
     try {
       let config = {
-        method: "POST",
+        method: "post",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.ru/v1/accounts`,
+        url: `https://${context}-api.marketdb.pro/space/accounts`,
         headers: {
           Authorization: `Bearer ${token}`,
+          "X-Request-ID": `${uuidv4()}`,
         },
-        body: {
+        data: {
           login: login,
           password: password,
         },

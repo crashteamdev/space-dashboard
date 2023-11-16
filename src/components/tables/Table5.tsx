@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Typography,
@@ -17,11 +17,29 @@ import { useRouter } from "next/navigation";
 import { IconEdit, IconRefresh, IconTrash } from "@tabler/icons-react";
 import styles from "./table.module.scss";
 import { Edit, Delete, Refresh } from "@mui/icons-material";
+import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { getAccounts } from "@/shared/store/slices/account/AccountSlice";
+import { AppState } from "@/shared/store/store";
+import firebase_app from "@/shared/firebase/firebase";
+import { getAuth } from "firebase/auth";
 
 const basics: AccountsType[] = basicsTableData;
 
 const Table5 = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const auth = getAuth(firebase_app) as any;
+  const company = useSelector((state: AppState) => state.companyChanger) as any;
+
+  useEffect(() => {
+    dispatch(
+      getAccounts(
+        auth.currentUser.accessToken,
+        company.activeCompany,
+      )
+    );
+  }, [])
 
   return (
     <Box display={"flex"} gap={"24px"} flexWrap={"wrap"}>

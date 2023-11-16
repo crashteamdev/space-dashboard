@@ -18,6 +18,7 @@ import { createNewAccount } from "@/shared/store/slices/account/AccountSlice";
 import { useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
+import { useDispatch } from "@/shared/store/hooks";
 
 const CreateNewAccount = ({ open, setOpen }: any) => {
   const handleClose = () => {
@@ -41,6 +42,7 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
       .required("Password is required"),
   });
   const company = useSelector((state: AppState) => state.companyChanger) as any;
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -50,11 +52,13 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(1);
-      createNewAccount(
-        auth.currentUser.accessToken,
-        company.activeCompany,
-        values.login,
-        values.password
+      dispatch(
+        createNewAccount(
+          auth.currentUser.accessToken,
+          company.activeCompany,
+          values.login,
+          values.password
+        )
       );
     },
   });
