@@ -53,14 +53,15 @@ const CheckPromoCode = ({setCheck} : any) => {
   };
   
   return (
-    <Box mb={2}>
+    <Box mb={2} display={'flex'} flexDirection={'column'}>
       <CustomFormLabel>Промокод (необязательно)</CustomFormLabel>
+      <Box display={'flex'} gap={'12px'}>
       <CustomTextField
         fullWidth
+        margin={'none'}
         autoFocus
         onChange={(e: any) => setPromocode(e.target.value)}
         placeholder={"Введите промокод"}
-        margin="dense"
         id="new-password"
         name="new-password"
       />
@@ -72,7 +73,9 @@ const CheckPromoCode = ({setCheck} : any) => {
         >
           Использовать
         </Button>
-        {
+      </Box>
+      </Box>
+      {
           error ? (
             <Typography variant="body1" sx={{ mt: 1 }}>
               {error}
@@ -86,7 +89,6 @@ const CheckPromoCode = ({setCheck} : any) => {
         ) : (
           ""
         )}
-      </Box>
     </Box>
   );
 };

@@ -155,12 +155,12 @@ export const getListPayments =
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/v1/payments`,
+        url: `https://api.marketdb.pro/gateway/payments`,
         headers: {
           "Authorization": `Bearer ${token}`,
           'X-Request-ID': `${uuidv4()}`,
         },
-        body: {
+        data: {
           fromDate: fromDate,
           toDate: toDate,
         }

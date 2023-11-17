@@ -32,6 +32,9 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useRouter } from "next/navigation";
 import CustomSelect from "@/components/ui/theme-elements/CustomSelect";
+import PaymentList from "@/components/paymentList/paymentList";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
+import { v4 as uuidv4 } from 'uuid';
 
 const checkStep = (value: string) => {
   switch (value) {
@@ -61,6 +64,7 @@ const Payment = () => {
   const [activeStep, setActiveStep] = React.useState(walletPopup.value ? 1 : 0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [promocode, setPromocode] = React.useState("");
+  const [empty, setEmpty] = React.useState("");
   const [context, setContext] = React.useState("");
   const router = useRouter();
   const isStepSkipped = (step: any) => skipped.has(step);
@@ -81,6 +85,10 @@ const Payment = () => {
       return null
     }
     if (activeStep === 1 && !context) {
+      setEmpty('Выберите провайдера выше')
+      setTimeout(() => {
+        setEmpty('')
+      }, 2000)
       return null
     }
     let newSkipped = skipped;
@@ -92,6 +100,7 @@ const Payment = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
     if (activeStep === 2) {
+      // dispatch(addItem({title: 'Ожидайте', description: "Происходит редирект на страницу оплаты", status: 'info', timelife: 4000, id: uuidv4()}));
       dispatch(
         topUpBalance(
           auth.currentUser.accessToken,
@@ -171,19 +180,7 @@ const Payment = () => {
       case 1:
         return (
           <Box mt={4}>
-            <Grid item xs={12} sm={12} lg={4}>
-              <CustomFormLabel htmlFor="demo-simple-select">Платежное средство</CustomFormLabel>
-              <CustomSelect
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={context}
-                onChange={(e: any) => setContext(e.target.value)}
-                fullWidth
-              >
-                <MenuItem value={'Freekassa'}>Freekassa</MenuItem>
-                <MenuItem value={'uz-click'}>uz-click</MenuItem>
-              </CustomSelect>
-            </Grid>
+            <PaymentList error={empty} context={context} setContext={setContext} />
           </Box>
         );
       case 2:

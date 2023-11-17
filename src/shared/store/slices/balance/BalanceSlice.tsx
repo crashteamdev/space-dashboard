@@ -3,6 +3,7 @@ import { AppDispatch } from "@/shared/store/store";
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
+import { addItem } from "../alerts/AlertsSlice";
 interface StateType {
   amount: number;
   linkPayment: string;
@@ -109,7 +110,7 @@ export const topUpBalance =
         "successRedirectUrl": 'https://space.marketdb.pro/payment/success',
         "failRedirectUrl": 'https://space.marketdb.pro/payment/error',
         "provider": {
-          "provider": `${provider.toLowerCase()}`
+          "provider": provider.toLowerCase()
         }
       });
       let config = {
@@ -125,10 +126,14 @@ export const topUpBalance =
       };
       axios.request(config)
         .then((response) => {
+          if (response.data.payment.status === "failed") {
+            dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
+          }
           dispatch(setLinkPayment(response.data.redirectUrl))
         })
         .catch((error) => {
           console.log(error);
+          dispatch(addItem({title: 'Ошибка', description: error.response.status, status: 'error', timelife: 4000, id: uuidv4()}));
         });
     } catch (err: any) {
       throw new Error(err);
@@ -183,17 +188,18 @@ export const purchaseService =
       axios
         .request(config)
         .then((response) => {
+          if (response.data.payment.status === "failed") {
+            dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
+          }
           if (method === 'one-time') {
-            console.log(response.data);
             dispatch(setLinkPayment(response.data.redirectUrl))
           } else {
-            console.log(response.data);
             dispatch(setAmount(response.data.balance));
           }
           
         })
         .catch((error) => {
-          console.log(error);
+          console.log('2' + error);
         });
     } catch (err: any) {
       throw new Error(err);

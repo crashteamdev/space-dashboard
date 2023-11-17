@@ -39,6 +39,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const auth = getAuth(firebase_app);
   const [user, loading] = useAuthState(auth);
+
   useEffect(() => {
     const curLang = localStorage.getItem("lng") as string;
     if (curLang) {
@@ -55,7 +56,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
-  console.log(user)
+
   useEffect(() => {
     // Если пользователь не загрузился или не авторизован, перенаправьте на страницу входа.
     if (!loading && !user) {
@@ -77,12 +78,10 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, router]);
-
+  
   useEffect(() => {
-    if (!sessionStorage.getItem("remember") || !localStorage.getItem("remember")) {
-      console.log("w");
+    if (!sessionStorage.getItem("remember") && localStorage.getItem("remember") === 'off') {
       logout();
-      sessionStorage.removeItem("remember");
     }
   }, []);
 
