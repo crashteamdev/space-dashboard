@@ -17,6 +17,8 @@ import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import CustomLink from "../ui/link/Link";
+import { v4 as uuidv4 } from 'uuid';
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 
 const TokenContainer = () => {
   const auth = getAuth(firebase_app) as any;
@@ -39,6 +41,7 @@ const TokenContainer = () => {
 
   const refreshToken = () => {
     if (auth.currentUser) {
+      dispatch(addItem({title: 'Сгенерирован новый токен', status: 'success', timelife: 4000, id: uuidv4()}));
       dispatch(
         fetchRefreshToken(auth.currentUser.accessToken, company.activeCompany)
       );

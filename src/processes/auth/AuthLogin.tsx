@@ -60,8 +60,10 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
 
     if (check) {
       localStorage.setItem("remember", "on");
+      sessionStorage.setItem("remember", "on");
     } else {
-      sessionStorage.setItem("remember", "off");
+      localStorage.setItem("remember", "off");
+      sessionStorage.setItem("remember", "on");
     }
 
     if (auth.currentUser) {

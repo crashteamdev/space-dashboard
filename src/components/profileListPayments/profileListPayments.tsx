@@ -240,12 +240,9 @@ const ProductTableList = () => {
 
   useEffect(() => {
     if (auth.currentUser) {
-      console.log(dispatch(
+      dispatch(
         getListPayments(auth.currentUser.accessToken, company.activeCompany, `${new Date()}`, `${new Date()}`)
-      ))
-      setProducts(dispatch(
-        getListPayments(auth.currentUser.accessToken, company.activeCompany, `${new Date()}`, `${new Date()}`)
-      ));
+      )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);

@@ -25,9 +25,22 @@ const AlertItem = ({ item }: any) => {
 
   memoizedCallback();
 
+  if (!item.description) {
+    <Collapse in={open}>
+      <Alert
+        variant="filled"
+        severity={item.status}
+        onClick={() => setOpen(false)}
+        sx={{ mb: 1 }}
+      >
+        {item.title}
+      </Alert>
+    </Collapse>;
+  }
+
   return (
     <Collapse in={open}>
-      <Alert 
+      <Alert
         variant="filled"
         severity={item.status}
         onClick={() => setOpen(false)}

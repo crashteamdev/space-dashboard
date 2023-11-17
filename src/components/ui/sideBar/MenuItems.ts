@@ -51,13 +51,13 @@ const MenuitemsKazan: MenuitemsT = {
           icon: IconPoint,
           href: "/extension",
         },
-        {
-          id: uniqueId(),
-          title: "Тарифы",
-          icon: IconPoint,
-          href: "/pricing",
-        },
       ],
+    },
+    {
+      id: uniqueId(),
+      title: "Тарифы",
+      icon: IconTicket,
+      href: "/pricing",
     },
     // {
     //   id: uniqueId(),

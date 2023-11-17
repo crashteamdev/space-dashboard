@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Typography,
@@ -14,7 +14,6 @@ import {
   Chip,
   Switch,
   Stack,
-  Autocomplete,
   MenuItem,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -36,6 +35,12 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { data, pricing } from "@/components/ui/popup/data";
 import CustomSelect from "@/components/ui/theme-elements/CustomSelect";
+import fk from "../../../../../public/images/payment/fk.png";
+import click from "../../../../../public/images/payment/click.png";
+import PaymentList from "@/components/paymentList/paymentList";
+import { useRouter } from "next/navigation";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
+import { v4 as uuidv4 } from 'uuid';
 
 const BCrumb = [
   {
@@ -51,6 +56,7 @@ const Pricing = () => {
   const [show, setShow] = React.useState(false);
   const [open, setOpen] = React.useState(0);
   const [context, setContext] = React.useState("") as any;
+  const [empty, setEmpty] = React.useState("") as any;
   const [promoCode, setPromoCode] = React.useState("");
   const auth = getAuth(firebase_app) as any;
 
@@ -60,6 +66,10 @@ const Pricing = () => {
   const theme = useTheme();
   const warninglight = theme.palette.warning.light;
   const warning = theme.palette.warning.main;
+  const balanceReducer = useSelector(
+    (state: AppState) => state.balanceReducer
+  ) as any; 
+  const router = useRouter();
 
   const StyledChip = styled(Chip)({
     position: "absolute",
@@ -73,8 +83,13 @@ const Pricing = () => {
 
   const handleLink = () => {
     if (!context) {
+      setEmpty('Выберите провайдера выше')
+      setTimeout(() => {
+        setEmpty('')
+      }, 2000)
       return null
     }
+    dispatch(addItem({title: 'Ожидайте', description: "Происходит редирект на страницу оплаты", status: 'info', timelife: 4000, id: uuidv4()}));
     dispatch(
       purchaseService(
         auth.currentUser.accessToken,
@@ -87,6 +102,11 @@ const Pricing = () => {
       )
     );
   };
+
+  useEffect(() => {
+    router.push(balanceReducer.linkPayment)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balanceReducer.linkPayment])
 
   return (
     <PageContainer title="Pricing" description="this is Pricing">
@@ -125,7 +145,7 @@ const Pricing = () => {
                   color="textSecondary"
                   textTransform="uppercase"
                 >
-                  {price.package}
+                  {price.packageRu}
                 </Typography>
                 <Image
                   src={price.avatar}
@@ -225,13 +245,13 @@ const Pricing = () => {
           setOpen={setOpen}
           title={"Оплата"}
           description={`Вы выбрали тариф ${
-            pricing[open - 1]?.package
+            pricing[open - 1]?.packageRu
           }, проверьте еще раз чтобы не ошибится`}
         >
           <>
             <Stack px={3}>
               <Typography variant="h6">
-                Тариф: {pricing[open - 1]?.package}
+                Тариф: {pricing[open - 1]?.packageRu}
               </Typography>
               <Typography variant="h6" sx={{ mt: 1 }}>
                 Сумма: $
@@ -243,20 +263,7 @@ const Pricing = () => {
                 Срок: {show ? 1 * 3 : 1} м.
               </Typography>
               <Box mt={2}>
-              <Grid item xs={12} sm={12} lg={12}>
-                <CustomFormLabel htmlFor="demo-simple-select">Платежное средство</CustomFormLabel>
-                <CustomSelect
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={context}
-                  onChange={(e: any) => setContext(e.target.value)}
-                  fullWidth
-                >
-                  <MenuItem value={'Freekassa'}>Freekassa</MenuItem>
-                  <MenuItem value={'uz-click'}>uz-click</MenuItem>
-                  <MenuItem value={'Оплата с баланса'}>Оплата с баланса</MenuItem>
-                </CustomSelect>
-              </Grid>
+                <PaymentList error={empty} context={context} setContext={setContext} />
               </Box>
               <CheckPromoCode setCheck={setPromoCode} />
             </Stack>

@@ -1,9 +1,25 @@
 export const data = ["freekassa", "uz-click", "Оплата с баланса"];
 
+const checkTarif = (value: string) => {
+  switch (value) {
+    case "validPromoCode":
+      return "Промокод применен"
+    case "invalidPromoCodeDate":
+      return "У промокода истек срок использования"
+    case "invalidPromoCodeUseLimit":
+      return "Превышен лимит использования промокода"
+    case "notFoundPromoCode":
+      return "Промокод не найден"
+    default: 
+      return "Промокод не найден"
+  }
+}
+
 export const pricing = [
   {
     id: 1,
     package: "Default",
+    packageRu: "Базовый",
     monthlyplan: 15,
     avatar: "/images/backgrounds/silver.png",
     badge: false,
@@ -38,6 +54,7 @@ export const pricing = [
   {
     id: 2,
     package: "Advanced",
+    packageRu: "Расширенный",
     monthlyplan: 30,
     avatar: "/images/backgrounds/bronze.png",
     badge: false,
@@ -72,6 +89,7 @@ export const pricing = [
   {
     id: 3,
     package: "Pro",
+    packageRu: "Профессиональный",
     monthlyplan: 40,
     avatar: "/images/backgrounds/gold.png",
     badge: false,
