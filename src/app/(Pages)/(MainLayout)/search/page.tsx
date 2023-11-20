@@ -3,7 +3,7 @@
 import { Box } from "@mui/material";
 import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
 import PageContainer from "@/components/ui/container/PageContainer";
-import Table5 from "@/components/tables/Table5";
+import Table5 from "@/components/tables/accountsReprice";
 
 const BCrumb = [
   {

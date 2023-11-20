@@ -11,21 +11,22 @@ import {
   IconButton,
 } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
-import { basicsTableData, AccountsType } from "./tableData";
+import { basicsTableData, AccountsType } from "./accountsRepriceData";
 import { Stack } from "@mui/system";
 import { useRouter } from "next/navigation";
 import { IconEdit, IconRefresh, IconTrash } from "@tabler/icons-react";
-import styles from "./table.module.scss";
+import styles from "./accountsReprice.module.scss";
 import { Edit, Delete, Refresh } from "@mui/icons-material";
+import { getAuth } from "firebase/auth";
+import Link from "next/link";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { getAccounts } from "@/shared/store/slices/account/AccountSlice";
 import { AppState } from "@/shared/store/store";
 import firebase_app from "@/shared/firebase/firebase";
-import { getAuth } from "firebase/auth";
+import { getAccounts } from "@/shared/store/slices/account/AccountSlice";
 
 const basics: AccountsType[] = basicsTableData;
 
-const Table5 = () => {
+const AccountsReprice = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -48,6 +49,8 @@ const Table5 = () => {
           <Grid
             style={{ cursor: "pointer" }}
             item
+            component={Link}
+            href={'/reprice/userid'}
             sm={12}
             lg={12}
             key={item.id}
@@ -96,4 +99,4 @@ const Table5 = () => {
   );
 };
 
-export default Table5;
+export default AccountsReprice;

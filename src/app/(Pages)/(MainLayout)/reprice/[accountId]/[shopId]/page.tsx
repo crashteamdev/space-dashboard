@@ -18,6 +18,10 @@ const BCrumb = [
     title: "Управление ценами",
   },
   {
+    to: "/reprice/accountId",
+    title: "Выбор магазина",
+  },
+  {
     title: "Ваш аккаунт",
   },
 ] as any;

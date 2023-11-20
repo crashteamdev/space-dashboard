@@ -4,7 +4,7 @@ import { Box, Button } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
 import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
 import { t } from "i18next";
-import Table5 from "../../../../components/tables/Table5";
+import AccountsReprice from "../../../../components/tables/accountsReprice";
 import CreateNewAccount from "../../../../components/createNewAccount/createNewAccount";
 
 const BCrumb = [
@@ -34,7 +34,7 @@ const Reprice = () => {
         </Button>
         <CreateNewAccount open={open} setOpen={setOpen} />
       </Box>
-      <Table5 />
+      <AccountsReprice />
     </PageContainer>
   );
 };
