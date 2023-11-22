@@ -74,7 +74,6 @@ const ProductTableEdit = () => {
         </MenuItem>
       </Menu>
       <ProductTableEditItem setOpen={setOpenEdit} open={openEdit} />
-      <ProductTableEditConcurents setOpen={setOpenEditConc} open={openEditConc} />
     </>
   );
 };

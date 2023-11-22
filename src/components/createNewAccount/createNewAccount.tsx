@@ -70,7 +70,7 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
         <DialogContentText>
           Для того чтобы использовать систему изменения цен, необходимо добавить
           аккаунт указав логин и пароль. Вы можете создать отдельный аккаунт
-          через раздел на KazanExpress &quotСотрудники&quot
+          через раздел на KazanExpress Сотрудники
         </DialogContentText>
       </DialogContent>
       <form onSubmit={formik.handleSubmit}>

@@ -45,7 +45,7 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
       fullWidth={true}
       onClose={handleClose}
     >
-      <DialogTitle mt={2}>Конкуренты</DialogTitle>
+      <DialogTitle mt={2}>Подробнее о товаре</DialogTitle>
       <DialogContentText mx={3}>
         Добавить конкурента для отслеживания
       </DialogContentText>
@@ -56,7 +56,6 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
           gap={3}
           justifyContent={"space-between"}
         >
-          
           <Box width={"100%"}>
             <CustomFormLabel>Ссылка на товар</CustomFormLabel>
             <CustomTextField

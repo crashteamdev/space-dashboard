@@ -32,6 +32,7 @@ const AccountsReprice = () => {
 
   const auth = getAuth(firebase_app) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
+  const accounts = useSelector((state: AppState) => state.accountReducer) as any;
 
   useEffect(() => {
     dispatch(
@@ -40,6 +41,7 @@ const AccountsReprice = () => {
         company.activeCompany,
       )
     );
+    console.log(accounts)
   }, [])
 
   return (

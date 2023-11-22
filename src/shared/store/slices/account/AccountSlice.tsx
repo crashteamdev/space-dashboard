@@ -37,7 +37,7 @@ export const getAccounts =
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/space/accounts`,
+        url: `https://${context}-api.marketdb.pro/space/v1/accounts`,
         headers: {
           Authorization: `Bearer ${token}`,
           "X-Request-ID": `${uuidv4()}`,
@@ -63,14 +63,14 @@ export const createNewAccount =
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/space/accounts`,
+        url: `https://${context}-api.marketdb.pro/space/v1/accounts`,
         headers: {
           Authorization: `Bearer ${token}`,
           "X-Request-ID": `${uuidv4()}`,
         },
         data: {
-          login: login,
-          password: password,
+          "login": login,
+          "password": password,
         },
       };
       axios

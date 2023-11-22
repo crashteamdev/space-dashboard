@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState} from "react";
 import { alpha, useTheme } from "@mui/material/styles";
 import { format } from "date-fns";
 import {
@@ -45,6 +45,7 @@ import {
 } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import ProductTableEdit from "../productTableEdit/productTableEdit";
+import ProductTableEditConcurents from "../productTableEditConcurents/productTableEditConcurents";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -234,27 +235,6 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Typography>
       ) : (
         <Box sx={{ flex: "1 1 100%", display: "flex", gap: "24px" }}>
-          <Box sx={{ display: "flex", gap: "24px", alignItems: "center" }}>
-            <Typography color="inherit" variant="h6">
-              Выберите магазин:
-            </Typography>
-            <Autocomplete
-              disablePortal
-              style={{
-                width: "200px",
-              }}
-              id="medium-combo-box-demo"
-              options={["gege", "jeje"]}
-              size="small"
-              renderInput={(params) => (
-                <CustomTextField
-                  {...params}
-                  placeholder="Не выбранно"
-                  aria-label="Size Small"
-                />
-              )}
-            />
-          </Box>
           <TextField
             InputProps={{
               startAdornment: (
@@ -300,8 +280,13 @@ const ProductTableList = () => {
 
   const getProducts: any[] = ProductsData;
 
+  const [openEditConc, setOpenEditConc] = useState(false);
   const [rows, setRows] = React.useState<any>(getProducts);
   const [search, setSearch] = React.useState("");
+
+  const handleOpenConcurents = () => {
+    setOpenEditConc(true)
+  };
 
   React.useEffect(() => {
     setRows(getProducts);
@@ -413,10 +398,12 @@ const ProductTableList = () => {
                     return (
                       <TableRow
                         hover
+                        style={{cursor: "pointer"}}
                         role="checkbox"
                         aria-checked={isItemSelected}
                         tabIndex={-1}
                         key={row.title}
+                        onClick={() => handleOpenConcurents()}
                         selected={isItemSelected}
                       >
                         <TableCell padding="checkbox">
@@ -429,7 +416,6 @@ const ProductTableList = () => {
                             }}
                           />
                         </TableCell>
-
                         <TableCell>
                           <Box display="flex" alignItems="center">
                             <Avatar
@@ -507,6 +493,7 @@ const ProductTableList = () => {
           />
         </Paper>
       </Box>
+      <ProductTableEditConcurents setOpen={setOpenEditConc} open={openEditConc} />
     </Box>
   );
 };
