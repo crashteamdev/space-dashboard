@@ -40,7 +40,7 @@ import click from "../../../../../public/images/payment/click.png";
 import PaymentList from "@/components/paymentList/paymentList";
 import { useRouter } from "next/navigation";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const BCrumb = [
   {
@@ -62,13 +62,14 @@ const Pricing = () => {
 
   const dispatch = useDispatch();
   const yearlyPrice = (a: any, b: number) => a * b;
+  const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const theme = useTheme();
   const warninglight = theme.palette.warning.light;
   const warning = theme.palette.warning.main;
   const balanceReducer = useSelector(
     (state: AppState) => state.balanceReducer
-  ) as any; 
+  ) as any;
   const router = useRouter();
 
   const StyledChip = styled(Chip)({
@@ -83,30 +84,38 @@ const Pricing = () => {
 
   const handleLink = () => {
     if (!context) {
-      setEmpty('Выберите провайдера выше')
+      setEmpty("Выберите провайдера выше");
       setTimeout(() => {
-        setEmpty('')
-      }, 2000)
-      return null
+        setEmpty("");
+      }, 2000);
+      return null;
     }
-    dispatch(addItem({title: 'Ожидайте', description: "Происходит редирект на страницу оплаты", status: 'info', timelife: 4000, id: uuidv4()}));
+    dispatch(
+      addItem({
+        title: "Ожидайте",
+        description: "Происходит редирект на страницу оплаты",
+        status: "info",
+        timelife: 4000,
+        id: uuidv4(),
+      })
+    );
     dispatch(
       purchaseService(
         auth.currentUser.accessToken,
-        "ke-analytics",
+        `${company.activeCompany}-analytics`,
         pricing[open - 1]?.package.toLowerCase(),
         promoCode,
-        show ? '3' : '1',
+        show ? "3" : "1",
         context.toLowerCase(),
-        context === "Оплата с баланса" ? context.toLowerCase() : 'one-time'
+        context === "Оплата с баланса" ? context.toLowerCase() : "one-time"
       )
     );
   };
 
   useEffect(() => {
-    router.push(balanceReducer.linkPayment)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceReducer.linkPayment])
+    // router.push(balanceReducer.linkPayment);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [balanceReducer.linkPayment]);
 
   return (
     <PageContainer title="Pricing" description="this is Pricing">
@@ -263,7 +272,11 @@ const Pricing = () => {
                 Срок: {show ? 1 * 3 : 1} м.
               </Typography>
               <Box mt={2}>
-                <PaymentList error={empty} context={context} setContext={setContext} />
+                <PaymentList
+                  error={empty}
+                  context={context}
+                  setContext={setContext}
+                />
               </Box>
               <CheckPromoCode setCheck={setPromoCode} />
             </Stack>
@@ -282,11 +295,7 @@ const Pricing = () => {
               >
                 Отменить
               </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleLink}
-              >
+              <Button variant="contained" color="primary" onClick={handleLink}>
                 Оплатить тариф
               </Button>
             </Stack>
