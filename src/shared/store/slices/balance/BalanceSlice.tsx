@@ -8,6 +8,7 @@ interface StateType {
   amount: number;
   linkPayment: string;
   resultPromo: string;
+  exchange: number;
   selectTarif: {
     title: string;
     amount: number;
@@ -22,6 +23,7 @@ const initialState = {
   amount: 0,
   linkPayment: '',
   resultPromo: '',
+  exchange: 0,
   selectTarif: {
     title: '',
     amount: 0,
@@ -45,10 +47,13 @@ export const BalanceSlice = createSlice({
     setResultPromo: (state: StateType, action) => {
       state.resultPromo = action.payload;
     },
+    setExchange: (state: StateType, action) => {
+      state.exchange = action.payload;
+    },
   },
 });
 
-export const { setAmount, setLinkPayment, setResultPromo } = BalanceSlice.actions;
+export const { setAmount, setLinkPayment, setResultPromo, setExchange } = BalanceSlice.actions;
 
 export default BalanceSlice.reducer;
 
@@ -126,9 +131,19 @@ export const topUpBalance =
       };
       axios.request(config)
         .then((response) => {
+          console.log(response)
           if (response.data.payment.status === "failed") {
             dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
           }
+          dispatch(
+            addItem({
+              title: "Ожидайте",
+              description: "Происходит редирект на страницу оплаты",
+              status: "info",
+              timelife: 4000,
+              id: uuidv4(),
+            })
+          );
           dispatch(setLinkPayment(response.data.redirectUrl))
         })
         .catch((error) => {
@@ -146,7 +161,7 @@ export const purchaseService =
     serviceContext: string,
     plan: string,
     promoCode: string,
-    multiply: string,
+    multiply: number,
     provider: string,
     method: string
   ) =>
@@ -190,7 +205,17 @@ export const purchaseService =
         .then((response) => {
           if (response.data.payment.status === "failed") {
             dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
+            return null
           }
+          dispatch(
+            addItem({
+              title: "Ожидайте",
+              description: "Происходит редирект на страницу оплаты",
+              status: "info",
+              timelife: 4000,
+              id: uuidv4(),
+            })
+          );
           if (method === 'one-time') {
             dispatch(setLinkPayment(response.data.redirectUrl))
           } else {
@@ -199,21 +224,51 @@ export const purchaseService =
           
         })
         .catch((error) => {
-          console.log('2' + error);
+          console.log(error.response.status === 422);
+          if (error.response.status === 422) {
+            dispatch(addItem({title: 'На вашем аккаунте не достаточно средств для покупки тарифа', status: 'error', timelife: 4000, id: uuidv4()}));
+          }
         });
     } catch (err: any) {
       throw new Error(err);
     }
   };
 
-export const checkPromoCode =
-  (token: string, promoCode: string, context: string) =>
+  export const checkPromoCode =
+    (token: string, promoCode: string, context: string) =>
+    async (dispatch: AppDispatch) => {
+      try {
+        let config = {
+          method: "get",
+          maxBodyLength: Infinity,
+          url: `https://api.marketdb.pro/gateway/promo-code/${promoCode}/check`,
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'X-Request-ID': `${uuidv4()}`,
+          },
+        };
+        axios
+          .request(config)
+          .then((response) => {
+            dispatch(setResultPromo(response.data.code));
+            return response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err: any) {
+        throw new Error(err);
+      }
+    };
+
+export const getExchange =
+  (token: string, currency: string) =>
   async (dispatch: AppDispatch) => {
     try {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/promo-code/${promoCode}/check`,
+        url: `https://api.marketdb.pro/gateway/exchange-rate?currency=${currency}`,
         headers: {
           'Authorization': `Bearer ${token}`,
           'X-Request-ID': `${uuidv4()}`,
@@ -222,8 +277,8 @@ export const checkPromoCode =
       axios
         .request(config)
         .then((response) => {
-          dispatch(setResultPromo(response.data.code));
-          return response.data;
+          dispatch(setExchange(response.data.exchangeRate));
+          return response.data.exchangeRate;
         })
         .catch((error) => {
           console.log(error);
