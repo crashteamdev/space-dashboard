@@ -27,7 +27,7 @@ import {
   setValue,
 } from "@/shared/store/slices/walletPopup/WalletPopupSlice";
 import CustomTextField from "../../../../components/ui/theme-elements/CustomTextField";
-import { checkPromoCode, topUpBalance } from "@/shared/store/slices/balance/BalanceSlice";
+import { checkPromoCode, getExchange, topUpBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useRouter } from "next/navigation";
@@ -122,6 +122,7 @@ const Payment = () => {
 
   useEffect(() => {
     router.push(balanceReducer.linkPayment)
+    dispatch(getExchange(auth.currentUser.accessToken, 'RUB'));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balanceReducer.linkPayment])
 
@@ -180,7 +181,7 @@ const Payment = () => {
       case 1:
         return (
           <Box mt={4}>
-            <PaymentList error={empty} context={context} setContext={setContext} />
+            <PaymentList pay={false} error={empty} context={context} setContext={setContext} />
           </Box>
         );
       case 2:
@@ -191,7 +192,7 @@ const Payment = () => {
               Провайдер: {context}
             </Typography>
             <Typography variant="h6" sx={{ mt: 1 }}>
-              Сумма: ${walletPopup.value} - {+walletPopup.value * 98}рублей
+              Сумма: ${walletPopup.value} - {Math.floor(+walletPopup.value * balanceReducer.exchange)}рублей
             </Typography>
           </Box>
         );

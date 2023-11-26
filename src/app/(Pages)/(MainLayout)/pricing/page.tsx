@@ -30,7 +30,10 @@ import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
-import { purchaseService } from "@/shared/store/slices/balance/BalanceSlice";
+import {
+  getExchange,
+  purchaseService,
+} from "@/shared/store/slices/balance/BalanceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { data, pricing } from "@/components/ui/popup/data";
@@ -91,21 +94,12 @@ const Pricing = () => {
       return null;
     }
     dispatch(
-      addItem({
-        title: "Ожидайте",
-        description: "Происходит редирект на страницу оплаты",
-        status: "info",
-        timelife: 4000,
-        id: uuidv4(),
-      })
-    );
-    dispatch(
       purchaseService(
         auth.currentUser.accessToken,
         `${company.activeCompany}-analytics`,
         pricing[open - 1]?.package.toLowerCase(),
         promoCode,
-        show ? "3" : "1",
+        show ? 3 : 1,
         context.toLowerCase(),
         context === "Оплата с баланса" ? context.toLowerCase() : "one-time"
       )
@@ -113,7 +107,8 @@ const Pricing = () => {
   };
 
   useEffect(() => {
-    // router.push(balanceReducer.linkPayment);
+    dispatch(getExchange(auth.currentUser.accessToken, "RUB"));
+    router.push(balanceReducer.linkPayment);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balanceReducer.linkPayment]);
 
@@ -266,13 +261,21 @@ const Pricing = () => {
                 Сумма: $
                 {show
                   ? pricing[open - 1]?.monthlyplan * 3
-                  : pricing[open - 1]?.monthlyplan}
+                  : pricing[open - 1]?.monthlyplan}{" "}
+                -{" "}
+                {Math.floor(
+                  show
+                    ? (pricing[open - 1]?.monthlyplan * 3) * balanceReducer.exchange
+                    : pricing[open - 1]?.monthlyplan * balanceReducer.exchange
+                )}
+                рублей
               </Typography>
               <Typography variant="h6" sx={{ mt: 1 }}>
                 Срок: {show ? 1 * 3 : 1} м.
               </Typography>
               <Box mt={2}>
                 <PaymentList
+                  pay={true}
                   error={empty}
                   context={context}
                   setContext={setContext}

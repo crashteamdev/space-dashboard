@@ -10,10 +10,11 @@ import lava from "../../../public/images/payment/lava.png";
 interface paymentListProps {
   setContext: (value: string) => void,
   context: string,
-  error: string
+  error: string,
+  pay: boolean
 }
 
-const PaymentList = ({ setContext, context, error } :paymentListProps) => {
+const PaymentList = ({ setContext, context, error, pay } :paymentListProps) => {
 
   return (
     <Grid item xs={12} sm={12} lg={12}>
@@ -45,7 +46,9 @@ const PaymentList = ({ setContext, context, error } :paymentListProps) => {
             Lava
           </Box>
         </MenuItem>
-        <MenuItem value={"Оплата с баланса"}>Оплата с баланса</MenuItem>
+        {
+          pay &&<MenuItem value={"Оплата с баланса"}>Оплата с баланса</MenuItem>
+        }
       </CustomSelect>
       {
         error ? ('Выберите провайдера') : ''
