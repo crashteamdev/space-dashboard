@@ -1,3 +1,14 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jsx-a11y/strict",
+    "plugin:react-hooks/recommended",
+    "plugin:xss/recommended",
+    "plugin:security/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser"
 }
