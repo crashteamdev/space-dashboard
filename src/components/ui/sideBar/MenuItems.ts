@@ -28,7 +28,7 @@ import {
 } from "@tabler/icons-react";
 
 const MenuitemsKazan: MenuitemsT = {
-  'ke': [
+  "ke": [
     {
       navlabel: true,
       subheader: " ",

@@ -242,7 +242,7 @@ const ProductTableList = () => {
     if (auth.currentUser) {
       dispatch(
         getListPayments(auth.currentUser.accessToken, company.activeCompany, `${new Date()}`, `${new Date()}`)
-      )
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
@@ -376,7 +376,7 @@ const ProductTableList = () => {
         </Paper>
       </Box>
     </Box>
-  ) : 'Вы еще не совершили ни одного платежа'
+  ) : "Вы еще не совершили ни одного платежа";
 };
 
 const ProfileListPayments = () => {

@@ -1,13 +1,13 @@
 
-const emailRegExp: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-const errorText: string = "Email невалиден"
+const emailRegExp: RegExp = /^[\w.%+-]+@[a-z\d.-]+\.[a-z]{2,}$/i;
+const errorText: string = "Email невалиден";
 
 export const validationEmail = (value: string) => {
   const isValidEmail = emailRegExp.test(value);
 
   if (isValidEmail) {
-    return {value, error: ""}
+    return {value, error: ""};
   } else {
-    return {value, error: errorText}
+    return {value, error: errorText};
   }
 };

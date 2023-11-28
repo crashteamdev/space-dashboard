@@ -28,10 +28,10 @@ export default AccountSlice.reducer;
 export const getAccounts =
   (token: string, context: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.ru/v1/accounts`,
+        url: "https://api.marketdb.ru/v1/accounts",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -53,10 +53,10 @@ export const createNewAccount =
   (token: string, context: string, login: string, password: string) =>
   async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "POST",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.ru/v1/accounts`,
+        url: "https://api.marketdb.ru/v1/accounts",
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface StateType {
-  activeCompany: string | "ke" | "uzum";
-}
+// interface StateType {
+//   activeCompany: string | "ke" | "uzum";
+// }
 
 const initialState = {
   activeCompany: "ke",

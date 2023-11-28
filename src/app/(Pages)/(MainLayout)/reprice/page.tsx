@@ -24,7 +24,7 @@ const Reprice = () => {
   return (
     <PageContainer title="Profile" description="this is profile">
       <Box mt={4}></Box>
-      <Breadcrumb title={`Управление ценами`} items={BCrumb} />
+      <Breadcrumb title={"Управление ценами"} items={BCrumb} />
       <Box mb={2}>
         <Button
           variant="contained"

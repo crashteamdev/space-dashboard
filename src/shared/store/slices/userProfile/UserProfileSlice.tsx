@@ -1,29 +1,26 @@
 import axios from "../../../axios/axios";
 import { createSlice } from "@reduxjs/toolkit";
-import { map } from "lodash";
 import { AppDispatch } from "../../store";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-const API_URL = "/api/data/postData";
-
-interface StateType {
-  token: string;
-  subscription: {
-    active: boolean;
-    createdAt: string;
-    endAt: string;
-    type: string;
-    typeNumeric: number;
-  };
-  paymentList: [
-    {
-      paymentId: string,
-      status: string,
-      amount: number,
-      createdAt: string,
-    }
-  ]
-}
+// interface StateType {
+//   token: string;
+//   subscription: {
+//     active: boolean;
+//     createdAt: string;
+//     endAt: string;
+//     type: string;
+//     typeNumeric: number;
+//   };
+//   paymentList: [
+//     {
+//       paymentId: string,
+//       status: string,
+//       amount: number,
+//       createdAt: string,
+//     }
+//   ]
+// }
 
 const initialState = {
   token: "",
@@ -58,7 +55,7 @@ export const { getTokens, getSubscription, setPaymentList } = UserProfileSlice.a
 export const fetchToken =
   (token: string, context: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
@@ -71,7 +68,7 @@ export const fetchToken =
         .then((response) => {
           dispatch(getTokens(response.data));
         })
-        .catch((error) => {
+        .catch(() => {
           dispatch(getTokens(""));
         });
     } catch (err: any) {
@@ -82,7 +79,7 @@ export const fetchToken =
 export const fetchRefreshToken =
   (token: string, context: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "put",
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
@@ -106,7 +103,7 @@ export const fetchRefreshToken =
 export const fetchGenerateToken =
   (token: string, context: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "post",
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
@@ -130,7 +127,7 @@ export const fetchGenerateToken =
 export const fetchProfileStatus =
   (token: string, context: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/subscription`,
@@ -143,7 +140,7 @@ export const fetchProfileStatus =
         .then((response) => {
           dispatch(getSubscription(response.data));
         })
-        .catch((error) => {});
+        .catch(() => {});
     } catch (err: any) {
       throw new Error(err);
     }
@@ -152,13 +149,13 @@ export const fetchProfileStatus =
 export const getListPayments =
   (token: string, context: string, fromDate: string, toDate: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/payments`,
+        url: "https://api.marketdb.pro/gateway/payments",
         headers: {
           "Authorization": `Bearer ${token}`,
-          'X-Request-ID': `${uuidv4()}`,
+          "X-Request-ID": `${uuidv4()}`,
         },
         data: {
           fromDate: fromDate,
@@ -170,7 +167,7 @@ export const getListPayments =
         .then((response) => {
           dispatch(setPaymentList(response.data));
         })
-        .catch((error) => {});
+        .catch(() => {});
     } catch (err: any) {
       throw new Error(err);
     }

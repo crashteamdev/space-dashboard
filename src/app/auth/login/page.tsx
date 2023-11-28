@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import Link from "next/link";
 import { Grid, Box, Card, Stack, Typography } from "@mui/material";
 
@@ -13,7 +14,7 @@ export default function Login2() {
         sx={{
           position: "relative",
           "&:before": {
-            content: '""',
+            content: "\"\"",
             background: "radial-gradient(#d2f1df, #d3d7fa, #bad8f4)",
             backgroundSize: "400% 400%",
             animation: "gradient 15s ease infinite",

@@ -80,7 +80,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   }, [loading, router]);
   
   useEffect(() => {
-    if (!sessionStorage.getItem("remember") && localStorage.getItem("remember") === 'off') {
+    if (!sessionStorage.getItem("remember") && localStorage.getItem("remember") === "off") {
       logout();
     }
   }, []);

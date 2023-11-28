@@ -2,8 +2,9 @@ import { TopUpBalanceType } from "@/shared/types/balance/balance";
 import { AppDispatch } from "@/shared/store/store";
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { addItem } from "../alerts/AlertsSlice";
+
 interface StateType {
   amount: number;
   linkPayment: string;
@@ -21,15 +22,15 @@ interface StateType {
 
 const initialState = {
   amount: 0,
-  linkPayment: '',
-  resultPromo: '',
+  linkPayment: "",
+  resultPromo: "",
   exchange: 0,
   selectTarif: {
-    title: '',
+    title: "",
     amount: 0,
-    context: '',
-    plan: '',
-    promoCode: '',
+    context: "",
+    plan: "",
+    promoCode: "",
     multiply: 0
   }
 };
@@ -60,10 +61,10 @@ export default BalanceSlice.reducer;
 export const getBalance =
   (token: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/payments/user/balance`,
+        url: "https://api.marketdb.pro/gateway/payments/user/balance",
         headers: {
           "Authorization": `Bearer ${token}`,
           "X-Request-ID": `${uuidv4()}`,
@@ -85,10 +86,10 @@ export const getBalance =
 export const getListPayments =
   (token: string, context: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/payments`,
+        url: "https://api.marketdb.pro/gateway/payments",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -110,30 +111,30 @@ export const topUpBalance =
   (token: string, context: string, amount: number, provider: string) =>
   async (dispatch: AppDispatch) => {
     try {
-      let data = JSON.stringify({
+      const data = JSON.stringify({
         "amount": +amount,
-        "successRedirectUrl": 'https://space.marketdb.pro/payment/success',
-        "failRedirectUrl": 'https://space.marketdb.pro/payment/error',
+        "successRedirectUrl": "https://space.marketdb.pro/payment/success",
+        "failRedirectUrl": "https://space.marketdb.pro/payment/error",
         "provider": {
           "provider": provider.toLowerCase()
         }
       });
-      let config = {
-        method: 'post',
+      const config = {
+        method: "post",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/payments/topup`,
+        url: "https://api.marketdb.pro/gateway/payments/topup",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'X-Request-ID': `${uuidv4()}`,
-          'Content-Type': "application/json",
+          "Authorization": `Bearer ${token}`,
+          "X-Request-ID": `${uuidv4()}`,
+          "Content-Type": "application/json",
         },
         data: data
       };
       axios.request(config)
         .then((response) => {
-          console.log(response)
+          console.log(response);
           if (response.data.payment.status === "failed") {
-            dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
+            dispatch(addItem({title: "Не удалось создать платежную ссылку", status: "error", timelife: 4000, id: uuidv4()}));
           }
           dispatch(
             addItem({
@@ -144,11 +145,11 @@ export const topUpBalance =
               id: uuidv4(),
             })
           );
-          dispatch(setLinkPayment(response.data.redirectUrl))
+          dispatch(setLinkPayment(response.data.redirectUrl));
         })
         .catch((error) => {
           console.log(error);
-          dispatch(addItem({title: 'Ошибка', description: error.response.status, status: 'error', timelife: 4000, id: uuidv4()}));
+          dispatch(addItem({title: "Ошибка", description: error.response.status, status: "error", timelife: 4000, id: uuidv4()}));
         });
     } catch (err: any) {
       throw new Error(err);
@@ -167,15 +168,15 @@ export const purchaseService =
   ) =>
   async (dispatch: AppDispatch) => {
     try {
-      let data = JSON.stringify({
+      const data = JSON.stringify({
         "service": {
           "context": serviceContext,
           "plan": plan,
         },
         "multiply": multiply,
         "method": "from-balance",
-      })
-      let dataOneTime = JSON.stringify({
+      });
+      const dataOneTime = JSON.stringify({
         "service": {
           "context": serviceContext,
           "plan": plan,
@@ -186,26 +187,26 @@ export const purchaseService =
         "provider": {
           "provider": provider,
         },
-        "successRedirectUrl": 'https://space.marketdb.pro/payment/success',
-        "failRedirectUrl": 'https://space.marketdb.pro/payment/error',
-      })
-      let config = {
+        "successRedirectUrl": "https://space.marketdb.pro/payment/success",
+        "failRedirectUrl": "https://space.marketdb.pro/payment/error",
+      });
+      const config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/payments/purchase`,
+        url: "https://api.marketdb.pro/gateway/payments/purchase",
         headers: {
           "Authorization": `Bearer ${token}`,
-          'X-Request-ID': `${uuidv4()}`,
-          'Content-Type': "application/json",
+          "X-Request-ID": `${uuidv4()}`,
+          "Content-Type": "application/json",
         },
-        data: method === 'one-time' ? dataOneTime : data,
+        data: method === "one-time" ? dataOneTime : data,
       };
       axios
         .request(config)
         .then((response) => {
           if (response.data.payment.status === "failed") {
-            dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
-            return null
+            dispatch(addItem({title: "Не удалось создать платежную ссылку", status: "error", timelife: 4000, id: uuidv4()}));
+            return null;
           }
           dispatch(
             addItem({
@@ -216,8 +217,8 @@ export const purchaseService =
               id: uuidv4(),
             })
           );
-          if (method === 'one-time') {
-            dispatch(setLinkPayment(response.data.redirectUrl))
+          if (method === "one-time") {
+            dispatch(setLinkPayment(response.data.redirectUrl));
           } else {
             dispatch(setAmount(response.data.balance));
           }
@@ -226,7 +227,7 @@ export const purchaseService =
         .catch((error) => {
           console.log(error.response.status === 422);
           if (error.response.status === 422) {
-            dispatch(addItem({title: 'На вашем аккаунте не достаточно средств для покупки тарифа', status: 'error', timelife: 4000, id: uuidv4()}));
+            dispatch(addItem({title: "На вашем аккаунте не достаточно средств для покупки тарифа", status: "error", timelife: 4000, id: uuidv4()}));
           }
         });
     } catch (err: any) {
@@ -238,13 +239,13 @@ export const purchaseService =
     (token: string, promoCode: string, context: string) =>
     async (dispatch: AppDispatch) => {
       try {
-        let config = {
+        const config = {
           method: "get",
           maxBodyLength: Infinity,
           url: `https://api.marketdb.pro/gateway/promo-code/${promoCode}/check`,
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'X-Request-ID': `${uuidv4()}`,
+            "Authorization": `Bearer ${token}`,
+            "X-Request-ID": `${uuidv4()}`,
           },
         };
         axios
@@ -265,13 +266,13 @@ export const getExchange =
   (token: string, currency: string) =>
   async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/exchange-rate?currency=${currency}`,
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'X-Request-ID': `${uuidv4()}`,
+          "Authorization": `Bearer ${token}`,
+          "X-Request-ID": `${uuidv4()}`,
         },
       };
       axios

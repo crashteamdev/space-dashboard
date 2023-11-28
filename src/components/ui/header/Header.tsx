@@ -1,3 +1,4 @@
+import React from "react";
 import {
   IconButton,
   Box,
@@ -20,7 +21,7 @@ import SwitchTheme from "@/components/switchTheme/SwitchTheme";
 
 const Header = () => {
   
-  const lgDown = useMediaQuery((theme: any) => theme.breakpoints.down('lg'));
+  const lgDown = useMediaQuery((theme: any) => theme.breakpoints.down("lg"));
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
 
   const customizer = useSelector((state: AppState) => state.customizer);

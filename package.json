@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:es": "eslint --ext .js,.jsx,.ts,.tsx ./src"
+    "lint:es": "eslint --ext .js,.jsx,.ts,.tsx ./src",
+    "lint:es:fix": "npm run lint:es -- --fix"
   },
   "dependencies": {
     "@emotion/cache": "latest",

@@ -9,7 +9,7 @@ interface StateType {
 const initialState = {
   open: false,
   value: 0,
-  provider: '',
+  provider: "",
 };
 
 export const WalletPopupSlice = createSlice({

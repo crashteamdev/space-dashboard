@@ -1,10 +1,10 @@
 "use client";
+import React from "react";
 import { Grid, Box, Card, Typography, Button } from "@mui/material";
 import Logo from "@/components/ui/logo/Logo";
 import PageContainer from "@/components/ui/container/PageContainer";
 import AuthForgotPassword from "../../../processes/auth/AuthForgotPassword";
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function ForgotPassword2() {
@@ -14,7 +14,7 @@ export default function ForgotPassword2() {
 
   const back = () => {
     router.back();
-  }
+  };
 
   return (
     <PageContainer
@@ -25,7 +25,7 @@ export default function ForgotPassword2() {
         sx={{
           position: "relative",
           "&:before": {
-            content: '""',
+            content: "\"\"",
             background: "radial-gradient(#d2f1df, #d3d7fa, #bad8f4)",
             backgroundSize: "400% 400%",
             animation: "gradient 15s ease infinite",
