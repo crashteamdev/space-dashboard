@@ -14,13 +14,11 @@ import {
   Chip,
   Switch,
   Stack,
-  MenuItem,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
 import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
 import PageContainer from "@/components/ui/container/PageContainer";
-
 import { IconCheck, IconX } from "@tabler/icons-react";
 import BlankCard from "@/components/ui/shared/BlankCard";
 import Image from "next/image";
@@ -28,22 +26,16 @@ import Popup from "@/components/ui/popup/popup";
 import CheckPromoCode from "@/components/ui/checkPromoCode/checkPromoCode";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
-import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
-import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
 import {
   getExchange,
   purchaseService,
 } from "@/shared/store/slices/balance/BalanceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
-import { data, pricing } from "@/components/ui/popup/data";
-import CustomSelect from "@/components/ui/theme-elements/CustomSelect";
-import fk from "../../../../../public/images/payment/fk.png";
-import click from "../../../../../public/images/payment/click.png";
+import { pricing } from "@/components/ui/popup/data";
 import PaymentList from "@/components/paymentList/paymentList";
 import { useRouter } from "next/navigation";
-import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
-import { v4 as uuidv4 } from "uuid";
+import { useIdToken } from "react-firebase-hooks/auth";
 
 const BCrumb = [
   {
@@ -93,6 +85,9 @@ const Pricing = () => {
       }, 2000);
       return null;
     }
+    setOpen(0);
+
+    
     dispatch(
       purchaseService(
         auth.currentUser.accessToken,
@@ -127,9 +122,9 @@ const Pricing = () => {
             mt={3}
             justifyContent="center"
           >
-            <Typography variant="subtitle1">Monthly</Typography>
+            <Typography variant="subtitle1">1 месяц</Typography>
             <Switch onChange={() => setShow(!show)} />
-            <Typography variant="subtitle1">3 Monthly</Typography>
+            <Typography variant="subtitle1">3 месяца</Typography>
           </Box>
         </Grid>
       </Grid>
@@ -179,7 +174,7 @@ const Pricing = () => {
                             color="textSecondary"
                             mt={1}
                           >
-                            /yr
+                            / 3 месяца
                           </Typography>
                         </>
                       ) : (
@@ -194,7 +189,7 @@ const Pricing = () => {
                             color="textSecondary"
                             mt={1}
                           >
-                            /mo
+                            / месяц
                           </Typography>
                         </>
                       )}
@@ -265,7 +260,9 @@ const Pricing = () => {
                 -{" "}
                 {Math.floor(
                   show
-                    ? (pricing[open - 1]?.monthlyplan * 3) * balanceReducer.exchange
+                    ? pricing[open - 1]?.monthlyplan *
+                        3 *
+                        balanceReducer.exchange
                     : pricing[open - 1]?.monthlyplan * balanceReducer.exchange
                 )}
                 рублей

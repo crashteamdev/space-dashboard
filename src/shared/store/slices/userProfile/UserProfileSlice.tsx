@@ -3,24 +3,26 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
 import { v4 as uuidv4 } from "uuid";
 
-// interface StateType {
-//   token: string;
-//   subscription: {
-//     active: boolean;
-//     createdAt: string;
-//     endAt: string;
-//     type: string;
-//     typeNumeric: number;
-//   };
-//   paymentList: [
-//     {
-//       paymentId: string,
-//       status: string,
-//       amount: number,
-//       createdAt: string,
-//     }
-//   ]
-// }
+const API_URL = "/api/data/postData";
+
+interface StateType {
+  token: string;
+  subscription: {
+    active: boolean;
+    createdAt: string;
+    endAt: string;
+    type: string;
+    typeNumeric: number;
+  };
+  paymentList: [
+    {
+      paymentId: string;
+      status: string;
+      amount: number;
+      createdAt: string;
+    }
+  ];
+}
 
 const initialState = {
   token: "",
@@ -31,7 +33,7 @@ const initialState = {
     type: "default", // default, advanced, pro
     typeNumeric: 1, // 1, 2, 3
   },
-  paymentList: []
+  paymentList: [],
 };
 
 export const UserProfileSlice = createSlice({
@@ -50,7 +52,8 @@ export const UserProfileSlice = createSlice({
   },
 });
 
-export const { getTokens, getSubscription, setPaymentList } = UserProfileSlice.actions;
+export const { getTokens, getSubscription, setPaymentList } =
+  UserProfileSlice.actions;
 
 export const fetchToken =
   (token: string, context: string) => async (dispatch: AppDispatch) => {
@@ -138,39 +141,41 @@ export const fetchProfileStatus =
       axios
         .request(config)
         .then((response) => {
+          console.log("CONFIG", config, "DATA", response.data);
           dispatch(getSubscription(response.data));
         })
-        .catch(() => {});
+        .catch(() => { });
     } catch (err: any) {
       throw new Error(err);
     }
   };
 
 export const getListPayments =
-  (token: string, context: string, fromDate: string, toDate: string) => async (dispatch: AppDispatch) => {
-    try {
-      const config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: "https://api.marketdb.pro/gateway/payments",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "X-Request-ID": `${uuidv4()}`,
-        },
-        data: {
-          fromDate: fromDate,
-          toDate: toDate,
-        }
-      };
-      axios
-        .request(config)
-        .then((response) => {
-          dispatch(setPaymentList(response.data));
-        })
-        .catch(() => {});
-    } catch (err: any) {
-      throw new Error(err);
-    }
-  };
+  (token: string, context: string, fromDate: string, toDate: string) =>
+    async (dispatch: AppDispatch) => {
+      try {
+        const config = {
+          method: "get",
+          maxBodyLength: Infinity,
+          url: `https://api.marketdb.pro/gateway/payments?fromDate=${fromDate}&toDate=${toDate} `,
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "X-Request-ID": `${uuidv4()}`,
+          },
+          data: {
+            fromDate: fromDate,
+            toDate: toDate,
+          },
+        };
+        axios
+          .request(config)
+          .then((response) => {
+            dispatch(setPaymentList(response.data));
+          })
+          .catch(() => { });
+      } catch (err: any) {
+        throw new Error(err);
+      }
+    };
 
 export default UserProfileSlice.reducer;
