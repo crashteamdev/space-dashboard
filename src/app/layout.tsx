@@ -29,7 +29,6 @@ import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import AlertList from "@/components/alertList/alertList";
-import { useRefreshToken } from "@/hooks/useRefreshToken/useRefreshToken";
 
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loadingPage, setLoadingPage] = React.useState(false);
@@ -58,7 +57,6 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
-  useRefreshToken()
 
   useEffect(() => {
     // Если пользователь не загрузился или не авторизован, перенаправьте на страницу входа.

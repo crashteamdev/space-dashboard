@@ -21,6 +21,7 @@ const AlertItem = ({ item }: any) => {
       clearTimeout(timer);
       clearTimeout(timerAnim);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   memoizedCallback();
