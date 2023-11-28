@@ -175,33 +175,6 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       }}
     >
       {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle2"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Box sx={{ flex: "1 1 100%" }}>
-          <TextField
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <IconSearch size="1.1rem" />
-                </InputAdornment>
-              ),
-            }}
-            placeholder="Search Product"
-            size="small"
-            onChange={handleSearch}
-            value={search}
-          />
-        </Box>
-      )}
-
-      {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
             <IconTrash width="18" />
@@ -240,10 +213,18 @@ const ProductTableList = () => {
 
   useEffect(() => {
     if (auth.currentUser) {
+      const today = new Date() as any;
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      
+      const formattedDate = `${year}-${month}-${day}`;
+      const toDate = `${year}-${String(today.getMonth() - 1).padStart(2, '0')}-${day}`;
       dispatch(
-        getListPayments(auth.currentUser.accessToken, company.activeCompany, `${new Date()}`, `${new Date()}`)
+        getListPayments(auth.currentUser.accessToken, company.activeCompany, formattedDate, toDate)
       )
     }
+    setRows(userPost.paymentList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
 
@@ -346,7 +327,7 @@ const ProductTableList = () => {
                         </TableCell>
                         <TableCell>
                           <Typography fontWeight={600} variant="h6">
-                            ${row.price}
+                            ${row.amount}
                           </Typography>
                         </TableCell>
                       </TableRow>

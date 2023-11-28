@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { addItem } from "../alerts/AlertsSlice";
+import { errorHandler } from "@/hooks/errorHandler/errorHandler";
 interface StateType {
   amount: number;
   linkPayment: string;
@@ -83,26 +84,29 @@ export const getBalance =
   };
 
 export const getListPayments =
-  (token: string, context: string) => async (dispatch: AppDispatch) => {
+  (token: string, fromDate: string, toDate: string, context: string) => async (dispatch: AppDispatch) => {
     try {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/payments`,
+        url: `https://api.marketdb.pro/gateway/payments?fromDate=${fromDate}&toDate=${toDate}`,
         headers: {
           Authorization: `Bearer ${token}`,
+          'X-Request-ID': `${uuidv4()}`,
         },
       };
       axios
         .request(config)
         .then((response) => {
-          console.log(response.data);
+          dispatch(addItem({title: errorHandler(response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
+          console.log(response);
         })
         .catch((error) => {
-          console.log(error);
+          dispatch(addItem({title: errorHandler(error.response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
         });
     } catch (err: any) {
-      throw new Error(err);
+      dispatch(addItem({title: errorHandler(err.response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
+      console.log(err)
     }
   };
 
@@ -131,7 +135,6 @@ export const topUpBalance =
       };
       axios.request(config)
         .then((response) => {
-          console.log(response)
           if (response.data.payment.status === "failed") {
             dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
           }
@@ -147,7 +150,9 @@ export const topUpBalance =
           dispatch(setLinkPayment(response.data.redirectUrl))
         })
         .catch((error) => {
-          console.log(error);
+          if (error.response.status === 401) {
+            location. reload()
+          }
           dispatch(addItem({title: 'Ошибка', description: error.response.status, status: 'error', timelife: 4000, id: uuidv4()}));
         });
     } catch (err: any) {
@@ -221,13 +226,17 @@ export const purchaseService =
           } else {
             dispatch(setAmount(response.data.balance));
           }
-          
+          if (response.data.code === "successfully_debit") {
+            dispatch(setLinkPayment("https://space.marketdb.pro/payment/success"))
+          } else {
+            dispatch(setLinkPayment("https://space.marketdb.pro/payment/error"))
+          }
         })
         .catch((error) => {
-          console.log(error.response.status === 422);
-          if (error.response.status === 422) {
-            dispatch(addItem({title: 'На вашем аккаунте не достаточно средств для покупки тарифа', status: 'error', timelife: 4000, id: uuidv4()}));
+          if (error.response.status === 401) {
+            location. reload()
           }
+          dispatch(addItem({title: errorHandler(error.response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
         });
     } catch (err: any) {
       throw new Error(err);

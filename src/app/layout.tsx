@@ -16,7 +16,7 @@ import "@/shared/i18n/i18n";
 import { NextAppDirEmotionCacheProvider } from "@/shared/theme/EmotionCache";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { setUser } from "@/shared/store/slices/user/userSlice";
 import { IUser } from "@/shared/types/apps/user";
 import RTL from "../components/customizer/RTL";
@@ -29,6 +29,7 @@ import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import AlertList from "@/components/alertList/alertList";
+import { useRefreshToken } from "@/hooks/useRefreshToken/useRefreshToken";
 
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loadingPage, setLoadingPage] = React.useState(false);
@@ -37,9 +38,10 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const customizer = useSelector((state: AppState) => state.customizer);
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname()
   const auth = getAuth(firebase_app);
   const [user, loading] = useAuthState(auth);
-
+  
   useEffect(() => {
     const curLang = localStorage.getItem("lng") as string;
     if (curLang) {
@@ -56,6 +58,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
+  useRefreshToken()
 
   useEffect(() => {
     // Если пользователь не загрузился или не авторизован, перенаправьте на страницу входа.
@@ -64,6 +67,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       setLoadingPage(true);
     }
     if (user) {
+      console.log(user)
       const { uid, accessToken, displayName, email, photoURL } = user as any;
       dispatch(getBalance(accessToken));
       const userdata = {
@@ -77,7 +81,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       setLoadingPage(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, router]);
+  }, [loading, pathname]);
   
   useEffect(() => {
     if (!sessionStorage.getItem("remember") && localStorage.getItem("remember") === 'off') {
