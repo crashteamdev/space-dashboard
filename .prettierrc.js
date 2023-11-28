@@ -11,4 +11,4 @@ module.exports = {
     singleQuote: false,
     quoteProps: "as-needed",
     endOfLine: "auto"
-};
+};  

@@ -10,5 +10,73 @@
     "plugin:security/recommended",
     "prettier"
   ],
-  "parser": "@typescript-eslint/parser"
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "security/detect-object-injection": "off",
+        "react/prop-types": "off"
+      }
+    }
+  ],
+
+  "parser": "@typescript-eslint/parser",
+
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "jsx-a11y",
+    "prettier",
+    "react-hooks",
+    "optimize-regex",
+    "no-secrets",
+    "xss",
+    "import"
+  ],
+
+  "rules": {
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    "no-secrets/no-secrets": "error",
+    "react/no-unknown-property": [
+      "error",
+      {
+        "ignore": ["jsx", "global"]
+      }
+    ],
+    "xss/no-mixed-html": [
+      "warn",
+      {
+        "htmlVariableRules": ["AsHtml", "HtmlEncoded/i", "^html$"],
+        "htmlFunctionRules": [".asHtml/i", "toHtml"],
+        "functions": {
+          "$": {
+            "htmlInput": true,
+            "safe": ["document", "this"]
+          },
+          ".html": {
+            "htmlInput": true,
+            "htmlOutput": true
+          },
+          ".join": {
+            "passthrough": { "obj": true, "args": true }
+          }
+        }
+      }
+    ],
+    "optimize-regex/optimize-regex": [
+      "warn",
+      {
+        "blacklist": ["charClassClassrangesMerge"]
+      }
+    ],
+
+    "import/newline-after-import": ["error", { "count": 1 }]
+  },
+
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
