@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Button, Stack } from "@mui/material";
 import Link from "next/link";
 
@@ -10,7 +11,7 @@ import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import { forgotPassword } from "@/api/auth/forgot/forgot";
 import { useDispatch } from "@/shared/store/hooks";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 type InputTypes = {
   value: string;
@@ -33,14 +34,14 @@ export default function AuthForgotPassword({ back, setIsSend } : any) {
     },
     validationSchema: validationSchema,
     onSubmit: (values: any) => {
-      forgot(values.email)
+      forgot(values.email);
     },
   });
 
   const forgot = (value: string) => {
     forgotPassword(value);
-    dispatch(addItem({title: 'Проверьте свою почту', description: 'Мы отправили вам ссылку для востановления пароля', status: 'info', timelife: 5000, id: uuidv4()}));
-    setIsSend(true)
+    dispatch(addItem({title: "Проверьте свою почту", description: "Мы отправили вам ссылку для востановления пароля", status: "info", timelife: 5000, id: uuidv4()}));
+    setIsSend(true);
   };
 
   return (
@@ -61,7 +62,7 @@ export default function AuthForgotPassword({ back, setIsSend } : any) {
             />
           </Box>
         </Stack>
-        <Box mt={2} width={'100%'}>
+        <Box mt={2} width={"100%"}>
         <Button color="primary" fullWidth variant="contained" type="submit">
           Забыли пароль
         </Button>

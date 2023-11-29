@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Typography, Button, Stack, Divider } from "@mui/material";
 import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
@@ -12,14 +13,14 @@ import AuthSocialButtons from "./AuthSocialButtons";
 import { useState } from "react";
 import { useDispatch } from "@/shared/store/hooks";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const AuthRegister = ({ title, subtitle, subtext, setIsCreated = () => {} }: registerType) => {
   const router = useRouter();
   const [empty, setEmpty] = useState(false) as any;
   const auth = getAuth(firebase_app);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const validationSchema = yup.object({
     email: yup
@@ -34,12 +35,12 @@ const AuthRegister = ({ title, subtitle, subtext, setIsCreated = () => {} }: reg
 
   const signUp = async (email: string, password: string) => {
     const user = await registrationEmail(email, password);
-    console.log(user)
+    console.log(user);
     if (!user) {
-      dispatch(addItem({title: 'Не удалось создать аккаунт', description: 'Возможно такой аккаунт уже существует', status: 'error', timelife: 6000, id: uuidv4()}));
+      dispatch(addItem({title: "Не удалось создать аккаунт", description: "Возможно такой аккаунт уже существует", status: "error", timelife: 6000, id: uuidv4()}));
       return false;
     }
-    setIsCreated()
+    setIsCreated();
   };
 
   const formik = useFormik({

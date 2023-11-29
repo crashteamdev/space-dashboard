@@ -2,7 +2,7 @@ import { TopUpBalanceType } from "@/shared/types/balance/balance";
 import { AppDispatch } from "@/shared/store/store";
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { addItem } from "../alerts/AlertsSlice";
 import { errorHandler } from "@/hooks/errorHandler/errorHandler";
 import autoRefreshToken from "@/hooks/useСheckToken/useCheckToken";
@@ -24,15 +24,15 @@ interface StateType {
 
 const initialState = {
   amount: 0,
-  linkPayment: '',
-  resultPromo: '',
+  linkPayment: "",
+  resultPromo: "",
   exchange: 0,
   selectTarif: {
-    title: '',
+    title: "",
     amount: 0,
-    context: '',
-    plan: '',
-    promoCode: '',
+    context: "",
+    plan: "",
+    promoCode: "",
     multiply: 0
   }
 };
@@ -63,7 +63,7 @@ export default BalanceSlice.reducer;
 export const getBalance =
   (token: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments/user/balance`,
@@ -84,7 +84,7 @@ export const getBalance =
 export const getListPayments =
   (token: string, fromDate: string, toDate: string, context: string) => async (dispatch: AppDispatch) => {
     try {
-      let config = {
+      const config = {
         method: "get",
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments?fromDate=${fromDate}&toDate=${toDate}`,
@@ -92,14 +92,14 @@ export const getListPayments =
       axiosApiInstance
         .request(config)
         .then((response) => {
-          dispatch(addItem({title: errorHandler(response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
+          dispatch(addItem({ title: errorHandler(response.status, { "four": 'На вашем аккаунте не достаточно средств для покупки тарифа' }), status: 'error', timelife: 4000, id: uuidv4() }));
           console.log(response);
         })
         .catch((error) => {
-          dispatch(addItem({title: errorHandler(error.response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
+          dispatch(addItem({ title: errorHandler(error.response.status, { "four": 'На вашем аккаунте не достаточно средств для покупки тарифа' }), status: 'error', timelife: 4000, id: uuidv4() }));
         });
     } catch (err: any) {
-      dispatch(addItem({title: errorHandler(err.response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
+      dispatch(addItem({ title: errorHandler(err.response.status, { "four": 'На вашем аккаунте не достаточно средств для покупки тарифа' }), status: 'error', timelife: 4000, id: uuidv4() }));
       console.log(err)
     }
   };
@@ -230,17 +230,17 @@ export const purchaseService =
     }
   };
 
-  export const checkPromoCode =
-    (token: string, promoCode: string, context: string) =>
+export const checkPromoCode =
+  (token: string, promoCode: string, context: string) =>
     async (dispatch: AppDispatch) => {
       try {
-        let config = {
+        const config = {
           method: "get",
           maxBodyLength: Infinity,
           url: `https://api.marketdb.pro/gateway/promo-code/${promoCode}/check`,
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'X-Request-ID': `${uuidv4()}`,
+            "Authorization": `Bearer ${token}`,
+            "X-Request-ID": `${uuidv4()}`,
           },
         };
         axios
@@ -259,27 +259,27 @@ export const purchaseService =
 
 export const getExchange =
   (token: string, currency: string) =>
-  async (dispatch: AppDispatch) => {
-    try {
-      let config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `https://api.marketdb.pro/gateway/exchange-rate?currency=${currency}`,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'X-Request-ID': `${uuidv4()}`,
-        },
-      };
-      axios
-        .request(config)
-        .then((response) => {
-          dispatch(setExchange(response.data.exchangeRate));
-          return response.data.exchangeRate;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } catch (err: any) {
-      throw new Error(err);
-    }
-  };
+    async (dispatch: AppDispatch) => {
+      try {
+        const config = {
+          method: "get",
+          maxBodyLength: Infinity,
+          url: `https://api.marketdb.pro/gateway/exchange-rate?currency=${currency}`,
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "X-Request-ID": `${uuidv4()}`,
+          },
+        };
+        axios
+          .request(config)
+          .then((response) => {
+            dispatch(setExchange(response.data.exchangeRate));
+            return response.data.exchangeRate;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err: any) {
+        throw new Error(err);
+      }
+    };

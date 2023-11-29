@@ -21,17 +21,17 @@ import firebase_app from "@/shared/firebase/firebase";
 const checkStep = (value: string) => {
   switch (value) {
     case "validPromoCode":
-      return "Промокод применен"
+      return "Промокод применен";
     case "invalidPromoCodeDate":
-      return "У промокода истек срок использования"
+      return "У промокода истек срок использования";
     case "invalidPromoCodeUseLimit":
-      return "Превышен лимит использования промокода"
+      return "Превышен лимит использования промокода";
     case "notFoundPromoCode":
-      return "Промокод не найден"
+      return "Промокод не найден";
     default: 
-      return "Промокод не найден"
+      return "Промокод не найден";
   }
-}
+};
 
 const CheckPromoCode = ({setCheck} : any) => {
 
@@ -47,19 +47,18 @@ const CheckPromoCode = ({setCheck} : any) => {
     if (promocode) {
       dispatch(checkPromoCode(auth.currentUser.accessToken, promocode, ""));
     } else {
-      setError("Поле с промокодом пустое, заполните его")
+      setError("Поле с промокодом пустое, заполните его");
       setTimeout(() => setError(""), 2500);
     }
   };
   
   return (
-    <Box mb={2} display={'flex'} flexDirection={'column'}>
+    <Box mb={2} display={"flex"} flexDirection={"column"}>
       <CustomFormLabel>Промокод (необязательно)</CustomFormLabel>
-      <Box display={'flex'} gap={'12px'}>
+      <Box display={"flex"} gap={"12px"}>
       <CustomTextField
         fullWidth
-        margin={'none'}
-        autoFocus
+        margin={"none"}
         onChange={(e: any) => setPromocode(e.target.value)}
         placeholder={"Введите промокод"}
         id="new-password"
@@ -80,7 +79,7 @@ const CheckPromoCode = ({setCheck} : any) => {
             <Typography variant="body1" sx={{ mt: 1 }}>
               {error}
             </Typography>
-          ) : ''
+          ) : ""
         }
         {balanceReducer.resultPromo ? (
           <Typography variant="body1" sx={{ mt: 1 }}>

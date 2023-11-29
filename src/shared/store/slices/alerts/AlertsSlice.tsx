@@ -16,7 +16,7 @@ export const AlertsSlice = createSlice({
       state.list.push(action.payload);
     },
     removeItem: (state: StateType) => {
-      state.list.shift()
+      state.list.shift();
     },
   },
 });

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Card, CardHeader, CardContent, Divider } from "@mui/material";
 
 type Props = {
   title?: string;
@@ -12,10 +12,10 @@ const ChildCard = ({ title, children }: Props) => (
     {title ? (
       <>
         <CardHeader title={title} />
-        <Divider />{' '}
+        <Divider />{" "}
       </>
     ) : (
-      ''
+      ""
     )}
 
     <CardContent>{children}</CardContent>

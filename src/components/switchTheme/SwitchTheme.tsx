@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useMemo, useEffect, useState } from "react";
 import styles from "./SwitchTheme.module.scss";
@@ -11,23 +11,23 @@ import Moon from "../../shared/assets/imageComponents/Moon";
 const SwitchTheme = () => {
   const theme = useSelector((state: AppState) => state.customizer) as any;
   const dispatch = useDispatch();
-  const [light, setLight] = useState(localStorage.getItem("theme") != 'light');
+  const [light, setLight] = useState(localStorage.getItem("theme") != "light");
 
   const changeTheme = () => {
     localStorage.setItem(
       "theme",
       theme.activeMode === "light" ? "dark" : "light"
     );
-    setLight(localStorage.getItem("theme") === "dark")
+    setLight(localStorage.getItem("theme") === "dark");
 
-    dispatch(setDarkMode(theme.activeMode === "light" ? "dark" : "light"))
+    dispatch(setDarkMode(theme.activeMode === "light" ? "dark" : "light"));
 
-  }
+  };
   useEffect(() => {
     if (localStorage.getItem("theme")) {
       setLight(localStorage.getItem("theme") === "light");
     } else {
-      setLight(true)
+      setLight(true);
       localStorage.setItem("theme", "light");
     }
   }, []);

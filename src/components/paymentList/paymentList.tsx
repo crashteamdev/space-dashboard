@@ -29,19 +29,19 @@ const PaymentList = ({ setContext, context, error, pay } :paymentListProps) => {
         fullWidth
       >
         <MenuItem value={"Freekassa"}>
-          <Box display={'flex'} alignItems={'center'}>
+          <Box display={"flex"} alignItems={"center"}>
             <Image src={fk} alt={""} />
             Freekassa
           </Box>
         </MenuItem>
         <MenuItem value={"uz-click"}>
-          <Box display={'flex'} alignItems={'center'}>
+          <Box display={"flex"} alignItems={"center"}>
             <Image src={click} alt={""} />
             Click
           </Box>
         </MenuItem>
         <MenuItem value={"lava"}>
-          <Box display={'flex'} alignItems={'center'}>
+          <Box display={"flex"} alignItems={"center"}>
             <Image src={lava} alt={""} />
             Lava
           </Box>
@@ -51,7 +51,7 @@ const PaymentList = ({ setContext, context, error, pay } :paymentListProps) => {
         }
       </CustomSelect>
       {
-        error ? ('Выберите провайдера') : ''
+        error ? ("Выберите провайдера") : ""
       }
     </Grid>
   );

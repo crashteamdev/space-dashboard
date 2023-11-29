@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { Grid, Box, Card, Typography, Stack, Button } from "@mui/material";
 import Link from "next/link";
 import Logo from "@/components/ui/logo/Logo";
@@ -7,7 +8,7 @@ import AuthRegister from "../../../processes/auth/AuthRegister";
 import { useState } from "react";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { useDispatch } from "@/shared/store/hooks";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export default function Register2() {
 
@@ -16,8 +17,8 @@ export default function Register2() {
 
   const setState: () => void = () => {
     setIsCreated(!isCreated);
-    dispatch(addItem({title: 'Аккаунт создан', description: 'Теперь вы можете зайти в личный кабинет', status: 'success', timelife: 3000, id: uuidv4()}));
-  }
+    dispatch(addItem({title: "Аккаунт создан", description: "Теперь вы можете зайти в личный кабинет", status: "success", timelife: 3000, id: uuidv4()}));
+  };
   
   return (
     <PageContainer title="Register Page" description="this is Sample page">
@@ -25,7 +26,7 @@ export default function Register2() {
         sx={{
           position: "relative",
           "&:before": {
-            content: '""',
+            content: "\"\"",
             background: "radial-gradient(#d2f1df, #d3d7fa, #bad8f4)",
             backgroundSize: "400% 400%",
             animation: "gradient 15s ease infinite",
@@ -65,7 +66,7 @@ export default function Register2() {
                     <Typography variant="h6" fontWeight="500" mb={2}>
                       Вы успешно зарегистрировались!
                     </Typography>
-                    <Button component={Link} color="primary" fullWidth variant="contained" href={'/auth/login'} type="submit">
+                    <Button component={Link} color="primary" fullWidth variant="contained" href={"/auth/login"} type="submit">
                       Перейти к авторизации
                     </Button>
                   </>

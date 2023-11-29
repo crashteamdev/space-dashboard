@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import {
   Box,
   Stack,
@@ -11,7 +12,6 @@ import {
   Grid,
   DialogContentText,
 } from "@mui/material";
-import * as React from "react";
 import CustomTextField from "../ui/theme-elements/CustomTextField";
 import { AppState } from "@/shared/store/store";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
@@ -51,7 +51,7 @@ const Wallet = ({ hideMenu }: any) => {
       value
         .replace(/\d $/, "")
         .replace(/\D/g, "")
-        .replace(/(\d)(?=(\d{3})+([^\d]|$))/g, "$1 ")
+        .replace(/(\d)(?=(\d{3})+(\D|$))/g, "$1 ")
     );
   };
 
@@ -89,7 +89,6 @@ const Wallet = ({ hideMenu }: any) => {
             <CustomFormLabel>Сумма к пополнению</CustomFormLabel>
             <CustomTextField
               fullWidth
-              autoFocus
               value={"$ " + valueText}
               onChange={(input: any) => handleChange(input.currentTarget.value)}
               margin="dense"

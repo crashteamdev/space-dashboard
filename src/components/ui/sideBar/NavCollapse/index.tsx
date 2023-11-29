@@ -100,7 +100,7 @@ export default function NavCollapse({
     color:
       open && level < 2
         ? "white"
-        : `inherit` && level > 1 && open
+        : "inherit" && level > 1 && open
         ? theme.palette.primary.main
         : theme.palette.text.secondary,
     borderRadius: `${customizer.borderRadius}px`,

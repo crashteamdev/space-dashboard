@@ -199,7 +199,7 @@ const ProductTableList = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const auth = getAuth(firebase_app) as any;
-  
+
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const userPost = useSelector((state: AppState) => state.userpostsReducer) as any;
   const dispatch = useDispatch();
@@ -217,7 +217,7 @@ const ProductTableList = () => {
       const year = today.getFullYear();
       const month = String(today.getMonth() + 1).padStart(2, '0');
       const day = String(today.getDate()).padStart(2, '0');
-      
+
       const formattedDate = `${year}-${month}-${day}`;
       const toDate = `${year}-${String(today.getMonth() - 1).padStart(2, '0')}-${day}`;
       dispatch(
@@ -357,7 +357,7 @@ const ProductTableList = () => {
         </Paper>
       </Box>
     </Box>
-  ) : 'Вы еще не совершили ни одного платежа'
+  ) : "Вы еще не совершили ни одного платежа";
 };
 
 const ProfileListPayments = () => {

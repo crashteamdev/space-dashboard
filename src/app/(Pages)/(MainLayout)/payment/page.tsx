@@ -10,20 +10,15 @@ import {
   Typography,
   Alert,
   Grid,
-  Autocomplete,
-  MenuItem,
 } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
-import Image from "next/image";
 
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
 import ParentCard from "@/components/ui/shared/ParentCard";
 import { Stack } from "@mui/system";
-import data from "../../../../components/ui/theme-elements/data";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import {
-  setProvider,
   setValue,
 } from "@/shared/store/slices/walletPopup/WalletPopupSlice";
 import CustomTextField from "../../../../components/ui/theme-elements/CustomTextField";
@@ -31,26 +26,24 @@ import { checkPromoCode, getExchange, topUpBalance } from "@/shared/store/slices
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useRouter } from "next/navigation";
-import CustomSelect from "@/components/ui/theme-elements/CustomSelect";
 import PaymentList from "@/components/paymentList/paymentList";
-import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
-import { v4 as uuidv4 } from 'uuid';
 
-const checkStep = (value: string) => {
-  switch (value) {
-    case "validPromoCode":
-      return "Промокод применен"
-    case "invalidPromoCodeDate":
-      return "У промокода истек срок использования"
-    case "invalidPromoCodeUseLimit":
-      return "Превышен лимит использования промокода"
-    case "notFoundPromoCode":
-      return "Промокод не найден"
-    default: 
-      return "Промокод не найден"
+// const checkStep = (value: string) => {
+//   switch (value) {
+//     case "validPromoCode":
+//       return "Промокод применен";
+//     case "invalidPromoCodeDate":
+//       return "У промокода истек срок использования";
+//     case "invalidPromoCodeUseLimit":
+//       return "Превышен лимит использования промокода";
+//     case "notFoundPromoCode":
+//       return "Промокод не найден";
+//     default: 
+//       return "Промокод не найден";
 
-  }
-}
+//   }
+// };
+
 const steps = ["Сумма пополнения", "Выбор платежного средства", "Оплата"];
 
 const Payment = () => {
@@ -76,20 +69,20 @@ const Payment = () => {
       value
         .replace(/\d $/, "")
         .replace(/\D/g, "")
-        .replace(/(\d)(?=(\d{3})+([^\d]|$))/g, "$1 ")
+        .replace(/(\d)(?=(\d{3})+(\D|$))/g, "$1 ")
     );
   };
 
   const handleNext = async () => {
     if (activeStep === 0 && parseFloat(valueText) === 0 || !valueText) {
-      return null
+      return null;
     }
     if (activeStep === 1 && !context) {
-      setEmpty('Выберите провайдера выше')
+      setEmpty("Выберите провайдера выше");
       setTimeout(() => {
-        setEmpty('')
-      }, 2000)
-      return null
+        setEmpty("");
+      }, 2000);
+      return null;
     }
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -121,10 +114,10 @@ const Payment = () => {
   };
 
   useEffect(() => {
-    router.push(balanceReducer.linkPayment)
-    dispatch(getExchange(auth.currentUser.accessToken, 'RUB'));
+    router.push(balanceReducer.linkPayment);
+    dispatch(getExchange(auth.currentUser.accessToken, "RUB"));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [balanceReducer.linkPayment])
+  }, [balanceReducer.linkPayment]);
 
   const handleSteps = (step: any) => {
     switch (step) {
@@ -138,7 +131,6 @@ const Payment = () => {
               <CustomFormLabel>Сумма к пополнению</CustomFormLabel>
               <CustomTextField
                 fullWidth
-                autoFocus
                 value={"$" + valueText}
                 onChange={(input: any) =>
                   handleChange(input.currentTarget.value)
