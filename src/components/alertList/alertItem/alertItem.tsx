@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import { Alert, AlertTitle, Collapse } from "@mui/material";
-import React, { memo, useCallback, useEffect } from "react";
+import React, { memo, useCallback } from "react";
 import { removeItem } from "@/shared/store/slices/alerts/AlertsSlice";
 
 const AlertItem = ({ item }: any) => {
@@ -21,12 +21,13 @@ const AlertItem = ({ item }: any) => {
       clearTimeout(timer);
       clearTimeout(timerAnim);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   memoizedCallback();
 
   if (!item.description) {
-    <Collapse key={item.description} in={open}>
+    <Collapse in={open}>
       <Alert
         variant="filled"
         severity={item.status}
@@ -39,7 +40,7 @@ const AlertItem = ({ item }: any) => {
   }
 
   return (
-    <Collapse key={item.description} in={open}>
+    <Collapse in={open}>
       <Alert
         variant="filled"
         severity={item.status}

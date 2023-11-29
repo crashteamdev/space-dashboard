@@ -5,6 +5,8 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { addItem } from "../alerts/AlertsSlice";
 import { errorHandler } from "@/hooks/errorHandler/errorHandler";
+import autoRefreshToken from "@/hooks/useСheckToken/useCheckToken";
+import axiosApiInstance from "@/shared/api/api";
 interface StateType {
   amount: number;
   linkPayment: string;
@@ -64,13 +66,9 @@ export const getBalance =
       const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: "https://api.marketdb.pro/gateway/payments/user/balance",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "X-Request-ID": `${uuidv4()}`,
-        },
+        url: `https://api.marketdb.pro/gateway/payments/user/balance`,
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(setAmount(response.data.amount));
@@ -90,12 +88,8 @@ export const getListPayments =
         method: "get",
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments?fromDate=${fromDate}&toDate=${toDate}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'X-Request-ID': `${uuidv4()}`,
-        },
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(addItem({ title: errorHandler(response.status, { "four": 'На вашем аккаунте не достаточно средств для покупки тарифа' }), status: 'error', timelife: 4000, id: uuidv4() }));
@@ -112,53 +106,51 @@ export const getListPayments =
 
 export const topUpBalance =
   (token: string, context: string, amount: number, provider: string) =>
-    async (dispatch: AppDispatch) => {
-      try {
-        const data = JSON.stringify({
-          "amount": +amount,
-          "successRedirectUrl": "https://space.marketdb.pro/payment/success",
-          "failRedirectUrl": "https://space.marketdb.pro/payment/error",
-          "provider": {
-            "provider": provider.toLowerCase()
+  async (dispatch: AppDispatch) => {
+    try {
+      let data = JSON.stringify({
+        "amount": +amount,
+        "successRedirectUrl": 'https://space.marketdb.pro/payment/success',
+        "failRedirectUrl": 'https://space.marketdb.pro/payment/error',
+        "provider": {
+          "provider": provider.toLowerCase()
+        }
+      });
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `https://api.marketdb.pro/gateway/payments/topup`,
+        headers: {
+          'Content-Type': "application/json",
+        },
+        data: data
+      };
+      axiosApiInstance.request(config)
+        .then((response) => {
+          if (response.data.payment.status === "failed") {
+            dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
           }
+          dispatch(
+            addItem({
+              title: "Ожидайте",
+              description: "Происходит редирект на страницу оплаты",
+              status: "info",
+              timelife: 4000,
+              id: uuidv4(),
+            })
+          );
+          dispatch(setLinkPayment(response.data.redirectUrl))
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            location. reload()
+          }
+          dispatch(addItem({title: 'Ошибка', description: error.response.status, status: 'error', timelife: 4000, id: uuidv4()}));
         });
-        const config = {
-          method: "post",
-          maxBodyLength: Infinity,
-          url: "https://api.marketdb.pro/gateway/payments/topup",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "X-Request-ID": `${uuidv4()}`,
-            "Content-Type": "application/json",
-          },
-          data: data
-        };
-        axios.request(config)
-          .then((response) => {
-            if (response.data.payment.status === "failed") {
-              dispatch(addItem({ title: "Не удалось создать платежную ссылку", status: "error", timelife: 4000, id: uuidv4() }));
-            }
-            dispatch(
-              addItem({
-                title: "Ожидайте",
-                description: "Происходит редирект на страницу оплаты",
-                status: "info",
-                timelife: 4000,
-                id: uuidv4(),
-              })
-            );
-            dispatch(setLinkPayment(response.data.redirectUrl));
-          })
-          .catch((error) => {
-            if (error.response.status === 401) {
-              location.reload()
-            }
-            dispatch(addItem({ title: 'Ошибка', description: error.response.status, status: 'error', timelife: 4000, id: uuidv4() }));
-          });
-      } catch (err: any) {
-        throw new Error(err);
-      }
-    };
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
 
 export const purchaseService =
   (
@@ -170,78 +162,73 @@ export const purchaseService =
     provider: string,
     method: string
   ) =>
-    async (dispatch: AppDispatch) => {
-      try {
-        const data = JSON.stringify({
-          "service": {
-            "context": serviceContext,
-            "plan": plan,
-          },
-          "multiply": multiply,
-          "method": "from-balance",
+  async (dispatch: AppDispatch) => {
+    try {
+      let data = JSON.stringify({
+        "service": {
+          "context": serviceContext,
+          "plan": plan,
+        },
+        "multiply": multiply,
+        "method": "from-balance",
+      })
+      let dataOneTime = JSON.stringify({
+        "service": {
+          "context": serviceContext,
+          "plan": plan,
+        },
+        "promoCode": promoCode,
+        "multiply": multiply,
+        "method": method,
+        "provider": {
+          "provider": provider,
+        },
+        "successRedirectUrl": 'https://space.marketdb.pro/payment/success',
+        "failRedirectUrl": 'https://space.marketdb.pro/payment/error',
+      })
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `https://api.marketdb.pro/gateway/payments/purchase`,
+        headers: {
+          'Content-Type': "application/json",
+        },
+        data: method === 'one-time' ? dataOneTime : data,
+      };
+      axiosApiInstance
+        .request(config)
+        .then((response) => {
+          if (response.data.payment.status === "failed") {
+            dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
+            return null
+          }
+          dispatch(
+            addItem({
+              title: "Ожидайте",
+              description: "Происходит редирект на страницу оплаты",
+              status: "info",
+              timelife: 4000,
+              id: uuidv4(),
+            })
+          );
+          if (method === 'one-time') {
+            dispatch(setLinkPayment(response.data.redirectUrl))
+          } else {
+            dispatch(setAmount(response.data.balance));
+          }
+          if (response.data.code === "successfully_debit") {
+            dispatch(setLinkPayment("https://space.marketdb.pro/payment/success"))
+          } else {
+            dispatch(setLinkPayment("https://space.marketdb.pro/payment/error"))
+          }
+        })
+        .catch((error) => {
+          dispatch(addItem({title: errorHandler(error.response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
         });
-        const dataOneTime = JSON.stringify({
-          "service": {
-            "context": serviceContext,
-            "plan": plan,
-          },
-          "promoCode": promoCode,
-          "multiply": multiply,
-          "method": method,
-          "provider": {
-            "provider": provider,
-          },
-          "successRedirectUrl": "https://space.marketdb.pro/payment/success",
-          "failRedirectUrl": "https://space.marketdb.pro/payment/error",
-        });
-        const config = {
-          method: "post",
-          maxBodyLength: Infinity,
-          url: "https://api.marketdb.pro/gateway/payments/purchase",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "X-Request-ID": `${uuidv4()}`,
-            "Content-Type": "application/json",
-          },
-          data: method === "one-time" ? dataOneTime : data,
-        };
-        axios
-          .request(config)
-          .then((response) => {
-            if (response.data.payment.status === "failed") {
-              dispatch(addItem({ title: "Не удалось создать платежную ссылку", status: "error", timelife: 4000, id: uuidv4() }));
-              return null;
-            }
-            dispatch(
-              addItem({
-                title: "Ожидайте",
-                description: "Происходит редирект на страницу оплаты",
-                status: "info",
-                timelife: 4000,
-                id: uuidv4(),
-              })
-            );
-            if (method === "one-time") {
-              dispatch(setLinkPayment(response.data.redirectUrl));
-            } else {
-              dispatch(setAmount(response.data.balance));
-            }
-            if (response.data.code === "successfully_debit") {
-              dispatch(setLinkPayment("https://space.marketdb.pro/payment/success"))
-            } else {
-              dispatch(setLinkPayment("https://space.marketdb.pro/payment/error"))
-            }
-          })
-          .catch((error) => {
-            if (error.response.status === 401) {
-              location.reload()
-            }
-            dispatch(addItem({ title: errorHandler(error.response.status, { "four": 'На вашем аккаунте не достаточно средств для покупки тарифа' }), status: 'error', timelife: 4000, id: uuidv4() }));
-          });
-      } catch (err: any) {
-        throw new Error(err);
-      }
-    };
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
 
 export const checkPromoCode =
   (token: string, promoCode: string, context: string) =>
