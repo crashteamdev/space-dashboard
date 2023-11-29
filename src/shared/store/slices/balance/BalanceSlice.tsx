@@ -5,6 +5,8 @@ import axios from "axios";
 import { v4 as uuidv4 } from 'uuid';
 import { addItem } from "../alerts/AlertsSlice";
 import { errorHandler } from "@/hooks/errorHandler/errorHandler";
+import autoRefreshToken from "@/hooks/useСheckToken/useCheckToken";
+import axiosApiInstance from "@/shared/api/api";
 interface StateType {
   amount: number;
   linkPayment: string;
@@ -65,12 +67,8 @@ export const getBalance =
         method: "get",
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments/user/balance`,
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "X-Request-ID": `${uuidv4()}`,
-        },
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(setAmount(response.data.amount));
@@ -90,12 +88,8 @@ export const getListPayments =
         method: "get",
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments?fromDate=${fromDate}&toDate=${toDate}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'X-Request-ID': `${uuidv4()}`,
-        },
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(addItem({title: errorHandler(response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
@@ -127,13 +121,11 @@ export const topUpBalance =
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments/topup`,
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'X-Request-ID': `${uuidv4()}`,
           'Content-Type': "application/json",
         },
         data: data
       };
-      axios.request(config)
+      axiosApiInstance.request(config)
         .then((response) => {
           if (response.data.payment.status === "failed") {
             dispatch(addItem({title: 'Не удалось создать платежную ссылку', status: 'error', timelife: 4000, id: uuidv4()}));
@@ -199,13 +191,11 @@ export const purchaseService =
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments/purchase`,
         headers: {
-          "Authorization": `Bearer ${token}`,
-          'X-Request-ID': `${uuidv4()}`,
           'Content-Type': "application/json",
         },
         data: method === 'one-time' ? dataOneTime : data,
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           if (response.data.payment.status === "failed") {
@@ -233,9 +223,6 @@ export const purchaseService =
           }
         })
         .catch((error) => {
-          if (error.response.status === 401) {
-            location. reload()
-          }
           dispatch(addItem({title: errorHandler(error.response.status, {"four": 'На вашем аккаунте не достаточно средств для покупки тарифа'}), status: 'error', timelife: 4000, id: uuidv4()}));
         });
     } catch (err: any) {

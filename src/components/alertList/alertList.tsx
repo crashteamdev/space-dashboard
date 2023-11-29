@@ -14,7 +14,7 @@ const AlertList = ({ children }: any) => {
         {alerts.map((item: any, index: number) => {
           return (
             <>
-              <AlertItem key={index} item={item} />
+              <AlertItem key={item.title + index} item={item} />
             </>
           );
         })}
