@@ -10,21 +10,15 @@ import {
   TableHead,
   Chip,
   Box,
-  AvatarGroup,
   Menu,
   MenuItem,
   IconButton,
-  ListItemIcon,
+  ListItemIcon
 } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
 import { basicsTableData, TableType } from "./tableData";
 import { Stack } from "@mui/system";
-import {
-  IconDots,
-  IconEdit,
-  IconTrash,
-  IconRefresh,
-} from "@tabler/icons-react";
+import { IconDots, IconEdit, IconTrash, IconRefresh } from "@tabler/icons-react";
 
 const basics: TableType[] = basicsTableData;
 
@@ -42,24 +36,24 @@ const Table5 = () => {
     <BlankCard>
       <TableContainer>
         <Table
-          aria-label="simple table"
+          aria-label='simple table'
           sx={{
-            whiteSpace: "nowrap",
+            whiteSpace: "nowrap"
           }}
         >
           <TableHead>
             <TableRow>
               <TableCell>
-                <Typography variant="h6">Аккаунт</Typography>
+                <Typography variant='h6'>Аккаунт</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">Мониторинг</Typography>
+                <Typography variant='h6'>Мониторинг</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6">Последнее обновление</Typography>
+                <Typography variant='h6'>Последнее обновление</Typography>
               </TableCell>
               <TableCell>
-                <Typography variant="h6"></Typography>
+                <Typography variant='h6'></Typography>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -67,17 +61,13 @@ const Table5 = () => {
             {basics.map((basic) => (
               <TableRow key={basic.id}>
                 <TableCell>
-                  <Stack direction="row" spacing={2}>
-                    <Avatar
-                      src={basic.imgsrc}
-                      alt={basic.imgsrc}
-                      sx={{ width: 40, height: 40 }}
-                    />
+                  <Stack direction='row' spacing={2}>
+                    <Avatar src={basic.imgsrc} alt={basic.imgsrc} sx={{ width: 40, height: 40 }} />
                     <Box>
-                      <Typography variant="h6" fontWeight="600">
+                      <Typography variant='h6' fontWeight='600'>
                         {basic.name}
                       </Typography>
-                      <Typography color="textSecondary" variant="subtitle2">
+                      <Typography color='textSecondary' variant='subtitle2'>
                         {basic.post}
                       </Typography>
                     </Box>
@@ -91,46 +81,42 @@ const Table5 = () => {
                         basic.status === "active"
                           ? (theme) => theme.palette.success.light
                           : basic.status === "suspended"
-                          ? (theme) => theme.palette.warning.light
-                          : (theme) => theme.palette.secondary.light,
+                            ? (theme) => theme.palette.warning.light
+                            : (theme) => theme.palette.secondary.light,
                       color:
                         basic.status === "active"
                           ? (theme) => theme.palette.success.light
                           : basic.status === "suspended"
-                          ? (theme) => theme.palette.warning.light
-                          : (theme) => theme.palette.secondary.light,
-                      borderRadius: "8px",
+                            ? (theme) => theme.palette.warning.light
+                            : (theme) => theme.palette.secondary.light,
+                      borderRadius: "8px"
                     }}
-                    size="small"
+                    size='small'
                     label={basic.status}
                   />
                 </TableCell>
                 <TableCell>
-                  <Typography
-                    color="textSecondary"
-                    variant="h6"
-                    fontWeight={400}
-                  >
+                  <Typography color='textSecondary' variant='h6' fontWeight={400}>
                     {basic.pname}
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <IconButton
-                    id="basic-button"
+                    id='basic-button'
                     aria-controls={open ? "basic-menu" : undefined}
-                    aria-haspopup="true"
+                    aria-haspopup='true'
                     aria-expanded={open ? "true" : undefined}
                     onClick={handleClick}
                   >
                     <IconDots width={18} />
                   </IconButton>
                   <Menu
-                    id="basic-menu"
+                    id='basic-menu'
                     anchorEl={anchorEl}
                     open={open}
                     onClose={handleClose}
                     MenuListProps={{
-                      "aria-labelledby": "basic-button",
+                      "aria-labelledby": "basic-button"
                     }}
                   >
                     <MenuItem onClick={handleClose}>

@@ -21,10 +21,7 @@ import { setUser } from "@/shared/store/slices/user/userSlice";
 import { IUser } from "@/shared/types/apps/user";
 import RTL from "../components/customizer/RTL";
 import { logout } from "../api/auth/logout/logout";
-import {
-  setDarkMode,
-  setLanguage,
-} from "@/shared/store/slices/customizer/CustomizerSlice";
+import { setDarkMode, setLanguage } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
@@ -37,10 +34,10 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const customizer = useSelector((state: AppState) => state.customizer);
   const dispatch = useDispatch();
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
   const auth = getAuth(firebase_app);
   const [user, loading] = useAuthState(auth);
-  
+
   useEffect(() => {
     const curLang = localStorage.getItem("lng") as string;
     if (curLang) {
@@ -65,22 +62,22 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       setLoadingPage(true);
     }
     if (user) {
-      console.log(user)
+      console.log(user);
       const { uid, accessToken, displayName, email, photoURL } = user as any;
-      dispatch(getBalance(accessToken));
+      dispatch(getBalance());
       const userdata = {
         uid,
         accessToken,
         displayName,
         email,
-        photoURL,
+        photoURL
       } as IUser;
       dispatch(setUser(userdata));
       setLoadingPage(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, pathname]);
-  
+
   useEffect(() => {
     if (!sessionStorage.getItem("remember") && localStorage.getItem("remember") === "off") {
       logout();
@@ -89,7 +86,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <NextTopLoader color="#5D87FF" />
+      <NextTopLoader color='#5D87FF' />
       <NextAppDirEmotionCacheProvider options={{ key: "modernize" }}>
         <ThemeProvider theme={theme}>
           <RTL direction={customizer.activeDir}>
@@ -106,7 +103,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
                     justifyContent: "center",
                     alignItems: "center",
                     width: "100%",
-                    height: "100vh",
+                    height: "100vh"
                   }}
                 >
                   <CircularProgress />
@@ -120,13 +117,9 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" suppressHydrationWarning>
+    <html lang='ru' suppressHydrationWarning>
       <body>
         <Provider store={store}>
           {

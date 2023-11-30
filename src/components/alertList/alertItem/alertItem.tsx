@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { AppState } from "@/shared/store/store";
+import { useDispatch } from "@/shared/store/hooks";
 import { Alert, AlertTitle, Collapse } from "@mui/material";
 import React, { memo, useCallback } from "react";
 import { removeItem } from "@/shared/store/slices/alerts/AlertsSlice";
@@ -7,7 +6,6 @@ import { removeItem } from "@/shared/store/slices/alerts/AlertsSlice";
 const AlertItem = ({ item }: any) => {
   const [open, setOpen] = React.useState(true);
 
-  const alerts = useSelector((state: AppState) => state.alertsReducer.list);
   const dispatch = useDispatch();
 
   const memoizedCallback = useCallback(() => {
@@ -21,19 +19,14 @@ const AlertItem = ({ item }: any) => {
       clearTimeout(timer);
       clearTimeout(timerAnim);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   memoizedCallback();
 
   if (!item.description) {
     <Collapse in={open}>
-      <Alert
-        variant="filled"
-        severity={item.status}
-        onClick={() => setOpen(false)}
-        sx={{ mb: 1 }}
-      >
+      <Alert variant='filled' severity={item.status} onClick={() => setOpen(false)} sx={{ mb: 1 }}>
         {item.title}
       </Alert>
     </Collapse>;
@@ -41,12 +34,7 @@ const AlertItem = ({ item }: any) => {
 
   return (
     <Collapse in={open}>
-      <Alert
-        variant="filled"
-        severity={item.status}
-        onClick={() => setOpen(false)}
-        sx={{ mb: 1 }}
-      >
+      <Alert variant='filled' severity={item.status} onClick={() => setOpen(false)} sx={{ mb: 1 }}>
         <AlertTitle>{item.title}</AlertTitle>
         {item?.description}
       </Alert>

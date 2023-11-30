@@ -35,7 +35,6 @@ import firebase_app from "@/shared/firebase/firebase";
 import { pricing } from "@/components/ui/popup/data";
 import PaymentList from "@/components/paymentList/paymentList";
 import { useRouter } from "next/navigation";
-import { useIdToken } from "react-firebase-hooks/auth";
 
 const BCrumb = [
   {
@@ -278,7 +277,7 @@ const Pricing = () => {
                   setContext={setContext}
                 />
               </Box>
-              <CheckPromoCode setCheck={setPromoCode} />
+              <CheckPromoCode />
             </Stack>
             <Stack
               direction="row"

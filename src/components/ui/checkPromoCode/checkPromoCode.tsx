@@ -1,14 +1,8 @@
 import React from "react";
 import {
   Box,
-  Stepper,
-  Step,
-  StepLabel,
   Button,
   Typography,
-  Alert,
-  Grid,
-  Autocomplete,
 } from "@mui/material";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
@@ -28,19 +22,16 @@ const checkStep = (value: string) => {
       return "Превышен лимит использования промокода";
     case "notFoundPromoCode":
       return "Промокод не найден";
-    default: 
+    default:
       return "Промокод не найден";
   }
 };
 
-const CheckPromoCode = ({setCheck} : any) => {
-
+const CheckPromoCode = () => {
   const [promocode, setPromocode] = React.useState("");
   const [error, setError] = React.useState("");
   const auth = getAuth(firebase_app) as any;
-  const balanceReducer = useSelector(
-    (state: AppState) => state.balanceReducer
-  ) as any; 
+  const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
   const dispatch = useDispatch();
 
   const checkPromo = () => {
@@ -51,43 +42,39 @@ const CheckPromoCode = ({setCheck} : any) => {
       setTimeout(() => setError(""), 2500);
     }
   };
-  
+
   return (
     <Box mb={2} display={"flex"} flexDirection={"column"}>
       <CustomFormLabel>Промокод (необязательно)</CustomFormLabel>
       <Box display={"flex"} gap={"12px"}>
-      <CustomTextField
-        fullWidth
-        margin={"none"}
-        onChange={(e: any) => setPromocode(e.target.value)}
-        placeholder={"Введите промокод"}
-        id="new-password"
-        name="new-password"
-      />
-      <Box display={"flex"} flexDirection={"row"} gap={2}>
-        <Button
-          onClick={() => checkPromo()}
-          variant="contained"
-          color={"secondary"}
-        >
-          Использовать
-        </Button>
+        <CustomTextField
+          fullWidth
+          margin={"none"}
+          onChange={(e: any) => setPromocode(e.target.value)}
+          placeholder={"Введите промокод"}
+          id='new-password'
+          name='new-password'
+        />
+        <Box display={"flex"} flexDirection={"row"} gap={2}>
+          <Button onClick={() => checkPromo()} variant='contained' color={"secondary"}>
+            Использовать
+          </Button>
+        </Box>
       </Box>
-      </Box>
-      {
-          error ? (
-            <Typography variant="body1" sx={{ mt: 1 }}>
-              {error}
-            </Typography>
-          ) : ""
-        }
-        {balanceReducer.resultPromo ? (
-          <Typography variant="body1" sx={{ mt: 1 }}>
-            {checkStep(balanceReducer.resultPromo)}
-          </Typography>
-        ) : (
-          ""
-        )}
+      {error ? (
+        <Typography variant='body1' sx={{ mt: 1 }}>
+          {error}
+        </Typography>
+      ) : (
+        ""
+      )}
+      {balanceReducer.resultPromo ? (
+        <Typography variant='body1' sx={{ mt: 1 }}>
+          {checkStep(balanceReducer.resultPromo)}
+        </Typography>
+      ) : (
+        ""
+      )}
     </Box>
   );
 };
