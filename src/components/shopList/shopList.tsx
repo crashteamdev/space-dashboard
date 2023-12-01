@@ -1,19 +1,50 @@
 import { Box, Button, CardContent, Divider, Grid, Stack, Tooltip, Typography } from '@mui/material';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { shopList } from './shopListData';
 import BlankCard from '../ui/shared/BlankCard';
 import Link from 'next/link';
+import { getShops } from '@/shared/store/slices/account/AccountSlice';
+import { useSelector } from 'react-redux';
+import { useDispatch } from '@/shared/store/hooks';
+import { useParams } from 'next/navigation';
+import { getAuth } from 'firebase/auth';
+import firebase_app from '@/shared/firebase/firebase';
+import { AppState } from '@/shared/store/store';
 
 const ShopList = () => {
-  return (
+
+  const dispatch = useDispatch();
+  const { accountId } = useParams() as any;
+  const [getData, setGetData] = useState([]);
+  
+  const auth = getAuth(firebase_app) as any;
+  const company = useSelector((state: AppState) => state.companyChanger) as any;
+  const accounts = useSelector(
+    (state: AppState) => state.accountReducer
+  ) as any;
+
+  const getFirstData = async () => {
+    const data = await dispatch(
+      getShops(auth.currentUser.accessToken, company.activeCompany, accountId)
+    );
+    console.log(data)
+    setGetData(data);
+  };
+
+  useEffect(() => {
+    getFirstData();
+  }, []);
+
+  return getData?.length >= 1 && (
     <Box display={"flex"} gap={"24px"} flexWrap={"wrap"}>
-      {shopList.map((item) => {
+      {getData.map((item: any) => {
+        console.log(item)
         return (
           <Grid
             style={{ cursor: "pointer" }}
             item
             component={Link}
-            href={'/reprice/userid/shop'}
+            href={`/reprice/${accountId}/${item.id}`}
             sm={12}
             lg={12}
             key={item.id}

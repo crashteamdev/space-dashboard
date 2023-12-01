@@ -27,12 +27,6 @@ const AccountPage = ({ accountId }: any) => {
       <Box mt={4}></Box>
       <Breadcrumb title={`Выбор магазина`} items={BCrumb} />
       <Box mb={2}>
-        <Button
-          variant="contained"
-          color="primary"
-        >
-          Добавить аккаунт
-        </Button>
       </Box>
       <ShopList />
     </PageContainer>

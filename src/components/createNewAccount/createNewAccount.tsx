@@ -51,7 +51,6 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(1);
       dispatch(
         createNewAccount(
           auth.currentUser.accessToken,

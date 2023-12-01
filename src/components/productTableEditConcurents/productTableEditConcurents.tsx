@@ -1,12 +1,20 @@
 import React from "react";
-import { Box, Stack, Button, Dialog, DialogTitle, DialogContentText, Typography } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContentText,
+  Typography,
+} from "@mui/material";
 import CustomTextField from "../ui/theme-elements/CustomTextField";
 import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
-import styles from "./productTableEditConcurents.module.scss"
+import styles from "./productTableEditConcurents.module.scss";
 import ThemeColors from "@/shared/theme/ThemeColors";
 import ProductTableEditConcurentsTable from "../productTableEditConcurentsTable/productTableEditConcurentsTable";
 
@@ -39,23 +47,30 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
 
   return (
     <Dialog
-      style={{ justifyContent: "flex-end", margin: '0' }}
+      style={{ justifyContent: "flex-end", margin: "0" }}
       open={open}
       className={styles.rightPopup}
       fullWidth={true}
       onClose={handleClose}
     >
-      <DialogTitle mt={2}>Подробнее о товаре</DialogTitle>
-      <DialogContentText mx={3}>
-        Добавить конкурента для отслеживания
-      </DialogContentText>
+      <Box sx={{ display: 'flex', justifyContent: "space-between"}}>
+        <Box>
+          <DialogTitle mt={2}>Подробнее о товаре</DialogTitle>
+          <DialogContentText mx={3}>
+            Добавить конкурента для отслеживания
+          </DialogContentText>
+        </Box>
+        <Box mt={4} mr={3} sx={{display: "flex", gap: "12px", alignItems: 'center'}}>
+          <Button variant="contained" color="primary" type="submit">
+            Сохранить
+          </Button>
+          <Button variant="contained" color="secondary" type="submit">
+            Закрыть
+          </Button>
+        </Box>
+      </Box>
       <form onSubmit={formik.handleSubmit}>
-        <Stack
-          mx={3}
-          direction="row"
-          gap={3}
-          justifyContent={"space-between"}
-        >
+        <Stack mx={3} direction="row" gap={3} justifyContent={"space-between"}>
           <Box width={"100%"}>
             <CustomFormLabel>Ссылка на товар</CustomFormLabel>
             <CustomTextField
@@ -70,9 +85,19 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
             />
           </Box>
         </Stack>
-        <Box display={"flex"} position={"relative"}  mt={4} justifyContent={"center"}>
+        <Box
+          display={"flex"}
+          position={"relative"}
+          mt={4}
+          justifyContent={"center"}
+        >
           <div className={styles.line}></div>
-          <Typography sx={{backgroundColor: "background.default"}} className={styles.text} color="textSecondary" variant="subtitle2">
+          <Typography
+            sx={{ backgroundColor: "background.default" }}
+            className={styles.text}
+            color="textSecondary"
+            variant="subtitle2"
+          >
             Или
           </Typography>
         </Box>
@@ -121,9 +146,19 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
             Добавить
           </Button>
         </Stack>
-        <Box display={"flex"} position={"relative"}  mt={2} justifyContent={"center"}>
+        <Box
+          display={"flex"}
+          position={"relative"}
+          mt={2}
+          justifyContent={"center"}
+        >
           <div className={styles.line}></div>
-          <Typography sx={{backgroundColor: "background.default"}} className={styles.text} color="textSecondary" variant="subtitle2">
+          <Typography
+            sx={{ backgroundColor: "background.default" }}
+            className={styles.text}
+            color="textSecondary"
+            variant="subtitle2"
+          >
             Возможные конкуренты
           </Typography>
         </Box>

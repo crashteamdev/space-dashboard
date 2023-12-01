@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { alpha, useTheme } from "@mui/material/styles";
 import { format } from "date-fns";
 import {
@@ -26,26 +26,20 @@ import {
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import {
-  IconDotsVertical,
   IconFilter,
   IconSearch,
   IconTrash,
 } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import CustomCheckbox from "../ui/forms/CustomCheckbox";
-import CustomSwitch from "../ui/forms/CustomSwitch";
 import ProductsData from "@/shared/store/slices/eCommerce/data";
-import Autocomplete from "@mui/material/Autocomplete";
-import CustomTextField from "../ui/theme-elements/CustomTextField";
-import Link from "next/link";
-import {
-  IconDots,
-  IconEdit,
-  IconRefresh,
-} from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
 import ProductTableEdit from "../productTableEdit/productTableEdit";
 import ProductTableEditConcurents from "../productTableEditConcurents/productTableEditConcurents";
+import { getItemsShop } from "@/shared/store/slices/reprice/repriceSlice";
+import { getAuth } from "firebase/auth";
+import firebase_app from "@/shared/firebase/firebase";
+import { useParams } from "next/navigation";
+import { AppState } from "@/shared/store/store";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -130,12 +124,6 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: false,
     label: "На складе",
-  },
-  {
-    id: "action",
-    numeric: false,
-    disablePadding: false,
-    label: "Настройки",
   },
 ];
 
@@ -276,25 +264,36 @@ const ProductTableList = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const params = useParams() as any;
+
   const dispatch = useDispatch();
 
-  const getProducts: any[] = ProductsData;
-
+  const company = useSelector((state: AppState) => state.companyChanger) as any;
+  const auth = getAuth(firebase_app) as any;
   const [openEditConc, setOpenEditConc] = useState(false);
-  const [rows, setRows] = React.useState<any>(getProducts);
+  const [rows, setRows] = React.useState<any>([]);
   const [search, setSearch] = React.useState("");
 
   const handleOpenConcurents = () => {
     setOpenEditConc(true)
   };
 
-  React.useEffect(() => {
-    setRows(getProducts);
-  }, [getProducts]);
+  const getFirstData = async () => {
+    const data = await dispatch(
+      getItemsShop(auth.currentUser.accessToken, company.activeCompany, params.accountId, params.shopId)
+    );
+    console.log(data);
+    setRows(data);
+  };
+
+  useEffect(() => {
+    getFirstData();
+  }, []);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const filteredRows: any[] = getProducts.filter((row) => {
-      return row.title.toLowerCase().includes(event.target.value);
+    const filteredRows: any[] = rows.filter((row: any) => {
+      console.log(row.skuId, event.target.value)
+      return `${row.skuId}`.includes(event.target.value) || row.name.includes(event.target.value)
     });
     setSearch(event.target.value);
     setRows(filteredRows);
@@ -386,7 +385,7 @@ const ProductTableList = () => {
                 orderBy={orderBy}
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
-                rowCount={rows.length}
+                rowCount={rows?.length}
               />
               <TableBody>
                 {stableSort(rows, getComparator(order, orderBy))
@@ -419,22 +418,21 @@ const ProductTableList = () => {
                         <TableCell>
                           <Box display="flex" alignItems="center">
                             <Avatar
-                              src={row.photo}
+                              src={`https://image.kazanexpress.ru/${row.photoKey}/t_product_high.jpg`}
                               alt="product"
                               sx={{ width: 56, height: 56 }}
                             />
                           </Box>
                         </TableCell>
                         <TableCell>
-                          <Typography>Название товара</Typography>
+                          <Typography style={{maxWidth: '200px', overflow: 'hidden', textOverflow: "ellipsis"}}>{row.name}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography>200 рублей</Typography>
+                          <Typography>{row.price} рублей</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography>пул</Typography>
+                          <Typography>{`${row.isInPool}`}</Typography>
                         </TableCell>
-
                         <TableCell>
                           <Box display="flex" alignItems="center">
                             <Box
@@ -461,11 +459,8 @@ const ProductTableList = () => {
 
                         <TableCell>
                           <Typography fontWeight={600} variant="h6">
-                            ${row.price}
+                            {row.availableAmount} шт.
                           </Typography>
-                        </TableCell>
-                        <TableCell>
-                          <ProductTableEdit />
                         </TableCell>
                       </TableRow>
                     );
