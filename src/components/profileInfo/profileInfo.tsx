@@ -11,6 +11,7 @@ import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import CustomLink from "../ui/link/Link";
+import ProfileListPayments from "../profileListPayments/profileListPayments";
 
 const ProfileInfo = () => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
@@ -28,7 +29,7 @@ const ProfileInfo = () => {
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [company]);
+  }, [company.activeCompany]);
 
   return (
     <ParentCard title={t("profile")}>
@@ -107,6 +108,7 @@ const ProfileInfo = () => {
                     <Box pt={1}>
                       <Button
                         variant="contained"
+                        component={Link}
                         href={"/auth/forgot-password"}
                         color="primary"
                       >
@@ -115,6 +117,11 @@ const ProfileInfo = () => {
                     </Box>
                   </CardContent>
                 </BlankCard>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <Grid item xs={12} lg={12}>
+                <ProfileListPayments />
               </Grid>
             </Grid>
           </Grid>

@@ -23,7 +23,7 @@ const Reprice = () => {
   return (
     <PageContainer title="Master settings" description="Master settings">
       <Box mt={4}></Box>
-      <Breadcrumb title={`Мастер настройки`} items={BCrumb} />
+      <Breadcrumb title={"Управление ценами"} items={BCrumb} />
       <Box mb={2}>
         <Button
           variant="contained"

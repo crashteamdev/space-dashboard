@@ -7,10 +7,10 @@ interface StateType {
 
 const initialState = {
   data: {
-    uid: '',
-    accessToken: '',
+    uid: "",
+    accessToken: "",
     displayName:  null,
-    email: '',
+    email: "",
     photoURL: null,
   }
 };
@@ -24,10 +24,10 @@ export const UserSlice = createSlice({
     },
     deleteUser: (state: StateType) => {
       state.data = {
-        uid: '',
-        accessToken: '',
+        uid: "",
+        accessToken: "",
         displayName:  null,
-        email: '',
+        email: "",
         photoURL: null,
       };
     },

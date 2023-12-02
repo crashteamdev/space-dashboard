@@ -1,3 +1,4 @@
+import React from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { Box, styled, SxProps } from "@mui/material";
@@ -15,7 +16,7 @@ const Scrollbar = (props: PropsType) => {
   const { children, sx, ...other } = props;
 
   const isMobile =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
       navigator.userAgent
     );
   if (isMobile) {

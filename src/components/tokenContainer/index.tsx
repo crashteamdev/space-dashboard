@@ -2,12 +2,9 @@ import { CardContent, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
-import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
-import CustomTextField from "../ui/theme-elements/CustomTextField";
 import ParentCard from "../ui/shared/ParentCard";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import {
-  fetchProfileStatus,
   fetchToken,
   fetchRefreshToken,
   fetchGenerateToken,
@@ -17,6 +14,8 @@ import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import CustomLink from "../ui/link/Link";
+import { v4 as uuidv4 } from "uuid";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 
 const TokenContainer = () => {
   const auth = getAuth(firebase_app) as any;
@@ -24,7 +23,7 @@ const TokenContainer = () => {
 
   const styles = {
     paper: {
-      border: `2px solid 'blue'`,
+      border: "2px solid 'blue'",
       cursor: "pointer",
       overflow: "hidden",
       transition: "border-color 0.3s, background-color 0.3s",
@@ -39,6 +38,7 @@ const TokenContainer = () => {
 
   const refreshToken = () => {
     if (auth.currentUser) {
+      dispatch(addItem({title: "Сгенерирован новый токен", status: "success", timelife: 4000, id: uuidv4()}));
       dispatch(
         fetchRefreshToken(auth.currentUser.accessToken, company.activeCompany)
       );
@@ -141,7 +141,9 @@ const TokenContainer = () => {
                       target="_blank"
                       href={
                         company.activeCompany === "ke"
+                          // eslint-disable-next-line no-secrets/no-secrets
                           ? "https://chrome.google.com/webstore/detail/marketdb-%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-kazane/cfkfachbapidmnjkcandfhlbnfiialei?hl=ru"
+                          // eslint-disable-next-line no-secrets/no-secrets
                           : "https://chrome.google.com/webstore/detail/marketdb-%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-uzumuz/blgbandfopjlfnfpgknfmdkboekolpcc?hl=ru"
                       }
                       color="primary"

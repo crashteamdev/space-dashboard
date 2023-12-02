@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import {
   Box,
   Stack,
@@ -9,16 +10,12 @@ import {
   DialogTitle,
   DialogContent,
   Grid,
-  DialogContentText,
+  DialogContentText
 } from "@mui/material";
-import * as React from "react";
 import CustomTextField from "../ui/theme-elements/CustomTextField";
 import { AppState } from "@/shared/store/store";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
-import {
-  setOpen,
-  setValue,
-} from "@/shared/store/slices/walletPopup/WalletPopupSlice";
+import { setOpen, setValue } from "@/shared/store/slices/walletPopup/WalletPopupSlice";
 import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
 import ChildCard from "../ui/shared/ChildCard";
 import { useTranslation } from "react-i18next";
@@ -51,7 +48,7 @@ const Wallet = ({ hideMenu }: any) => {
       value
         .replace(/\d $/, "")
         .replace(/\D/g, "")
-        .replace(/(\d)(?=(\d{3})+([^\d]|$))/g, "$1 ")
+        .replace(/(\d)(?=(\d{3})+(\D|$))/g, "$1 ")
     );
   };
 
@@ -59,19 +56,19 @@ const Wallet = ({ hideMenu }: any) => {
     <>
       {!hideMenu ? (
         <Box bgcolor={"info.light"} mt={4} p={2}>
-          <Typography variant="h6" fontWeight={400} mb={1}>
+          <Typography variant='h6' fontWeight={400} mb={1}>
             {t("balance.title")}:
           </Typography>
-          <Stack direction="row" spacing={2} justifyContent="space-between">
-            <Typography variant="h4">$ {balanceReducer.amount}</Typography>
+          <Stack direction='row' spacing={2} justifyContent='space-between'>
+            <Typography variant='h4'>$ {balanceReducer.amount}</Typography>
           </Stack>
           <Box mt={2}>
             <Button
               onClick={handleClickOpen}
-              color="primary"
-              variant="contained"
+              color='primary'
+              variant='contained'
               fullWidth
-              type="submit"
+              type='submit'
             >
               Пополнить баланс
             </Button>
@@ -89,18 +86,17 @@ const Wallet = ({ hideMenu }: any) => {
             <CustomFormLabel>Сумма к пополнению</CustomFormLabel>
             <CustomTextField
               fullWidth
-              autoFocus
               value={"$ " + valueText}
               onChange={(input: any) => handleChange(input.currentTarget.value)}
-              margin="dense"
-              id="email"
-              name="email"
+              margin='dense'
+              id='email'
+              name='email'
             />
           </Box>
         </DialogContent>
-        <Grid item xs={12} lg={4} sm={6} display="flex" alignItems="stretch">
+        <Grid item xs={12} lg={4} sm={6} display='flex' alignItems='stretch'>
           <ChildCard>
-            <Stack direction="row" gap={3} justifyContent={"space-between"}>
+            <Stack direction='row' gap={3} justifyContent={"space-between"}>
               <Button onClick={() => handleChange("10")} fullWidth>
                 $ 10
               </Button>
@@ -116,22 +112,15 @@ const Wallet = ({ hideMenu }: any) => {
             </Stack>
           </ChildCard>
         </Grid>
-        <Stack
-          direction="row"
-          px={3}
-          pb={2}
-          mb={2}
-          mt={2}
-          justifyContent={"space-between"}
-        >
-          <Button variant="contained" color="error" onClick={handleClose}>
+        <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"space-between"}>
+          <Button variant='contained' color='error' onClick={handleClose}>
             Отменить
           </Button>
           <Button
-            variant="contained"
+            variant='contained'
             component={Link}
-            color="primary"
-            href="/payment"
+            color='primary'
+            href='/payment'
             onClick={handleLink}
           >
             Оплатить

@@ -21,14 +21,14 @@ interface MenuitemsT {
 
 import {
   IconPoint,
-  IconFileDots,
   IconTicket,
   IconStar,
   IconChartDonut3,
+  IconFileDots,
 } from "@tabler/icons-react";
 
 const MenuitemsKazan: MenuitemsT = {
-  'ke': [
+  "ke": [
     {
       navlabel: true,
       subheader: " ",
@@ -51,13 +51,13 @@ const MenuitemsKazan: MenuitemsT = {
           icon: IconPoint,
           href: "/extension",
         },
-        {
-          id: uniqueId(),
-          title: "Тарифы",
-          icon: IconPoint,
-          href: "/pricing",
-        },
       ],
+    },
+    {
+      id: uniqueId(),
+      title: "Тарифы",
+      icon: IconTicket,
+      href: "/pricing",
     },
     {
       id: uniqueId(),

@@ -10,11 +10,11 @@ import { changeCompany } from "@/shared/store/slices/companyChanger/CompanyChang
 
 const COMMON_TAB = [
   { value: "1", icon: "", label: "KazanExpress", ul: "ke", disabled: false },
-  { value: "2", icon: "", label: "Uzum", ul: "uzum", disabled: false },
+  { value: "2", icon: "", label: "Uzum", ul: "uzum", disabled: false }
 ];
 
 const SwitchCompany = () => {
-  const [value, setValue] = React.useState('ke') as any;
+  const [value, setValue] = React.useState("ke") as any;
 
   const dispatch = useDispatch();
   const handleChange = (event: React.SyntheticEvent, newValue: any) => {
@@ -41,9 +41,9 @@ const SwitchCompany = () => {
 
   return (
     <TabContext value={value}>
-      <Box mt={2} justifyContent="space-between">
-        <TabList onChange={handleChange} aria-label="lab API tabs example">
-          {COMMON_TAB.map((tab: any, index: number) => (
+      <Box mt={2} justifyContent='space-between'>
+        <TabList onChange={handleChange} aria-label='lab API tabs example'>
+          {COMMON_TAB.map((tab: any) => (
             <Tab key={tab.value} label={tab.label} value={tab.ul} />
           ))}
         </TabList>

@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Typography,
@@ -23,12 +24,13 @@ import firebase_app from "@/shared/firebase/firebase";
 import { useState } from "react";
 import { IUser } from "@/shared/types/apps/user";
 import { setUser } from "@/shared/store/slices/user/userSlice";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
+import { v4 as uuidv4 } from "uuid";
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const router = useRouter();
 
   const [check, setCheck] = useState(false) as any;
-  const [empty, setEmpty] = useState(false) as any;
 
   const dispatch = useDispatch();
   const auth = getAuth(firebase_app);
@@ -47,21 +49,21 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const signIn = async (email: string, password: string) => {
     const user = (await signInEmail(email, password)) as any;
     if (!user) {
-      setEmpty(true);
-      setTimeout(() => {
-        setEmpty(false);
-      }, 3000);
+      dispatch(addItem({title: "Не удалось войти в аккаунт", description: "Возможно такого аккаунта не существует", status: "error", timelife: 5000, id: uuidv4()}));
       return false;
     }
 
     if (user.email) {
+      dispatch(addItem({title: "Вы успешно вошли в аккаунт", status: "success", timelife: 4000, id: uuidv4()}));
       router.push("/profile");
     }
 
     if (check) {
       localStorage.setItem("remember", "on");
+      sessionStorage.setItem("remember", "on");
     } else {
       localStorage.setItem("remember", "off");
+      sessionStorage.setItem("remember", "on");
     }
 
     if (auth.currentUser) {
@@ -142,21 +144,6 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
-            {empty ? (
-              <Box mt={2}>
-                <Typography
-                  component="span"
-                  color="error"
-                  variant="h6"
-                  fontWeight="400"
-                  position="relative"
-                >
-                  Такого аккаунта не существует
-                </Typography>
-              </Box>
-            ) : (
-              ""
-            )}
           </Box>
         </Stack>
         <Stack

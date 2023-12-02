@@ -16,28 +16,28 @@ import "@/shared/i18n/i18n";
 import { NextAppDirEmotionCacheProvider } from "@/shared/theme/EmotionCache";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { setUser } from "@/shared/store/slices/user/userSlice";
 import { IUser } from "@/shared/types/apps/user";
 import RTL from "../components/customizer/RTL";
 import { logout } from "../api/auth/logout/logout";
-import {
-  setDarkMode,
-  setLanguage,
-} from "@/shared/store/slices/customizer/CustomizerSlice";
+import { setDarkMode, setLanguage } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
+import AlertList from "@/components/alertList/alertList";
 
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loadingPage, setLoadingPage] = React.useState(false);
   const theme = ThemeSettings();
-  
+
   const customizer = useSelector((state: AppState) => state.customizer);
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname();
   const auth = getAuth(firebase_app);
   const [user, loading] = useAuthState(auth);
+
   useEffect(() => {
     const curLang = localStorage.getItem("lng") as string;
     if (curLang) {
@@ -50,7 +50,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     if (localStorage.getItem("theme")) {
       dispatch(setDarkMode(localStorage.getItem("theme")));
     } else {
-      dispatch(setDarkMode('light'));
+      dispatch(setDarkMode("light"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
@@ -62,55 +62,54 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       setLoadingPage(true);
     }
     if (user) {
+      console.log(user);
       const { uid, accessToken, displayName, email, photoURL } = user as any;
-      dispatch(getBalance(accessToken))
+      dispatch(getBalance());
       const userdata = {
         uid,
         accessToken,
         displayName,
         email,
-        photoURL,
+        photoURL
       } as IUser;
       dispatch(setUser(userdata));
       setLoadingPage(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, router]);
+  }, [loading, pathname]);
 
   useEffect(() => {
-    window.addEventListener("beforeunload", function (e) {
-      // Выход пользователя при закрытии браузера
-      if (localStorage.getItem("remember") === "off") {
-        logout();
-        localStorage.setItem("remember", "off");
-      }
-    });
+    if (!sessionStorage.getItem("remember") && localStorage.getItem("remember") === "off") {
+      logout();
+    }
   }, []);
 
   return (
     <>
-      <NextTopLoader color="#5D87FF" />
+      <NextTopLoader color='#5D87FF' />
       <NextAppDirEmotionCacheProvider options={{ key: "modernize" }}>
         <ThemeProvider theme={theme}>
           <RTL direction={customizer.activeDir}>
-            {loadingPage ? (
-              <>
-                <CssBaseline />
-                {children}
-              </>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "100%",
-                  height: "100vh",
-                }}
-              >
-                <CircularProgress />
-              </Box>
-            )}
+            <AlertList>
+              {loadingPage ? (
+                <>
+                  <CssBaseline />
+                  {children}
+                </>
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    height: "100vh"
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
+            </AlertList>
           </RTL>
         </ThemeProvider>
       </NextAppDirEmotionCacheProvider>
@@ -118,13 +117,9 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" suppressHydrationWarning>
+    <html lang='ru' suppressHydrationWarning>
       <body>
         <Provider store={store}>
           {

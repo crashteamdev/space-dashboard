@@ -1,10 +1,21 @@
 "use client";
-import { Grid, Box, Card, Typography } from "@mui/material";
+import React from "react";
+import { Grid, Box, Card, Typography, Button } from "@mui/material";
 import Logo from "@/components/ui/logo/Logo";
 import PageContainer from "@/components/ui/container/PageContainer";
 import AuthForgotPassword from "../../../processes/auth/AuthForgotPassword";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ForgotPassword2() {
+  const [isSend, setIsSend] = useState(false);
+
+  const router = useRouter();
+
+  const back = () => {
+    router.back();
+  };
+
   return (
     <PageContainer
       title="Forgot Password Page"
@@ -14,7 +25,7 @@ export default function ForgotPassword2() {
         sx={{
           position: "relative",
           "&:before": {
-            content: '""',
+            content: "\"\"",
             background: "radial-gradient(#d2f1df, #d3d7fa, #bad8f4)",
             backgroundSize: "400% 400%",
             animation: "gradient 15s ease infinite",
@@ -54,10 +65,24 @@ export default function ForgotPassword2() {
                 variant="subtitle2"
                 fontWeight="400"
               >
-                Пожалуйста, введите адрес электронной почты, связанный с вашей
-                учетной записью, и мы вышлем вам ссылку для сброса пароля.
+                {isSend
+                  ? "На ваш адрес электронной почты, отправлена ссылка для восстановления пароля!"
+                  : "Пожалуйста, введите адрес электронной почты, связанный с вашей учетной записью, и мы вышлем вам ссылку для сброса пароля."}
               </Typography>
-              <AuthForgotPassword />
+              {isSend ? (
+                <Box mt={2}>
+                  <Button
+                  color="primary"
+                  size="large"
+                  fullWidth
+                  onClick={() => back()}
+                >
+                  Вернуться на страницу авторизации
+                </Button>
+                </Box>
+              ) : (
+                <AuthForgotPassword back={back} setIsSend={setIsSend} />
+              )}
             </Card>
           </Grid>
         </Grid>

@@ -1,9 +1,10 @@
-export const data = ["Прямая оплата", "Оплата с баланса"];
+export const data = ["freekassa", "uz-click", "Оплата с баланса"];
 
 export const pricing = [
   {
     id: 1,
     package: "Default",
+    packageRu: "Базовый",
     monthlyplan: 15,
     avatar: "/images/backgrounds/silver.png",
     badge: false,
@@ -38,6 +39,7 @@ export const pricing = [
   {
     id: 2,
     package: "Advanced",
+    packageRu: "Расширенный",
     monthlyplan: 30,
     avatar: "/images/backgrounds/bronze.png",
     badge: false,
@@ -72,6 +74,7 @@ export const pricing = [
   {
     id: 3,
     package: "Pro",
+    packageRu: "Профессиональный",
     monthlyplan: 40,
     avatar: "/images/backgrounds/gold.png",
     badge: false,

@@ -1,0 +1,12 @@
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: fixed;
+  right: 24px;
+  top: 70px;
+  z-index: 100000000;
+}
