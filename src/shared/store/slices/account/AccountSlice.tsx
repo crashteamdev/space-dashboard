@@ -56,6 +56,31 @@ export const getAccounts =
     }
   };
 
+export const getAccount =
+  (token: string, context: string, id: string) => async (dispatch: AppDispatch) => {
+    try {
+      let config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Request-ID": `${uuidv4()}`,
+        },
+      };
+      return axios
+        .request(config)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          return error;
+        });
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
+
 export const createNewAccount =
   (token: string, context: string, login: string, password: string) =>
   async (dispatch: AppDispatch) => {

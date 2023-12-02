@@ -1,5 +1,6 @@
 "use client"
 
+import HeaderAccount from "@/components/headerAccount/headerAccount";
 import ShopList from "@/components/shopList/shopList";
 import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
 import PageContainer from "@/components/ui/container/PageContainer";
@@ -27,6 +28,7 @@ const AccountPage = ({ accountId }: any) => {
       <Box mt={4}></Box>
       <Breadcrumb title={`Выбор магазина`} items={BCrumb} />
       <Box mb={2}>
+        <HeaderAccount />
       </Box>
       <ShopList />
     </PageContainer>

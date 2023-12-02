@@ -159,7 +159,7 @@ export const getItemsShop =
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops/${shopId}/items`,
+        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops/${shopId}/items?limit=1000`,
         headers: {
           Authorization: `Bearer ${token}`,
           "X-Request-ID": `${uuidv4()}`,

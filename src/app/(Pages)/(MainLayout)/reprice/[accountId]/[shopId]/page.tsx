@@ -35,7 +35,6 @@ const Accounts = () => {
       <Box mt={4}></Box>
       <Breadcrumb title={`Ваш аккаунт`} items={BCrumb} />
       <Box mb={2}>
-        <HeaderAccount />
         <ProductTableList />
       </Box>
     </PageContainer>

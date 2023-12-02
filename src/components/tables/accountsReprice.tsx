@@ -9,6 +9,7 @@ import {
   ListItemIcon,
   Tooltip,
   IconButton,
+  styled,
 } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
 import { basicsTableData, AccountsType } from "./accountsRepriceData";
@@ -53,10 +54,21 @@ const AccountsReprice = () => {
     getFirstData();
   }, []);
 
+  const AppBarStyled = styled(Typography)(({ theme }) => ({
+    color: theme.palette.text.primary,
+    maxWidth: '300px'
+  })) as any;
+
   return (
     <Box display={"flex"} gap={"24px"} flexWrap={"wrap"}>
       <Suspense fallback={"Loading..."}>
         {data.map((item: any) => {
+          const dateObject = new Date(item.lastUpdate);
+          const year = dateObject.getFullYear();
+          const month = dateObject.getMonth() + 1; // Месяцы начинаются с 0
+          const day = dateObject.getDate();
+          const hours = dateObject.getHours();
+          const minutes = dateObject.getMinutes();
           return (
             <Grid
               style={{ cursor: "pointer" }}
@@ -69,12 +81,15 @@ const AccountsReprice = () => {
                 <CardContent component={Link} href={`/reprice/${item.id}`}>
                   <Stack direction={"column"} gap={2} alignItems="center">
                     <Box padding={"6px 24px"} textAlign={"center"}>
-                      <Typography variant="h5">{item.email}</Typography>
+                      <AppBarStyled variant="h5">{item.email}</AppBarStyled>
                     </Box>
                     <Box>
-                      <Typography variant="h6">
-                        Последнее обновление: {item.lastUpdate}
-                      </Typography>
+                      <AppBarStyled variant="h6">
+                        Последнее обновление:
+                      </AppBarStyled>
+                      <AppBarStyled variant="h6">
+                      {day}.{month}.{year} {hours}:{minutes}
+                      </AppBarStyled>
                     </Box>
                   </Stack>
                 </CardContent>
