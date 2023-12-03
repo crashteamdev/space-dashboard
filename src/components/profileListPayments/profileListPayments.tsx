@@ -102,7 +102,7 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, order, orderBy, onRequestSort } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
@@ -143,7 +143,7 @@ interface EnhancedTableToolbarProps {
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, handleSearch, search } = props;
+  const { numSelected } = props;
 
   return (
     <Toolbar
@@ -177,7 +177,7 @@ const ProductTableList = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<any>("calories");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [getProducts, setProducts] = React.useState<any>([]);
+  const [getProducts] = React.useState<any>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const auth = getAuth(firebase_app) as any;
@@ -275,7 +275,7 @@ const ProductTableList = () => {
               <TableBody>
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: any, index) => {
+                  .map((row: any) => {
                     const isItemSelected = isSelected(row.title);
                     return (
                       <TableRow hover tabIndex={-1} key={row.title} selected={isItemSelected}>

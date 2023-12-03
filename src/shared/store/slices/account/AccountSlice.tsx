@@ -154,7 +154,7 @@ export const deleteAccount =
   };
 
 export const getShops =
-  (token: string, context: string, id: string) => async (dispatch: AppDispatch) => {
+  (token: string, context: string, id: string) => async () => {
     try {
       const config = {
         method: "get",

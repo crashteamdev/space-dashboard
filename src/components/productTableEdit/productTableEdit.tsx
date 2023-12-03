@@ -1,22 +1,12 @@
 import React, { useState } from "react";
-import {
-  IconButton,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-} from "@mui/material";
-import Link from "next/link";
+import { IconButton, Menu, MenuItem, ListItemIcon } from "@mui/material";
 import { IconDots, IconEdit, IconRefresh, IconTrash } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
 import ProductTableEditItem from "../productTableEditItem/productTableEditItem";
-import ProductTableEditConcurents from "../productTableEditConcurents/productTableEditConcurents";
 
 const ProductTableEdit = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const router = useRouter();
   const [openEdit, setOpenEdit] = useState(false);
-  const [openEditConc, setOpenEditConc] = useState(false);
   const handleClickOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -25,33 +15,32 @@ const ProductTableEdit = () => {
   };
 
   const handleOpenSettings = () => {
-    setOpenEdit(true)
-    setAnchorEl(null)
+    setOpenEdit(true);
+    setAnchorEl(null);
   };
 
   const handleOpenConcurents = () => {
-    setOpenEditConc(true)
-    setAnchorEl(null)
+    setAnchorEl(null);
   };
 
   return (
     <>
       <IconButton
-        id="basic-button"
+        id='basic-button'
         aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         aria-expanded={open ? "true" : undefined}
         onClick={handleClickOpen}
       >
         <IconDots width={18} />
       </IconButton>
       <Menu
-        id="basic-menu"
+        id='basic-menu'
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          "aria-labelledby": "basic-button",
+          "aria-labelledby": "basic-button"
         }}
       >
         <MenuItem onClick={handleOpenSettings}>

@@ -17,7 +17,10 @@ import { useParams } from "next/navigation";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
-import { deleteConcurentItem, getCompetitiveProductsAdds } from "@/shared/store/slices/reprice/repriceSlice";
+import {
+  deleteConcurentItem,
+  getCompetitiveProductsAdds
+} from "@/shared/store/slices/reprice/repriceSlice";
 import BlankCard from "@/components/ui/shared/BlankCard";
 import { IconTrash } from "@tabler/icons-react";
 
@@ -46,17 +49,12 @@ const ProductTableConcurentsAdds = () => {
 
   const deleteNewItem = async (row: any) => {
     await dispatch(
-      deleteConcurentItem(
-        auth.currentUser.accessToken,
-        company.activeCompany,
-        accountId,
-        {
-          shopItemId: repricer.currentItem,
-          competitorId: row.id,
-        }
-      )
+      deleteConcurentItem(auth.currentUser.accessToken, company.activeCompany, accountId, {
+        shopItemId: repricer.currentItem,
+        competitorId: row.id
+      })
     );
-    await getItems()
+    await getItems();
   };
 
   const AppBarStyled = styled(Typography)(({ theme }) => ({

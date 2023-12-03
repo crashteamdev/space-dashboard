@@ -5,40 +5,22 @@ import {
   Button,
   Dialog,
   DialogTitle,
-  DialogContent,
-  DialogContentText,
 } from "@mui/material";
 import CustomTextField from "../ui/theme-elements/CustomTextField";
 import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
-import Link from "next/link";
 import { useFormik } from "formik";
-import { AppState } from "@/shared/store/store";
 import * as yup from "yup";
-import { createNewAccount } from "@/shared/store/slices/account/AccountSlice";
-import { useSelector } from "react-redux";
-import { getAuth } from "firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
 
 const ProductTableEditItem = ({ open, setOpen }: any) => {
   const handleClose = () => {
     setOpen(false);
   };
 
-  const auth = getAuth(firebase_app) as any;
-
   const validationSchema = yup.object({
-    minValue: yup
-      .number()
-      .required("Минимально значение не заполнено"),
-    maxValue: yup
-      .number()
-      .required("Максимальное значение не заполнено"),
-    sale: yup
-      .number()
-      .required("Допустимая скидка не заполнена"),
-    amountStep: yup
-      .number()
-      .required("Шаг повышения цены не заполнен"),
+    minValue: yup.number().required("Минимально значение не заполнено"),
+    maxValue: yup.number().required("Максимальное значение не заполнено"),
+    sale: yup.number().required("Допустимая скидка не заполнена"),
+    amountStep: yup.number().required("Шаг повышения цены не заполнен")
   });
 
   const formik = useFormik({
@@ -46,26 +28,32 @@ const ProductTableEditItem = ({ open, setOpen }: any) => {
       minValue: 0,
       maxValue: 0,
       sale: 0,
-      amountStep: 0,
+      amountStep: 0
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(values);
-    },
+    }
   });
 
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle mt={2}>Редактирование продукта</DialogTitle>
       <form onSubmit={formik.handleSubmit}>
-      <Stack style={{width: '100%', maxWidth: "400px"}} mx={3} direction="row" gap={3} justifyContent={"space-between"}>
+        <Stack
+          style={{ width: "100%", maxWidth: "400px" }}
+          mx={3}
+          direction='row'
+          gap={3}
+          justifyContent={"space-between"}
+        >
           <Box width={"100%"}>
             <CustomFormLabel>Минимальная цена</CustomFormLabel>
             <CustomTextField
               fullWidth
-              id="minValue"
-              name="minValue"
-              type="number"
+              id='minValue'
+              name='minValue'
+              type='number'
               value={formik.values.minValue}
               onChange={formik.handleChange}
               error={formik.touched.minValue && Boolean(formik.errors.minValue)}
@@ -76,9 +64,9 @@ const ProductTableEditItem = ({ open, setOpen }: any) => {
             <CustomFormLabel>Максимальная цена</CustomFormLabel>
             <CustomTextField
               fullWidth
-              id="maxValue"
-              name="maxValue"
-              type="number"
+              id='maxValue'
+              name='maxValue'
+              type='number'
               value={formik.values.maxValue}
               onChange={formik.handleChange}
               error={formik.touched.maxValue && Boolean(formik.errors.maxValue)}
@@ -86,14 +74,20 @@ const ProductTableEditItem = ({ open, setOpen }: any) => {
             />
           </Box>
         </Stack>
-        <Stack style={{width: '100%', maxWidth: "400px"}} mx={3} direction="row" gap={3} justifyContent={"space-between"}>
+        <Stack
+          style={{ width: "100%", maxWidth: "400px" }}
+          mx={3}
+          direction='row'
+          gap={3}
+          justifyContent={"space-between"}
+        >
           <Box width={"100%"}>
             <CustomFormLabel>Допустимая скидка %</CustomFormLabel>
             <CustomTextField
               fullWidth
-              id="sale"
-              type="number"
-              name="sale"
+              id='sale'
+              type='number'
+              name='sale'
               value={formik.values.sale}
               onChange={formik.handleChange}
               error={formik.touched.sale && Boolean(formik.errors.sale)}
@@ -104,9 +98,9 @@ const ProductTableEditItem = ({ open, setOpen }: any) => {
             <CustomFormLabel>Шаг повышения цены</CustomFormLabel>
             <CustomTextField
               fullWidth
-              id="amountStep"
-              name="amountStep"
-              type="number"
+              id='amountStep'
+              name='amountStep'
+              type='number'
               value={formik.values.amountStep}
               onChange={formik.handleChange}
               error={formik.touched.amountStep && Boolean(formik.errors.amountStep)}
@@ -114,15 +108,8 @@ const ProductTableEditItem = ({ open, setOpen }: any) => {
             />
           </Box>
         </Stack>
-        <Stack
-          direction="row"
-          px={3}
-          pb={2}
-          mb={2}
-          mt={2}
-          justifyContent={"flex-end"}
-        >
-          <Button variant="contained" color="primary" type="submit">
+        <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
+          <Button variant='contained' color='primary' type='submit'>
             Обновить продукт
           </Button>
         </Stack>
@@ -131,4 +118,4 @@ const ProductTableEditItem = ({ open, setOpen }: any) => {
   );
 };
 
-export default ProductTableEditItem
+export default ProductTableEditItem;

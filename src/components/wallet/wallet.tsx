@@ -48,6 +48,7 @@ const Wallet = ({ hideMenu }: any) => {
       value
         .replace(/\d $/, "")
         .replace(/\D/g, "")
+        // eslint-disable-next-line security/detect-unsafe-regex
         .replace(/(\d)(?=(\d{3})+(\D|$))/g, "$1 ")
     );
   };
