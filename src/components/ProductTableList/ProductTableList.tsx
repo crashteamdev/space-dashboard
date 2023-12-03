@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { alpha, useTheme } from "@mui/material/styles";
-import { format } from "date-fns";
 import {
   Box,
   Table,
@@ -12,30 +11,25 @@ import {
   TableRow,
   TableSortLabel,
   Toolbar,
-  IconButton,
   Tooltip,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  FormControlLabel,
   Typography,
   Avatar,
   TextField,
   InputAdornment,
   Paper,
+  Button
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import {
-  IconFilter,
-  IconSearch,
-  IconTrash,
-} from "@tabler/icons-react";
+import { IconPlayerPlayFilled, IconSearch, IconPlayerStopFilled } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import CustomCheckbox from "../ui/forms/CustomCheckbox";
-import ProductsData from "@/shared/store/slices/eCommerce/data";
-import ProductTableEdit from "../productTableEdit/productTableEdit";
 import ProductTableEditConcurents from "../productTableEditConcurents/productTableEditConcurents";
-import { getItemsShop } from "@/shared/store/slices/reprice/repriceSlice";
+import {
+  getItemsShop,
+  setCurrentItem,
+  addItemInPull,
+  deleteItemInPull
+} from "@/shared/store/slices/reprice/repriceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useParams } from "next/navigation";
@@ -57,10 +51,7 @@ type Order = "asc" | "desc";
 function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
+): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -89,42 +80,48 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
+    id: "photo",
+    numeric: false,
+    disablePadding: false,
+    label: "Фото"
+  },
+  {
     id: "name",
     numeric: false,
     disablePadding: false,
-    label: "Фото",
-  },
-  {
-    id: "pname",
-    numeric: false,
-    disablePadding: false,
-    label: "Название",
+    label: "Название"
   },
 
-  {
-    id: "status",
-    numeric: false,
-    disablePadding: false,
-    label: "Цена",
-  },
   {
     id: "price",
     numeric: false,
     disablePadding: false,
-    label: "Пул",
+    label: "Цена"
   },
   {
-    id: "action",
+    id: "isInPool",
     numeric: false,
     disablePadding: false,
-    label: "Настройки пула",
+    label: "Пул"
   },
   {
-    id: "action",
+    id: "settingspull",
     numeric: false,
     disablePadding: false,
-    label: "На складе",
+    label: "Настройки пула"
   },
+  {
+    id: "availableAmount",
+    numeric: false,
+    disablePadding: false,
+    label: "На складе"
+  },
+  {
+    id: "step",
+    numeric: false,
+    disablePadding: false,
+    label: "..."
+  }
 ];
 
 interface EnhancedTableProps {
@@ -137,29 +134,21 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
-  const createSortHandler =
-    (property: any) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
+    onRequestSort(event, property);
+  };
 
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding='checkbox'>
           <CustomCheckbox
-            color="primary"
+            color='primary'
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all desserts",
+              "aria-label": "select all desserts"
             }}
           />
         </TableCell>
@@ -177,7 +166,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
+                <Box component='span' sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
@@ -205,20 +194,12 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
+            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity)
+        })
       }}
     >
       {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
-          variant="subtitle2"
-          component="div"
-        >
+        <Typography sx={{ flex: "1 1 100%" }} color='inherit' variant='subtitle2' component='div'>
           {numSelected} selected
         </Typography>
       ) : (
@@ -226,13 +207,13 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           <TextField
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
-                  <IconSearch size="1.1rem" />
+                <InputAdornment position='start'>
+                  <IconSearch size='1.1rem' />
                 </InputAdornment>
-              ),
+              )
             }}
-            placeholder="Поиск по наименованию или SKU"
-            size="small"
+            placeholder='Поиск по наименованию или skuId'
+            size='small'
             style={{ width: "350px" }}
             onChange={handleSearch}
             value={search}
@@ -240,18 +221,14 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Box>
       )}
 
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <IconTrash width="18" />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <IconFilter size="1.2rem" />
-          </IconButton>
-        </Tooltip>
+      {numSelected > 0 && (
+        <Box mr={3}>
+          <Tooltip title='Добавить в пул'>
+            <Button color='primary' variant='contained' type='submit'>
+              <IconPlayerPlayFilled />
+            </Button>
+          </Tooltip>
+        </Box>
       )}
     </Toolbar>
   );
@@ -272,47 +249,74 @@ const ProductTableList = () => {
   const auth = getAuth(firebase_app) as any;
   const [openEditConc, setOpenEditConc] = useState(false);
   const [rows, setRows] = React.useState<any>([]);
+  const [data, setData] = React.useState<any>([]);
   const [search, setSearch] = React.useState("");
 
-  const handleOpenConcurents = () => {
-    setOpenEditConc(true)
+  const handleOpenConcurents = (itemId: string) => {
+    setOpenEditConc(true);
+    dispatch(setCurrentItem(itemId));
+  };
+
+  const addInPull = async (row: any, event: any) => {
+    event.stopPropagation();
+    await dispatch(
+      addItemInPull(auth.currentUser.accessToken, company.activeCompany, params.accountId, {
+        shopId: params.shopId,
+        shopItemId: row.id
+      })
+    );
+    await getFirstData();
+  };
+
+  const removeInPull = async (row: any, event: any) => {
+    event.stopPropagation();
+    await dispatch(
+      deleteItemInPull(auth.currentUser.accessToken, company.activeCompany, params.accountId, {
+        shopId: params.shopId,
+        shopItemId: row.id
+      })
+    );
+    await getFirstData();
   };
 
   const getFirstData = async () => {
     const data = await dispatch(
-      getItemsShop(auth.currentUser.accessToken, company.activeCompany, params.accountId, params.shopId)
+      getItemsShop(
+        auth.currentUser.accessToken,
+        company.activeCompany,
+        params.accountId,
+        params.shopId
+      )
     );
-    console.log(data);
-    setRows(data);
+    setData(data);
   };
 
   useEffect(() => {
     getFirstData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setRows(data);
+  }, [data]);
+
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const filteredRows: any[] = rows.filter((row: any) => {
-      console.log(row.skuId, event.target.value)
-      return `${row.skuId}`.includes(event.target.value) || row.name.includes(event.target.value)
+    const filteredRows = data.filter((row: any) => {
+      return `${row.skuId}`.includes(event.target.value) || row.name.includes(event.target.value);
     });
     setSearch(event.target.value);
     setRows(filteredRows);
   };
 
-  // This is for the sorting
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: any
-  ) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: any) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  // This is for select all the row
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n: any) => n.title);
+      const newSelecteds = rows.map((n: any) => n.id);
       setSelected(newSelecteds);
 
       return;
@@ -320,8 +324,8 @@ const ProductTableList = () => {
     setSelected([]);
   };
 
-  // This is for the single row sleect
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
+    event.stopPropagation();
     const selectedIndex = selected.indexOf(name);
     let newSelected: readonly string[] = [];
 
@@ -345,18 +349,14 @@ const ProductTableList = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const theme = useTheme();
   const borderColor = theme.palette.divider;
@@ -369,16 +369,9 @@ const ProductTableList = () => {
           search={search}
           handleSearch={(event: any) => handleSearch(event)}
         />
-        <Paper
-          variant="outlined"
-          sx={{ mx: 2, mt: 1, border: `1px solid ${borderColor}` }}
-        >
+        <Paper variant='outlined' sx={{ mt: 1, border: `1px solid ${borderColor}` }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={"small"}
-            >
+            <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={"small"}>
               <EnhancedTableHead
                 numSelected={selected.length}
                 order={order}
@@ -390,77 +383,118 @@ const ProductTableList = () => {
               <TableBody>
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: any, index) => {
-                    const isItemSelected = isSelected(row.title);
+                  .map((row: any, index: number) => {
+                    const isItemSelected = isSelected(row.id);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
                       <TableRow
                         hover
-                        style={{cursor: "pointer"}}
-                        role="checkbox"
+                        style={{ cursor: "pointer" }}
+                        role='checkbox'
                         aria-checked={isItemSelected}
                         tabIndex={-1}
-                        key={row.title}
-                        onClick={() => handleOpenConcurents()}
+                        key={row.id}
+                        onClick={() => handleOpenConcurents(row.id)}
                         selected={isItemSelected}
                       >
-                        <TableCell padding="checkbox">
+                        <TableCell padding='checkbox'>
                           <CustomCheckbox
-                            color="primary"
-                            onClick={(event) => handleClick(event, row.title)}
+                            color='primary'
+                            onClick={(event) => handleClick(event, row.id)}
                             checked={isItemSelected}
                             inputProps={{
-                              "aria-labelledby": labelId,
+                              "aria-labelledby": labelId
                             }}
                           />
                         </TableCell>
                         <TableCell>
-                          <Box display="flex" alignItems="center">
+                          <Box display='flex' alignItems='center'>
                             <Avatar
                               src={`https://image.kazanexpress.ru/${row.photoKey}/t_product_high.jpg`}
-                              alt="product"
+                              alt='product'
                               sx={{ width: 56, height: 56 }}
                             />
                           </Box>
                         </TableCell>
                         <TableCell>
-                          <Typography style={{maxWidth: '200px', overflow: 'hidden', textOverflow: "ellipsis"}}>{row.name}</Typography>
+                          <Typography>{row.name}</Typography>
                         </TableCell>
                         <TableCell>
                           <Typography>{row.price} рублей</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography>{`${row.isInPool}`}</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Box display="flex" alignItems="center">
+                          <Box display='flex' alignItems='center'>
                             <Box
                               sx={{
-                                backgroundColor: row.stock
+                                backgroundColor: row.isInPool
                                   ? (theme) => theme.palette.success.main
                                   : (theme) => theme.palette.error.main,
                                 borderRadius: "100%",
                                 height: "10px",
-                                width: "10px",
+                                width: "10px"
                               }}
                             />
                             <Typography
-                              color="textSecondary"
-                              variant="subtitle2"
+                              color='textSecondary'
+                              variant='subtitle2'
                               sx={{
-                                ml: 1,
+                                ml: 1
                               }}
                             >
-                              {row.stock ? "InStock" : "Out of Stock"}
+                              {row.isInPool ? "В пуле" : "Не в пуле"}
                             </Typography>
                           </Box>
                         </TableCell>
-
                         <TableCell>
-                          <Typography fontWeight={600} variant="h6">
-                            {row.availableAmount} шт.
-                          </Typography>
+                          {row.minimumThreshold && (
+                            <Typography fontWeight={500} variant='body1'>
+                              Мин. Цена: {row.minimumThreshold} руб.
+                            </Typography>
+                          )}
+                          {row.maximumThreshold && (
+                            <Typography fontWeight={500} variant='body1'>
+                              Макс. Цена: {row.maximumThreshold} руб.
+                            </Typography>
+                          )}
+                          {row.discount && (
+                            <Typography fontWeight={500} variant='body1'>
+                              Скидка: {row.discount} %
+                            </Typography>
+                          )}
+                          {row.step && (
+                            <Typography fontWeight={500} variant='body1'>
+                              Шаг: {row.step} руб.
+                            </Typography>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <Typography>{`${row.availableAmount}`} шт.</Typography>
+                        </TableCell>
+                        <TableCell>
+                          {row.isInPool ? (
+                            <Tooltip title='Удалить товар из пула'>
+                              <Button
+                                onClick={(e: any) => removeInPull(row, e)}
+                                color='primary'
+                                variant='contained'
+                                type='submit'
+                              >
+                                <IconPlayerStopFilled />
+                              </Button>
+                            </Tooltip>
+                          ) : (
+                            <Tooltip title='Добавить в пул'>
+                              <Button
+                                onClick={(e: any) => addInPull(row, e)}
+                                color='primary'
+                                variant='contained'
+                                type='submit'
+                              >
+                                <IconPlayerPlayFilled />
+                              </Button>
+                            </Tooltip>
+                          )}
                         </TableCell>
                       </TableRow>
                     );
@@ -468,7 +502,7 @@ const ProductTableList = () => {
                 {emptyRows > 0 && (
                   <TableRow
                     style={{
-                      height: 33 * emptyRows,
+                      height: 33 * emptyRows
                     }}
                   >
                     <TableCell colSpan={6} />
@@ -479,7 +513,7 @@ const ProductTableList = () => {
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
-            component="div"
+            component='div'
             count={rows.length}
             rowsPerPage={rowsPerPage}
             page={page}

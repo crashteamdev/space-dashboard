@@ -1,7 +1,6 @@
-import axios from "../../../axios/axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
-import { v4 as uuidv4 } from "uuid";
+import axiosApiInstance from "@/shared/api/api";
 
 const initialState = {
   token: "",
@@ -39,11 +38,8 @@ export const fetchToken = (token: string, context: string) => async (dispatch: A
       method: "get",
       maxBodyLength: Infinity,
       url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
     };
-    axios
+    axiosApiInstance
       .request(config)
       .then((response) => {
         dispatch(getTokens(response.data));
@@ -63,11 +59,8 @@ export const fetchRefreshToken =
         method: "put",
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(getTokens(response.data));
@@ -87,11 +80,8 @@ export const fetchGenerateToken =
         method: "post",
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(getTokens(response.data));
@@ -111,11 +101,8 @@ export const fetchProfileStatus =
         method: "get",
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/subscription`,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           console.log("CONFIG", config, "DATA", response.data);
@@ -140,16 +127,12 @@ export const getListPayments =
         method: "get",
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments?fromDate=${fromDate}&toDate=${toDate} `,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-Request-ID": `${uuidv4()}`
-        },
         data: {
           fromDate: fromDate,
           toDate: toDate
         }
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(setPaymentList(response.data));

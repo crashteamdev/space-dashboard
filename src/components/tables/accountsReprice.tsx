@@ -1,22 +1,16 @@
 import React, { Suspense, useEffect, useState } from "react";
 import {
-  Avatar,
   Typography,
   Box,
   Grid,
   CardContent,
   Divider,
-  ListItemIcon,
   Tooltip,
   IconButton,
-  styled,
+  styled
 } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
-import { basicsTableData, AccountsType } from "./accountsRepriceData";
 import { Stack } from "@mui/system";
-import { useRouter } from "next/navigation";
-import { IconEdit, IconRefresh, IconTrash } from "@tabler/icons-react";
-import styles from "./accountsReprice.module.scss";
 import { Edit, Delete, Refresh } from "@mui/icons-material";
 import { getAuth } from "firebase/auth";
 import Link from "next/link";
@@ -26,37 +20,30 @@ import firebase_app from "@/shared/firebase/firebase";
 import {
   deleteAccount,
   getAccounts,
-  syncAccount,
+  syncAccount
 } from "@/shared/store/slices/account/AccountSlice";
 
-const basics: AccountsType[] = basicsTableData;
-
 const AccountsReprice = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const [data, setData] = useState([]);
   const auth = getAuth(firebase_app) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
-  const accounts = useSelector(
-    (state: AppState) => state.accountReducer
-  ) as any;
 
   const getFirstData = async () => {
-    const data = await dispatch(
-      getAccounts(auth.currentUser.accessToken, company.activeCompany)
-    );
+    const data = await dispatch(getAccounts(auth.currentUser.accessToken, company.activeCompany));
     console.log(data);
     setData(data);
   };
 
   useEffect(() => {
     getFirstData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const AppBarStyled = styled(Typography)(({ theme }) => ({
     color: theme.palette.text.primary,
-    maxWidth: '300px'
+    maxWidth: "300px"
   })) as any;
 
   return (
@@ -70,45 +57,32 @@ const AccountsReprice = () => {
           const hours = dateObject.getHours();
           const minutes = dateObject.getMinutes();
           return (
-            <Grid
-              style={{ cursor: "pointer" }}
-              item
-              sm={12}
-              lg={12}
-              key={item.id}
-            >
-              <BlankCard className="hoverCard">
+            <Grid style={{ cursor: "pointer" }} item sm={12} lg={12} key={item.id}>
+              <BlankCard className='hoverCard'>
                 <CardContent component={Link} href={`/reprice/${item.id}`}>
-                  <Stack direction={"column"} gap={2} alignItems="center">
+                  <Stack direction={"column"} gap={2} alignItems='center'>
                     <Box padding={"6px 24px"} textAlign={"center"}>
-                      <AppBarStyled variant="h5">{item.email}</AppBarStyled>
+                      <AppBarStyled variant='h5'>{item.email}</AppBarStyled>
                     </Box>
                     <Box>
-                      <AppBarStyled variant="h6">
-                        Последнее обновление:
-                      </AppBarStyled>
-                      <AppBarStyled variant="h6">
-                      {day}.{month}.{year} {hours}:{minutes}
+                      <AppBarStyled variant='h6'>Последнее обновление:</AppBarStyled>
+                      <AppBarStyled variant='h6'>
+                        {day}.{month}.{year} {hours}:{minutes}
                       </AppBarStyled>
                     </Box>
                   </Stack>
                 </CardContent>
                 <Divider />
-                <Box
-                  p={2}
-                  py={1}
-                  textAlign={"center"}
-                  sx={{ backgroundColor: "grey.100" }}
-                >
-                  <Box justifyContent={"space-between"} display="flex" gap={2}>
+                <Box p={2} py={1} textAlign={"center"} sx={{ backgroundColor: "grey.100" }}>
+                  <Box justifyContent={"space-between"} display='flex' gap={2}>
                     {/* Редактирование */}
-                    <Tooltip title="Редактировать">
-                      <IconButton color="primary">
+                    <Tooltip title='Редактировать'>
+                      <IconButton color='primary'>
                         <Edit />
                       </IconButton>
                     </Tooltip>
                     {/* Перезагрузка */}
-                    <Tooltip title="Синхронизация с базой KazanExpress">
+                    <Tooltip title='Синхронизация с базой KazanExpress'>
                       <IconButton
                         onClick={() =>
                           dispatch(
@@ -119,13 +93,13 @@ const AccountsReprice = () => {
                             )
                           )
                         }
-                        color="info"
+                        color='info'
                       >
                         <Refresh />
                       </IconButton>
                     </Tooltip>
                     {/* Удаление */}
-                    <Tooltip title="Удалить">
+                    <Tooltip title='Удалить'>
                       <IconButton
                         onClick={() =>
                           dispatch(
@@ -136,7 +110,7 @@ const AccountsReprice = () => {
                             )
                           )
                         }
-                        color="error"
+                        color='error'
                       >
                         <Delete />
                       </IconButton>

@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { addItem } from "../alerts/AlertsSlice";
 import { errorHandler } from "@/hooks/errorHandler/errorHandler";
 import axiosApiInstance from "@/shared/api/api";
+
 interface StateType {
   amount: number;
   linkPayment: string;
@@ -79,8 +80,7 @@ export const getBalance = () => async (dispatch: AppDispatch) => {
 };
 
 export const getListPayments =
-  (fromDate: string, toDate: string) =>
-  async (dispatch: AppDispatch) => {
+  (fromDate: string, toDate: string) => async (dispatch: AppDispatch) => {
     try {
       const config = {
         method: "get",
@@ -129,69 +129,67 @@ export const getListPayments =
     }
   };
 
-export const topUpBalance =
-  (amount: number, provider: string) =>
-  async (dispatch: AppDispatch) => {
-    try {
-      let data = JSON.stringify({
-        amount: +amount,
-        successRedirectUrl: "https://space.marketdb.pro/payment/success",
-        failRedirectUrl: "https://space.marketdb.pro/payment/error",
-        provider: {
-          provider: provider.toLowerCase()
-        }
-      });
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: "https://api.marketdb.pro/gateway/payments/topup",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        data: data
-      };
-      axiosApiInstance
-        .request(config)
-        .then((response) => {
-          if (response.data.payment.status === "failed") {
-            dispatch(
-              addItem({
-                title: "Не удалось создать платежную ссылку",
-                status: "error",
-                timelife: 4000,
-                id: uuidv4()
-              })
-            );
-          }
+export const topUpBalance = (amount: number, provider: string) => async (dispatch: AppDispatch) => {
+  try {
+    const data = JSON.stringify({
+      amount: +amount,
+      successRedirectUrl: "https://space.marketdb.pro/payment/success",
+      failRedirectUrl: "https://space.marketdb.pro/payment/error",
+      provider: {
+        provider: provider.toLowerCase()
+      }
+    });
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: "https://api.marketdb.pro/gateway/payments/topup",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: data
+    };
+    axiosApiInstance
+      .request(config)
+      .then((response) => {
+        if (response.data.payment.status === "failed") {
           dispatch(
             addItem({
-              title: "Ожидайте",
-              description: "Происходит редирект на страницу оплаты",
-              status: "info",
-              timelife: 4000,
-              id: uuidv4()
-            })
-          );
-          dispatch(setLinkPayment(response.data.redirectUrl));
-        })
-        .catch((error) => {
-          if (error.response.status === 401) {
-            location.reload();
-          }
-          dispatch(
-            addItem({
-              title: "Ошибка",
-              description: error.response.status,
+              title: "Не удалось создать платежную ссылку",
               status: "error",
               timelife: 4000,
               id: uuidv4()
             })
           );
-        });
-    } catch (err: any) {
-      throw new Error(err);
-    }
-  };
+        }
+        dispatch(
+          addItem({
+            title: "Ожидайте",
+            description: "Происходит редирект на страницу оплаты",
+            status: "info",
+            timelife: 4000,
+            id: uuidv4()
+          })
+        );
+        dispatch(setLinkPayment(response.data.redirectUrl));
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          location.reload();
+        }
+        dispatch(
+          addItem({
+            title: "Ошибка",
+            description: error.response.status,
+            status: "error",
+            timelife: 4000,
+            id: uuidv4()
+          })
+        );
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
 
 export const purchaseService =
   (
@@ -205,7 +203,7 @@ export const purchaseService =
   ) =>
   async (dispatch: AppDispatch) => {
     try {
-      let data = JSON.stringify({
+      const data = JSON.stringify({
         service: {
           context: serviceContext,
           plan: plan
@@ -213,7 +211,7 @@ export const purchaseService =
         multiply: multiply,
         method: "from-balance"
       });
-      let dataOneTime = JSON.stringify({
+      const dataOneTime = JSON.stringify({
         service: {
           context: serviceContext,
           plan: plan
@@ -227,7 +225,7 @@ export const purchaseService =
         successRedirectUrl: "https://space.marketdb.pro/payment/success",
         failRedirectUrl: "https://space.marketdb.pro/payment/error"
       });
-      let config = {
+      const config = {
         method: "post",
         maxBodyLength: Infinity,
         url: "https://api.marketdb.pro/gateway/payments/purchase",
@@ -288,7 +286,7 @@ export const purchaseService =
   };
 
 export const checkPromoCode =
-  (token: string, promoCode: string, context: string) => async (dispatch: AppDispatch) => {
+  (token: string, promoCode: string) => async (dispatch: AppDispatch) => {
     try {
       const config = {
         method: "get",

@@ -9,22 +9,19 @@ import {
   Typography,
   TableHead,
   styled,
-  Tooltip,
-  Button
+  Button,
+  Tooltip
 } from "@mui/material";
-import BlankCard from "../ui/shared/BlankCard";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { useParams } from "next/navigation";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
-import {
-  addComcurentItem,
-  getCompetitiveProducts
-} from "@/shared/store/slices/reprice/repriceSlice";
-import { IconPlus } from "@tabler/icons-react";
+import { deleteConcurentItem, getCompetitiveProductsAdds } from "@/shared/store/slices/reprice/repriceSlice";
+import BlankCard from "@/components/ui/shared/BlankCard";
+import { IconTrash } from "@tabler/icons-react";
 
-const ProductTableEditConcurentsTable = () => {
+const ProductTableConcurentsAdds = () => {
   const { accountId, shopId } = useParams() as any;
   const [data, setData] = useState([]) as any;
   const dispatch = useDispatch();
@@ -36,7 +33,7 @@ const ProductTableEditConcurentsTable = () => {
 
   const getItems = async () => {
     const result = await dispatch(
-      getCompetitiveProducts(
+      getCompetitiveProductsAdds(
         auth.currentUser.accessToken,
         company.activeCompany,
         accountId,
@@ -44,27 +41,27 @@ const ProductTableEditConcurentsTable = () => {
         repricer.currentItem
       )
     );
-    console.log(result);
-    setData(result);
+    await setData(result);
   };
 
-  const addNewItem = async (row: any) => {
+  const deleteNewItem = async (row: any) => {
     await dispatch(
-      addComcurentItem(auth.currentUser.accessToken, company.activeCompany, accountId, {
-        shopItemRef: {
-          shopId: shopId,
-          shopItemId: repricer.currentItem
-        },
-        competitorProductId: row.productId,
-        competitorSkuId: row.skuId
-      })
+      deleteConcurentItem(
+        auth.currentUser.accessToken,
+        company.activeCompany,
+        accountId,
+        {
+          shopItemId: repricer.currentItem,
+          competitorId: row.id,
+        }
+      )
     );
-    await getItems();
+    await getItems()
   };
 
   const AppBarStyled = styled(Typography)(({ theme }) => ({
     color: theme.palette.text.primary,
-    maxWidth: "420px",
+    maxWidth: "220px",
     overflow: "hidden",
     textOverflow: "ellipsis"
   })) as any;
@@ -92,6 +89,12 @@ const ProductTableEditConcurentsTable = () => {
                 <Typography variant='h6'>Название</Typography>
               </TableCell>
               <TableCell>
+                <Typography variant='h6'>ProductId</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant='h6'>Skuid</Typography>
+              </TableCell>
+              <TableCell>
                 <Typography variant='h6'>...</Typography>
               </TableCell>
             </TableRow>
@@ -112,14 +115,19 @@ const ProductTableEditConcurentsTable = () => {
                   </AppBarStyled>
                 </TableCell>
                 <TableCell>
-                  <Tooltip title='Добавить конкурента'>
-                    <Button
-                      onClick={() => addNewItem(row)}
-                      color='primary'
-                      variant='contained'
-                      type='submit'
-                    >
-                      <IconPlus />
+                  <AppBarStyled color='textSecondary' variant='h6' fontWeight={400}>
+                    {row.productId}
+                  </AppBarStyled>
+                </TableCell>
+                <TableCell>
+                  <AppBarStyled color='textSecondary' variant='h6' fontWeight={400}>
+                    {row.skuId}
+                  </AppBarStyled>
+                </TableCell>
+                <TableCell>
+                  <Tooltip title='Удалить конкурента из таблицы'>
+                    <Button onClick={() => deleteNewItem(row)} color='primary' variant='contained'>
+                      <IconTrash />
                     </Button>
                   </Tooltip>
                 </TableCell>
@@ -132,4 +140,4 @@ const ProductTableEditConcurentsTable = () => {
   );
 };
 
-export default ProductTableEditConcurentsTable;
+export default ProductTableConcurentsAdds;
