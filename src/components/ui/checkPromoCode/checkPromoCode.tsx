@@ -36,7 +36,7 @@ const CheckPromoCode = () => {
 
   const checkPromo = () => {
     if (promocode) {
-      dispatch(checkPromoCode(auth.currentUser.accessToken, promocode, ""));
+      dispatch(checkPromoCode(auth.currentUser.accessToken, promocode));
     } else {
       setError("Поле с промокодом пустое, заполните его");
       setTimeout(() => setError(""), 2500);

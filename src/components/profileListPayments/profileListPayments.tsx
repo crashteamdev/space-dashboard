@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import BlankCard from "../ui/shared/BlankCard";
-import { alpha, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import { format } from "date-fns";
 import {
   Box,
@@ -13,19 +13,16 @@ import {
   TableRow,
   TableSortLabel,
   CardContent,
-  Toolbar,
-  IconButton,
-  Tooltip,
   Typography,
   Paper
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { IconFilter, IconTrash } from "@tabler/icons-react";
 import { getAuth } from "@firebase/auth";
 import { getListPayments } from "@/shared/store/slices/userProfile/UserProfileSlice";
 import firebase_app from "@/shared/firebase/firebase";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
+import statusChecker from "@/processes/statusChecker/StatusChecker";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -72,7 +69,7 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "date",
+    id: "createdAt",
     numeric: false,
     disablePadding: false,
     label: "Дата"
@@ -85,7 +82,7 @@ const headCells: readonly HeadCell[] = [
   },
 
   {
-    id: "Amount",
+    id: "amount",
     numeric: false,
     disablePadding: false,
     label: "Сумма"
@@ -102,7 +99,7 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, order, orderBy, onRequestSort } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
@@ -136,43 +133,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-  handleSearch: React.ChangeEvent<HTMLInputElement> | any;
-  search: string;
-}
-
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, handleSearch, search } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity)
-        })
-      }}
-    >
-      {numSelected > 0 ? (
-        <Tooltip title='Delete'>
-          <IconButton>
-            <IconTrash width='18' />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title='Filter list'>
-          <IconButton>
-            <IconFilter size='1.2rem' />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
 const ProductTableList = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<any>("calories");
@@ -187,7 +147,6 @@ const ProductTableList = () => {
   const dispatch = useDispatch();
 
   const [rows, setRows] = React.useState<any>(userPost.paymentList);
-  const [search, setSearch] = React.useState("");
 
   React.useEffect(() => {
     setRows(getProducts);
@@ -206,17 +165,10 @@ const ProductTableList = () => {
         getListPayments(auth.currentUser.accessToken, company.activeCompany, formattedDate, toDate)
       );
     }
+    setProducts(userPost.paymentList);
     setRows(userPost.paymentList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const filteredRows: any[] = getProducts.filter((row: any) => {
-      return row.title.toLowerCase().includes(event.target.value);
-    });
-    setSearch(event.target.value);
-    setRows(filteredRows);
-  };
 
   // This is for the sorting
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: any) => {
@@ -253,14 +205,9 @@ const ProductTableList = () => {
   const theme = useTheme();
   const borderColor = theme.palette.divider;
 
-  return userPost.paymentList.length ? (
+  return rows.length ? (
     <Box>
       <Box>
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          search={search}
-          handleSearch={(event: any) => handleSearch(event)}
-        />
         <Paper variant='outlined' sx={{ mx: 0, mt: 1, border: `1px solid ${borderColor}` }}>
           <TableContainer>
             <Table sx={{ minWidth: 200 }} aria-labelledby='tableTitle' size={"small"}>
@@ -275,7 +222,7 @@ const ProductTableList = () => {
               <TableBody>
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: any, index) => {
+                  .map((row: any) => {
                     const isItemSelected = isSelected(row.title);
                     return (
                       <TableRow hover tabIndex={-1} key={row.title} selected={isItemSelected}>
@@ -285,7 +232,7 @@ const ProductTableList = () => {
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography>{row.status}</Typography>
+                          <Typography>{statusChecker(row.status)}</Typography>
                         </TableCell>
                         <TableCell>
                           <Typography fontWeight={600} variant='h6'>

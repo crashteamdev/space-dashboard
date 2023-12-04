@@ -9,11 +9,6 @@ import { useDispatch } from "@/shared/store/hooks";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { v4 as uuidv4 } from "uuid";
 
-type InputTypes = {
-  value: string;
-  error: string;
-};
-
 export default function AuthForgotPassword({ back, setIsSend }: any) {
   const validationSchema = yup.object({
     email: yup
