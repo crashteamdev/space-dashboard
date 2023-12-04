@@ -6,6 +6,7 @@ import {
   Button,
   DialogContentText,
   DialogTitle,
+  Divider,
   FormControl,
   FormControlLabel,
   Stack,
@@ -131,17 +132,32 @@ const ConcurentsBlock = () => {
           <DialogContentText mx={3}>Добавить конкурента для отслеживания</DialogContentText>
           <Box display={"flex"} alignItems={"center"}></Box>
           <Box mt={1} display={"flex"} alignItems={"center"}>
-            <DialogContentText ml={3}>Осталось добавлений конкурентов: </DialogContentText>
-            <Typography
-              ml={1}
-              variant='h6'
-              color={theme.palette.info.main}
-              sx={{
-                borderRadius: "100%"
-              }}
-            >
-              {company.limits.itemCompetitorLimitCurrent}
-            </Typography>
+            <div style={{display: "flex", alignItems: "baseline"}}>
+              <DialogContentText ml={3}>Всего конкурентов: </DialogContentText>
+              <Typography
+                  ml={1}
+                  variant='h6'
+                  color={theme.palette.info.main}
+                  sx={{
+                    borderRadius: "100%"
+                  }}
+              >
+                {company.limits.itemCompetitorLimitCurrent}
+              </Typography>
+              <Typography color='inherit' noWrap>
+                &nbsp;из
+              </Typography>
+              <Typography
+                  ml={0.4}
+                  variant='h6'
+                  color={theme.palette.info.main}
+                  sx={{
+                    borderRadius: "100%"
+                  }}
+              >
+                {company.limits.itemCompetitorLimit}
+              </Typography>
+            </div>
           </Box>
         </Box>
       </Box>
@@ -175,7 +191,7 @@ const ConcurentsBlock = () => {
               checked={selectedValue === "b"}
               onChange={handleChange3}
               value='b'
-              label='ProductId, SkuId'
+              label='Вручную'
               control={<CustomRadio />}
               name='radio-button-demo'
             />
