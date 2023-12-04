@@ -13,7 +13,7 @@ import {
   ListItemIcon,
   Chip,
   Switch,
-  Stack,
+  Stack
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
@@ -26,10 +26,7 @@ import Popup from "@/components/ui/popup/popup";
 import CheckPromoCode from "@/components/ui/checkPromoCode/checkPromoCode";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
-import {
-  getExchange,
-  purchaseService,
-} from "@/shared/store/slices/balance/BalanceSlice";
+import { getExchange, purchaseService } from "@/shared/store/slices/balance/BalanceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { pricing } from "@/components/ui/popup/data";
@@ -39,11 +36,11 @@ import { useRouter } from "next/navigation";
 const BCrumb = [
   {
     to: "/",
-    title: "Главная",
+    title: "Главная"
   },
   {
-    title: "Тарифы",
-  },
+    title: "Тарифы"
+  }
 ];
 
 const Pricing = () => {
@@ -60,9 +57,7 @@ const Pricing = () => {
   const theme = useTheme();
   const warninglight = theme.palette.warning.light;
   const warning = theme.palette.warning.main;
-  const balanceReducer = useSelector(
-    (state: AppState) => state.balanceReducer
-  ) as any;
+  const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
   const router = useRouter();
 
   const StyledChip = styled(Chip)({
@@ -72,7 +67,7 @@ const Pricing = () => {
     backgroundColor: warninglight,
     color: warning,
     textTransform: "uppercase",
-    fontSize: "11px",
+    fontSize: "11px"
   });
 
   const handleLink = () => {
@@ -85,7 +80,6 @@ const Pricing = () => {
     }
     setOpen(0);
 
-    
     dispatch(
       purchaseService(
         auth.currentUser.accessToken,
@@ -106,23 +100,18 @@ const Pricing = () => {
   }, [balanceReducer.linkPayment]);
 
   return (
-    <PageContainer title="Pricing" description="this is Pricing">
-      <Breadcrumb title="Pricing" items={BCrumb} />
-      <Grid container spacing={3} justifyContent="center" mt={3}>
-        <Grid item xs={12} sm={10} lg={8} textAlign="center">
-          <Typography variant="h2">Тарифы</Typography>
-          <Typography variant="h5" mt={2}>
+    <PageContainer title='Pricing' description='this is Pricing'>
+      <Breadcrumb title='Pricing' items={BCrumb} />
+      <Grid container spacing={3} justifyContent='center' mt={3}>
+        <Grid item xs={12} sm={10} lg={8} textAlign='center'>
+          <Typography variant='h2'>Тарифы</Typography>
+          <Typography variant='h5' mt={2}>
             Без привязки карты. Доступы мгновенно
           </Typography>
-          <Box
-            display="flex"
-            alignItems="center"
-            mt={3}
-            justifyContent="center"
-          >
-            <Typography variant="subtitle1">1 месяц</Typography>
+          <Box display='flex' alignItems='center' mt={3} justifyContent='center'>
+            <Typography variant='subtitle1'>1 месяц</Typography>
             <Switch onChange={() => setShow(!show)} />
-            <Typography variant="subtitle1">3 месяца</Typography>
+            <Typography variant='subtitle1'>3 месяца</Typography>
           </Box>
         </Grid>
       </Grid>
@@ -131,45 +120,38 @@ const Pricing = () => {
           <Grid item xs={12} lg={4} sm={6} key={i}>
             <BlankCard>
               <CardContent sx={{ p: "30px" }}>
-                {price.badge ? (
-                  <StyledChip label="Popular" size="small"></StyledChip>
-                ) : null}
+                {price.badge ? <StyledChip label='Popular' size='small'></StyledChip> : null}
 
                 <Typography
-                  variant="subtitle1"
-                  fontSize="12px"
+                  variant='subtitle1'
+                  fontSize='12px'
                   mb={3}
-                  color="textSecondary"
-                  textTransform="uppercase"
+                  color='textSecondary'
+                  textTransform='uppercase'
                 >
                   {price.packageRu}
                 </Typography>
-                <Image
-                  src={price.avatar}
-                  alt={price.avatar}
-                  width={90}
-                  height={90}
-                />
+                <Image src={price.avatar} alt={price.avatar} width={90} height={90} />
                 <Box my={4}>
                   {price.plan == "Free" ? (
-                    <Box fontSize="50px" mt={5} fontWeight="600">
+                    <Box fontSize='50px' mt={5} fontWeight='600'>
                       {price.plan}
                     </Box>
                   ) : (
-                    <Box display="flex">
-                      <Typography variant="h6" mr="8px" mt="-12px">
+                    <Box display='flex'>
+                      <Typography variant='h6' mr='8px' mt='-12px'>
                         $
                       </Typography>
                       {show ? (
                         <>
-                          <Typography fontSize="48px" fontWeight="600">
+                          <Typography fontSize='48px' fontWeight='600'>
                             {yearlyPrice(`${price.monthlyplan}`, 3)}
                           </Typography>
                           <Typography
-                            fontSize="15px"
+                            fontSize='15px'
                             fontWeight={400}
                             ml={1}
-                            color="textSecondary"
+                            color='textSecondary'
                             mt={1}
                           >
                             / 3 месяца
@@ -177,14 +159,14 @@ const Pricing = () => {
                         </>
                       ) : (
                         <>
-                          <Typography fontSize="48px" fontWeight="600">
+                          <Typography fontSize='48px' fontWeight='600'>
                             {price.monthlyplan}
                           </Typography>
                           <Typography
-                            fontSize="15px"
+                            fontSize='15px'
                             fontWeight={400}
                             ml={1}
-                            color="textSecondary"
+                            color='textSecondary'
                             mt={1}
                           >
                             / месяц
@@ -202,9 +184,7 @@ const Pricing = () => {
                         {rule.limit ? (
                           <>
                             <ListItem disableGutters>
-                              <ListItemIcon
-                                sx={{ color: "primary.main", minWidth: "32px" }}
-                              >
+                              <ListItemIcon sx={{ color: "primary.main", minWidth: "32px" }}>
                                 <IconCheck width={18} />
                               </ListItemIcon>
                               <ListItemText>{rule.title}</ListItemText>
@@ -212,9 +192,7 @@ const Pricing = () => {
                           </>
                         ) : (
                           <ListItem disableGutters sx={{ color: "grey.400" }}>
-                            <ListItemIcon
-                              sx={{ color: "grey.400", minWidth: "32px" }}
-                            >
+                            <ListItemIcon sx={{ color: "grey.400", minWidth: "32px" }}>
                               <IconX width={18} />
                             </ListItemIcon>
                             <ListItemText>{rule.title}</ListItemText>
@@ -226,10 +204,10 @@ const Pricing = () => {
                 </Box>
                 <Button
                   sx={{ width: "100%", mt: 3 }}
-                  variant="contained"
+                  variant='contained'
                   onClick={() => setOpen(i + 1)}
-                  size="large"
-                  color="primary"
+                  size='large'
+                  color='primary'
                 >
                   {price.btntext}
                 </Button>
@@ -241,59 +219,35 @@ const Pricing = () => {
           open={open}
           setOpen={setOpen}
           title={"Оплата"}
-          description={`Вы выбрали тариф ${
-            pricing[open - 1]?.packageRu
-          }, проверьте еще раз чтобы не ошибится`}
+          description={`Вы выбрали тариф ${pricing[open - 1]
+            ?.packageRu}, проверьте еще раз чтобы не ошибится`}
         >
           <>
             <Stack px={3}>
-              <Typography variant="h6">
-                Тариф: {pricing[open - 1]?.packageRu}
-              </Typography>
-              <Typography variant="h6" sx={{ mt: 1 }}>
-                Сумма: $
-                {show
-                  ? pricing[open - 1]?.monthlyplan * 3
-                  : pricing[open - 1]?.monthlyplan}{" "}
+              <Typography variant='h6'>Тариф: {pricing[open - 1]?.packageRu}</Typography>
+              <Typography variant='h6' sx={{ mt: 1 }}>
+                Сумма: ${show ? pricing[open - 1]?.monthlyplan * 3 : pricing[open - 1]?.monthlyplan}{" "}
                 -{" "}
                 {Math.floor(
                   show
-                    ? pricing[open - 1]?.monthlyplan *
-                        3 *
-                        balanceReducer.exchange
+                    ? pricing[open - 1]?.monthlyplan * 3 * balanceReducer.exchange
                     : pricing[open - 1]?.monthlyplan * balanceReducer.exchange
                 )}
                 рублей
               </Typography>
-              <Typography variant="h6" sx={{ mt: 1 }}>
+              <Typography variant='h6' sx={{ mt: 1 }}>
                 Срок: {show ? 1 * 3 : 1} м.
               </Typography>
               <Box mt={2}>
-                <PaymentList
-                  pay={true}
-                  error={empty}
-                  context={context}
-                  setContext={setContext}
-                />
+                <PaymentList pay={true} error={empty} context={context} setContext={setContext} />
               </Box>
               <CheckPromoCode />
             </Stack>
-            <Stack
-              direction="row"
-              px={3}
-              pb={2}
-              mb={2}
-              mt={2}
-              justifyContent={"space-between"}
-            >
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => setOpen(0)}
-              >
+            <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"space-between"}>
+              <Button variant='contained' color='error' onClick={() => setOpen(0)}>
                 Отменить
               </Button>
-              <Button variant="contained" color="primary" onClick={handleLink}>
+              <Button variant='contained' color='primary' onClick={handleLink}>
                 Оплатить тариф
               </Button>
             </Stack>

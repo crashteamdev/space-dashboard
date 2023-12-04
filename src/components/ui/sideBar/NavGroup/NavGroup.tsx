@@ -23,11 +23,11 @@ const NavGroup = ({ item, hideMenu }: ItemType) => {
     color: "text.Primary",
     lineHeight: "26px",
     padding: "3px 12px",
-    marginLeft: hideMenu ? "" : "-10px",
+    marginLeft: hideMenu ? "" : "-10px"
   }));
 
   return (
-    <ListSubheaderStyle>{hideMenu ? <IconDots size="14" /> : item?.subheader}</ListSubheaderStyle>
+    <ListSubheaderStyle>{hideMenu ? <IconDots size='14' /> : item?.subheader}</ListSubheaderStyle>
   );
 };
 

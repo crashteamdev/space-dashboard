@@ -55,30 +55,29 @@ export const getAccounts = (token: string, context: string) => async () => {
   }
 };
 
-export const getAccount =
-  (token: string, context: string, id: string) => async () => {
-    try {
-      const config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-Request-ID": `${uuidv4()}`
-        }
-      };
-      return axios
-        .request(config)
-        .then((response) => {
-          return response.data;
-        })
-        .catch((error) => {
-          return error;
-        });
-    } catch (err: any) {
-      throw new Error(err);
-    }
-  };
+export const getAccount = (token: string, context: string, id: string) => async () => {
+  try {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "X-Request-ID": `${uuidv4()}`
+      }
+    };
+    return axios
+      .request(config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
 
 export const createNewAccount =
   (token: string, context: string, login: string, password: string) =>
@@ -153,30 +152,29 @@ export const deleteAccount =
     }
   };
 
-export const getShops =
-  (token: string, context: string, id: string) => async () => {
-    try {
-      const config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-Request-ID": `${uuidv4()}`
-        }
-      };
-      return axios
-        .request(config)
-        .then((response) => {
-          return response.data;
-        })
-        .catch((error) => {
-          return error;
-        });
-    } catch (err: any) {
-      throw new Error(err);
-    }
-  };
+export const getShops = (token: string, context: string, id: string) => async () => {
+  try {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "X-Request-ID": `${uuidv4()}`
+      }
+    };
+    return axios
+      .request(config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
 
 export const syncAccount =
   (token: string, context: string, id: string) => async (dispatch: AppDispatch) => {
@@ -223,9 +221,8 @@ export const syncAccount =
       throw new Error(err);
     }
   };
-  
-export const getHistory =
-(token: string, context: string, id: string) => async () => {
+
+export const getHistory = (token: string, context: string, id: string) => async () => {
   try {
     const config = {
       method: "get",
@@ -248,7 +245,6 @@ export const getHistory =
     throw new Error(err);
   }
 };
-
 
 export const updateAccount =
   (token: string, context: string, login: string, password: string, id: string) =>

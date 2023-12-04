@@ -9,6 +9,8 @@ import { AppState } from "@/shared/store/store";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import EditAccount from "../editAccount/editAccount";
+import { changeMonitoringAccount } from "@/shared/store/slices/reprice/repriceSlice";
+import { format } from "date-fns";
 
 const HeaderAccount = () => {
   const dispatch = useDispatch();
@@ -18,11 +20,20 @@ const HeaderAccount = () => {
   const [open, setOpen] = useState(false) as any;
 
   const [data, setData] = useState({}) as any;
+  const [date, setDate] = useState("") as any;
   const auth = getAuth(firebase_app) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const syncAccountHandler = () => {
     dispatch(syncAccount(auth.currentUser.accessToken, company.activeCompany, accountId));
+  };
+  const monitoringAccountHandler = async () => {
+    await dispatch(
+      changeMonitoringAccount(auth.currentUser.accessToken, company.activeCompany, accountId, {
+        state: data.monitorState === "suspended" ? "activate" : "suspend"
+      })
+    );
+    await getFirstData();
   };
 
   const getFirstData = async () => {
@@ -31,19 +42,13 @@ const HeaderAccount = () => {
     );
     console.log(data);
     setData(data);
+    setDate(format(new Date(data.lastUpdate), "yyyy-MM-dd HH:mm"));
   };
 
   useEffect(() => {
     getFirstData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const dateObject = new Date(data?.lastUpdate);
-  const year = dateObject.getFullYear();
-  const month = dateObject.getMonth() + 1; // Месяцы начинаются с 0
-  const day = dateObject.getDate();
-  const hours = dateObject.getHours();
-  const minutes = dateObject.getMinutes();
 
   return (
     <Grid
@@ -60,12 +65,36 @@ const HeaderAccount = () => {
         overflow: "hidden"
       }}
     >
-      <Box>
+      <Box display={"flex"} flexDirection={"column"} gap={2}>
         <Typography variant='h6' fontWeight={500} color='textPrimary' className='text-hover' noWrap>
-          Аккаунт: <b>{data.email}</b> | Последний обход:{" "}
-          <b>
-            {day}.{month}.{year} {hours}:{minutes}
-          </b>
+          Аккаунт: <b>{data.email}</b>
+        </Typography>
+        <Typography variant='h6' fontWeight={500} color='textPrimary' className='text-hover' noWrap>
+          Последний обход: <b>{date}</b>
+        </Typography>
+        <Typography
+          display={"flex"}
+          variant='h6'
+          fontWeight={500}
+          color='textPrimary'
+          className='text-hover'
+          noWrap
+        >
+          Мониторинг аккаунта:{" "}
+          <Typography
+            ml={1}
+            variant='h6'
+            sx={{
+              color:
+                data.monitorState === "active"
+                  ? (theme) => theme.palette.success.main
+                  : (theme) => theme.palette.error.main,
+              borderRadius: "100%"
+            }}
+          >
+            {" "}
+            {data.monitorState === "active" ? "Активнен" : "Приостановлен"}
+          </Typography>
         </Typography>
       </Box>
 
@@ -81,12 +110,17 @@ const HeaderAccount = () => {
             <IconEdit />
           </Button>
         </Tooltip>
-        <Tooltip title='Обновить аккаунт'>
-          <Button color='primary' variant='contained' type='submit'>
+        <Tooltip title='Переключить состояние мониторинга аккаунта'>
+          <Button
+            onClick={() => monitoringAccountHandler()}
+            color='primary'
+            variant='contained'
+            type='submit'
+          >
             <IconRefresh />
           </Button>
         </Tooltip>
-        <Tooltip title='Запустить мониторинг'>
+        <Tooltip title='Запустить синхронизацию данных с системой'>
           <Button
             onClick={() => syncAccountHandler()}
             color='primary'

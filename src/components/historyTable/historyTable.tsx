@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
@@ -12,7 +12,7 @@ import {
   TableSortLabel,
   Typography,
   Avatar,
-  Paper,
+  Paper
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
@@ -39,10 +39,7 @@ type Order = "asc" | "desc";
 function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
+): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -74,39 +71,39 @@ const headCells: readonly HeadCell[] = [
     id: "name",
     numeric: false,
     disablePadding: false,
-    label: "Название",
+    label: "Название"
   },
   {
     id: "pname",
     numeric: false,
     disablePadding: false,
-    label: "Название магазина",
+    label: "Название магазина"
   },
 
   {
     id: "skuId",
     numeric: false,
     disablePadding: false,
-    label: "skuId",
+    label: "skuId"
   },
   {
     id: "productId",
     numeric: false,
     disablePadding: false,
-    label: "productId",
+    label: "productId"
   },
   {
     id: "new",
     numeric: false,
     disablePadding: false,
-    label: "Старая цена",
+    label: "Старая цена"
   },
   {
     id: "old",
     numeric: false,
     disablePadding: false,
-    label: "Новая цена",
-  },
+    label: "Новая цена"
+  }
 ];
 
 interface EnhancedTableProps {
@@ -119,15 +116,10 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const {
-    order,
-    orderBy,
-    onRequestSort,
-  } = props;
-  const createSortHandler =
-    (property: any) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
+  const { order, orderBy, onRequestSort } = props;
+  const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
+    onRequestSort(event, property);
+  };
 
   return (
     <TableHead>
@@ -146,7 +138,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
+                <Box component='span' sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
@@ -191,10 +183,7 @@ const HistoryTable = () => {
   }, []);
 
   // This is for the sorting
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: any
-  ) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: any) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -215,9 +204,7 @@ const HistoryTable = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -225,8 +212,7 @@ const HistoryTable = () => {
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const theme = useTheme();
   const borderColor = theme.palette.divider;
@@ -234,16 +220,9 @@ const HistoryTable = () => {
   return (
     <Box>
       <Box>
-        <Paper
-          variant="outlined"
-          sx={{ mx: 2, mt: 1, border: `1px solid ${borderColor}` }}
-        >
+        <Paper variant='outlined' sx={{ mx: 2, mt: 1, border: `1px solid ${borderColor}` }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={"small"}
-            >
+            <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={"small"}>
               <EnhancedTableHead
                 numSelected={selected.length}
                 order={order}
@@ -261,8 +240,8 @@ const HistoryTable = () => {
                     return (
                       <TableRow
                         hover
-                        style={{cursor: "pointer"}}
-                        role="checkbox"
+                        style={{ cursor: "pointer" }}
+                        role='checkbox'
                         aria-checked={isItemSelected}
                         tabIndex={-1}
                         key={row.title}
@@ -270,10 +249,10 @@ const HistoryTable = () => {
                         selected={isItemSelected}
                       >
                         <TableCell>
-                          <Box display="flex" alignItems="center">
+                          <Box display='flex' alignItems='center'>
                             <Avatar
                               src={`https://image.kazanexpress.ru/${row.photoKey}/t_product_high.jpg`}
-                              alt="product"
+                              alt='product'
                               sx={{ width: 56, height: 56 }}
                             />
                           </Box>
@@ -288,7 +267,7 @@ const HistoryTable = () => {
                           <Typography>{`${row.isInPool}`}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Box display="flex" alignItems="center">
+                          <Box display='flex' alignItems='center'>
                             <Box
                               sx={{
                                 backgroundColor: row.stock
@@ -296,14 +275,14 @@ const HistoryTable = () => {
                                   : (theme) => theme.palette.error.main,
                                 borderRadius: "100%",
                                 height: "10px",
-                                width: "10px",
+                                width: "10px"
                               }}
                             />
                             <Typography
-                              color="textSecondary"
-                              variant="subtitle2"
+                              color='textSecondary'
+                              variant='subtitle2'
                               sx={{
-                                ml: 1,
+                                ml: 1
                               }}
                             >
                               {row.stock ? "InStock" : "Out of Stock"}
@@ -312,7 +291,7 @@ const HistoryTable = () => {
                         </TableCell>
 
                         <TableCell>
-                          <Typography fontWeight={600} variant="h6">
+                          <Typography fontWeight={600} variant='h6'>
                             {row.availableAmount} шт.
                           </Typography>
                         </TableCell>
@@ -322,7 +301,7 @@ const HistoryTable = () => {
                 {emptyRows > 0 && (
                   <TableRow
                     style={{
-                      height: 33 * emptyRows,
+                      height: 33 * emptyRows
                     }}
                   >
                     <TableCell colSpan={6} />
@@ -333,7 +312,7 @@ const HistoryTable = () => {
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[10, 20, 30]}
-            component="div"
+            component='div'
             count={rows.length}
             rowsPerPage={rowsPerPage}
             page={page}

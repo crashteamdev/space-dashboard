@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "@/shared/store/hooks";
 import {
   fetchToken,
   fetchRefreshToken,
-  fetchGenerateToken,
+  fetchGenerateToken
 } from "@/shared/store/slices/userProfile/UserProfileSlice";
 import firebase_app from "@/shared/firebase/firebase";
 import { AppState } from "@/shared/store/store";
@@ -26,8 +26,8 @@ const TokenContainer = () => {
       border: "2px solid 'blue'",
       cursor: "pointer",
       overflow: "hidden",
-      transition: "border-color 0.3s, background-color 0.3s",
-    },
+      transition: "border-color 0.3s, background-color 0.3s"
+    }
   };
 
   const { t } = useTranslation();
@@ -38,17 +38,20 @@ const TokenContainer = () => {
 
   const refreshToken = () => {
     if (auth.currentUser) {
-      dispatch(addItem({title: "Сгенерирован новый токен", status: "success", timelife: 4000, id: uuidv4()}));
       dispatch(
-        fetchRefreshToken(auth.currentUser.accessToken, company.activeCompany)
+        addItem({
+          title: "Сгенерирован новый токен",
+          status: "success",
+          timelife: 4000,
+          id: uuidv4()
+        })
       );
+      dispatch(fetchRefreshToken(auth.currentUser.accessToken, company.activeCompany));
     }
   };
   const generateToken = () => {
     if (auth.currentUser) {
-      dispatch(
-        fetchGenerateToken(auth.currentUser.accessToken, company.activeCompany)
-      );
+      dispatch(fetchGenerateToken(auth.currentUser.accessToken, company.activeCompany));
     }
   };
 
@@ -71,7 +74,7 @@ const TokenContainer = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
-  
+
   return (
     <ParentCard title={t("extension.informationTitle")}>
       <>
@@ -81,31 +84,22 @@ const TokenContainer = () => {
               <Grid item xs={12} lg={12}>
                 <BlankCard>
                   <CardContent>
-                    <Typography variant="h5" mb={2}>
+                    <Typography variant='h5' mb={2}>
                       {t("Token.title")}
                     </Typography>
-                    <Typography color="textSecondary" mb={3}>
+                    <Typography color='textSecondary' mb={3}>
                       {t("Token.description")}
                     </Typography>
                     {token.token?.apiKey ? (
                       <>
-                        <Typography variant="h6" mb={1}>
+                        <Typography variant='h6' mb={1}>
                           {t("Token.upInput")}
                         </Typography>
-                        <Box
-                          bgcolor={"info.light"}
-                          style={styles.paper}
-                          onClick={copyToken}
-                          p={2}
-                        >
+                        <Box bgcolor={"info.light"} style={styles.paper} onClick={copyToken} p={2}>
                           {token?.token?.apiKey}
                         </Box>
                         <Box pt={2}>
-                          <Button
-                            onClick={refreshToken}
-                            variant="contained"
-                            color="primary"
-                          >
+                          <Button onClick={refreshToken} variant='contained' color='primary'>
                             {t("Token.buttonGenerate")}
                           </Button>
                           <span style={{ marginLeft: "16px" }}>
@@ -114,11 +108,7 @@ const TokenContainer = () => {
                         </Box>
                       </>
                     ) : (
-                      <Button
-                        onClick={generateToken}
-                        variant="contained"
-                        color="primary"
-                      >
+                      <Button onClick={generateToken} variant='contained' color='primary'>
                         {t("Token.buttonGenerate")}
                       </Button>
                     )}
@@ -129,63 +119,52 @@ const TokenContainer = () => {
             <Grid item xs={12} lg={4}>
               <BlankCard>
                 <CardContent>
-                  <Typography variant="h5" mb={2}>
+                  <Typography variant='h5' mb={2}>
                     <b>{t("MoreInfo.title")}</b>
                   </Typography>
-                  <Typography color="h6">
-                    {t("MoreInfo.description")}
-                  </Typography>
+                  <Typography color='h6'>{t("MoreInfo.description")}</Typography>
                   <Box mb={3} mt={1}>
                     <Button
-                      variant="contained"
-                      target="_blank"
+                      variant='contained'
+                      target='_blank'
                       href={
                         company.activeCompany === "ke"
-                          // eslint-disable-next-line no-secrets/no-secrets
-                          ? "https://chrome.google.com/webstore/detail/marketdb-%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-kazane/cfkfachbapidmnjkcandfhlbnfiialei?hl=ru"
-                          // eslint-disable-next-line no-secrets/no-secrets
-                          : "https://chrome.google.com/webstore/detail/marketdb-%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-uzumuz/blgbandfopjlfnfpgknfmdkboekolpcc?hl=ru"
+                          ? // eslint-disable-next-line no-secrets/no-secrets
+                            "https://chrome.google.com/webstore/detail/marketdb-%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-kazane/cfkfachbapidmnjkcandfhlbnfiialei?hl=ru"
+                          : // eslint-disable-next-line no-secrets/no-secrets
+                            "https://chrome.google.com/webstore/detail/marketdb-%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0-uzumuz/blgbandfopjlfnfpgknfmdkboekolpcc?hl=ru"
                       }
-                      color="primary"
+                      color='primary'
                     >
                       {t("MoreInfo.descButton")}
                     </Button>
                   </Box>
-                  <Typography variant="h6" color="h4" mb={2}>
+                  <Typography variant='h6' color='h4' mb={2}>
                     <b>{t("MoreInfo.title1")}</b>
                   </Typography>
-                  <Typography variant="body1" mb={1}>
-                    <CustomLink
-                      isExternal={false}
-                      href="https://t.me/marketdbru"
-                    >
+                  <Typography variant='body1' mb={1}>
+                    <CustomLink isExternal={false} href='https://t.me/marketdbru'>
                       {t("MoreInfo.desc1")}
                     </CustomLink>
                   </Typography>
-                  <Typography variant="body1" mb={2}>
-                    <CustomLink
-                      isExternal={false}
-                      href="https://t.me/marketdbchat"
-                    >
+                  <Typography variant='body1' mb={2}>
+                    <CustomLink isExternal={false} href='https://t.me/marketdbchat'>
                       {t("MoreInfo.desc2")}
                     </CustomLink>
                   </Typography>
-                  <Typography variant="h6" color="h4" mb={2}>
+                  <Typography variant='h6' color='h4' mb={2}>
                     <b>{t("MoreInfo.title2")}</b>
                   </Typography>
-                  <Typography color="h6" mb={1}>
+                  <Typography color='h6' mb={1}>
                     <CustomLink
                       isExternal={false}
-                      href="https://wiki.marketdb.ru/ru/base/getting-started"
+                      href='https://wiki.marketdb.ru/ru/base/getting-started'
                     >
                       {t("MoreInfo.desc3")}
                     </CustomLink>
                   </Typography>
-                  <Typography color="h6" mb={2}>
-                    <CustomLink
-                      isExternal={false}
-                      href="https://youtu.be/6LiMoU-cZCU"
-                    >
+                  <Typography color='h6' mb={2}>
+                    <CustomLink isExternal={false} href='https://youtu.be/6LiMoU-cZCU'>
                       {t("MoreInfo.desc4")}
                     </CustomLink>
                   </Typography>

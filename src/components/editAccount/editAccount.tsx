@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Stack,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-} from "@mui/material";
+import { Box, Stack, Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import CustomTextField from "../ui/theme-elements/CustomTextField";
 import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
 import { useFormik } from "formik";
@@ -62,8 +55,7 @@ const EditAccount = ({ open, setOpen }: any) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle mt={2}>Редактирование данных аккаунта</DialogTitle>
-      <DialogContent>
-      </DialogContent>
+      <DialogContent></DialogContent>
       <form onSubmit={formik.handleSubmit}>
         <Stack mx={3} direction='row' gap={3} justifyContent={"space-between"}>
           <Box width={"100%"}>

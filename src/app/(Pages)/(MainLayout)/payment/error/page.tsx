@@ -6,12 +6,11 @@ import React from "react";
 
 const Success = () => (
   <>
-    <PageContainer title="Form Wizard" description="this is Form Wizard">
+    <PageContainer title='Form Wizard' description='this is Form Wizard'>
       <Box mt={5}>
-        <ParentCard title="Пополнение баланса">
-          <Box width="100%">
-            Прозошла ошибка при оплате, попробуйте еще раз или обратитесь к
-            поддержке
+        <ParentCard title='Пополнение баланса'>
+          <Box width='100%'>
+            Прозошла ошибка при оплате, попробуйте еще раз или обратитесь к поддержке
           </Box>
         </ParentCard>
       </Box>

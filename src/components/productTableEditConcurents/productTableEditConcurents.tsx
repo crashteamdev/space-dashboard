@@ -56,7 +56,7 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
     if (open) {
       getItem();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   return (
@@ -80,11 +80,7 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
           Закрыть
         </Button>
       </Box>
-      {step == 0 ? (
-        <SettingsBlock item={data} setStep={setStep} />
-      ) : (
-        <ConcurentsBlock />
-      )}
+      {step == 0 ? <SettingsBlock item={data} setStep={setStep} /> : <ConcurentsBlock />}
     </Dialog>
   );
 };

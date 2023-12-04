@@ -62,9 +62,9 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
       <DialogTitle mt={2}>Добавить аккаунт KazanExpress</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Для того чтобы использовать систему изменения цен, необходимо добавить
-          аккаунт указав логин и пароль. Вы можете создать отдельный аккаунт
-          через раздел на KazanExpress Сотрудники
+          Для того чтобы использовать систему изменения цен, необходимо добавить аккаунт указав
+          логин и пароль. Вы можете создать отдельный аккаунт через раздел на KazanExpress
+          Сотрудники
         </DialogContentText>
       </DialogContent>
       <form onSubmit={formik.handleSubmit}>

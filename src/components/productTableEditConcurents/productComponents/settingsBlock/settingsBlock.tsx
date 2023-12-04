@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { patchParamsItem } from "@/shared/store/slices/reprice/repriceSlice";
 import { useParams } from "next/navigation";
@@ -47,6 +47,16 @@ const SettingsBlock = ({ item }: any) => {
 
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
   const auth = getAuth(firebase_app) as any;
+
+  useEffect(() => {
+    formik.setValues({
+      minValue: item.minimumThreshold || 0,
+      maxValue: item.maximumThreshold || 0,
+      sale: item.discount || 0,
+      amountStep: item.step || 0
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item]);
 
   const formik = useFormik({
     initialValues: {
@@ -183,7 +193,7 @@ const SettingsBlock = ({ item }: any) => {
                 id='minValue'
                 name='minValue'
                 type='number'
-                value={formik.values.minValue || item.minimumThreshold}
+                value={formik.values.minValue}
                 onChange={formik.handleChange}
                 error={formik.touched.minValue && Boolean(formik.errors.minValue)}
                 helperText={formik.touched.minValue && formik.errors.minValue}

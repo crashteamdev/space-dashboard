@@ -24,9 +24,7 @@ const ProfileInfo = () => {
 
   useEffect(() => {
     if (auth.currentUser) {
-      dispatch(
-        fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany)
-      );
+      dispatch(fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company.activeCompany]);
@@ -41,10 +39,10 @@ const ProfileInfo = () => {
                 <Grid item xs={12} lg={12}>
                   <BlankCard>
                     <CardContent>
-                      <Typography variant="h5" mb={2}>
+                      <Typography variant='h5' mb={2}>
                         {t("profileT.informationTitle")}
                       </Typography>
-                      <Typography color="textSecondary" mb={3}>
+                      <Typography color='textSecondary' mb={3}>
                         {t("profileT.informationDesc")}{" "}
                         <CustomLink href={"https://t.me/marketdbchat"} isExternal={false}>
                           Telegram
@@ -52,19 +50,15 @@ const ProfileInfo = () => {
                       </Typography>
                       {token.subscription?.active ? (
                         <>
-                          <Typography color="h4" mb={3}>
+                          <Typography color='h4' mb={3}>
                             <b>{t("profileT.yourRate")}: </b>
-                            <span>
-                              {token.subscription?.type?.toUpperCase()}
-                            </span>
+                            <span>{token.subscription?.type?.toUpperCase()}</span>
                           </Typography>
-                          <Typography color="h4" mb={3}>
+                          <Typography color='h4' mb={3}>
                             <b>{t("profileT.status")}: </b>
                             <span
                               style={{
-                                color: token.subscription?.active
-                                  ? "green"
-                                  : "red",
+                                color: token.subscription?.active ? "green" : "red"
                               }}
                             >
                               {token.subscription?.active
@@ -72,23 +66,23 @@ const ProfileInfo = () => {
                                 : "Подписка не активна"}
                             </span>
                           </Typography>
-                          <Typography color="h4" mb={3}>
+                          <Typography color='h4' mb={3}>
                             <b>{t("profileT.validUntil")}: </b>
                             <span>{token.subscription?.endAt}</span>
                           </Typography>
                         </>
                       ) : (
-                        <Typography color="h4" mb={3}>
+                        <Typography color='h4' mb={3}>
                           <b>{t("profileT.tarifNotFound")}</b>
                         </Typography>
                       )}
 
                       <Box>
                         <Button
-                          variant="contained"
+                          variant='contained'
                           component={Link}
                           href={"/pricing"}
-                          color="primary"
+                          color='primary'
                         >
                           {t("profileT.selectTarif")}
                         </Button>
@@ -102,15 +96,15 @@ const ProfileInfo = () => {
               <Grid item xs={12} lg={12}>
                 <BlankCard>
                   <CardContent>
-                    <Typography variant="h5" mb={1}>
+                    <Typography variant='h5' mb={1}>
                       {t("ChangePassword.title")}
                     </Typography>
                     <Box pt={1}>
                       <Button
-                        variant="contained"
+                        variant='contained'
                         component={Link}
                         href={"/auth/forgot-password"}
-                        color="primary"
+                        color='primary'
                       >
                         {t("ChangePassword.button")}
                       </Button>

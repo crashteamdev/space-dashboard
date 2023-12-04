@@ -27,55 +27,55 @@ export interface EnTableType {
 
 const basicsTableData: AccountsType[] = [
   {
-    "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-    "name": "string",
-    "email": "qwdwe@mail.ru",
-    "login": "string",
-    "lastUpdate": "2019-08-24T14:15:22Z",
-    "monitorState": "suspended",
-    "updateState": "not_started",
-    "initializeState": "not_started"
+    id: "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+    name: "string",
+    email: "qwdwe@mail.ru",
+    login: "string",
+    lastUpdate: "2019-08-24T14:15:22Z",
+    monitorState: "suspended",
+    updateState: "not_started",
+    initializeState: "not_started"
   },
   {
-    "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-    "name": "string",
-    "email": "qwdwe@mail.ru",
-    "login": "string",
-    "lastUpdate": "2019-08-24T14:15:22Z",
-    "monitorState": "suspended",
-    "updateState": "not_started",
-    "initializeState": "not_started"
+    id: "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+    name: "string",
+    email: "qwdwe@mail.ru",
+    login: "string",
+    lastUpdate: "2019-08-24T14:15:22Z",
+    monitorState: "suspended",
+    updateState: "not_started",
+    initializeState: "not_started"
   },
   {
-    "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-    "name": "string",
-    "email": "qwdwe@mail.ru",
-    "login": "string",
-    "lastUpdate": "2019-08-24T14:15:22Z",
-    "monitorState": "suspended",
-    "updateState": "not_started",
-    "initializeState": "not_started"
+    id: "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+    name: "string",
+    email: "qwdwe@mail.ru",
+    login: "string",
+    lastUpdate: "2019-08-24T14:15:22Z",
+    monitorState: "suspended",
+    updateState: "not_started",
+    initializeState: "not_started"
   },
   {
-    "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-    "name": "string",
-    "email": "qwdwe@mail.ru",
-    "login": "string",
-    "lastUpdate": "2019-08-24T14:15:22Z",
-    "monitorState": "suspended",
-    "updateState": "not_started",
-    "initializeState": "not_started"
+    id: "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+    name: "string",
+    email: "qwdwe@mail.ru",
+    login: "string",
+    lastUpdate: "2019-08-24T14:15:22Z",
+    monitorState: "suspended",
+    updateState: "not_started",
+    initializeState: "not_started"
   },
   {
-    "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
-    "name": "string",
-    "email": "qwdwe@mail.ru",
-    "login": "string",
-    "lastUpdate": "2019-08-24T14:15:22Z",
-    "monitorState": "suspended",
-    "updateState": "not_started",
-    "initializeState": "not_started"
-  },
+    id: "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+    name: "string",
+    email: "qwdwe@mail.ru",
+    login: "string",
+    lastUpdate: "2019-08-24T14:15:22Z",
+    monitorState: "suspended",
+    updateState: "not_started",
+    initializeState: "not_started"
+  }
 ];
 
 export { basicsTableData };

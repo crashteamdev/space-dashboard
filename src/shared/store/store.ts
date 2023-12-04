@@ -23,7 +23,7 @@ export const store = configureStore({
     alertsReducer: AlertsSlice,
     repriceReducer: RepriceSlice
   },
-  devTools: process.env.NODE_ENV !== "production",
+  devTools: process.env.NODE_ENV !== "production"
 });
 
 const rootReducer = combineReducers({

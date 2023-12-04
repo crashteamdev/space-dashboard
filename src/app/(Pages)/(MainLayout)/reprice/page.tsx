@@ -10,26 +10,22 @@ import CreateNewAccount from "../../../../components/createNewAccount/createNewA
 const BCrumb = [
   {
     to: "/",
-    title: t("main"),
+    title: t("main")
   },
   {
-    title: "Управление ценами",
-  },
+    title: "Управление ценами"
+  }
 ] as any;
 
 const Reprice = () => {
   const [open, setOpen] = useState(false) as any;
 
   return (
-    <PageContainer title="Master settings" description="Master settings">
+    <PageContainer title='Master settings' description='Master settings'>
       <Box mt={4}></Box>
       <Breadcrumb title={"Управление ценами"} items={BCrumb} />
       <Box mb={2}>
-        <Button
-          variant="contained"
-          onClick={() => setOpen(true)}
-          color="primary"
-        >
+        <Button variant='contained' onClick={() => setOpen(true)} color='primary'>
           Добавить аккаунт
         </Button>
         <CreateNewAccount open={open} setOpen={setOpen} />

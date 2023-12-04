@@ -1,49 +1,49 @@
 {
-    "welcome": "Добро пожаловать",
-    "profile": "Личный кабинет",
-    "main": "Главная страница",
-    "profileT": {
-        "informationTitle": "Информация о подписке",
-        "informationDesc": "Если у вас возниклы проблемы, пишите нам в",
-        "yourRate": "Your rate",
-        "status": "Status",
-        "validUntil": "Valid until",
-        "tarifNotFound": "У вас не выбран тариф",
-        "selectTarif": "Выбрать тариф"
-    },
-    "extension": {
-        "informationTitle": "Расширение",
-        "tokenTitle": "Токен"
-    },
-    "balance": {
-        "title": "Баланс"
-    },
-    "ChangePassword": {
-        "title": "Пароль",
-        "button": "Изменить пароль"
-    },
-    "Token": {
-        "title": "Токен",
-        "description": "Токен начинает действовать после оплаты. Токен генерируется навсегда.",
-        "upInput": "Токен для ввода в расширение:",
-        "buttonGenerate": "Сгенерировать новый токен"
-    },
-    "MoreInfo": {
-        "title": "Больше информации",
-        "description": "Наше расширение:",
-        "descButton": "Скачать расширение",
-        "title1": "Чаты / Каналы",
-        "desc1": "Канал с новостями",
-        "desc2": "Чат с пользователями",
-        "title2": "База знаний",
-        "desc3": "Как начать пользоваться расширением",
-        "desc4": "Инструкция установки расширения (Устаревшее)"
-    },
-    "Starter": "entrée",
-    "Menu Level": "Niveau menu",
-    "Disabled": "Désactivé",
-    "SubCaption": "Sous-titre",
-    "Chip": "Ébrécher",
-    "Outlined": "Décrite",
-    "External Link": "lien externe"
+  "welcome": "Добро пожаловать",
+  "profile": "Личный кабинет",
+  "main": "Главная страница",
+  "profileT": {
+    "informationTitle": "Информация о подписке",
+    "informationDesc": "Если у вас возниклы проблемы, пишите нам в",
+    "yourRate": "Your rate",
+    "status": "Status",
+    "validUntil": "Valid until",
+    "tarifNotFound": "У вас не выбран тариф",
+    "selectTarif": "Выбрать тариф"
+  },
+  "extension": {
+    "informationTitle": "Расширение",
+    "tokenTitle": "Токен"
+  },
+  "balance": {
+    "title": "Баланс"
+  },
+  "ChangePassword": {
+    "title": "Пароль",
+    "button": "Изменить пароль"
+  },
+  "Token": {
+    "title": "Токен",
+    "description": "Токен начинает действовать после оплаты. Токен генерируется навсегда.",
+    "upInput": "Токен для ввода в расширение:",
+    "buttonGenerate": "Сгенерировать новый токен"
+  },
+  "MoreInfo": {
+    "title": "Больше информации",
+    "description": "Наше расширение:",
+    "descButton": "Скачать расширение",
+    "title1": "Чаты / Каналы",
+    "desc1": "Канал с новостями",
+    "desc2": "Чат с пользователями",
+    "title2": "База знаний",
+    "desc3": "Как начать пользоваться расширением",
+    "desc4": "Инструкция установки расширения (Устаревшее)"
+  },
+  "Starter": "entrée",
+  "Menu Level": "Niveau menu",
+  "Disabled": "Désactivé",
+  "SubCaption": "Sous-titre",
+  "Chip": "Ébrécher",
+  "Outlined": "Décrite",
+  "External Link": "lien externe"
 }

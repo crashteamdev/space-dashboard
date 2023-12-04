@@ -308,6 +308,7 @@ export const addItemInPull =
       throw new Error(err);
     }
   };
+
 export const deleteItemInPull =
   (token: string, context: string, id: string, data: any) => async (dispatch: AppDispatch) => {
     try {
@@ -326,6 +327,45 @@ export const deleteItemInPull =
           dispatch(
             addItem({
               title: "Товар был удален из пула",
+              status: "success",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+          return response.data;
+        })
+        .catch((error) => {
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        });
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
+  
+export const changeMonitoringAccount =
+  (token: string, context: string, id: string, data: any) => async (dispatch: AppDispatch) => {
+    try {
+      const config = {
+        method: "patch",
+        maxBodyLength: Infinity,
+        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/monitor`,
+        data: {
+          state: data.state
+        }
+      };
+      return axiosApiInstance
+        .request(config)
+        .then((response) => {
+          dispatch(
+            addItem({
+              title: "Cостояние мониторинга аккаунта - изменено",
               status: "success",
               timelife: 4000,
               id: uuidv4()

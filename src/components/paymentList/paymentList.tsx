@@ -8,22 +8,19 @@ import click from "../../../public/images/payment/click.png";
 import lava from "../../../public/images/payment/lava.png";
 
 interface paymentListProps {
-  setContext: (value: string) => void,
-  context: string,
-  error: string,
-  pay: boolean
+  setContext: (value: string) => void;
+  context: string;
+  error: string;
+  pay: boolean;
 }
 
-const PaymentList = ({ setContext, context, error, pay } :paymentListProps) => {
-
+const PaymentList = ({ setContext, context, error, pay }: paymentListProps) => {
   return (
     <Grid item xs={12} sm={12} lg={12}>
-      <CustomFormLabel htmlFor="demo-simple-select">
-        Платежное средство
-      </CustomFormLabel>
+      <CustomFormLabel htmlFor='demo-simple-select'>Платежное средство</CustomFormLabel>
       <CustomSelect
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
+        labelId='demo-simple-select-label'
+        id='demo-simple-select'
         value={context}
         onChange={(e: any) => setContext(e.target.value)}
         fullWidth
@@ -46,13 +43,9 @@ const PaymentList = ({ setContext, context, error, pay } :paymentListProps) => {
             Lava
           </Box>
         </MenuItem>
-        {
-          pay &&<MenuItem value={"Оплата с баланса"}>Оплата с баланса</MenuItem>
-        }
+        {pay && <MenuItem value={"Оплата с баланса"}>Оплата с баланса</MenuItem>}
       </CustomSelect>
-      {
-        error ? ("Выберите провайдера") : ""
-      }
+      {error ? "Выберите провайдера" : ""}
     </Grid>
   );
 };

@@ -20,7 +20,7 @@ const ConcurentsBlock = () => {
     competitorSkuId: yup.string().required("Допустимая скидка не заполнена")
   });
 
-  const {accountId, shopId} = useParams() as any;
+  const { accountId, shopId } = useParams() as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
 
@@ -37,20 +37,15 @@ const ConcurentsBlock = () => {
     onSubmit: (values) => {
       console.log(values);
       dispatch(
-        addComcurentItem(
-          auth.currentUser.accessToken,
-          company.activeCompany,
-          accountId,
-          {
-            shopItemRef: {
-              shopId: shopId,
-              shopItemId: repricer.currentItem
-            },
-            url: values.url,
-            competitorProductId: values.competitorProductId,
-            competitorSkuId: values.competitorSkuId
-          }
-        )
+        addComcurentItem(auth.currentUser.accessToken, company.activeCompany, accountId, {
+          shopItemRef: {
+            shopId: shopId,
+            shopItemId: repricer.currentItem
+          },
+          url: values.url,
+          competitorProductId: values.competitorProductId,
+          competitorSkuId: values.competitorSkuId
+        })
       );
     }
   });
@@ -124,12 +119,13 @@ const ConcurentsBlock = () => {
             Добавить
           </Button>
         </Stack>
-        <Box display={"flex"} position={"relative"} mt={2} justifyContent={"center"}>
+        <Box display={"flex"} position={"relative"} mt={2} justifyContent={"flex-start"}>
           <div></div>
           <Typography
+            ml={5}
             sx={{ backgroundColor: "background.default" }}
             color='textSecondary'
-            variant='subtitle2'
+            variant='h5'
           >
             Добавленные конкуренты на товар
           </Typography>
@@ -137,12 +133,13 @@ const ConcurentsBlock = () => {
         <Box mx={3} mt={3}>
           <ProductTableConcurentsAdds />
         </Box>
-        <Box display={"flex"} position={"relative"} mt={6} justifyContent={"center"}>
+        <Box display={"flex"} position={"relative"} mt={6} justifyContent={"flex-start"}>
           <div></div>
           <Typography
+            ml={5}
             sx={{ backgroundColor: "background.default" }}
             color='textSecondary'
-            variant='subtitle2'
+            variant='h5'
           >
             Возможные конкуренты
           </Typography>

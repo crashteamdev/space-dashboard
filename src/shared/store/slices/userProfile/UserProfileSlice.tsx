@@ -37,7 +37,7 @@ export const fetchToken = (token: string, context: string) => async (dispatch: A
     const config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
+      url: `https://${context}-api.marketdb.pro/v1/user/api-key`
     };
     axiosApiInstance
       .request(config)
@@ -58,7 +58,7 @@ export const fetchRefreshToken =
       const config = {
         method: "put",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
+        url: `https://${context}-api.marketdb.pro/v1/user/api-key`
       };
       axiosApiInstance
         .request(config)
@@ -79,7 +79,7 @@ export const fetchGenerateToken =
       const config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
+        url: `https://${context}-api.marketdb.pro/v1/user/api-key`
       };
       axiosApiInstance
         .request(config)
@@ -100,7 +100,7 @@ export const fetchProfileStatus =
       const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/v1/user/subscription`,
+        url: `https://${context}-api.marketdb.pro/v1/user/subscription`
       };
       axiosApiInstance
         .request(config)

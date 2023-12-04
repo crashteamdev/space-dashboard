@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "lint:es": "eslint --ext .js,.jsx,.ts,.tsx ./src",
-    "lint:es:fix": "npm run lint:es -- --fix"
+    "lint:es:fix": "npm run lint:es -- --fix",
+    "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,json}' --config ./.prettierrc"
   },
   "dependencies": {
     "@emotion/cache": "latest",

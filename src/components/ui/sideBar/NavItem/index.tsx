@@ -12,7 +12,7 @@ import {
   Typography,
   ListItemButton,
   useMediaQuery,
-  Theme,
+  Theme
 } from "@mui/material";
 import { useSelector } from "@/shared/store/hooks";
 import { useTranslation } from "react-i18next";
@@ -43,24 +43,14 @@ interface ItemType {
   pathDirect: string;
 }
 
-export default function NavItem({
-  item,
-  level,
-  pathDirect,
-  hideMenu,
-  onClick,
-}: ItemType) {
+export default function NavItem({ item, level, pathDirect, hideMenu, onClick }: ItemType) {
   const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("lg"));
   const customizer = useSelector((state: AppState) => state.customizer);
   const Icon = item?.icon;
   const theme = useTheme();
   const { t } = useTranslation();
   const itemIcon =
-    level > 1 ? (
-      <Icon stroke={1.5} size="1rem" />
-    ) : (
-      <Icon stroke={1.5} size="1.3rem" />
-    );
+    level > 1 ? <Icon stroke={1.5} size='1rem' /> : <Icon stroke={1.5} size='1.3rem' />;
 
   const ListItemStyled = styled(ListItemButton)(() => ({
     whiteSpace: "nowrap",
@@ -75,16 +65,16 @@ export default function NavItem({
     paddingLeft: hideMenu ? "10px" : level > 2 ? `${level * 15}px` : "10px",
     "&:hover": {
       backgroundColor: theme.palette.primary.light,
-      color: theme.palette.primary.main,
+      color: theme.palette.primary.main
     },
     "&.Mui-selected": {
       color: "white",
       backgroundColor: theme.palette.primary.main,
       "&:hover": {
         backgroundColor: theme.palette.primary.main,
-        color: "white",
-      },
-    },
+        color: "white"
+      }
+    }
   }));
 
   // const listItemProps: {
@@ -100,7 +90,7 @@ export default function NavItem({
   // };
 
   return (
-    <List component="li" disablePadding key={item?.id && item.title}>
+    <List component='li' disablePadding key={item?.id && item.title}>
       <Link href={item.href}>
         <ListItemStyled
           // {...listItemProps}
@@ -115,7 +105,7 @@ export default function NavItem({
               color:
                 level > 1 && pathDirect === item?.href
                   ? `${theme.palette.primary.main}!important`
-                  : "inherit",
+                  : "inherit"
             }}
           >
             {itemIcon}
@@ -124,9 +114,7 @@ export default function NavItem({
             {hideMenu ? "" : <>{t(`${item?.title}`)}</>}
             <br />
             {item?.subtitle ? (
-              <Typography variant="caption">
-                {hideMenu ? "" : item?.subtitle}
-              </Typography>
+              <Typography variant='caption'>{hideMenu ? "" : item?.subtitle}</Typography>
             ) : (
               ""
             )}
@@ -136,7 +124,7 @@ export default function NavItem({
             <Chip
               color={item?.chipColor}
               variant={item?.variant ? item?.variant : "filled"}
-              size="small"
+              size='small'
               label={item?.chip}
             />
           )}

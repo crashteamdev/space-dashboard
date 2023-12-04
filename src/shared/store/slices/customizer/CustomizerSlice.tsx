@@ -31,7 +31,7 @@ const initialState: StateType = {
   isHorizontal: false,
   isLanguage: "ru",
   isCardShadow: true,
-  borderRadius: 7,
+  borderRadius: 7
 };
 
 export const CustomizerSlice = createSlice({
@@ -72,8 +72,8 @@ export const CustomizerSlice = createSlice({
     },
     setBorderRadius: (state: StateType, action) => {
       state.borderRadius = action.payload;
-    },
-  },
+    }
+  }
 });
 
 export const {
@@ -87,7 +87,7 @@ export const {
   setBorderRadius,
   toggleHorizontal,
   setLanguage,
-  setCardShadow,
+  setCardShadow
 } = CustomizerSlice.actions;
 
 export default CustomizerSlice.reducer;

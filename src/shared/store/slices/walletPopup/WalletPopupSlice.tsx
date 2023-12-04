@@ -9,23 +9,23 @@ interface StateType {
 const initialState = {
   open: false,
   value: 0,
-  provider: "",
+  provider: ""
 };
 
 export const WalletPopupSlice = createSlice({
   name: "walletPopup",
   initialState,
   reducers: {
-    setOpen: (state : StateType, action) => {
+    setOpen: (state: StateType, action) => {
       state.open = action.payload;
     },
-    setValue: (state : StateType, action) => {
+    setValue: (state: StateType, action) => {
       state.value = action.payload;
     },
-    setProvider: (state : StateType, action) => {
+    setProvider: (state: StateType, action) => {
       state.provider = action.payload;
-    },
-  },
+    }
+  }
 });
 
 export const { setOpen, setValue, setProvider } = WalletPopupSlice.actions;

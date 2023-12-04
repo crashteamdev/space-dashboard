@@ -6,7 +6,7 @@ import {
   FormControlLabel,
   Button,
   Stack,
-  Divider,
+  Divider
 } from "@mui/material";
 import Link from "next/link";
 import { loginType } from "@/shared/types/auth/auth";
@@ -43,18 +43,33 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     password: yup
       .string()
       .min(8, "Длина пароля должна быть минимум 8 символов.")
-      .required("Необходим пароль"),
+      .required("Необходим пароль")
   });
 
   const signIn = async (email: string, password: string) => {
     const user = (await signInEmail(email, password)) as any;
     if (!user) {
-      dispatch(addItem({title: "Не удалось войти в аккаунт", description: "Возможно такого аккаунта не существует", status: "error", timelife: 5000, id: uuidv4()}));
+      dispatch(
+        addItem({
+          title: "Не удалось войти в аккаунт",
+          description: "Возможно такого аккаунта не существует",
+          status: "error",
+          timelife: 5000,
+          id: uuidv4()
+        })
+      );
       return false;
     }
 
     if (user.email) {
-      dispatch(addItem({title: "Вы успешно вошли в аккаунт", status: "success", timelife: 4000, id: uuidv4()}));
+      dispatch(
+        addItem({
+          title: "Вы успешно вошли в аккаунт",
+          status: "success",
+          timelife: 4000,
+          id: uuidv4()
+        })
+      );
       router.push("/profile");
     }
 
@@ -67,14 +82,13 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     }
 
     if (auth.currentUser) {
-      const { uid, accessToken, displayName, email, photoURL } =
-        auth.currentUser as any;
+      const { uid, accessToken, displayName, email, photoURL } = auth.currentUser as any;
       const user = {
         uid,
         accessToken,
         displayName,
         email,
-        photoURL,
+        photoURL
       } as IUser;
 
       dispatch(setUser(user));
@@ -84,33 +98,33 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
+      password: ""
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       signIn(values.email, values.password);
-    },
+    }
   });
 
   return (
     <>
       {title ? (
-        <Typography fontWeight="700" variant="h3" mb={1}>
+        <Typography fontWeight='700' variant='h3' mb={1}>
           {title}
         </Typography>
       ) : null}
 
       {subtext}
 
-      <AuthSocialButtons title="Войти через" />
+      <AuthSocialButtons title='Войти через' />
       <Box mt={3}>
         <Divider>
           <Typography
-            component="span"
-            color="textSecondary"
-            variant="h6"
-            fontWeight="400"
-            position="relative"
+            component='span'
+            color='textSecondary'
+            variant='h6'
+            fontWeight='400'
+            position='relative'
             px={2}
           >
             или войдите через
@@ -124,8 +138,8 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             <CustomFormLabel>Электронная почта</CustomFormLabel>
             <CustomTextField
               fullWidth
-              id="email"
-              name="email"
+              id='email'
+              name='email'
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
@@ -136,9 +150,9 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             <CustomFormLabel>Пароль</CustomFormLabel>
             <CustomTextField
               fullWidth
-              id="password"
-              name="password"
-              type="password"
+              id='password'
+              name='password'
+              type='password'
               value={formik.values.password}
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
@@ -146,35 +160,26 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             />
           </Box>
         </Stack>
-        <Stack
-          justifyContent="space-between"
-          direction="row"
-          alignItems="center"
-          mb={2}
-        >
+        <Stack justifyContent='space-between' direction='row' alignItems='center' mb={2}>
           <FormGroup>
             <FormControlLabel
-              control={
-                <CustomCheckbox
-                  onChange={(value) => setCheck(value.currentTarget.value)}
-                />
-              }
-              label="Запомнить это устройство"
+              control={<CustomCheckbox onChange={(value) => setCheck(value.currentTarget.value)} />}
+              label='Запомнить это устройство'
             />
           </FormGroup>
           <Typography
             component={Link}
-            href="/auth/forgot-password"
+            href='/auth/forgot-password'
             fontWeight={500}
             sx={{
               textDecoration: "none",
-              color: "primary.main",
+              color: "primary.main"
             }}
           >
             Забыли пароль ?
           </Typography>
         </Stack>
-        <Button color="primary" variant="contained" type="submit">
+        <Button color='primary' variant='contained' type='submit'>
           Войти
         </Button>
       </form>

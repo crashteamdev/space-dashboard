@@ -9,7 +9,6 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 const HistoryPage = () => {
-
   const { accountId } = useParams();
 
   const BCrumb = [
