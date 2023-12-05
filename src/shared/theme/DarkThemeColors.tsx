@@ -1,3 +1,4 @@
+// здесь темная тема вроде бы
 const DarkThemeColors = [
   {
     name: "BLUE_THEME",
