@@ -15,7 +15,7 @@ import ProfileListPayments from "../profileListPayments/profileListPayments";
 
 const ProfileInfo = () => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
-  const token = useSelector((state: AppState) => state.userpostsReducer) as any;
+  const token = useSelector((state: AppState) => state.userpostsReducer);
 
   const auth = getAuth(firebase_app) as any;
 
@@ -55,7 +55,9 @@ const ProfileInfo = () => {
                           <Typography color="h4" mb={3}>
                             <b>{t("profileT.yourRate")}: </b>
                             <span>
-                              {token.subscription?.type?.toUpperCase()}
+                              {(token.subscription?.type === 'default') && 'БАЗОВЫЙ'}
+                              {(token.subscription?.type === 'advanced') && 'РАСШИРЕННЫЙ'}
+                              {(token.subscription?.type === 'pro') && 'ПРОФЕССИОНАЛЬНЫЙ'}
                             </span>
                           </Typography>
                           <Typography color="h4" mb={3}>

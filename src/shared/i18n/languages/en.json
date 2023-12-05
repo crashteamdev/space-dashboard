@@ -1,15 +1,16 @@
+
 {
     "welcome": "Welcome",
-    "profile": "Personal profile",
-    "main": "Main page",
+    "profile": "Profile",
+    "main": "Main Page",
     "profileT": {
-        "informationTitle": "Subscription information",
-        "informationDesc": "If you have any problems, write to us in",
-        "yourRate": "Your rate",
+        "informationTitle": "Subscription Information",
+        "informationDesc": "If you encounter any issues, contact us at",
+        "yourRate": "Rate",
         "status": "Status",
-        "validUntil": "Valid until",
-        "tarifNotFound": "You have not selected a tariff",
-        "selectTarif": "Select tariff"
+        "validUntil": "Valid Until",
+        "tarifNotFound": "No tariff selected",
+        "selectTarif": "Select Tariff"
     },
     "extension": {
         "informationTitle": "Extension",
@@ -20,30 +21,28 @@
     },
     "ChangePassword": {
         "title": "Password",
-        "button": "Change password"
+        "button": "Change Password"
     },
     "Token": {
         "title": "Token",
-        "description": "The token begins to operate after payment. The token is generated forever.",
-        "upInput": "Token to enter into the extension:",
+        "description": "The token starts working after payment. The token is generated forever.",
+        "upInput": "Token for input into the extension:",
         "buttonGenerate": "Generate a new token"
     },
     "MoreInfo": {
-        "title": "More information",
+        "title": "More Information",
         "description": "Our extension:",
-        "descButton": "Download extension",
-        "title1": "Chats/Channels",
+        "descButton": "Download Extension",
+        "title1": "Chats / Channels",
         "desc1": "News channel",
-        "desc2": "Chat with users",
-        "title2": "Knowledge base",
+        "desc2": "User chat",
+        "title2": "Knowledge Base",
         "desc3": "How to start using the extension",
-        "desc4": "Extension installation instructions (Obsolete)"
+        "desc4": "Extension installation instructions (Outdated)"
     },
-    "Starter": "Starter",
-    "Menu Level": "Menu Level",
-    "Disabled": "Disabled",
-    "SubCaption": "SubCaption",
-    "Chip": "Chip",
-    "Outlined": "Outlined",
-    "External Link": "External Link"
+    "errorPage": {
+        "title": "Opps!!!",
+        "desc": "This page you are looking for could not be found.",
+        "btn": "Go Back to Home"
+    }
 }

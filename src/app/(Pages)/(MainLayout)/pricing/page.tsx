@@ -108,8 +108,8 @@ const Pricing = () => {
   }, [balanceReducer.linkPayment]);
 
   return (
-    <PageContainer title="Pricing" description="this is Pricing">
-      <Breadcrumb title="Pricing" items={BCrumb} />
+    <PageContainer title="Тарифы" description="Тарифы">
+      <Breadcrumb title="Тарифы" items={BCrumb} />
       <Grid container spacing={3} justifyContent="center" mt={3}>
         <Grid item xs={12} sm={10} lg={8} textAlign="center">
           <Typography variant="h2">Тарифы</Typography>

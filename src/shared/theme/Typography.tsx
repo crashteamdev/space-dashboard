@@ -1,10 +1,11 @@
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 
-export const plus = Plus_Jakarta_Sans({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  display: "swap",
-  fallback: ["Helvetica", "Arial", "sans-serif"],
+export const plus = Inter({
+  weight: ["100", "300", "400", "500", "700"],
+  subsets: ["latin", "cyrillic"],
+  display: "optional",
+  fallback: ["Montserrat", "sans-serif"],
+  preload: true,
 });
 
 const typography: any = {
