@@ -2,12 +2,9 @@ import { CardContent, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
-import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
-import CustomTextField from "../ui/theme-elements/CustomTextField";
 import ParentCard from "../ui/shared/ParentCard";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import {
-  fetchProfileStatus,
   fetchToken,
   fetchRefreshToken,
   fetchGenerateToken,

@@ -5,10 +5,11 @@ import Header from "../../../components/ui/header/Header";
 import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import Sidebar from "../../../components/ui/sideBar/Sidebar";
-import { getAuth } from "firebase/auth";
+import { getAuth, onIdTokenChanged } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
+import useAutoRefreshToken from "@/hooks/useСheckToken/useCheckToken";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -43,6 +44,19 @@ export default function RootLayout({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, router]);
+
+  useEffect(() => {
+    const listener = onIdTokenChanged(
+      auth,
+      async (user) => {
+        console.log(user);
+      }
+    );
+
+    return () => {
+      listener();
+    };
+  }, [auth]);
 
   return (
     <MainWrapper>

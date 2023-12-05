@@ -29,7 +29,7 @@ const ProfileInfo = () => {
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [company]);
+  }, [company.activeCompany]);
 
   return (
     <ParentCard title={t("profile")}>
