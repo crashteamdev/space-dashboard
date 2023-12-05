@@ -262,11 +262,6 @@ export const purchaseService =
           } else {
             dispatch(setAmount(response.data.balance));
           }
-          if (response.data.code === "successfully_debit") {
-            dispatch(setLinkPayment("https://space.marketdb.pro/payment/success"));
-          } else {
-            dispatch(setLinkPayment("https://space.marketdb.pro/payment/error"));
-          }
         })
         .catch((error) => {
           dispatch(
