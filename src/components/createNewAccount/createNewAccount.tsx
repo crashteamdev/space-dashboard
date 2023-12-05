@@ -45,8 +45,8 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
       password: ""
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      dispatch(
+    onSubmit: async (values) => {
+      const result = await dispatch(
         createNewAccount(
           auth.currentUser.accessToken,
           company.activeCompany,
@@ -54,6 +54,9 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
           values.password
         )
       );
+      if (result.login) {
+        setOpen(false);
+      }
     }
   });
 

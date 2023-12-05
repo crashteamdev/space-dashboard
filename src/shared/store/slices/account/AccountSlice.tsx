@@ -96,7 +96,7 @@ export const createNewAccount =
           password: password
         }
       };
-      axios
+      return axios
         .request(config)
         .then((response) => {
           setAccounts(response.data);
@@ -109,6 +109,7 @@ export const createNewAccount =
             })
           );
           console.log(response.data);
+          return response.data;
         })
         .catch((error) => {
           console.log(error);
