@@ -33,7 +33,7 @@ const initialState: StateType = {
   isLanguage: "ru",
   isCardShadow: true,
   borderRadius: 7,
-  isHeader: false,
+  isHeader: true,
 };
 
 export const CustomizerSlice = createSlice({
