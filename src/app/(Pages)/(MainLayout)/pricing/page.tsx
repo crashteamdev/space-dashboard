@@ -35,7 +35,6 @@ import firebase_app from "@/shared/firebase/firebase";
 import { pricing } from "@/components/ui/popup/data";
 import PaymentList from "@/components/paymentList/paymentList";
 import { useRouter } from "next/navigation";
-import { useIdToken } from "react-firebase-hooks/auth";
 
 const BCrumb = [
   {
@@ -52,7 +51,6 @@ const Pricing = () => {
   const [open, setOpen] = React.useState(0);
   const [context, setContext] = React.useState("") as any;
   const [empty, setEmpty] = React.useState("") as any;
-  const [promoCode, setPromoCode] = React.useState("");
   const auth = getAuth(firebase_app) as any;
 
   const dispatch = useDispatch();
@@ -93,7 +91,7 @@ const Pricing = () => {
         auth.currentUser.accessToken,
         `${company.activeCompany}-analytics`,
         pricing[open - 1]?.package.toLowerCase(),
-        promoCode,
+        balanceReducer.resultPromo,
         show ? 3 : 1,
         context.toLowerCase(),
         context === "Оплата с баланса" ? context.toLowerCase() : "one-time"
@@ -278,7 +276,7 @@ const Pricing = () => {
                   setContext={setContext}
                 />
               </Box>
-              <CheckPromoCode setCheck={setPromoCode} />
+              <CheckPromoCode />
             </Stack>
             <Stack
               direction="row"

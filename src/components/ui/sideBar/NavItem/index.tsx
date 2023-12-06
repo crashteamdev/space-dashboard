@@ -87,17 +87,17 @@ export default function NavItem({
     },
   }));
 
-  const listItemProps: {
-    component: any;
-    href?: string;
-    target?: any;
-    to?: any;
-  } = {
-    component: item?.external ? "a" : Link,
-    to: item?.href,
-    href: item?.external ? item?.href : "",
-    target: item?.external ? "_blank" : "",
-  };
+  // const listItemProps: {
+  //   component: any;
+  //   href?: string;
+  //   target?: any;
+  //   to?: any;
+  // } = {
+  //   component: item?.external ? "a" : Link,
+  //   to: item?.href,
+  //   href: item?.external ? item?.href : "",
+  //   target: item?.external ? "_blank" : "",
+  // };
 
   return (
     <List component="li" disablePadding key={item?.id && item.title}>

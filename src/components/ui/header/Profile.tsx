@@ -1,18 +1,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import {
-  Box,
-  Menu,
-  Avatar,
-  Typography,
-  Divider,
-  Button,
-  IconButton,
-} from "@mui/material";
+import { Box, Menu, Avatar, Typography, Divider, Button, IconButton } from "@mui/material";
 import * as dropdownData from "./data";
 
 import { Stack } from "@mui/system";
-import Image from "next/image";
 import { logout } from "@/api/auth/logout/logout";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
@@ -50,32 +41,28 @@ const Profile = () => {
     logout();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   };
-  
+
   return (
     <Box>
       <IconButton
-        size="large"
-        aria-label="show 11 new notifications"
-        color="inherit"
-        aria-controls="msgs-menu"
-        aria-haspopup="true"
+        size='large'
+        aria-label='show 11 new notifications'
+        color='inherit'
+        aria-controls='msgs-menu'
+        aria-haspopup='true'
         sx={{
           ...(typeof anchorEl2 === "object" && {
-            color: "primary.main",
-          }),
+            color: "primary.main"
+          })
         }}
         onClick={handleClick2}
       >
         <Avatar
-          src={
-            user.data.photoURL
-              ? user.data.photoURL
-              : "/images/profile/user-1.jpg"
-          }
+          src={user.data.photoURL ? user.data.photoURL : "/images/profile/user-1.jpg"}
           alt={"ProfileImg"}
           sx={{
             width: 35,
-            height: 35,
+            height: 35
           }}
         />
       </IconButton>
@@ -83,7 +70,7 @@ const Profile = () => {
       {/* Message Dropdown */}
       {/* ------------------------------------------- */}
       <Menu
-        id="msgs-menu"
+        id='msgs-menu'
         anchorEl={anchorEl2}
         keepMounted
         open={Boolean(anchorEl2)}
@@ -93,58 +80,45 @@ const Profile = () => {
         sx={{
           "& .MuiMenu-paper": {
             width: "360px",
-            p: 4,
-          },
+            p: 4
+          }
         }}
       >
-        <Typography variant="h5">Профиль</Typography>
-        <Stack direction="row" pt={3} pb={2} spacing={2} alignItems="center">
+        <Typography variant='h5'>Профиль</Typography>
+        <Stack direction='row' pt={3} pb={2} spacing={2} alignItems='center'>
           <Avatar
-            src={
-              user.data.photoURL
-                ? user.data.photoURL
-                : "/images/profile/user-1.jpg"
-            }
+            src={user.data.photoURL ? user.data.photoURL : "/images/profile/user-1.jpg"}
             alt={"ProfileImg"}
             sx={{ width: 64, height: 64 }}
           />
           <Box>
-            <Typography
-              variant="subtitle2"
-              color="textPrimary"
-              fontWeight={600}
-            >
+            <Typography variant='subtitle2' color='textPrimary' fontWeight={600}>
               {user.data ? user.data.email : ""}
             </Typography>
-            <Typography variant="subtitle2" color="textSecondary">
+            <Typography variant='subtitle2' color='textSecondary'>
               {t("balance.title")}: $ {balanceReducer.amount}
             </Typography>
           </Box>
         </Stack>
-        <Stack direction="column" pb={3} spacing={2} alignItems="center">
-          <Button
-            onClick={handleClickOpen}
-            variant="contained"
-            color="info"
-            fullWidth
-          >
+        <Stack direction='column' pb={3} spacing={2} alignItems='center'>
+          <Button onClick={handleClickOpen} variant='contained' color='info' fullWidth>
             Пополнить баланс
           </Button>
         </Stack>
         <Divider />
         {dropdownData.profile.map((profile) => (
           <Box key={profile.title}>
-            <Box sx={{ py: 2, px: 0 }} className="hover-text-primary">
+            <Box sx={{ py: 2, px: 0 }} className='hover-text-primary'>
               <Link href={profile.href}>
-                <Stack direction="row" spacing={2}>
+                <Stack direction='row' spacing={2}>
                   <Box
-                    width="45px"
-                    height="45px"
-                    bgcolor="primary.light"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    flexShrink="0"
+                    width='45px'
+                    height='45px'
+                    bgcolor='primary.light'
+                    display='flex'
+                    alignItems='center'
+                    justifyContent='center'
+                    flexShrink='0'
                   >
                     <Avatar
                       src={profile.icon}
@@ -152,28 +126,28 @@ const Profile = () => {
                       sx={{
                         width: 24,
                         height: 24,
-                        borderRadius: 0,
+                        borderRadius: 0
                       }}
                     />
                   </Box>
                   <Box>
                     <Typography
-                      variant="subtitle2"
+                      variant='subtitle2'
                       fontWeight={600}
-                      color="textPrimary"
-                      className="text-hover"
+                      color='textPrimary'
+                      className='text-hover'
                       noWrap
                       sx={{
-                        width: "240px",
+                        width: "240px"
                       }}
                     >
                       {profile.title}
                     </Typography>
                     <Typography
-                      color="textSecondary"
-                      variant="subtitle2"
+                      color='textSecondary'
+                      variant='subtitle2'
                       sx={{
-                        width: "240px",
+                        width: "240px"
                       }}
                       noWrap
                     >
@@ -188,9 +162,9 @@ const Profile = () => {
         <Box mt={2}>
           <Button
             onClick={exit}
-            href="/auth/login"
-            variant="outlined"
-            color="primary"
+            href='/auth/login'
+            variant='outlined'
+            color='primary'
             component={Link}
             fullWidth
           >

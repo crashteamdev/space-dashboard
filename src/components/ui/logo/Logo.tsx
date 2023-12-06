@@ -1,5 +1,4 @@
 import React from "react";
-import { FC } from "react";
 import { useSelector } from "@/shared/store/hooks";
 import Link from "next/link";
 import { styled } from "@mui/material";

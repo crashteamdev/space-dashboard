@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import BlankCard from "../ui/shared/BlankCard";
-import { alpha, useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 import { format } from "date-fns";
 import {
   Box,
@@ -13,25 +13,16 @@ import {
   TableRow,
   TableSortLabel,
   CardContent,
-  Toolbar,
-  IconButton,
-  Tooltip,
   Typography,
-  TextField,
-  InputAdornment,
-  Paper,
+  Paper
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import {
-  IconFilter,
-  IconSearch,
-  IconTrash,
-} from "@tabler/icons-react";
 import { getAuth } from "@firebase/auth";
 import { getListPayments } from "@/shared/store/slices/userProfile/UserProfileSlice";
 import firebase_app from "@/shared/firebase/firebase";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
+import statusChecker from "@/processes/statusChecker/StatusChecker";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -49,10 +40,7 @@ type Order = "asc" | "desc";
 function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
+): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -81,24 +69,24 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "date",
+    id: "createdAt",
     numeric: false,
     disablePadding: false,
-    label: "Дата",
+    label: "Дата"
   },
   {
     id: "status",
     numeric: false,
     disablePadding: false,
-    label: "Статус",
+    label: "Статус"
   },
 
   {
-    id: "Amount",
+    id: "amount",
     numeric: false,
     disablePadding: false,
-    label: "Сумма",
-  },
+    label: "Сумма"
+  }
 ];
 
 interface EnhancedTableProps {
@@ -111,16 +99,10 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    onRequestSort,
-  } = props;
-  const createSortHandler =
-    (property: any) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
+  const { order, orderBy, onRequestSort } = props;
+  const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
+    onRequestSort(event, property);
+  };
 
   return (
     <TableHead>
@@ -139,7 +121,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
+                <Box component='span' sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
@@ -150,46 +132,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     </TableHead>
   );
 }
-
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-  handleSearch: React.ChangeEvent<HTMLInputElement> | any;
-  search: string;
-}
-
-const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, handleSearch, search } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <IconTrash width="18" />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <IconFilter size="1.2rem" />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
 
 const ProductTableList = () => {
   const [order, setOrder] = React.useState<Order>("asc");
@@ -205,7 +147,6 @@ const ProductTableList = () => {
   const dispatch = useDispatch();
 
   const [rows, setRows] = React.useState<any>(userPost.paymentList);
-  const [search, setSearch] = React.useState("");
 
   React.useEffect(() => {
     setRows(getProducts);
@@ -215,32 +156,22 @@ const ProductTableList = () => {
     if (auth.currentUser) {
       const today = new Date() as any;
       const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const day = String(today.getDate()).padStart(2, "0");
 
       const formattedDate = `${year}-${month}-${day}`;
-      const toDate = `${year}-${String(today.getMonth() - 1).padStart(2, '0')}-${day}`;
+      const toDate = `${year}-${String(today.getMonth() - 1).padStart(2, "0")}-${day}`;
       dispatch(
         getListPayments(auth.currentUser.accessToken, company.activeCompany, formattedDate, toDate)
-      )
+      );
     }
+    setProducts(userPost.paymentList);
     setRows(userPost.paymentList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const filteredRows: any[] = getProducts.filter((row: any) => {
-      return row.title.toLowerCase().includes(event.target.value);
-    });
-    setSearch(event.target.value);
-    setRows(filteredRows);
-  };
-
   // This is for the sorting
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: any
-  ) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: any) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -261,9 +192,7 @@ const ProductTableList = () => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -271,30 +200,17 @@ const ProductTableList = () => {
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const theme = useTheme();
   const borderColor = theme.palette.divider;
 
-  return userPost.paymentList.length ? (
+  return rows.length ? (
     <Box>
       <Box>
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          search={search}
-          handleSearch={(event: any) => handleSearch(event)}
-        />
-        <Paper
-          variant="outlined"
-          sx={{ mx: 0, mt: 1, border: `1px solid ${borderColor}` }}
-        >
+        <Paper variant='outlined' sx={{ mx: 0, mt: 1, border: `1px solid ${borderColor}` }}>
           <TableContainer>
-            <Table
-              sx={{ minWidth: 200 }}
-              aria-labelledby="tableTitle"
-              size={"small"}
-            >
+            <Table sx={{ minWidth: 200 }} aria-labelledby='tableTitle' size={"small"}>
               <EnhancedTableHead
                 numSelected={selected.length}
                 order={order}
@@ -306,27 +222,20 @@ const ProductTableList = () => {
               <TableBody>
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: any, index) => {
+                  .map((row: any) => {
                     const isItemSelected = isSelected(row.title);
                     return (
-                      <TableRow
-                        hover
-                        tabIndex={-1}
-                        key={row.title}
-                        selected={isItemSelected}
-                      >
+                      <TableRow hover tabIndex={-1} key={row.title} selected={isItemSelected}>
                         <TableCell>
                           <Typography>
                             {format(new Date(row.createdAt), "E, MMM d yyyy")}
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography>
-                            {row.status}
-                          </Typography>
+                          <Typography>{statusChecker(row.status)}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography fontWeight={600} variant="h6">
+                          <Typography fontWeight={600} variant='h6'>
                             ${row.amount}
                           </Typography>
                         </TableCell>
@@ -336,7 +245,7 @@ const ProductTableList = () => {
                 {emptyRows > 0 && (
                   <TableRow
                     style={{
-                      height: 33 * emptyRows,
+                      height: 33 * emptyRows
                     }}
                   >
                     <TableCell colSpan={6} />
@@ -347,7 +256,7 @@ const ProductTableList = () => {
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
-            component="div"
+            component='div'
             count={rows.length}
             rowsPerPage={rowsPerPage}
             page={page}
@@ -357,14 +266,16 @@ const ProductTableList = () => {
         </Paper>
       </Box>
     </Box>
-  ) : "Вы еще не совершили ни одного платежа";
+  ) : (
+    "Вы еще не совершили ни одного платежа"
+  );
 };
 
 const ProfileListPayments = () => {
   return (
     <BlankCard>
       <CardContent>
-        <Typography variant="h5" mb={1}>
+        <Typography variant='h5' mb={1}>
           Cписок платежей
         </Typography>
         <ProductTableList />

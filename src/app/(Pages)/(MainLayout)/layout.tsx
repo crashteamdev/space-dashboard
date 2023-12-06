@@ -9,12 +9,11 @@ import { getAuth, onIdTokenChanged } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
-import useAutoRefreshToken from "@/hooks/useСheckToken/useCheckToken";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
   minHeight: "100vh",
-  width: "100%",
+  width: "100%"
 })) as any;
 
 const PageWrapper = styled("div")(() => ({
@@ -23,14 +22,10 @@ const PageWrapper = styled("div")(() => ({
   paddingBottom: "60px",
   flexDirection: "column",
   zIndex: 1,
-  backgroundColor: "transparent",
+  backgroundColor: "transparent"
 })) as any;
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const customizer = useSelector((state: AppState) => state.customizer);
   const theme = useTheme();
   const router = useRouter();
@@ -46,12 +41,9 @@ export default function RootLayout({
   }, [loading, router]);
 
   useEffect(() => {
-    const listener = onIdTokenChanged(
-      auth,
-      async (user) => {
-        console.log(user);
-      }
-    );
+    const listener = onIdTokenChanged(auth, async (user) => {
+      console.log(user);
+    });
 
     return () => {
       listener();
@@ -62,19 +54,19 @@ export default function RootLayout({
     <MainWrapper>
       {customizer.isHorizontal ? "" : <Sidebar />}
       <PageWrapper
-        className="page-wrapper"
+        className='page-wrapper'
         sx={{
           ...(customizer.isCollapse && {
             [theme.breakpoints.up("lg")]: {
-              ml: `${customizer.MiniSidebarWidth}px`,
-            },
-          }),
+              ml: `${customizer.MiniSidebarWidth}px`
+            }
+          })
         }}
       >
         {customizer.isHeader && <Header /> }
         <Container
           sx={{
-            maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important",
+            maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important"
           }}
         >
           <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>

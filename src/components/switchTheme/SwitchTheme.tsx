@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./SwitchTheme.module.scss";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { setDarkMode } from "@/shared/store/slices/customizer/CustomizerSlice";
@@ -14,14 +14,10 @@ const SwitchTheme = () => {
   const [light, setLight] = useState(localStorage.getItem("theme") != "light");
 
   const changeTheme = () => {
-    localStorage.setItem(
-      "theme",
-      theme.activeMode === "light" ? "dark" : "light"
-    );
+    localStorage.setItem("theme", theme.activeMode === "light" ? "dark" : "light");
     setLight(localStorage.getItem("theme") === "dark");
 
     dispatch(setDarkMode(theme.activeMode === "light" ? "dark" : "light"));
-
   };
   useEffect(() => {
     if (localStorage.getItem("theme")) {
@@ -35,11 +31,7 @@ const SwitchTheme = () => {
   return (
     <label className={styles.container}>
       <div className={styles.switch}>
-        <input
-          checked={light}
-          onChange={() => changeTheme()}
-          type="checkbox"
-        />
+        <input checked={light} onChange={() => changeTheme()} type='checkbox' />
         <span className={`${styles.slider} ${styles.round}`}></span>
         <div className={styles.image}>
           <Moon />

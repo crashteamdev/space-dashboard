@@ -31,7 +31,6 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const router = useRouter();
 
   const [check, setCheck] = useState(false) as any;
-  const [empty, setEmpty] = useState(false) as any;
 
   const dispatch = useDispatch();
   const auth = getAuth(firebase_app);
@@ -145,21 +144,6 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
-            {empty ? (
-              <Box mt={2}>
-                <Typography
-                  component="span"
-                  color="error"
-                  variant="h6"
-                  fontWeight="400"
-                  position="relative"
-                >
-                  Введен не верный логин или пароль
-                </Typography>
-              </Box>
-            ) : (
-              ""
-            )}
           </Box>
         </Stack>
         <Stack

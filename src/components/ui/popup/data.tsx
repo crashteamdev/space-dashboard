@@ -1,20 +1,5 @@
 export const data = ["freekassa", "uz-click", "Оплата с баланса"];
 
-const checkTarif = (value: string) => {
-  switch (value) {
-    case "validPromoCode":
-      return "Промокод применен";
-    case "invalidPromoCodeDate":
-      return "У промокода истек срок использования";
-    case "invalidPromoCodeUseLimit":
-      return "Превышен лимит использования промокода";
-    case "notFoundPromoCode":
-      return "Промокод не найден";
-    default: 
-      return "Промокод не найден";
-  }
-};
-
 export const pricing = [
   {
     id: 1,

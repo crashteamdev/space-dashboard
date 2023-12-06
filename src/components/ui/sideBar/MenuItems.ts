@@ -21,7 +21,6 @@ interface MenuitemsT {
 
 import {
   IconPoint,
-  IconFileDots,
   IconTicket,
   IconStar,
   IconChartDonut3,

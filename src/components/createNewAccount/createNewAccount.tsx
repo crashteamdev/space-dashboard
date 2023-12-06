@@ -6,11 +6,10 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
+  DialogContentText
 } from "@mui/material";
 import CustomTextField from "../ui/theme-elements/CustomTextField";
 import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
-import Link from "next/link";
 import { useFormik } from "formik";
 import { AppState } from "@/shared/store/store";
 import * as yup from "yup";
@@ -24,10 +23,6 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
     setOpen(false);
   };
 
-  const handleLink = () => {
-    setOpen(false);
-  };
-
   const auth = getAuth(firebase_app) as any;
 
   const validationSchema = yup.object({
@@ -38,14 +33,14 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
     password: yup
       .string()
       .min(8, "Password should be of minimum 8 characters length")
-      .required("Password is required"),
+      .required("Password is required")
   });
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const formik = useFormik({
     initialValues: {
       login: "",
-      password: "",
+      password: ""
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -56,7 +51,7 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
         values.login,
         values.password
       );
-    },
+    }
   });
 
   return (
@@ -64,19 +59,19 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
       <DialogTitle mt={2}>Добавить аккаунт KazanExpress</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Для того чтобы использовать систему изменения цен, необходимо добавить
-          аккаунт указав логин и пароль. Вы можете создать отдельный аккаунт
-          через раздел на KazanExpress &quotСотрудники&quot
+          Для того чтобы использовать систему изменения цен, необходимо добавить аккаунт указав
+          логин и пароль. Вы можете создать отдельный аккаунт через раздел на KazanExpress
+          &quotСотрудники&quot
         </DialogContentText>
       </DialogContent>
       <form onSubmit={formik.handleSubmit}>
-        <Stack mx={3} direction="row" gap={3} justifyContent={"space-between"}>
+        <Stack mx={3} direction='row' gap={3} justifyContent={"space-between"}>
           <Box width={"100%"}>
             <CustomFormLabel>Логин</CustomFormLabel>
             <CustomTextField
               fullWidth
-              id="login"
-              name="login"
+              id='login'
+              name='login'
               value={formik.values.login}
               onChange={formik.handleChange}
               error={formik.touched.login && Boolean(formik.errors.login)}
@@ -87,9 +82,9 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
             <CustomFormLabel>Пароль</CustomFormLabel>
             <CustomTextField
               fullWidth
-              id="password"
-              name="password"
-              type="password"
+              id='password'
+              name='password'
+              type='password'
               value={formik.values.password}
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
@@ -97,15 +92,8 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
             />
           </Box>
         </Stack>
-        <Stack
-          direction="row"
-          px={3}
-          pb={2}
-          mb={2}
-          mt={2}
-          justifyContent={"flex-end"}
-        >
-          <Button variant="contained" color="primary" type="submit">
+        <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
+          <Button variant='contained' color='primary' type='submit'>
             Добавить аккаунт
           </Button>
         </Stack>

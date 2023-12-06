@@ -3,27 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
 import { v4 as uuidv4 } from "uuid";
 
-const API_URL = "/api/data/postData";
-
-interface StateType {
-  token: string;
-  subscription: {
-    active: boolean;
-    createdAt: string;
-    endAt: string;
-    type: string;
-    typeNumeric: number;
-  };
-  paymentList: [
-    {
-      paymentId: string;
-      status: string;
-      amount: number;
-      createdAt: string;
-    }
-  ];
-}
-
 const initialState = {
   token: "",
   subscription: {
@@ -31,9 +10,9 @@ const initialState = {
     createdAt: "",
     endAt: "",
     type: "default", // default, advanced, pro
-    typeNumeric: 1, // 1, 2, 3
+    typeNumeric: 1 // 1, 2, 3
   },
-  paymentList: [],
+  paymentList: []
 };
 
 export const UserProfileSlice = createSlice({
@@ -48,36 +27,34 @@ export const UserProfileSlice = createSlice({
     },
     setPaymentList: (state, action) => {
       state.paymentList = action.payload;
-    },
-  },
+    }
+  }
 });
 
-export const { getTokens, getSubscription, setPaymentList } =
-  UserProfileSlice.actions;
+export const { getTokens, getSubscription, setPaymentList } = UserProfileSlice.actions;
 
-export const fetchToken =
-  (token: string, context: string) => async (dispatch: AppDispatch) => {
-    try {
-      const config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      axios
-        .request(config)
-        .then((response) => {
-          dispatch(getTokens(response.data));
-        })
-        .catch(() => {
-          dispatch(getTokens(""));
-        });
-    } catch (err: any) {
-      throw new Error(err);
-    }
-  };
+export const fetchToken = (token: string, context: string) => async (dispatch: AppDispatch) => {
+  try {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    axios
+      .request(config)
+      .then((response) => {
+        dispatch(getTokens(response.data));
+      })
+      .catch(() => {
+        dispatch(getTokens(""));
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
 
 export const fetchRefreshToken =
   (token: string, context: string) => async (dispatch: AppDispatch) => {
@@ -87,8 +64,8 @@ export const fetchRefreshToken =
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       };
       axios
         .request(config)
@@ -111,8 +88,8 @@ export const fetchGenerateToken =
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       };
       axios
         .request(config)
@@ -135,8 +112,8 @@ export const fetchProfileStatus =
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/subscription`,
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       };
       axios
         .request(config)
@@ -144,38 +121,43 @@ export const fetchProfileStatus =
           console.log("CONFIG", config, "DATA", response.data);
           dispatch(getSubscription(response.data));
         })
-        .catch(() => { });
+        .catch((error) => {
+          if (error === "Wrong Services") {
+            console.log(error);
+            dispatch(getSubscription({}));
+          }
+        });
     } catch (err: any) {
-      throw new Error(err);
+      console.log(err);
     }
   };
 
 export const getListPayments =
   (token: string, context: string, fromDate: string, toDate: string) =>
-    async (dispatch: AppDispatch) => {
-      try {
-        const config = {
-          method: "get",
-          maxBodyLength: Infinity,
-          url: `https://api.marketdb.pro/gateway/payments?fromDate=${fromDate}&toDate=${toDate} `,
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "X-Request-ID": `${uuidv4()}`,
-          },
-          data: {
-            fromDate: fromDate,
-            toDate: toDate,
-          },
-        };
-        axios
-          .request(config)
-          .then((response) => {
-            dispatch(setPaymentList(response.data));
-          })
-          .catch(() => { });
-      } catch (err: any) {
-        throw new Error(err);
-      }
-    };
+  async (dispatch: AppDispatch) => {
+    try {
+      const config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `https://api.marketdb.pro/gateway/payments?fromDate=${fromDate}&toDate=${toDate} `,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Request-ID": `${uuidv4()}`
+        },
+        data: {
+          fromDate: fromDate,
+          toDate: toDate
+        }
+      };
+      axios
+        .request(config)
+        .then((response) => {
+          dispatch(setPaymentList(response.data));
+        })
+        .catch(() => {});
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
 
 export default UserProfileSlice.reducer;
