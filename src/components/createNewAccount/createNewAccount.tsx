@@ -19,7 +19,7 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useDispatch } from "@/shared/store/hooks";
 
-const CreateNewAccount = ({ open, setOpen }: any) => {
+const CreateNewAccount = ({ open, setOpen, getFirstData }: any) => {
   const handleClose = () => {
     setOpen(false);
   };
@@ -57,6 +57,7 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
       if (result.login) {
         setOpen(false);
       }
+      await getFirstData();
     }
   });
 

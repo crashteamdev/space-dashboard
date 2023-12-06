@@ -17,7 +17,7 @@ const COMMON_TAB = [
   { value: "2", icon: "", label: "Конкуренты", ul: "con", disabled: false }
 ];
 
-const ProductTableEditConcurents = ({ open, setOpen }: any) => {
+const ProductTableEditConcurents = ({ getFirstData, open, setOpen }: any) => {
   const { accountId } = useParams() as any;
   const [data, setData] = useState({}) as any;
   const [value, setValue] = React.useState("set") as any;
@@ -80,7 +80,7 @@ const ProductTableEditConcurents = ({ open, setOpen }: any) => {
           Закрыть
         </Button>
       </Box>
-      {step == 0 ? <SettingsBlock item={data} setStep={setStep} /> : <ConcurentsBlock />}
+      {step == 0 ? <SettingsBlock getFirstData={getFirstData} item={data} setStep={setStep} /> : <ConcurentsBlock />}
     </Dialog>
   );
 };

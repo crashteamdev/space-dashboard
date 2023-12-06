@@ -3,6 +3,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { addItem } from "../alerts/AlertsSlice";
 import { AppDispatch } from "../../store";
+import axiosApiInstance from "@/shared/api/api";
 
 interface StateType {
   amount: number;
@@ -229,12 +230,8 @@ export const getHistory = (token: string, context: string, id: string) => async 
       method: "get",
       maxBodyLength: Infinity,
       url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/price-history?limit=1000`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "X-Request-ID": `${uuidv4()}`
-      }
     };
-    return axios
+    return axiosApiInstance
       .request(config)
       .then((response) => {
         return response.data;
@@ -248,23 +245,19 @@ export const getHistory = (token: string, context: string, id: string) => async 
 };
 
 export const updateAccount =
-  (token: string, context: string, login: string, password: string, id: string) =>
+  (context: string, login: string, password: string, id: string) =>
   async (dispatch: AppDispatch) => {
     try {
       const config = {
         method: "patch",
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-Request-ID": `${uuidv4()}`
-        },
         data: {
           login: login,
           password: password
         }
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(

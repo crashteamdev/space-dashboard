@@ -21,7 +21,7 @@ import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 
-const SettingsBlock = ({ item }: any) => {
+const SettingsBlock = ({ getFirstData, item }: any) => {
   const validationSchema = yup.object({
     minValue: yup
       .number()
@@ -66,8 +66,8 @@ const SettingsBlock = ({ item }: any) => {
       amountStep: item.step || 0
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      dispatch(
+    onSubmit: async (values) => {
+      await dispatch(
         patchParamsItem(
           auth.currentUser.accessToken,
           company.activeCompany,
@@ -81,6 +81,7 @@ const SettingsBlock = ({ item }: any) => {
           }
         )
       );
+      await getFirstData();
     }
   });
 

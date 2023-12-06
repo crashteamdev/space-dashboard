@@ -12,6 +12,40 @@ import EditAccount from "../editAccount/editAccount";
 import { changeMonitoringAccount } from "@/shared/store/slices/reprice/repriceSlice";
 import { format } from "date-fns";
 
+const checkStatusAccount = (status: any, lastUpdate: any, initializeState: any) => {
+  if (status === "finished" && initializeState === "finished") {
+    return {
+      title: "Синхронизирован с базой",
+      status: "active"
+    };
+  } else if (status === "not_started" && lastUpdate === null && initializeState !== "error") {
+    return {
+      title: "Мы включаем ваш аккаунт в нашу базу данных, необходимо подождать",
+      status: "progress"
+    };
+  } else if (status === "not_started" && lastUpdate) {
+    return {
+      title: "идет синхронизация с личным кабинетом",
+      status: "progress"
+    };
+  } else if (status === "in_progress") {
+    return {
+      title: "Синхронизация с личным кабинетом, необходимо подождать",
+      status: "progress"
+    };
+  } else if (initializeState === "error") {
+    return {
+      title: "Произошла ошибка при синхронизация, попробуйте повторить",
+      status: "error"
+    };
+  } else {
+    return {
+      title: "Произошла ошибка",
+      status: "error"
+    };
+  }
+};
+
 const HeaderAccount = () => {
   const dispatch = useDispatch();
 
@@ -24,8 +58,9 @@ const HeaderAccount = () => {
   const auth = getAuth(firebase_app) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
-  const syncAccountHandler = () => {
+  const syncAccountHandler = async () => {
     dispatch(syncAccount(auth.currentUser.accessToken, company.activeCompany, accountId));
+    await getFirstData();
   };
   const monitoringAccountHandler = async () => {
     await dispatch(
@@ -96,6 +131,30 @@ const HeaderAccount = () => {
             {data.monitorState === "active" ? "Активнен" : "Приостановлен"}
           </Typography>
         </Typography>
+        <Typography
+          display={"flex"}
+          variant='h6'
+          fontWeight={500}
+          color='textPrimary'
+          className='text-hover'
+          noWrap
+        >
+          Статус:{" "}
+          <Typography
+            ml={1}
+            variant='h6'
+            sx={{
+              color:
+                checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState).status === "active"
+                  ? (theme) => theme.palette.success.main
+                  : (theme) => theme.palette.error.main,
+              borderRadius: "100%"
+            }}
+          >
+            {" "}
+            {checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState).title}
+          </Typography>
+        </Typography>
       </Box>
 
       <Box
@@ -140,7 +199,7 @@ const HeaderAccount = () => {
           История изменения цен
         </Button>
       </Box>
-      <EditAccount setOpen={setOpen} open={open} />
+      <EditAccount getFirstData={getFirstData} setOpen={setOpen} open={open} />
     </Grid>
   );
 };

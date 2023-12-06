@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Stack, Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import CustomTextField from "../ui/theme-elements/CustomTextField";
 import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
@@ -8,17 +8,15 @@ import * as yup from "yup";
 import { updateAccount } from "@/shared/store/slices/account/AccountSlice";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import { getAuth } from "firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
 import { useDispatch } from "@/shared/store/hooks";
 
-const EditAccount = ({ open, setOpen }: any) => {
+const EditAccount = ({ getFirstData, open, setOpen, id }: any) => {
   const handleClose = () => {
     setOpen(false);
   };
-
   const { accountId } = useParams() as any;
-  const auth = getAuth(firebase_app) as any;
+  console.log(id, accountId);
+  const [accId] = useState(id ? id : accountId);
 
   const validationSchema = yup.object({
     login: yup
@@ -39,16 +37,10 @@ const EditAccount = ({ open, setOpen }: any) => {
       password: ""
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      dispatch(
-        updateAccount(
-          auth.currentUser.accessToken,
-          company.activeCompany,
-          values.login,
-          values.password,
-          accountId
-        )
-      );
+    onSubmit: async (values) => {
+      await dispatch(updateAccount(company.activeCompany, values.login, values.password, accId));
+      await getFirstData();
+      setOpen(false);
     }
   });
 
@@ -64,6 +56,7 @@ const EditAccount = ({ open, setOpen }: any) => {
               fullWidth
               id='login'
               name='login'
+              placeholder='Введите логин'
               value={formik.values.login}
               onChange={formik.handleChange}
               error={formik.touched.login && Boolean(formik.errors.login)}
@@ -76,6 +69,7 @@ const EditAccount = ({ open, setOpen }: any) => {
               fullWidth
               id='password'
               name='password'
+              placeholder='Введите пароль'
               type='password'
               value={formik.values.password}
               onChange={formik.handleChange}

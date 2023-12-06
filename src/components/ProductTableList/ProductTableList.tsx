@@ -522,7 +522,7 @@ const ProductTableList = () => {
           />
         </Paper>
       </Box>
-      <ProductTableEditConcurents setOpen={setOpenEditConc} open={openEditConc} />
+      <ProductTableEditConcurents getFirstData={getFirstData} setOpen={setOpenEditConc} open={openEditConc} />
     </Box>
   );
 };

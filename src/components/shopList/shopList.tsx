@@ -50,7 +50,8 @@ const ShopList = () => {
                 <CardContent>
                   <Stack direction={"column"} gap={4} alignItems='center'>
                     <Box padding={"6px 24px"} textAlign={"center"}>
-                      <Typography variant='h5'>{item.name}</Typography>
+                      <Typography variant='h5' fontWeight={500}>Магазин:</Typography>
+                      <Typography variant='h4'>{item.name}</Typography>
                     </Box>
                   </Stack>
                 </CardContent>
