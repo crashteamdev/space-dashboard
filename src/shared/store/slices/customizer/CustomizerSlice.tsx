@@ -15,12 +15,13 @@ interface StateType {
   isLanguage?: string;
   isCardShadow?: boolean;
   borderRadius?: number | any;
+  isHeader?: boolean;
 }
 
 const initialState: StateType = {
   activeDir: "ltr",
   activeMode: "dark", // This can be light or dark
-  activeTheme: "BLUE_THEME", // BLUE_THEME, GREEN_THEME, BLACK_THEME, PURPLE_THEME, ORANGE_THEME
+  activeTheme: "CUSTOM_THEME", // BLUE_THEME, CUSTOM_THEME
   SidebarWidth: 270,
   MiniSidebarWidth: 87,
   TopbarHeight: 70,
@@ -32,6 +33,7 @@ const initialState: StateType = {
   isLanguage: "ru",
   isCardShadow: true,
   borderRadius: 7,
+  isHeader: false,
 };
 
 export const CustomizerSlice = createSlice({
@@ -44,7 +46,6 @@ export const CustomizerSlice = createSlice({
     setDarkMode: (state: StateType, action) => {
       state.activeMode = action.payload;
     },
-
     setDir: (state: StateType, action) => {
       state.activeDir = action.payload;
     },
@@ -72,6 +73,9 @@ export const CustomizerSlice = createSlice({
     },
     setBorderRadius: (state: StateType, action) => {
       state.borderRadius = action.payload;
+    },
+    toggleHeader: (state: StateType, action) => {
+      state.isHeader = action.payload;
     },
   },
 });

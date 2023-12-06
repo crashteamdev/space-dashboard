@@ -59,6 +59,10 @@ const baselightTheme = {
       hover: "#f6f9fc",
     },
     divider: "#e5eaef",
+    // Custom Style
+    sidebar: {
+      bg: "#393848"
+    }
   },
 };
 

@@ -10,6 +10,7 @@ import {
 import Scrollbar from "@/components/ui/custom-scroll/Scrollbar";
 import { Profile } from "./SidebarProfile/Profile";
 import { AppState } from "@/shared/store/store";
+import styles from "./style/sidebar.module.scss";
 
 const Sidebar = () => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
@@ -60,6 +61,8 @@ const Sidebar = () => {
           }}
         >
           <Box
+            bgcolor={"sidebar.bg"}
+            className={styles.sidebar}
             sx={{
               height: "100%",
             }}
