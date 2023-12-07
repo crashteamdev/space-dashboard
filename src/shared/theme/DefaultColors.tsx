@@ -50,8 +50,9 @@ const baselightTheme = {
       
     },
     text: {
-      primary: "#2A3547",
-      secondary: "#2A3547",
+      primary: "#2A3547", // Остальной текст на сайте
+      secondary: "#2A3547", // Sidebar
+      sidebar: "#fff", // Sidebar
     },
     action: {
       disabledBackground: "rgba(73,82,88,0.12)",

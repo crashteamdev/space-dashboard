@@ -16,6 +16,7 @@ interface StateType {
   isCardShadow?: boolean;
   borderRadius?: number | any;
   isHeader?: boolean;
+  isBreadcrumb?: boolean;
 }
 
 const initialState: StateType = {
@@ -33,7 +34,8 @@ const initialState: StateType = {
   isLanguage: "ru",
   isCardShadow: true,
   borderRadius: 7,
-  isHeader: false,
+  isHeader: true,
+  isBreadcrumb: false,
 };
 
 export const CustomizerSlice = createSlice({
