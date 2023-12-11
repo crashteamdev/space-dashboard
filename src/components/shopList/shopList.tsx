@@ -22,7 +22,6 @@ const ShopList = () => {
     const data = await dispatch(
       getShops(auth.currentUser.accessToken, company.activeCompany, accountId)
     );
-    console.log(data);
     setGetData(data);
   };
 
@@ -35,7 +34,6 @@ const ShopList = () => {
     getData?.length >= 1 && (
       <Box display={"flex"} gap={"24px"} flexWrap={"wrap"}>
         {getData.map((item: any) => {
-          console.log(item);
           return (
             <Grid
               style={{ cursor: "pointer" }}

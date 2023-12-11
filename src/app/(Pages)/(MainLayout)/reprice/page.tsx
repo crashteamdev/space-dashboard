@@ -34,7 +34,9 @@ const Reprice = () => {
   const getFirstData = async () => {
     const data = await dispatch(getAccounts(auth.currentUser.accessToken, company.activeCompany));
     console.log(data);
-    setData(data);
+    if (data.length >= 1) {
+      setData(data);
+    }
   };
 
   useEffect(() => {

@@ -50,7 +50,7 @@ const RepricerAccountItem = ({ item, getFirstData }: any) => {
               <AppBarStyled variant='h5'>Аккаунт</AppBarStyled>
             </Box>
             <Box padding={"6px 24px"} textAlign={"center"}>
-              <AppBarStyled variant='h5'>{item.email}</AppBarStyled>
+              <AppBarStyled variant='h5'>{item.login || item.email}</AppBarStyled>
             </Box>
             <Box padding={"6px 24px"} textAlign={"center"}>
               <AppBarStyled

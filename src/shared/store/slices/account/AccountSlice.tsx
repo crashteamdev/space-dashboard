@@ -56,6 +56,26 @@ export const getAccounts = (token: string, context: string) => async () => {
   }
 };
 
+export const getSubscription = (context: string) => async () => {
+  try {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/space/v1/user/subscription`
+    };
+    return axiosApiInstance
+      .request(config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (err: any) {
+    console.log(err);
+  }
+};
+
 export const getAccount = (token: string, context: string, id: string) => async () => {
   try {
     const config = {
@@ -229,7 +249,7 @@ export const getHistory = (token: string, context: string, id: string) => async 
     const config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/price-history?limit=1000`,
+      url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/price-history?limit=1000`
     };
     return axiosApiInstance
       .request(config)

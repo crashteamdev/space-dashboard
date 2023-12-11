@@ -15,7 +15,7 @@ const EditAccount = ({ getFirstData, open, setOpen, id }: any) => {
     setOpen(false);
   };
   const { accountId } = useParams() as any;
-  console.log(id, accountId);
+  
   const [accId] = useState(id ? id : accountId);
 
   const validationSchema = yup.object({

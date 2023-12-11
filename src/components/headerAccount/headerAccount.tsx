@@ -75,9 +75,9 @@ const HeaderAccount = () => {
     const data = await dispatch(
       getAccount(auth.currentUser.accessToken, company.activeCompany, accountId)
     );
-    console.log(data);
+    console.log(data.lastUpdate);
     setData(data);
-    setDate(format(new Date(data.lastUpdate), "yyyy-MM-dd HH:mm"));
+    setDate(data.lastUpdate ? format(new Date(data.lastUpdate), "yyyy-MM-dd HH:mm") : "");
   };
 
   useEffect(() => {
@@ -102,7 +102,7 @@ const HeaderAccount = () => {
     >
       <Box display={"flex"} flexDirection={"column"} gap={2}>
         <Typography variant='h6' fontWeight={500} color='textPrimary' className='text-hover' noWrap>
-          Аккаунт: <b>{data.email}</b>
+          Аккаунт: <b>{data.login || data.email}</b>
         </Typography>
         <Typography variant='h6' fontWeight={500} color='textPrimary' className='text-hover' noWrap>
           Последний обход: <b>{date}</b>
@@ -145,7 +145,8 @@ const HeaderAccount = () => {
             variant='h6'
             sx={{
               color:
-                checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState).status === "active"
+                checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState)
+                  .status === "active"
                   ? (theme) => theme.palette.success.main
                   : (theme) => theme.palette.error.main,
               borderRadius: "100%"
