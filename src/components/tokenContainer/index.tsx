@@ -94,7 +94,8 @@ const TokenContainer = () => {
                           {t("Token.upInput")}
                         </Typography>
                         <Box
-                          bgcolor={"info.light"}
+                          className="bg-black-800 text-white dark:bg-white dark:text-black-800"
+                          // bgcolor={"info.light"}
                           style={styles.paper}
                           onClick={copyToken}
                           p={2}

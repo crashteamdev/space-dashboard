@@ -26,6 +26,7 @@ import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import AlertList from "@/components/alertList/alertList";
+import "@/shared/styles/globals.css";
 
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loadingPage, setLoadingPage] = React.useState(false);
