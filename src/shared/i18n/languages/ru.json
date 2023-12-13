@@ -5,9 +5,9 @@
     "profileT": {
         "informationTitle": "Информация о подписке",
         "informationDesc": "Если у вас возниклы проблемы, пишите нам в",
-        "yourRate": "Your rate",
-        "status": "Status",
-        "validUntil": "Valid until",
+        "yourRate": "Тариф",
+        "status": "Статус",
+        "validUntil": "Действует до",
         "tarifNotFound": "У вас не выбран тариф",
         "selectTarif": "Выбрать тариф"
     },
@@ -39,11 +39,9 @@
         "desc3": "Как начать пользоваться расширением",
         "desc4": "Инструкция установки расширения (Устаревшее)"
     },
-    "Starter": "entrée",
-    "Menu Level": "Niveau menu",
-    "Disabled": "Désactivé",
-    "SubCaption": "Sous-titre",
-    "Chip": "Ébrécher",
-    "Outlined": "Décrite",
-    "External Link": "lien externe"
+    "errorPage": {
+        "title": "Уппсс!",
+        "desc": "Страница не найдена.",
+        "btn": "Вернуться на главную"
+    }
 }

@@ -1,0 +1,14 @@
+.card {
+    &-header {
+        &-light {
+            background: #393848;
+            color: #fff;
+            span {
+                font-weight: 400;
+            }
+        }
+        &-dark {
+
+        }
+    }
+}

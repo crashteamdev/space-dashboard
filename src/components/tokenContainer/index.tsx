@@ -54,6 +54,7 @@ const TokenContainer = () => {
 
   const copyToken = () => {
     setCopy(true);
+    dispatch(addItem({title: "Токен скопирован", status: "success", timelife: 4000 }));
     const textArea = document.createElement("textarea");
     textArea.value = token?.token?.apiKey;
 
@@ -93,7 +94,8 @@ const TokenContainer = () => {
                           {t("Token.upInput")}
                         </Typography>
                         <Box
-                          bgcolor={"info.light"}
+                          className="bg-black-800 text-white dark:bg-white dark:text-black-800"
+                          // bgcolor={"info.light"}
                           style={styles.paper}
                           onClick={copyToken}
                           p={2}
@@ -108,16 +110,13 @@ const TokenContainer = () => {
                           >
                             {t("Token.buttonGenerate")}
                           </Button>
-                          <span style={{ marginLeft: "16px" }}>
-                            {copy ? "Токен сохранен в буфер обмена..." : ""}
-                          </span>
                         </Box>
                       </>
                     ) : (
                       <Button
                         onClick={generateToken}
                         variant="contained"
-                        color="primary"
+                        
                       >
                         {t("Token.buttonGenerate")}
                       </Button>

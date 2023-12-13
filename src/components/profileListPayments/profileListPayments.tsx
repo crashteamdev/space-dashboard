@@ -159,8 +159,8 @@ const ProductTableList = () => {
       const month = String(today.getMonth() + 1).padStart(2, "0");
       const day = String(today.getDate()).padStart(2, "0");
 
-      const formattedDate = `${year}-${month}-${day}`;
-      const toDate = `${year}-${String(today.getMonth() - 1).padStart(2, "0")}-${day}`;
+      const toDate = `${year}-${month}-${day}`;
+      const formattedDate = `${String(today.getFullYear() - 2)}-${month}-${day}`;
       dispatch(
         getListPayments(auth.currentUser.accessToken, company.activeCompany, formattedDate, toDate)
       );

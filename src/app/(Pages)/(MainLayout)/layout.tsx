@@ -63,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           })
         }}
       >
-        <Header />
+        {customizer.isHeader && <Header /> }
         <Container
           sx={{
             maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important"

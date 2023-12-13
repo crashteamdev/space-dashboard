@@ -1,19 +1,20 @@
+
 {
     "welcome": "Xush kelibsiz",
-    "profile": "Profil",
-    "main": "Bosh sahifa",
+    "profile": "Shaxsiy kabinet",
+    "main": "Asosiy sahifa",
     "profileT": {
-        "informationTitle": "Obuna ma'lumotlari",
-        "informationDesc": "Agar sizda biron bir muammo bo'lsa, bizga yozing",
-        "yourRate": "Your rate",
-        "status": "Status",
-        "validUntil": "Valid until",
-        "tarifNotFound": "Siz tarif tanlamadingiz",
-        "selectTarif": "Tarifni tanlang"
+        "informationTitle": "Obuna haqida ma'lumot",
+        "informationDesc": "Agar sizda muammo yuzaga kelsa, bizga yozing",
+        "yourRate": "Tarif",
+        "status": "Holat",
+        "validUntil": "Amal qilish muddati",
+        "tarifNotFound": "Sizda tanlangan tarif yo'q",
+        "selectTarif": "Tarif tanlash"
     },
     "extension": {
-        "informationTitle": "Kengaytma",
-        "tokenTitle": "Token"
+        "informationTitle": "Kengaytirish",
+        "tokenTitle": "Belgi"
     },
     "balance": {
         "title": "Balans"
@@ -23,27 +24,25 @@
         "button": "Parolni o'zgartirish"
     },
     "Token": {
-        "title": "Token",
-        "description": "Token to'lovdan keyin ishlay boshlaydi. Token abadiy ishlab chiqariladi.",
-        "upInput": "Kengaytmaga kirish uchun token:",
-        "buttonGenerate": "Yangi token yarating"
+        "title": "Belgi",
+        "description": "Belgi to'lovdan so'ng ish boshlaydi. Belgi doimiy ravishda generatsiya qilinadi.",
+        "upInput": "Kengaytma uchun kiritiladigan belgi:",
+        "buttonGenerate": "Yangi belgi generatsiya qilish"
     },
     "MoreInfo": {
-        "title": "Batafsil ma'lumot",
+        "title": "Qo'shimcha ma'lumot",
         "description": "Bizning kengaytmamiz:",
-        "descButton": "Kengaytma yuklab olish",
-        "title1": "Chat / kanallar",
+        "descButton": "Kengaytmani yuklab oling",
+        "title1": "Chatlar / Kanallar",
         "desc1": "Yangiliklar kanali",
-        "desc2": "Foydalanuvchilar bilan suhbat",
+        "desc2": "Foydalanuvchilar chati",
         "title2": "Bilimlar bazasi",
-        "desc3": "Kengaytmadan foydalanishni qanday boshlash kerak",
-        "desc4": "Kengaytmani o'rnatish bo'yicha ko'rsatmalar (eskirgan)"
+        "desc3": "Kengaytmadan foydalanishni qanday boshlash",
+        "desc4": "Kengaytmani o'rnatish qo'llanma (Eskirgan)"
     },
-    "Starter": "بداية",
-    "Menu Level": "مستوى القائمة",
-    "Disabled": "عاجز",
-    "SubCaption": "التسمية الفرعية",
-    "Chip": "رقاقة",
-    "Outlined": "موجز",
-    "External Link": "رابط خارجي"
+    "errorPage": {
+        "title": "Opps!!!",
+        "desc": "This page you are looking for could not be found.",
+        "btn": "Go Back to Home"
+    }
 }

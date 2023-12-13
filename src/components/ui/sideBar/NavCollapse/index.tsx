@@ -14,6 +14,7 @@ import {
   useTheme,
   useMediaQuery,
   Theme,
+  PaletteColorOptions,
 } from "@mui/material";
 
 // custom imports
@@ -24,6 +25,7 @@ import { isNull } from "lodash";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { AppState } from "@/shared/store/store";
+
 
 type NavGroupProps = {
   [x: string]: any;
@@ -102,7 +104,8 @@ export default function NavCollapse({
         ? "white"
         : "inherit" && level > 1 && open
         ? theme.palette.primary.main
-        : theme.palette.text.secondary,
+        // : theme.palette.text.secondary,
+        : "#fff",
     borderRadius: `${customizer.borderRadius}px`,
   }));
 

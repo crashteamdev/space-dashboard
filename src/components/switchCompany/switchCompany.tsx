@@ -7,6 +7,7 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import { useDispatch } from "@/shared/store/hooks";
 import { changeCompany } from "@/shared/store/slices/companyChanger/CompanyChangerSlice";
+import styled from "./switchCompany.module.scss";
 
 const COMMON_TAB = [
   { value: "1", icon: "", label: "KazanExpress", ul: "ke", disabled: false },
@@ -44,7 +45,7 @@ const SwitchCompany = () => {
       <Box mt={2} justifyContent='space-between'>
         <TabList onChange={handleChange} aria-label='lab API tabs example'>
           {COMMON_TAB.map((tab: any) => (
-            <Tab key={tab.value} label={tab.label} value={tab.ul} />
+            <Tab className={styled.color} key={tab.value} label={tab.label} value={tab.ul} />
           ))}
         </TabList>
       </Box>

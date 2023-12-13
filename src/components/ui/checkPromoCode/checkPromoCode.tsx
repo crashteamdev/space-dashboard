@@ -46,7 +46,7 @@ const CheckPromoCode = () => {
   return (
     <Box mb={2} display={"flex"} flexDirection={"column"}>
       <CustomFormLabel>Промокод (необязательно)</CustomFormLabel>
-      <Box display={"flex"} gap={"12px"}>
+      <Box className="flex gap-3 relative items-center">
         <CustomTextField
           fullWidth
           margin={"none"}
@@ -55,11 +55,9 @@ const CheckPromoCode = () => {
           id='new-password'
           name='new-password'
         />
-        <Box display={"flex"} flexDirection={"row"} gap={2}>
-          <Button onClick={() => checkPromo()} variant='contained' color={"secondary"}>
-            Использовать
-          </Button>
-        </Box>
+        <button className="absolute right-2 bg-blue-800 rounded-[7px] py-[4px] px-2.5 font-medium" onClick={() => checkPromo()} >
+          Использовать
+        </button>
       </Box>
       {error ? (
         <Typography variant='body1' sx={{ mt: 1 }}>

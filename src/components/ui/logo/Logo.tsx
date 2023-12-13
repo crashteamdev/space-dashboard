@@ -27,7 +27,7 @@ const Logo = () => {
           />
         ) : (
           <Image
-            src={"/images/logos/logo-horizontal.svg"}
+            src={"/images/logos/logo-horizontal-dark.svg"}
             alt="logo"
             height={customizer.TopbarHeight}
             width={174}

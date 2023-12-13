@@ -70,12 +70,15 @@ export default function NavItem({
     backgroundColor: level > 1 ? "transparent !important" : "inherit",
     color:
       level > 1 && pathDirect === item?.href
-        ? `${theme.palette.primary.main}!important`
-        : theme.palette.text.secondary,
+        // ? `${theme.palette.primary.main}!important`
+        ? "#fff"
+        // : theme.palette.text.sidebar,
+        : "#fff",
     paddingLeft: hideMenu ? "10px" : level > 2 ? `${level * 15}px` : "10px",
     "&:hover": {
       backgroundColor: theme.palette.primary.light,
-      color: theme.palette.primary.main,
+      // color: theme.palette.primary.main,
+      color: "#fff",
     },
     "&.Mui-selected": {
       color: "white",
