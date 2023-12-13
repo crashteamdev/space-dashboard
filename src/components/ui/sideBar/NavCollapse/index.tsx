@@ -14,7 +14,6 @@ import {
   useTheme,
   useMediaQuery,
   Theme,
-  PaletteColorOptions,
 } from "@mui/material";
 
 // custom imports

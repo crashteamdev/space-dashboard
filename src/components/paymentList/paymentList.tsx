@@ -1,9 +1,9 @@
-import { Box, Grid, MenuItem } from "@mui/material";
+import { Grid, MenuItem } from "@mui/material";
 import React from "react";
 import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
 import CustomSelect from "../ui/theme-elements/CustomSelect";
 import { AppIcon } from "@/shared/components/AppIcon";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 
 interface paymentListProps {
