@@ -9,6 +9,9 @@ module.exports = {
       black: {
         800: "#393848"
       },
+      blue: {
+        800: "#4570EA"
+      },
       white: {
         DEFAULT: "#fff"
       }

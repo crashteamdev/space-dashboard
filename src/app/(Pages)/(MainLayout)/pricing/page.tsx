@@ -21,7 +21,6 @@ import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
 import PageContainer from "@/components/ui/container/PageContainer";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import BlankCard from "@/components/ui/shared/BlankCard";
-import Image from "next/image";
 import Popup from "@/components/ui/popup/popup";
 import CheckPromoCode from "@/components/ui/checkPromoCode/checkPromoCode";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
@@ -35,6 +34,7 @@ import firebase_app from "@/shared/firebase/firebase";
 import { pricing } from "@/components/ui/popup/data";
 import PaymentList from "@/components/paymentList/paymentList";
 import { useRouter } from "next/navigation";
+import { getPluralNoun } from "@/shared/lib/getPluralNoun";
 
 const BCrumb = [
   {
@@ -144,12 +144,6 @@ const Pricing = () => {
                 >
                   {price.packageRu}
                 </Typography>
-                <Image
-                  src={price.avatar}
-                  alt={price.avatar}
-                  width={90}
-                  height={90}
-                />
                 <Box my={4}>
                   {price.plan == "Free" ? (
                     <Box fontSize="50px" mt={5} fontWeight="600">
@@ -266,7 +260,7 @@ const Pricing = () => {
                 рублей
               </Typography>
               <Typography variant="h6" sx={{ mt: 1 }}>
-                Срок: {show ? 1 * 3 : 1} м.
+                Срок: {show ? 1 * 3 : 1} {getPluralNoun(show ? 1 * 3 : 1 || 0, "месяц", "месяца", "месяцев")}
               </Typography>
               <Box mt={2}>
                 <PaymentList
