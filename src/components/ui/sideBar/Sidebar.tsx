@@ -61,7 +61,7 @@ const Sidebar = () => {
           }}
         >
           <Box
-            bgcolor={customizer.activeMode === "light" ? 'sidebar.bg' : "sidebar.bg"}
+            bgcolor={customizer.activeMode === "light" ? "sidebar.bg" : "sidebar.bg"}
             className={styles.sidebar}
             sx={{
               height: "100%",

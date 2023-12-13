@@ -19,7 +19,7 @@ import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 
 const TokenContainer = () => {
   const auth = getAuth(firebase_app) as any;
-  const [copy, setCopy] = useState(false);
+  const [, setCopy] = useState(false);
 
   const styles = {
     paper: {

@@ -55,9 +55,9 @@ const ProfileInfo = () => {
                           <Typography color="h4" mb={3}>
                             <b>{t("profileT.yourRate")}: </b>
                             <span>
-                              {(token.subscription?.type === 'default') && 'БАЗОВЫЙ'}
-                              {(token.subscription?.type === 'advanced') && 'РАСШИРЕННЫЙ'}
-                              {(token.subscription?.type === 'pro') && 'ПРОФЕССИОНАЛЬНЫЙ'}
+                              {(token.subscription?.type === "default") && "БАЗОВЫЙ"}
+                              {(token.subscription?.type === "advanced") && "РАСШИРЕННЫЙ"}
+                              {(token.subscription?.type === "pro") && "ПРОФЕССИОНАЛЬНЫЙ"}
                             </span>
                           </Typography>
                           <Typography color="h4" mb={3}>

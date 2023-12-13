@@ -26,7 +26,7 @@ const ParentCard = ({ title, children, footer }: Props) => {
       elevation={customizer.isCardShadow ? 9 : 0}
       variant={!customizer.isCardShadow ? "outlined" : undefined}
     >
-      <CardHeader className={customizer.activeMode === "light" ? styled['card-header-light'] : styled['card-header-dark']}  title={title} />
+      <CardHeader className={customizer.activeMode === "light" ? styled["card-header-light"] : styled["card-header-dark"]}  title={title} />
       <Divider />
 
       <CardContent>{children}</CardContent>

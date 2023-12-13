@@ -4,7 +4,7 @@ type IPropsSubs = {
     pro: string;
 }
 export const SUBS_TITLE: IPropsSubs = {
-    'default': 'БАЗОВЫЙ',
-    'advanced': 'РАСШИРЕННЫЙ',
-    'pro': 'ПРОФЕССИОНАЛЬНЫЙ',
-}
+    "default": "БАЗОВЫЙ",
+    "advanced": "РАСШИРЕННЫЙ",
+    "pro": "ПРОФЕССИОНАЛЬНЫЙ",
+};
