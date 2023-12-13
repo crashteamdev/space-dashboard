@@ -9,17 +9,25 @@ import {
   Grid,
   Stack,
   Typography,
-  Avatar
+  Avatar,
+  useTheme
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import React, { useEffect } from "react";
+import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { patchParamsItem } from "@/shared/store/slices/reprice/repriceSlice";
+import {
+  addStrategyId,
+  getStrategiesTypes,
+  getStrategyId,
+  patchParamsItem
+} from "@/shared/store/slices/reprice/repriceSlice";
 import { useParams } from "next/navigation";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
+import StrategiesCheck from "@/components/ui/strategiesCheck/strategiesCheck";
 
 const SettingsBlock = ({ getFirstData, item }: any) => {
   const validationSchema = yup.object({
@@ -34,7 +42,7 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
     sale: yup
       .number()
       .required("Допустимая скидка не заполнена")
-      .min(1, "Число не должно быть меньше 1")
+      .min(0, "Число не должно быть меньше 0")
       .max(100, "Число не должно быть больше 100"),
     amountStep: yup
       .number()
@@ -45,6 +53,7 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
   const dispatch = useDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
+  const theme = useTheme();
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
   const auth = getAuth(firebase_app) as any;
 
@@ -55,8 +64,15 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
       sale: item.discount || 0,
       amountStep: item.step || 0
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
+
+  useEffect(() => {
+    const data = dispatch(getStrategiesTypes(company.activeCompany));
+    const dataw = dispatch(getStrategyId(company.activeCompany, item.id));
+    console.log(data, dataw);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -81,8 +97,21 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
           }
         )
       );
+      await dispatch(
+        addStrategyId(company.activeCompany, item.id, {
+          step: +values.amountStep,
+          strategyType: "close_to_minimal",
+          minimumThreshold: +values.minValue,
+          maximumThreshold: +values.maxValue
+        })
+      );
       await getFirstData();
     }
+  });
+
+  const DisabledInputs = styled(CustomTextField)({
+    WebkitTextFillColor: theme.palette.text.primary,
+    color: theme.palette.text.primary,
   });
 
   return (
@@ -109,71 +138,71 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
           <Grid style={{ width: "100%" }} ml={3} xs={12}>
             <Box width={"100% !important"}>
               <CustomFormLabel>Название товара</CustomFormLabel>
-              <CustomTextField
+              <DisabledInputs
                 fullWidth
                 id='minValue'
                 name='minValue'
                 type='string'
                 value={item.name}
-                disable={true}
+                disabled
               />
             </Box>
             <Grid style={{ width: "100%", display: "flex", gap: "32px" }} xs={12}>
               <Box width={"18% !important"}>
                 <CustomFormLabel>ProductId</CustomFormLabel>
-                <CustomTextField
+                <DisabledInputs
                   fullWidth
                   id='minValue'
                   name='minValue'
                   type='string'
                   value={item.productId}
-                  disable={true}
+                  disabled
                 />
               </Box>
               <Box width={"18% !important"}>
                 <CustomFormLabel>SkuId</CustomFormLabel>
-                <CustomTextField
+                <DisabledInputs
                   fullWidth
                   id='minValue'
                   name='minValue'
                   type='string'
                   value={item.skuId}
-                  disable={true}
+                  disabled
                 />
               </Box>
               <Box width={"54% !important"}>
                 <CustomFormLabel>SkuTitle</CustomFormLabel>
-                <CustomTextField
+                <DisabledInputs
                   fullWidth
                   id='minValue'
                   name='minValue'
                   type='string'
                   value={item.skuTitle}
-                  disable={true}
+                  disabled
                 />
               </Box>
             </Grid>
             <Grid style={{ width: "100%", display: "flex", gap: "32px" }} xs={12}>
               <Box width={"30% !important"}>
                 <CustomFormLabel>Цена товара</CustomFormLabel>
-                <CustomTextField
+                <DisabledInputs
                   fullWidth
                   id='minValue'
                   name='minValue'
                   type='string'
                   value={item.price + "руб."}
-                  disable={true}
+                  disabled
                 />
               </Box>
               <Box width={"65% !important"}>
                 <CustomFormLabel>Barcode</CustomFormLabel>
-                <CustomTextField
+                <DisabledInputs
                   fullWidth
                   id='minValue'
                   name='minValue'
                   type='string'
                   value={item.barcode}
-                  disable={true}
+                  disabled
                 />
               </Box>
             </Grid>
@@ -183,10 +212,11 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
           <Grid item mx={3} mt={4} xs={12}>
             <Divider sx={{ mx: "-24px" }} />
             <Typography variant='h6' mt={2}>
-              Интервал цен
+              Стратегии
             </Typography>
+            <StrategiesCheck />
           </Grid>
-          <Stack mx={3} direction='row' gap={3} justifyContent={"space-between"}>
+          {/* <Stack mx={3} direction='row' gap={3} justifyContent={"space-between"}>
             <Box width={"100%"}>
               <CustomFormLabel>Минимальная цена</CustomFormLabel>
               <CustomTextField
@@ -244,10 +274,10 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
                 helperText={formik.touched.amountStep && formik.errors.amountStep}
               />
             </Box>
-          </Stack>
+          </Stack> */}
           <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
             <Button variant='contained' color='primary' type='submit'>
-              Обновить продукт
+              Сохранить
             </Button>
           </Stack>
         </form>

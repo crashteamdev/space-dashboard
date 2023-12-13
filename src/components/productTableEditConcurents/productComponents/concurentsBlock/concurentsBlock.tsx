@@ -54,7 +54,7 @@ const ConcurentsBlock = () => {
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
-          <DialogTitle mt={2}>Подробнее о товаре</DialogTitle>
+          <DialogTitle mt={2}>Конкуренты</DialogTitle>
           <DialogContentText mx={3}>Добавить конкурента для отслеживания</DialogContentText>
         </Box>
       </Box>

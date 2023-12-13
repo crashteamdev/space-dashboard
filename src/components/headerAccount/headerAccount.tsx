@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Theme, Tooltip, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { IconChartAreaLine, IconRefresh, IconEdit } from "@tabler/icons-react";
+import { IconRefresh, IconEdit, IconPlayerPause,IconPlayerPlay } from "@tabler/icons-react";
 import { getAccount, syncAccount } from "@/shared/store/slices/account/AccountSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
@@ -62,6 +62,7 @@ const HeaderAccount = () => {
     dispatch(syncAccount(auth.currentUser.accessToken, company.activeCompany, accountId));
     await getFirstData();
   };
+
   const monitoringAccountHandler = async () => {
     await dispatch(
       changeMonitoringAccount(auth.currentUser.accessToken, company.activeCompany, accountId, {
@@ -75,7 +76,6 @@ const HeaderAccount = () => {
     const data = await dispatch(
       getAccount(auth.currentUser.accessToken, company.activeCompany, accountId)
     );
-    console.log(data.lastUpdate);
     setData(data);
     setDate(data.lastUpdate ? format(new Date(data.lastUpdate), "yyyy-MM-dd HH:mm") : "");
   };
@@ -100,63 +100,75 @@ const HeaderAccount = () => {
         overflow: "hidden"
       }}
     >
-      <Box display={"flex"} flexDirection={"column"} gap={2}>
-        <Typography variant='h6' fontWeight={500} color='textPrimary' className='text-hover' noWrap>
-          Аккаунт: <b>{data.login || data.email}</b>
-        </Typography>
-        <Typography variant='h6' fontWeight={500} color='textPrimary' className='text-hover' noWrap>
-          Последний обход: <b>{date}</b>
-        </Typography>
-        <Typography
-          display={"flex"}
-          variant='h6'
-          fontWeight={500}
-          color='textPrimary'
-          className='text-hover'
-          noWrap
-        >
-          Мониторинг аккаунта:{" "}
-          <Typography
-            ml={1}
+        <Box display={"flex"} flexDirection={"column"} gap={2}>
+          {data.login || data.email ? <Typography
             variant='h6'
-            sx={{
-              color:
-                data.monitorState === "active"
-                  ? (theme) => theme.palette.success.main
-                  : (theme) => theme.palette.error.main,
-              borderRadius: "100%"
-            }}
+            fontWeight={500}
+            color='textPrimary'
+            className='text-hover'
+            noWrap
           >
-            {" "}
-            {data.monitorState === "active" ? "Активнен" : "Приостановлен"}
-          </Typography>
-        </Typography>
-        <Typography
-          display={"flex"}
-          variant='h6'
-          fontWeight={500}
-          color='textPrimary'
-          className='text-hover'
-          noWrap
-        >
-          Статус:{" "}
-          <Typography
-            ml={1}
+            Аккаунт: <b>{data.login || data.email}</b>
+          </Typography> : null}
+          {date ? <Typography
             variant='h6'
-            sx={{
-              color:
-                checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState)
-                  .status === "active"
-                  ? (theme) => theme.palette.success.main
-                  : (theme) => theme.palette.error.main,
-              borderRadius: "100%"
-            }}
+            fontWeight={500}
+            color='textPrimary'
+            className='text-hover'
+            noWrap
           >
-            {" "}
-            {checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState).title}
-          </Typography>
-        </Typography>
-      </Box>
+            Последний обход: <b>{date}</b>
+          </Typography> : null}
+          {data.monitorState ? <Typography
+            display={"flex"}
+            variant='h6'
+            fontWeight={500}
+            color='textPrimary'
+            className='text-hover'
+            noWrap
+          >
+            Мониторинг аккаунта:{" "}
+            <Typography
+              ml={1}
+              variant='h6'
+              sx={{
+                color:
+                  data.monitorState === "active"
+                    ? (theme) => theme.palette.success.main
+                    : (theme) => theme.palette.error.main,
+                borderRadius: "100%"
+              }}
+            >
+              {" "}
+              {data.monitorState === "active" ? "Активнен" : "Приостановлен"}
+            </Typography>
+          </Typography> : null}
+          {data.initializeState ? <Typography
+            display={"flex"}
+            variant='h6'
+            fontWeight={500}
+            color='textPrimary'
+            className='text-hover'
+            noWrap
+          >
+            Статус:{" "}
+            <Typography
+              ml={1}
+              variant='h6'
+              sx={{
+                color:
+                  checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState)
+                    .status === "active"
+                    ? (theme) => theme.palette.success.main
+                    : (theme) => theme.palette.error.main,
+                borderRadius: "100%"
+              }}
+            >
+              {" "}
+              {checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState).title}
+            </Typography>
+          </Typography> : "Загрузка..."}
+        </Box>
 
       <Box
         mt={2}
@@ -170,14 +182,16 @@ const HeaderAccount = () => {
             <IconEdit />
           </Button>
         </Tooltip>
-        <Tooltip title='Переключить состояние мониторинга аккаунта'>
+        <Tooltip title={data.monitorState === "active" ? "Остановить мониторинг аккаунта" : "Включить мониторинг аккаунта"}>
           <Button
             onClick={() => monitoringAccountHandler()}
             color='primary'
             variant='contained'
             type='submit'
           >
-            <IconRefresh />
+            {
+              data.monitorState === "active" ? <IconPlayerPause /> : <IconPlayerPlay />
+            }
           </Button>
         </Tooltip>
         <Tooltip title='Запустить синхронизацию данных с системой'>
@@ -187,7 +201,7 @@ const HeaderAccount = () => {
             variant='contained'
             type='submit'
           >
-            <IconChartAreaLine />
+            <IconRefresh />
           </Button>
         </Tooltip>
         <Button

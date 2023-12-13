@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Box, Button } from "@mui/material";
+import React, { useState, useEffect} from "react";
+import { Box, Button, Typography } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
 import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
 import { t } from "i18next";
@@ -26,6 +26,7 @@ const BCrumb = [
 const Reprice = () => {
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false) as any;
+  const [loading, setLoading] = useState(false) as any;
   const dispatch = useDispatch();
 
   const auth = getAuth(firebase_app) as any;
@@ -37,11 +38,12 @@ const Reprice = () => {
     if (data.length >= 1) {
       setData(data);
     }
+    await setLoading(true);
   };
 
   useEffect(() => {
     getFirstData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -54,7 +56,13 @@ const Reprice = () => {
         </Button>
         <CreateNewAccount getFirstData={getFirstData} data={data} open={open} setOpen={setOpen} />
       </Box>
-      <AccountsReprice data={data} getFirstData={getFirstData} />
+      {loading ? (
+        <AccountsReprice data={data} getFirstData={getFirstData} />
+      ) : (
+        <Typography ml={1} variant='h6'>
+          Загрузка данных
+        </Typography>
+      )}
     </PageContainer>
   );
 };

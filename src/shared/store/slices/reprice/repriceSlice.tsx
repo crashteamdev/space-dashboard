@@ -216,14 +216,26 @@ export const addComcurentItem =
           return response.data;
         })
         .catch((error) => {
-          dispatch(
-            addItem({
-              title: `Ошибка ${error.response.status}`,
-              status: "error",
-              timelife: 4000,
-              id: uuidv4()
-            })
-          );
+          if (error.response.status === 409) {
+            dispatch(
+              addItem({
+                title: `Ошибка ${error.response.status}`,
+                description: "Достигнуто максимальное кол-во конкурентных товаров",
+                status: "error",
+                timelife: 4000,
+                id: uuidv4()
+              })
+            );
+          } else {
+            dispatch(
+              addItem({
+                title: `Ошибка ${error.response.status}`,
+                status: "error",
+                timelife: 4000,
+                id: uuidv4()
+              })
+            );
+          }
         });
     } catch (err: any) {
       throw new Error(err);
@@ -295,14 +307,26 @@ export const addItemInPull =
           return response.data;
         })
         .catch((error) => {
-          dispatch(
-            addItem({
-              title: `Ошибка ${error.response.status}`,
-              status: "error",
-              timelife: 4000,
-              id: uuidv4()
-            })
-          );
+          if (error.response.status === 409) {
+            dispatch(
+              addItem({
+                title: `Ошибка ${error.response.status}`,
+                description: "Достигнуто максимальное кол-во товаров в пуле",
+                status: "error",
+                timelife: 4000,
+                id: uuidv4()
+              })
+            );
+          } else {
+            dispatch(
+              addItem({
+                title: `Ошибка ${error.response.status}`,
+                status: "error",
+                timelife: 4000,
+                id: uuidv4()
+              })
+            );
+          }
         });
     } catch (err: any) {
       throw new Error(err);
@@ -348,7 +372,7 @@ export const deleteItemInPull =
       throw new Error(err);
     }
   };
-  
+
 export const changeMonitoringAccount =
   (token: string, context: string, id: string, data: any) => async (dispatch: AppDispatch) => {
     try {
@@ -371,6 +395,97 @@ export const changeMonitoringAccount =
               id: uuidv4()
             })
           );
+          return response.data;
+        })
+        .catch((error) => {
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        });
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
+
+export const getStrategiesTypes = (context: string) => async (dispatch: AppDispatch) => {
+  try {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/space/v1/strategies/types`
+    };
+    return axiosApiInstance
+      .request(config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        dispatch(
+          addItem({
+            title: `Ошибка ${error.response.status}`,
+            status: "error",
+            timelife: 4000,
+            id: uuidv4()
+          })
+        );
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const getStrategyId = (context: string, idItem: any) => async (dispatch: AppDispatch) => {
+  try {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/space/v1/strategies/${idItem}`
+    };
+    return axiosApiInstance
+      .request(config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        dispatch(
+          addItem({
+            title: `Ошибка ${error.response.status}`,
+            status: "error",
+            timelife: 4000,
+            id: uuidv4()
+          })
+        );
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const addStrategyId =
+  (context: string, idItem: any, data: any) => async (dispatch: AppDispatch) => {
+    try {
+      const config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `https://${context}-api.marketdb.pro/space/v1/strategies`,
+        data: {
+          keAccountShopItemId: idItem,
+          strategy: {
+            step: data.step ? data.step : null,
+            strategyType: data.strategyType,
+            minimumThreshold: data.minimumThreshold,
+            maximumThreshold: data.maximumThreshold
+          }
+        }
+      };
+      return axiosApiInstance
+        .request(config)
+        .then((response) => {
           return response.data;
         })
         .catch((error) => {

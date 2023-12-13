@@ -14,6 +14,7 @@ const ShopList = () => {
   const dispatch = useDispatch();
   const { accountId } = useParams() as any;
   const [getData, setGetData] = useState([]);
+  const [loading, setLoading] = useState(false) as any;
 
   const auth = getAuth(firebase_app) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
@@ -23,6 +24,7 @@ const ShopList = () => {
       getShops(auth.currentUser.accessToken, company.activeCompany, accountId)
     );
     setGetData(data);
+    await setLoading(true);
   };
 
   useEffect(() => {
@@ -30,8 +32,8 @@ const ShopList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    getData?.length >= 1 && (
+  return loading ? (
+    getData?.length >= 1 ? (
       <Box display={"flex"} gap={"24px"} flexWrap={"wrap"}>
         {getData.map((item: any) => {
           return (
@@ -48,7 +50,9 @@ const ShopList = () => {
                 <CardContent>
                   <Stack direction={"column"} gap={4} alignItems='center'>
                     <Box padding={"6px 24px"} textAlign={"center"}>
-                      <Typography variant='h5' fontWeight={500}>Магазин:</Typography>
+                      <Typography variant='h5' fontWeight={500}>
+                        Магазин:
+                      </Typography>
                       <Typography variant='h4'>{item.name}</Typography>
                     </Box>
                   </Stack>
@@ -64,7 +68,15 @@ const ShopList = () => {
           );
         })}
       </Box>
+    ) : (
+      <Typography ml={1} variant='h6'>
+        Ваши магазины не найдены
+      </Typography>
     )
+  ) : (
+    <Typography ml={1} variant='h6'>
+      Идет загрузка списка магазинов
+    </Typography>
   );
 };
 

@@ -20,7 +20,11 @@ import {
   Button
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { IconPlayerPlayFilled, IconSearch, IconPlayerStopFilled } from "@tabler/icons-react";
+import {
+  IconSearch,
+  IconPlus,
+  IconMinus
+} from "@tabler/icons-react";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import CustomCheckbox from "../ui/forms/CustomCheckbox";
 import ProductTableEditConcurents from "../productTableEditConcurents/productTableEditConcurents";
@@ -225,7 +229,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         <Box mr={3}>
           <Tooltip title='Добавить в пул'>
             <Button color='primary' variant='contained' type='submit'>
-              <IconPlayerPlayFilled />
+              <IconPlus />
             </Button>
           </Tooltip>
         </Box>
@@ -239,6 +243,7 @@ const ProductTableList = () => {
   const [orderBy, setOrderBy] = React.useState<any>("calories");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
+  const [loading, setLoading] = useState(false) as any;
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const params = useParams() as any;
@@ -289,6 +294,7 @@ const ProductTableList = () => {
       )
     );
     setData(data);
+    await setLoading(true);
   };
 
   useEffect(() => {
@@ -361,7 +367,7 @@ const ProductTableList = () => {
   const theme = useTheme();
   const borderColor = theme.palette.divider;
 
-  return (
+  return loading ? (
     <Box>
       <Box>
         <EnhancedTableToolbar
@@ -480,7 +486,7 @@ const ProductTableList = () => {
                                 variant='contained'
                                 type='submit'
                               >
-                                <IconPlayerStopFilled />
+                                <IconMinus />
                               </Button>
                             </Tooltip>
                           ) : (
@@ -491,7 +497,7 @@ const ProductTableList = () => {
                                 variant='contained'
                                 type='submit'
                               >
-                                <IconPlayerPlayFilled />
+                                <IconPlus />
                               </Button>
                             </Tooltip>
                           )}
@@ -522,8 +528,16 @@ const ProductTableList = () => {
           />
         </Paper>
       </Box>
-      <ProductTableEditConcurents getFirstData={getFirstData} setOpen={setOpenEditConc} open={openEditConc} />
+      <ProductTableEditConcurents
+        getFirstData={getFirstData}
+        setOpen={setOpenEditConc}
+        open={openEditConc}
+      />
     </Box>
+  ) : (
+    <Typography ml={1} variant='h6'>
+      Идет загрузка товаров
+    </Typography>
   );
 };
 
