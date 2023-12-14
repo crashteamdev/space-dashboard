@@ -49,12 +49,11 @@ const BCrumb = [
 const Pricing = () => {
   const [show, setShow] = React.useState(false);
   const [open, setOpen] = React.useState(0);
-  const [context, setContext] = React.useState("") as any;
+  const [context, setContext] = React.useState("Freekassa") as any;
   const [empty, setEmpty] = React.useState("") as any;
   const auth = getAuth(firebase_app) as any;
 
   const dispatch = useDispatch();
-  const yearlyPrice = (a: any, b: number) => a * b;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const theme = useTheme();
@@ -129,7 +128,7 @@ const Pricing = () => {
       <Grid container spacing={3} mt={5}>
         {pricing.map((price: any, i) => (
           <Grid item xs={12} lg={4} sm={6} key={i}>
-            <BlankCard>
+            <BlankCard className="relative">
               <CardContent sx={{ p: "30px" }}>
                 {price.badge ? (
                   <StyledChip label="Popular" size="small"></StyledChip>
@@ -144,6 +143,7 @@ const Pricing = () => {
                 >
                   {price.packageRu}
                 </Typography>
+                {show ? <div className="absolute right-[30px] top-[30px] text-base font-semibold">{price.discount}% скидка</div>  : <></>}
                 <Box my={4}>
                   {price.plan == "Free" ? (
                     <Box fontSize="50px" mt={5} fontWeight="600">
@@ -157,7 +157,7 @@ const Pricing = () => {
                       {show ? (
                         <>
                           <Typography fontSize="48px" fontWeight="600">
-                            {yearlyPrice(`${price.monthlyplan}`, 3)}
+                            {(price.monthlyplan * 3 - (price.monthlyplan * 3 * .10)) - 1}
                           </Typography>
                           <Typography
                             fontSize="15px"
@@ -247,7 +247,7 @@ const Pricing = () => {
               <Typography variant="h6" sx={{ mt: 1 }}>
                 Сумма: $
                 {show
-                  ? pricing[open - 1]?.monthlyplan * 3
+                  ? pricing[open - 1]?.monthlyplan * 3 - (pricing[open - 1]?.monthlyplan * 3 * .10) - 1
                   : pricing[open - 1]?.monthlyplan}{" "}
                 -{" "}
                 {Math.floor(

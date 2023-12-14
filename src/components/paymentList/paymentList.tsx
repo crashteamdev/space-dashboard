@@ -13,7 +13,7 @@ interface paymentListProps {
   pay: boolean
 }
 
-const PaymentList = ({ setContext, context, error, pay } :paymentListProps) => {
+const PaymentList = ({ setContext, context = "Freekassa", error, pay }: paymentListProps) => {
   const theme = useSelector((state: AppState) => state.customizer) as any;
   return (
     <Grid item xs={12} sm={12} lg={12}>
@@ -23,7 +23,8 @@ const PaymentList = ({ setContext, context, error, pay } :paymentListProps) => {
       <CustomSelect
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={context ? context : "Freekassa"}
+        value={context}
+        defaultValue={"Freekassa"}
         onChange={(e: any) => setContext(e.target.value)}
         fullWidth
       >
