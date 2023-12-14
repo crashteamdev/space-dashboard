@@ -4,10 +4,10 @@ import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import { Box, Button, DialogContentText, DialogTitle, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React from "react";
+import React, { useState } from "react";
 import ProductTableConcurentsAdds from "../../productTableConcurentsAdds/productTableConcurentsAdds";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { addComcurentItem } from "@/shared/store/slices/reprice/repriceSlice";
+import { addComcurentItem, getCompetitiveProducts, getCompetitiveProductsAdds } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
@@ -23,9 +23,37 @@ const ConcurentsBlock = () => {
   const { accountId, shopId } = useParams() as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
+  const [dataAdds, setDataAdds] = useState([]) as any;
+  const [dataConc, setDataConc] = useState([]) as any;
 
   const auth = getAuth(firebase_app) as any;
   const dispatch = useDispatch();
+
+  const getItems = async () => {
+    const result = await dispatch(
+      getCompetitiveProducts(
+        auth.currentUser.accessToken,
+        company.activeCompany,
+        accountId,
+        shopId,
+        repricer.currentItem
+      )
+    );
+    setDataConc(result);
+  };
+
+  const getComp = async () => {
+    const result = await dispatch(
+      getCompetitiveProductsAdds(
+        auth.currentUser.accessToken,
+        company.activeCompany,
+        accountId,
+        shopId,
+        repricer.currentItem
+      )
+    );
+    await setDataAdds(result);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -35,7 +63,6 @@ const ConcurentsBlock = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
       dispatch(
         addComcurentItem(auth.currentUser.accessToken, company.activeCompany, accountId, {
           shopItemRef: {
@@ -131,7 +158,7 @@ const ConcurentsBlock = () => {
           </Typography>
         </Box>
         <Box mx={3} mt={3}>
-          <ProductTableConcurentsAdds />
+          <ProductTableConcurentsAdds getComp={getComp} dataConc={dataAdds} />
         </Box>
         <Box display={"flex"} position={"relative"} mt={6} justifyContent={"flex-start"}>
           <div></div>
@@ -145,7 +172,7 @@ const ConcurentsBlock = () => {
           </Typography>
         </Box>
         <Box mx={3} mt={4}>
-          <ProductTableEditConcurentsTable />
+          <ProductTableEditConcurentsTable getItems={getItems} getComp={getComp} dataAdds={dataConc} />
         </Box>
       </form>
     </>

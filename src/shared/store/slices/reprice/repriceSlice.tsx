@@ -452,14 +452,16 @@ export const getStrategyId = (context: string, idItem: any) => async (dispatch: 
         return response.data;
       })
       .catch((error) => {
-        dispatch(
-          addItem({
-            title: `Ошибка ${error.response.status}`,
-            status: "error",
-            timelife: 4000,
-            id: uuidv4()
-          })
-        );
+        if (error.response.status !== 400) {
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        }
       });
   } catch (err: any) {
     throw new Error(err);
@@ -479,9 +481,38 @@ export const addStrategyId =
             step: data.step ? data.step : null,
             strategyType: data.strategyType,
             minimumThreshold: data.minimumThreshold,
-            maximumThreshold: data.maximumThreshold
+            maximumThreshold: data.maximumThreshold,
+            discount: data.discount ? data.discount : 0
           }
         }
+      };
+      return axiosApiInstance
+        .request(config)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        });
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
+
+export const deleteStrategyId =
+  (context: string, contId: any) => async (dispatch: AppDispatch) => {
+    try {
+      const config = {
+        method: "delete",
+        maxBodyLength: Infinity,
+        url: `https://${context}-api.marketdb.pro/space/v1/strategies/${contId}`,
       };
       return axiosApiInstance
         .request(config)

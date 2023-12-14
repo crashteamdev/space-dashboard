@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   TableContainer,
   Table,
@@ -20,33 +20,17 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import {
   addComcurentItem,
-  getCompetitiveProducts
 } from "@/shared/store/slices/reprice/repriceSlice";
 import { IconPlus } from "@tabler/icons-react";
 
-const ProductTableEditConcurentsTable = () => {
+const ProductTableEditConcurentsTable = ({ getItems, dataAdds, getComp } : any) => {
   const { accountId, shopId } = useParams() as any;
-  const [data, setData] = useState([]) as any;
   const dispatch = useDispatch();
 
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
 
   const auth = getAuth(firebase_app) as any;
-
-  const getItems = async () => {
-    const result = await dispatch(
-      getCompetitiveProducts(
-        auth.currentUser.accessToken,
-        company.activeCompany,
-        accountId,
-        shopId,
-        repricer.currentItem
-      )
-    );
-    console.log(result);
-    setData(result);
-  };
 
   const addNewItem = async (row: any) => {
     await dispatch(
@@ -60,6 +44,7 @@ const ProductTableEditConcurentsTable = () => {
       })
     );
     await getItems();
+    await getComp();
   };
 
   const AppBarStyled = styled(Typography)(({ theme }) => ({
@@ -97,7 +82,7 @@ const ProductTableEditConcurentsTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((row: any) => (
+            {dataAdds?.map((row: any) => (
               <TableRow key={row.id}>
                 <TableCell>
                   <Avatar

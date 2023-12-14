@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   TableContainer,
   Table,
@@ -19,33 +19,18 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import {
   deleteConcurentItem,
-  getCompetitiveProductsAdds
 } from "@/shared/store/slices/reprice/repriceSlice";
 import BlankCard from "@/components/ui/shared/BlankCard";
 import { IconTrash } from "@tabler/icons-react";
 
-const ProductTableConcurentsAdds = () => {
-  const { accountId, shopId } = useParams() as any;
-  const [data, setData] = useState([]) as any;
+const ProductTableConcurentsAdds = ({getComp, dataConc } : any) => {
+  const { accountId } = useParams() as any;
   const dispatch = useDispatch();
 
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
 
   const auth = getAuth(firebase_app) as any;
-
-  const getItems = async () => {
-    const result = await dispatch(
-      getCompetitiveProductsAdds(
-        auth.currentUser.accessToken,
-        company.activeCompany,
-        accountId,
-        shopId,
-        repricer.currentItem
-      )
-    );
-    await setData(result);
-  };
 
   const deleteNewItem = async (row: any) => {
     await dispatch(
@@ -54,7 +39,7 @@ const ProductTableConcurentsAdds = () => {
         competitorId: row.id
       })
     );
-    await getItems();
+    await getComp();
   };
 
   const AppBarStyled = styled(Typography)(({ theme }) => ({
@@ -65,7 +50,7 @@ const ProductTableConcurentsAdds = () => {
   })) as any;
 
   useEffect(() => {
-    getItems();
+    getComp();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -98,7 +83,7 @@ const ProductTableConcurentsAdds = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((row: any) => (
+            {dataConc?.map((row: any) => (
               <TableRow key={row.id}>
                 <TableCell>
                   <Avatar
