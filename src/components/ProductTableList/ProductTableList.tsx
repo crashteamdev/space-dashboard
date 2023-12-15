@@ -109,12 +109,6 @@ const headCells: readonly HeadCell[] = [
     label: "Пул"
   },
   {
-    id: "settingspull",
-    numeric: false,
-    disablePadding: false,
-    label: "Настройки пула"
-  },
-  {
     id: "availableAmount",
     numeric: false,
     disablePadding: false,
@@ -451,28 +445,6 @@ const ProductTableList = () => {
                               {row.isInPool ? "В пуле" : "Не в пуле"}
                             </Typography>
                           </Box>
-                        </TableCell>
-                        <TableCell>
-                          {row.minimumThreshold && (
-                            <Typography fontWeight={500} variant='body1'>
-                              Мин. Цена: {row.minimumThreshold} руб.
-                            </Typography>
-                          )}
-                          {row.maximumThreshold && (
-                            <Typography fontWeight={500} variant='body1'>
-                              Макс. Цена: {row.maximumThreshold} руб.
-                            </Typography>
-                          )}
-                          {row.discount && (
-                            <Typography fontWeight={500} variant='body1'>
-                              Скидка: {row.discount} %
-                            </Typography>
-                          )}
-                          {row.step && (
-                            <Typography fontWeight={500} variant='body1'>
-                              Шаг: {row.step} руб.
-                            </Typography>
-                          )}
                         </TableCell>
                         <TableCell>
                           <Typography>{`${row.availableAmount}`} шт.</Typography>

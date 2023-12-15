@@ -30,11 +30,11 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
 
   const theme = useTheme();
   const getProms = async () => {
-    const strategyId = await dispatch(getStrategyId(company.activeCompany, item.strategyId));
+    const strategyId = await dispatch(getStrategyId(company.activeCompany, item.id));
     const strategies = await dispatch(getStrategiesTypes(company.activeCompany));
     await setStrategy(strategyId);
-    await setStrategies(strategies);
-    await setLoading(true);
+    setStrategies(strategies);
+    setLoading(true);
     if (strategyId?.strategyType === "close_to_minimal") {
       return setDataS({ min: true, max: true, step: true, discount: true });
     } else if (strategyId?.strategyType === "quantity_dependent") {
@@ -44,7 +44,6 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
     }
     if (strategyId?.strategyType) {
       setSelected(strategyId?.strategyType);
-      console.log(selected);
     }
   };
 
@@ -170,12 +169,15 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
           <Typography variant='h6' mt={2}>
             Стратегии
           </Typography>
-          <StrategiesCheck
-            strategy={strategy}
-            selected={selected}
-            setSelected={changeStrategy}
-            strategies={strategies}
-          />
+          {loading && (
+            <StrategiesCheck
+              strategy={strategy}
+              item={item}
+              selected={selected}
+              setSelected={changeStrategy}
+              strategies={strategies}
+            />
+          )}
         </Grid>
         {loading ? (
           <ValuesSettings

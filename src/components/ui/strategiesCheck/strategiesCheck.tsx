@@ -7,14 +7,14 @@ import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { deleteStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
 
-const StrategiesCheck = ({ strategy, selected, setSelected, strategies }: any) => {
+const StrategiesCheck = ({ item, strategy, selected, setSelected, strategies }: any) => {
   console.log(strategy);
 
   const dispatch = useDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   
   const deleteStrategy = () => {
-    dispatch(deleteStrategyId(company.activeCompany, strategy.id));
+    dispatch(deleteStrategyId(company.activeCompany, item.id));
   };
 
   return !strategy?.strategyType ? (

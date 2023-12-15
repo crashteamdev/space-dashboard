@@ -507,12 +507,12 @@ export const addStrategyId =
   };
 
 export const deleteStrategyId =
-  (context: string, contId: any) => async (dispatch: AppDispatch) => {
+  (context: string, itemId: any) => async (dispatch: AppDispatch) => {
     try {
       const config = {
         method: "delete",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/space/v1/strategies/${contId}`,
+        url: `https://${context}-api.marketdb.pro/space/v1/strategies/${itemId}`,
       };
       return axiosApiInstance
         .request(config)

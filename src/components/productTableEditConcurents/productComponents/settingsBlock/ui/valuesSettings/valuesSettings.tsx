@@ -7,6 +7,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { addStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
+import { useParams } from "next/navigation";
 
 const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) => {
   const validationSchema = yup.object({
@@ -28,26 +29,37 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
       .required("Шаг повышения цены не заполнен")
       .min(1, "Число не должно быть меньше 1")
   });
-
+  const { accountId } = useParams() as any;
   const dispatch = useDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
-  const formik = useFormik({
-    initialValues: {
+  const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
+
+  useEffect(() => {
+    formik.setValues({
       minValue: strategy?.minimumThreshold || 0,
       maxValue: strategy?.maximumThreshold || 0,
-      discount: strategy?.discount || 0,
+      sale: strategy?.discount || 0,
       amountStep: strategy?.step || 0
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [strategy]);
+
+  const formik = useFormik({
+    initialValues: {
+      minValue: 0,
+      maxValue: 0,
+      sale: 0,
+      amountStep: 0
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values, "wdw");
       await dispatch(
         addStrategyId(company.activeCompany, item.id, {
           step: +values.amountStep,
           strategyType: selected,
           minimumThreshold: +values.minValue,
-          discount: +values.discount,
+          discount: +values.sale,
           maximumThreshold: +values.maxValue
         })
       );
@@ -55,19 +67,9 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
     }
   });
 
-  useEffect(() => {
-    formik.setValues({
-      minValue: strategy?.minimumThreshold || 0,
-      maxValue: strategy?.maximumThreshold || 0,
-      discount: strategy?.discount || 0,
-      amountStep: strategy?.step || 0
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [strategy]);
-
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <div>
+    <div>
+      <form onSubmit={formik.handleSubmit}>
         <Stack mx={3} direction='row' gap={3} justifyContent={"space-between"}>
           {dataS.min && (
             <Box width={"100%"}>
@@ -106,13 +108,13 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
               <CustomFormLabel>Допустимая скидка %</CustomFormLabel>
               <CustomTextField
                 fullWidth
-                id='discount'
+                id='sale'
                 type='number'
-                name='discount'
-                value={formik.values.discount}
+                name='sale'
+                value={formik.values.sale}
                 onChange={formik.handleChange}
-                error={formik.touched.discount && Boolean(formik.errors.discount)}
-                helperText={formik.touched.discount && formik.errors.discount}
+                error={formik.touched.sale && Boolean(formik.errors.sale)}
+                helperText={formik.touched.sale && formik.errors.sale}
               />
             </Box>
           )}
@@ -132,13 +134,15 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
             </Box>
           )}
         </Stack>
-      </div>
-      <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
-        <Button variant='contained' color='primary' type='submit'>
-          Сохранить
-        </Button>
-      </Stack>
-    </form>
+        {selected && (
+          <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
+            <Button variant='contained' color='primary' type='submit'>
+              Добавить
+            </Button>
+          </Stack>
+        )}
+      </form>
+    </div>
   );
 };
 
