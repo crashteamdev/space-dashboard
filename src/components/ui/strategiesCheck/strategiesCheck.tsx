@@ -7,14 +7,25 @@ import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { deleteStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
 
-const StrategiesCheck = ({ item, strategy, selected, setSelected, strategies }: any) => {
-  console.log(strategy);
+const StrategiesCheck = ({ getProms, item, strategy, selected, setSelected, strategies }: any) => {
 
   const dispatch = useDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
+
+  const checkStrategy = (value: string) => {
+    if (value === "close_to_minimal") {
+      return "Цена ниже конкурента";
+    } else if (value === "equal_price") {
+      return "Цена равная цене конкурента";
+    } else if (value === "quantity_dependent") {
+      return "Зависит от количества";
+    }
+  };
   
-  const deleteStrategy = () => {
-    dispatch(deleteStrategyId(company.activeCompany, item.id));
+  const deleteStrategy = async () => {
+    await dispatch(deleteStrategyId(company.activeCompany, item.id));
+    await getProms();
+    setSelected("");
   };
 
   return !strategy?.strategyType ? (
@@ -31,7 +42,7 @@ const StrategiesCheck = ({ item, strategy, selected, setSelected, strategies }: 
           return (
             <MenuItem key={index} value={`${item}`}>
               <Box display={"flex"} alignItems={"center"}>
-                {item}
+                {checkStrategy(item)}
               </Box>
             </MenuItem>
           );
@@ -47,7 +58,7 @@ const StrategiesCheck = ({ item, strategy, selected, setSelected, strategies }: 
           id='minValue'
           name='minValue'
           type='string'
-          value={strategy?.strategyType}
+          value={checkStrategy(strategy?.strategyType)}
           disabled
         />
       </Box>

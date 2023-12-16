@@ -452,7 +452,7 @@ export const getStrategyId = (context: string, idItem: any) => async (dispatch: 
         return response.data;
       })
       .catch((error) => {
-        if (error.response.status !== 400) {
+        if (error.response.status !== 404 && error.response.status !== 400) {
           dispatch(
             addItem({
               title: `Ошибка ${error.response.status}`,
@@ -489,6 +489,59 @@ export const addStrategyId =
       return axiosApiInstance
         .request(config)
         .then((response) => {
+          dispatch(
+            addItem({
+              title: "Стратегия была добавлена к товару",
+              status: "success",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+          return response.data;
+        })
+        .catch((error) => {
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        });
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
+
+  export const editStrategyId =
+  (context: string, itemId: any, data: any) => async (dispatch: AppDispatch) => {
+    try {
+      const config = {
+        method: "patch",
+        maxBodyLength: Infinity,
+        url: `https://${context}-api.marketdb.pro/space/v1/strategies/${itemId}`,
+        data: {
+          strategy: {
+            step: data.step ? data.step : null,
+            strategyType: data.strategyType,
+            minimumThreshold: data.minimumThreshold,
+            maximumThreshold: data.maximumThreshold,
+            discount: data.discount ? data.discount : 0
+          }
+        }
+      };
+      return axiosApiInstance
+        .request(config)
+        .then((response) => {
+          dispatch(
+            addItem({
+              title: "Данные изменены и сохранены",
+              status: "success",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
           return response.data;
         })
         .catch((error) => {
@@ -517,6 +570,14 @@ export const deleteStrategyId =
       return axiosApiInstance
         .request(config)
         .then((response) => {
+          dispatch(
+            addItem({
+              title: "Стратегия была удалена",
+              status: "success",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
           return response.data;
         })
         .catch((error) => {

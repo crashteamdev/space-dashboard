@@ -35,15 +35,17 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
     await setStrategy(strategyId);
     setStrategies(strategies);
     setLoading(true);
+    if (strategyId?.strategyType) {
+      setSelected(strategyId?.strategyType);
+    }
     if (strategyId?.strategyType === "close_to_minimal") {
       return setDataS({ min: true, max: true, step: true, discount: true });
     } else if (strategyId?.strategyType === "quantity_dependent") {
       return setDataS({ min: true, max: true, step: true, discount: true });
     } else if (strategyId?.strategyType === "equal_price") {
       return setDataS({ min: true, max: true, step: false, discount: true });
-    }
-    if (strategyId?.strategyType) {
-      setSelected(strategyId?.strategyType);
+    } else {
+      return setDataS({ min: false, max: false, step: false, discount: false });
     }
   };
 
@@ -55,6 +57,8 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
       return setDataS({ min: true, max: true, step: true, discount: true });
     } else if (value === "equal_price") {
       return setDataS({ min: true, max: true, step: false, discount: true });
+    } else {
+      return setDataS({ min: false, max: false, step: false, discount: false });
     }
   };
 
@@ -172,6 +176,7 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
           {loading && (
             <StrategiesCheck
               strategy={strategy}
+              getProms={getProms}
               item={item}
               selected={selected}
               setSelected={changeStrategy}

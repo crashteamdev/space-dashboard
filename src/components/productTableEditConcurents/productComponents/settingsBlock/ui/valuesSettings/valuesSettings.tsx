@@ -3,11 +3,10 @@ import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import { Box, Button, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { addStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
+import { addStrategyId, editStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
-import { useParams } from "next/navigation";
 
 const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) => {
   const validationSchema = yup.object({
@@ -29,11 +28,10 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
       .required("Шаг повышения цены не заполнен")
       .min(1, "Число не должно быть меньше 1")
   });
-  const { accountId } = useParams() as any;
-  const dispatch = useDispatch();
-  const company = useSelector((state: AppState) => state.companyChanger) as any;
 
-  const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
+  const dispatch = useDispatch();
+  const [step, setStep] = useState(false);
+  const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   useEffect(() => {
     formik.setValues({
@@ -42,6 +40,7 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
       sale: strategy?.discount || 0,
       amountStep: strategy?.step || 0
     });
+    setStep(strategy?.strategyType ? true : false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [strategy]);
 
@@ -54,15 +53,27 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      await dispatch(
-        addStrategyId(company.activeCompany, item.id, {
-          step: +values.amountStep,
-          strategyType: selected,
-          minimumThreshold: +values.minValue,
-          discount: +values.sale,
-          maximumThreshold: +values.maxValue
-        })
-      );
+      if (step) {
+        await dispatch(
+          editStrategyId(company.activeCompany, item.id, {
+            step: +values.amountStep,
+            strategyType: strategy?.strategyType,
+            minimumThreshold: +values.minValue,
+            discount: +values.sale,
+            maximumThreshold: +values.maxValue
+          })
+        );
+      } else {
+        await dispatch(
+          addStrategyId(company.activeCompany, item.id, {
+            step: +values.amountStep,
+            strategyType: selected,
+            minimumThreshold: +values.minValue,
+            discount: +values.sale,
+            maximumThreshold: +values.maxValue
+          })
+        );
+      }
       await getFirstData();
     }
   });
@@ -134,10 +145,17 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
             </Box>
           )}
         </Stack>
-        {selected && (
+        {selected  && (
           <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
             <Button variant='contained' color='primary' type='submit'>
-              Добавить
+              Добавить стратегию
+            </Button>
+          </Stack>
+        )}
+        {strategy?.strategyType  && (
+          <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
+            <Button variant='contained' color='primary' type='submit'>
+              Сохранить
             </Button>
           </Stack>
         )}
