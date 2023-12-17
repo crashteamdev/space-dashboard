@@ -17,8 +17,9 @@ import { createNewAccount } from "@/shared/store/slices/account/AccountSlice";
 import { useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
+import { useDispatch } from "@/shared/store/hooks";
 
-const CreateNewAccount = ({ open, setOpen }: any) => {
+const CreateNewAccount = ({ open, setOpen, getFirstData }: any) => {
   const handleClose = () => {
     setOpen(false);
   };
@@ -36,6 +37,7 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
       .required("Password is required")
   });
   const company = useSelector((state: AppState) => state.companyChanger) as any;
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -43,14 +45,19 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
       password: ""
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(1);
-      createNewAccount(
-        auth.currentUser.accessToken,
-        company.activeCompany,
-        values.login,
-        values.password
+    onSubmit: async (values) => {
+      const result = await dispatch(
+        createNewAccount(
+          auth.currentUser.accessToken,
+          company.activeCompany,
+          values.login,
+          values.password
+        )
       );
+      if (result.login) {
+        setOpen(false);
+      }
+      await getFirstData();
     }
   });
 
@@ -61,7 +68,7 @@ const CreateNewAccount = ({ open, setOpen }: any) => {
         <DialogContentText>
           Для того чтобы использовать систему изменения цен, необходимо добавить аккаунт указав
           логин и пароль. Вы можете создать отдельный аккаунт через раздел на KazanExpress
-          &quotСотрудники&quot
+          Сотрудники
         </DialogContentText>
       </DialogContent>
       <form onSubmit={formik.handleSubmit}>

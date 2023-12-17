@@ -1,9 +1,7 @@
 import React from "react";
 import { IconButton, Box, AppBar, useMediaQuery, Toolbar, styled, Stack } from "@mui/material";
 import { useSelector, useDispatch } from "@/shared/store/hooks";
-import {
-  toggleMobileSidebar
-} from "@/shared/store/slices/customizer/CustomizerSlice";
+import { toggleMobileSidebar } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { IconMenu2 } from "@tabler/icons-react";
 import Profile from "./Profile";
 import Language from "./Language";

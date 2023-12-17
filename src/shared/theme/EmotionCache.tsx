@@ -57,7 +57,7 @@ export function NextAppDirEmotionCacheProvider(props: NextAppDirEmotionCacheProv
         data-emotion={`${cache.key} ${names.join(" ")}`}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
-          __html: styles,
+          __html: styles
         }}
       />
     );

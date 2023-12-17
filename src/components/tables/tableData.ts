@@ -36,16 +36,16 @@ const basicsTableData: TableType[] = [
       {
         id: "1.1",
         color: "secondary.main",
-        text: "S",
+        text: "S"
       },
       {
         id: "1.2",
         color: "error.main",
-        text: "D",
-      },
+        text: "D"
+      }
     ],
     status: "active",
-    budget: "3.9",
+    budget: "3.9"
   },
   {
     id: "2",
@@ -57,21 +57,21 @@ const basicsTableData: TableType[] = [
       {
         id: "2.1",
         color: "primary.main",
-        text: "A",
+        text: "A"
       },
       {
         id: "2.2",
         color: "warning.main",
-        text: "X",
+        text: "X"
       },
       {
         id: "2.3",
         color: "secondary.main",
-        text: "N",
-      },
+        text: "N"
+      }
     ],
     status: "suspended",
-    budget: "24.5",
+    budget: "24.5"
   },
   {
     id: "3",
@@ -83,11 +83,11 @@ const basicsTableData: TableType[] = [
       {
         id: "3.1",
         color: "error.main",
-        text: "X",
-      },
+        text: "X"
+      }
     ],
     status: "Completed",
-    budget: "12.8",
+    budget: "12.8"
   },
   {
     id: "4",
@@ -99,16 +99,16 @@ const basicsTableData: TableType[] = [
       {
         id: "4.1",
         color: "primary.main",
-        text: "Y",
+        text: "Y"
       },
       {
         id: "4.2",
         color: "error.main",
-        text: "X",
-      },
+        text: "X"
+      }
     ],
     status: "Active",
-    budget: "2.4",
+    budget: "2.4"
   },
   {
     id: "5",
@@ -120,12 +120,12 @@ const basicsTableData: TableType[] = [
       {
         id: "5.1",
         color: "secondary.main",
-        text: "S",
-      },
+        text: "S"
+      }
     ],
     status: "Cancel",
-    budget: "9.3",
-  },
+    budget: "9.3"
+  }
 ];
 
 export { basicsTableData };

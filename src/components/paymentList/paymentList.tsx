@@ -7,22 +7,20 @@ import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 
 interface paymentListProps {
-  setContext: (value: string) => void,
-  context: string,
-  error: string,
-  pay: boolean
+  setContext: (value: string) => void;
+  context: string;
+  error: string;
+  pay: boolean;
 }
 
 const PaymentList = ({ setContext, context = "Freekassa", error, pay }: paymentListProps) => {
   const theme = useSelector((state: AppState) => state.customizer) as any;
   return (
     <Grid item xs={12} sm={12} lg={12}>
-      <CustomFormLabel htmlFor="demo-simple-select">
-        Платежное средство
-      </CustomFormLabel>
+      <CustomFormLabel htmlFor='demo-simple-select'>Платежное средство</CustomFormLabel>
       <CustomSelect
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
+        labelId='demo-simple-select-label'
+        id='demo-simple-select'
         value={context}
         defaultValue={"Freekassa"}
         onChange={(e: any) => setContext(e.target.value)}
@@ -40,13 +38,9 @@ const PaymentList = ({ setContext, context = "Freekassa", error, pay }: paymentL
         <MenuItem value={"lava"}>
           <AppIcon className="h-[30px]" type="lava-pay" color={theme.activeMode === "light" ? "black" : "white"} />
         </MenuItem>
-        {
-          pay &&<MenuItem value={"Оплата с баланса"}>Оплата с баланса</MenuItem>
-        }
+        {pay && <MenuItem value={"Оплата с баланса"}>Оплата с баланса</MenuItem>}
       </CustomSelect>
-      {
-        error ? ("Выберите провайдера") : ""
-      }
+      {error ? "Выберите провайдера" : ""}
     </Grid>
   );
 };

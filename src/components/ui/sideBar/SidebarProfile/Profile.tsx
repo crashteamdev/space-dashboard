@@ -20,9 +20,7 @@ export const Profile = () => {
   const customizer = useSelector((state: AppState) => state.customizer);
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
 
-  const hideMenu = lgUp
-    ? customizer.isCollapse && !customizer.isSidebarHover
-    : "";
+  const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : "";
 
   const user = useSelector((state: AppState) => state.user);
 
@@ -40,19 +38,15 @@ export const Profile = () => {
     // <ProfileUpgrade />
     <Box
       display={"flex"}
-      alignItems="center"
+      alignItems='center'
       gap={2}
       sx={{ m: 3, p: 2, bgcolor: `${"secondary.light"}` }}
     >
       {!hideMenu ? (
         <>
           <Avatar
-            alt="Remy Sharp"
-            src={
-              user.data.photoURL
-                ? user.data.photoURL
-                : "/images/profile/user-1.jpg"
-            }
+            alt='Remy Sharp'
+            src={user.data.photoURL ? user.data.photoURL : "/images/profile/user-1.jpg"}
             sx={{ height: 40, width: 40 }}
           />
 
@@ -68,16 +62,16 @@ export const Profile = () => {
             </div>
           </Box>
           <Box sx={{ ml: "auto" }}>
-            <Tooltip title="Logout" placement="top">
+            <Tooltip title='Logout' placement='top'>
               <IconButton
-                color="primary"
+                color='primary'
                 onClick={exit}
                 component={Link}
-                href="/auth/login"
-                aria-label="logout"
-                size="small"
+                href='/auth/login'
+                aria-label='logout'
+                size='small'
               >
-                <IconPower size="20" />
+                <IconPower size='20' />
               </IconButton>
             </Tooltip>
           </Box>

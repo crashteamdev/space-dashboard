@@ -22,7 +22,7 @@ const BlankCard = ({ children, className, sx }: Props) => {
         p: 0,
         border: !customizer.isCardShadow ? `1px solid ${borderColor}` : "none",
         position: "relative",
-        sx,
+        sx
       }}
       className={className}
       elevation={customizer.isCardShadow ? 9 : 0}

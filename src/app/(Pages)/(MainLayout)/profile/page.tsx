@@ -15,22 +15,20 @@ const UserProfile = () => {
   const BCrumb = [
     {
       to: "/",
-      title: t("main"),
+      title: t("main")
     },
     {
-      title: t("profile"),
-    },
+      title: t("profile")
+    }
   ] as any;
 
   const auth = getAuth(firebase_app) as any;
   return (
-    <PageContainer title="Profile" description="this is profile">
+    <PageContainer title='Profile' description='this is profile'>
       <Box mt={4}></Box>
       <Breadcrumb
         title={`${t("welcome")}${
-          auth.currentUser?.displayName
-            ? ", " + auth?.currentUser.displayName
-            : "!"
+          auth.currentUser?.displayName ? ", " + auth?.currentUser.displayName : "!"
         }`}
         items={BCrumb}
       />

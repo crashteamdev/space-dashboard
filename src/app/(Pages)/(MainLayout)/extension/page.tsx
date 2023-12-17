@@ -14,23 +14,21 @@ const Extension = () => {
   const BCrumb = [
     {
       to: "/",
-      title: t("main"),
+      title: t("main")
     },
     {
-      title: t("extension.informationTitle"),
-    },
+      title: t("extension.informationTitle")
+    }
   ] as any;
 
   const auth = getAuth(firebase_app) as any;
 
   return (
-    <PageContainer title="Extension" description="this is extension">
+    <PageContainer title='Extension' description='this is extension'>
       <Box mt={4}></Box>
       <Breadcrumb
         title={`${t("welcome")}${
-          auth.currentUser?.displayName
-            ? ", " + auth?.currentUser.displayName
-            : "!"
+          auth.currentUser?.displayName ? ", " + auth?.currentUser.displayName : "!"
         }`}
         items={BCrumb}
       />

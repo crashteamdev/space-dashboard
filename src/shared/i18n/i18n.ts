@@ -8,14 +8,14 @@ export const lang = ["en", "ru", "uz"];
 
 const resources = {
   en: {
-    translation: english,
+    translation: english
   },
   ru: {
-    translation: russian,
+    translation: russian
   },
   uz: {
-    translation: uzbekistan,
-  },
+    translation: uzbekistan
+  }
 };
 
 i18n
@@ -24,8 +24,8 @@ i18n
     resources,
     lng: "ru",
     interpolation: {
-      escapeValue: false, // react already safes from xss
-    },
+      escapeValue: false // react already safes from xss
+    }
   });
 
 export default i18n;

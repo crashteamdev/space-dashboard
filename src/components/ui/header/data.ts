@@ -1,4 +1,3 @@
-
 // Profile dropdown
 interface ProfileType {
   href: string;
@@ -11,8 +10,8 @@ const profile: ProfileType[] = [
     href: "/profile",
     title: "Мой профиль",
     subtitle: "Настройки профиля",
-    icon: "/images/svgs/icon-account.svg",
-  },
+    icon: "/images/svgs/icon-account.svg"
+  }
 ];
 
 export { profile };

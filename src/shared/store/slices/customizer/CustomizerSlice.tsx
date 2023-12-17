@@ -93,7 +93,7 @@ export const {
   setBorderRadius,
   toggleHorizontal,
   setLanguage,
-  setCardShadow,
+  setCardShadow
 } = CustomizerSlice.actions;
 
 export default CustomizerSlice.reducer;

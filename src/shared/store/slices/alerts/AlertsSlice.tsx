@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface StateType {
-  list: any[]
+  list: any[];
 }
 
 const initialState = {
@@ -17,8 +17,8 @@ export const AlertsSlice = createSlice({
     },
     removeItem: (state: StateType) => {
       state.list.shift();
-    },
-  },
+    }
+  }
 });
 
 export const { addItem, removeItem } = AlertsSlice.actions;
