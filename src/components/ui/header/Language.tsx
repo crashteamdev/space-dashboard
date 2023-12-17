@@ -13,16 +13,16 @@ const Languages = [
     icon: "/images/flag/icon-flag-ru.svg",
     value: "ru"
   },
-  {
-    flagname: "English (UK)",
-    icon: "/images/flag/icon-flag-en.svg",
-    value: "en"
-  },
-  {
-    flagname: "Uzbekistan",
-    icon: "/images/flag/icon-flag-uz.svg",
-    value: "uz"
-  }
+  // {
+  //   flagname: "English (UK)",
+  //   icon: "/images/flag/icon-flag-en.svg",
+  //   value: "en"
+  // },
+  // {
+  //   flagname: "Uzbekistan",
+  //   icon: "/images/flag/icon-flag-uz.svg",
+  //   value: "uz"
+  // }
 ];
 
 const Language = () => {

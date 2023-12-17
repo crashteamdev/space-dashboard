@@ -159,6 +159,15 @@ const Profile = () => {
             </Box>
           </Box>
         ))}
+        <Button
+          variant='contained'
+          component={Link}
+          href={"/auth/forgot-password"}
+          color='primary'
+          className="w-full"
+        >
+          {t("ChangePassword.button")}
+        </Button>
         <Box mt={2}>
           <Button
             onClick={exit}
