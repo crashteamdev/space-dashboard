@@ -1,6 +1,14 @@
+/* eslint-disable xss/no-location-href-assign */
 "use client";
-import React from "react";
+import { useEffect } from "react";
 
-export default function Dashboard() {
-  return <></>;
-}
+const Dashboard = () => {
+    useEffect(() => {
+        const newPath = "/profile";
+        const safePath = encodeURI(newPath);
+        window.location.href = safePath;
+    }, []);
+    return null;
+};
+
+export default Dashboard;
