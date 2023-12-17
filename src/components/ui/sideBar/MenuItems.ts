@@ -24,7 +24,7 @@ import {
   IconTicket,
   IconStar,
   IconChartDonut3,
-  IconFileDots
+  // IconFileDots
 } from "@tabler/icons-react";
 
 const MenuitemsKazan: MenuitemsT = {
@@ -59,12 +59,12 @@ const MenuitemsKazan: MenuitemsT = {
         },
       ],
     },
-    {
-      id: uniqueId(),
-      title: "Управление ценами",
-      icon: IconFileDots,
-      href: "/reprice"
-    }
+    // {
+    //   id: uniqueId(),
+    //   title: "Управление ценами",
+    //   icon: IconFileDots,
+    //   href: "/reprice"
+    // }
   ],
   uzum: [
     {
@@ -97,12 +97,12 @@ const MenuitemsKazan: MenuitemsT = {
         },
       ],
     },
-    {
-      id: uniqueId(),
-      title: "Управление ценами",
-      icon: IconFileDots,
-      href: "/reprice"
-    }
+    // {
+    //   id: uniqueId(),
+    //   title: "Управление ценами",
+    //   icon: IconFileDots,
+    //   href: "/reprice"
+    // }
   ]
 };
 

@@ -1,5 +1,5 @@
 import { CardContent, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
 import ParentCard from "../ui/shared/ParentCard";
@@ -10,28 +10,27 @@ import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
-import CustomLink from "../ui/link/Link";
 import ProfileListPayments from "../profileListPayments/profileListPayments";
-import { getSubscription } from "@/shared/store/slices/account/AccountSlice";
+// import { getSubscription } from "@/shared/store/slices/account/AccountSlice";
 
 const ProfileInfo = () => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const token = useSelector((state: AppState) => state.userpostsReducer) as any;
-  const [repriceData, setRepriceData] = useState({}) as any;
+  // const [repriceData, setRepriceData] = useState({}) as any;
   const auth = getAuth(firebase_app) as any;
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const getSubRepricer = async () => {
-    const data = await dispatch(getSubscription(company.activeCompany));
-    console.log(data);
-    await setRepriceData(data);
-  };
+  // const getSubRepricer = async () => {
+  //   const data = await dispatch(getSubscription(company.activeCompany));
+  //   console.log(data);
+  //   await setRepriceData(data);
+  // };
 
   useEffect(() => {
     if (auth.currentUser) {
-      getSubRepricer();
+      // getSubRepricer();
       dispatch(fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,17 +41,11 @@ const ProfileInfo = () => {
       <>
         <form>
           <Grid container spacing={3}>
-            <Grid item lg={6} md={12} sm={12}>
+            <Grid item lg={12} md={12} sm={12}>
               <BlankCard>
                 <CardContent>
                   <Typography variant='h5' mb={2}>
                     {t("profileT.informationTitle")}
-                  </Typography>
-                  <Typography color='textSecondary' mb={3}>
-                    {t("profileT.informationDesc")}{" "}
-                    <CustomLink href={"https://t.me/marketdbchat"} isExternal={false}>
-                      Telegram
-                    </CustomLink>
                   </Typography>
                   {token.subscription?.active ? (
                     <>
@@ -89,8 +82,8 @@ const ProfileInfo = () => {
                 </CardContent>
               </BlankCard>
             </Grid>
-            <Grid item lg={6} md={12} sm={12}>
-              <BlankCard>
+            {/* <Grid item lg={6} md={12} sm={12}>
+              <BlankCard className="h-full">
                 <CardContent>
                   <Typography variant='h5' mb={2}>
                     Информация о подписке на Repricer
@@ -119,29 +112,8 @@ const ProfileInfo = () => {
                   </Box>
                 </CardContent>
               </BlankCard>
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <Grid item xs={12} lg={12}>
-                <BlankCard>
-                  <CardContent>
-                    <Typography variant='h5' mb={1}>
-                      {t("ChangePassword.title")}
-                    </Typography>
-                    <Box pt={1}>
-                      <Button
-                        variant='contained'
-                        component={Link}
-                        href={"/auth/forgot-password"}
-                        color='primary'
-                      >
-                        {t("ChangePassword.button")}
-                      </Button>
-                    </Box>
-                  </CardContent>
-                </BlankCard>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} lg={6}>
+            </Grid> */}
+            <Grid item xs={12} lg={12}>
               <Grid item xs={12} lg={12}>
                 <ProfileListPayments />
               </Grid>
