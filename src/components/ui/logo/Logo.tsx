@@ -11,16 +11,16 @@ const Logo = () => {
     height: customizer.TopbarHeight,
     width: customizer.isCollapse ? "40px" : "180px",
     overflow: "hidden",
-    display: "block",
+    display: "block"
   }));
 
   if (customizer.activeDir === "ltr") {
     return (
-      <LinkStyled href="/">
+      <LinkStyled className="pt-4" href="/">
         {customizer.activeMode === "dark" ? (
           <Image
-            src="/images/logos/logo-horizontal-dark.svg"
-            alt="logo"
+            src='/images/logos/logo-horizontal-dark.svg'
+            alt='logo'
             height={customizer.TopbarHeight}
             width={174}
             priority
@@ -39,19 +39,19 @@ const Logo = () => {
   }
 
   return (
-    <LinkStyled href="/">
+    <LinkStyled href='/'>
       {customizer.activeMode === "dark" ? (
         <Image
-          src="/images/logos/logo-horizontal-dark.svg"
-          alt="logo"
+          src='/images/logos/logo-horizontal-dark.svg'
+          alt='logo'
           height={customizer.TopbarHeight}
           width={174}
           priority
         />
       ) : (
         <Image
-          src="/images/logos/logo-horizontal.svg"
-          alt="logo"
+          src='/images/logos/logo-horizontal.svg'
+          alt='logo'
           height={customizer.TopbarHeight}
           width={174}
           priority

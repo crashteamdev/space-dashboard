@@ -5,7 +5,6 @@ import { AppState } from "@/shared/store/store";
 import AlertItem from "./alertItem/alertItem";
 
 const AlertList = ({ children }: any) => {
-
   const alerts = useSelector((state: AppState) => state.alertsReducer.list);
 
   return (

@@ -11,18 +11,18 @@ const Languages = [
   {
     flagname: "Russian",
     icon: "/images/flag/icon-flag-ru.svg",
-    value: "ru",
+    value: "ru"
   },
   {
     flagname: "English (UK)",
     icon: "/images/flag/icon-flag-en.svg",
-    value: "en",
+    value: "en"
   },
   {
     flagname: "Uzbekistan",
     icon: "/images/flag/icon-flag-uz.svg",
-    value: "uz",
-  },
+    value: "uz"
+  }
 ];
 
 const Language = () => {
@@ -31,8 +31,7 @@ const Language = () => {
   const open = Boolean(anchorEl);
   const customizer = useSelector((state: AppState) => state.customizer);
   const currentLang =
-    Languages.find((_lang) => _lang.value === customizer.isLanguage) ||
-    Languages[1];
+    Languages.find((_lang) => _lang.value === customizer.isLanguage) || Languages[1];
   const { i18n } = useTranslation();
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -48,28 +47,24 @@ const Language = () => {
   return (
     <>
       <IconButton
-        aria-label="more"
-        id="long-button"
+        aria-label='more'
+        id='long-button'
         aria-controls={open ? "long-menu" : undefined}
         aria-expanded={open ? "true" : undefined}
-        aria-haspopup="true"
+        aria-haspopup='true'
         onClick={handleClick}
       >
-        <Avatar
-          src={currentLang.icon}
-          alt={currentLang.value}
-          sx={{ width: 20, height: 20 }}
-        />
+        <Avatar src={currentLang.icon} alt={currentLang.value} sx={{ width: 20, height: 20 }} />
       </IconButton>
       <Menu
-        id="long-menu"
+        id='long-menu'
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         sx={{
           "& .MuiMenu-paper": {
-            width: "200px",
-          },
+            width: "200px"
+          }
         }}
       >
         {Languages.map((option, index) => (
@@ -78,12 +73,8 @@ const Language = () => {
             sx={{ py: 2, px: 3 }}
             onClick={() => dispatch(setLanguage(option.value))}
           >
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Avatar
-                src={option.icon}
-                alt={option.icon}
-                sx={{ width: 20, height: 20 }}
-              />
+            <Stack direction='row' spacing={1} alignItems='center'>
+              <Avatar src={option.icon} alt={option.icon} sx={{ width: 20, height: 20 }} />
               <Typography> {option.flagname}</Typography>
             </Stack>
           </MenuItem>

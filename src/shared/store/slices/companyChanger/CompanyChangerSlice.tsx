@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // }
 
 const initialState = {
-  activeCompany: "ke",
+  activeCompany: "ke"
 };
 
 export const CompanyChangerSlice = createSlice({
@@ -14,8 +14,8 @@ export const CompanyChangerSlice = createSlice({
   reducers: {
     changeCompany: (state: any, action) => {
       state.activeCompany = action.payload;
-    },
-  },
+    }
+  }
 });
 
 export const { changeCompany } = CompanyChangerSlice.actions;

@@ -17,7 +17,7 @@ const styleCache = () =>
     // We have to temporary ignore this due to incorrect definitions
     // in the stylis-plugin-rtl module
     // @see https://github.com/styled-components/stylis-plugin-rtl/issues/23
-    stylisPlugins: [rtlPlugin],
+    stylisPlugins: [rtlPlugin]
   });
 
 const RTL = (props: RTLType) => {

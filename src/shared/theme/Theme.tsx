@@ -24,17 +24,17 @@ export const BuildTheme = (config: any = {}) => {
   
   const baseMode = {
     palette: {
-      mode: customizer.activeMode,
+      mode: customizer.activeMode
     },
     shape: {
-      borderRadius: customizer.borderRadius,
+      borderRadius: customizer.borderRadius
     },
     shadows: defaultShadow,
-    typography: typography,
+    typography: typography
   };
   const theme = createTheme(
     _.merge({}, baseMode, defaultTheme, locales, themeSelect, {
-      direction: config.direction,
+      direction: config.direction
     })
   );
   theme.components = components(theme);
@@ -44,12 +44,10 @@ export const BuildTheme = (config: any = {}) => {
 
 const ThemeSettings = () => {
   const activDir = useSelector((state: AppState) => state.customizer.activeDir);
-  const activeTheme = useSelector(
-    (state: AppState) => state.customizer.activeTheme
-  );
+  const activeTheme = useSelector((state: AppState) => state.customizer.activeTheme);
   const theme = BuildTheme({
     direction: activDir,
-    theme: activeTheme,
+    theme: activeTheme
   });
   useEffect(() => {
     document.dir = activDir;

@@ -5,7 +5,7 @@ import Logo from "../logo/Logo";
 import { useSelector, useDispatch } from "@/shared/store/hooks";
 import {
   hoverSidebar,
-  toggleMobileSidebar,
+  toggleMobileSidebar
 } from "@/shared/store/slices/customizer/CustomizerSlice";
 import Scrollbar from "@/components/ui/custom-scroll/Scrollbar";
 import { Profile } from "./SidebarProfile/Profile";
@@ -40,31 +40,31 @@ const Sidebar = () => {
           width: toggleWidth,
           flexShrink: 0,
           ...(customizer.isCollapse && {
-            position: "absolute",
-          }),
+            position: "absolute"
+          })
         }}
       >
         <Drawer
-          anchor="left"
+          anchor='left'
           open
           onMouseEnter={onHoverEnter}
           onMouseLeave={onHoverLeave}
-          variant="permanent"
+          variant='permanent'
           PaperProps={{
             sx: {
               transition: theme.transitions.create("width", {
-                duration: theme.transitions.duration.shortest,
+                duration: theme.transitions.duration.shortest
               }),
               width: toggleWidth,
-              boxSizing: "border-box",
-            },
+              boxSizing: "border-box"
+            }
           }}
         >
           <Box
             bgcolor={customizer.activeMode === "light" ? "sidebar.bg" : "sidebar.bg"}
             className={styles.sidebar}
             sx={{
-              height: "100%",
+              height: "100%"
             }}
           >
             <Box px={3}>
@@ -82,16 +82,16 @@ const Sidebar = () => {
 
   return (
     <Drawer
-      anchor="left"
+      anchor='left'
       open={customizer.isMobileSidebar}
       onClose={() => dispatch(toggleMobileSidebar())}
-      variant="temporary"
+      variant='temporary'
       PaperProps={{
         sx: {
           width: customizer.SidebarWidth,
           border: "0 !important",
-          boxShadow: (theme) => theme.shadows[8],
-        },
+          boxShadow: (theme) => theme.shadows[8]
+        }
       }}
     >
       <Box px={2}>

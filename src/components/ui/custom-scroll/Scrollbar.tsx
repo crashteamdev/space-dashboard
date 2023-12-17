@@ -4,7 +4,7 @@ import "simplebar-react/dist/simplebar.min.css";
 import { Box, styled, SxProps } from "@mui/material";
 
 const SimpleBarStyle = styled(SimpleBar)(() => ({
-  maxHeight: "100%",
+  maxHeight: "100%"
 }));
 
 interface PropsType {
@@ -15,10 +15,9 @@ interface PropsType {
 const Scrollbar = (props: PropsType) => {
   const { children, sx, ...other } = props;
 
-  const isMobile =
-    /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
-      navigator.userAgent
-    );
+  const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+    navigator.userAgent
+  );
   if (isMobile) {
     return <Box sx={{ overflowX: "auto" }}>{children}</Box>;
   }

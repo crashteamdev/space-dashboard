@@ -13,7 +13,7 @@ import {
   ListItemText,
   useTheme,
   useMediaQuery,
-  Theme,
+  Theme
 } from "@mui/material";
 
 // custom imports
@@ -51,7 +51,7 @@ export default function NavCollapse({
   pathWithoutLastPart,
   pathDirect,
   hideMenu,
-  onClick,
+  onClick
 }: NavCollapseProps) {
   const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("lg"));
 
@@ -62,11 +62,7 @@ export default function NavCollapse({
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const menuIcon =
-    level > 1 ? (
-      <Icon stroke={1.5} size="1rem" />
-    ) : (
-      <Icon stroke={1.5} size="1.3rem" />
-    );
+    level > 1 ? <Icon stroke={1.5} size='1rem' /> : <Icon stroke={1.5} size='1.3rem' />;
 
   const handleClick = () => {
     setOpen(!open);
@@ -93,10 +89,7 @@ export default function NavCollapse({
         pathname.includes(menu.href) || open
           ? theme.palette.primary.main
           : theme.palette.primary.light,
-      color:
-        pathname.includes(menu.href) || open
-          ? "white"
-          : theme.palette.primary.main,
+      color: pathname.includes(menu.href) || open ? "white" : theme.palette.primary.main
     },
     color:
       open && level < 2
@@ -147,21 +140,15 @@ export default function NavCollapse({
           sx={{
             minWidth: "36px",
             p: "3px 0",
-            color: "inherit",
+            color: "inherit"
           }}
         >
           {menuIcon}
         </ListItemIcon>
-        <ListItemText color="inherit">
-          {hideMenu ? "" : <>{t(`${menu.title}`)}</>}
-        </ListItemText>
-        {!open ? (
-          <IconChevronDown size="1rem" />
-        ) : (
-          <IconChevronUp size="1rem" />
-        )}
+        <ListItemText color='inherit'>{hideMenu ? "" : <>{t(`${menu.title}`)}</>}</ListItemText>
+        {!open ? <IconChevronDown size='1rem' /> : <IconChevronUp size='1rem' />}
       </ListItemStyled>
-      <Collapse in={open} timeout="auto">
+      <Collapse in={open} timeout='auto'>
         {submenus}
       </Collapse>
     </>

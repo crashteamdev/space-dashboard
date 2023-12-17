@@ -19,9 +19,7 @@ const SidebarItems = () => {
   const pathWithoutLastPart = pathname.slice(0, pathname.lastIndexOf("/"));
   const customizer = useSelector((state: AppState) => state.customizer);
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
-  const hideMenu: any = lgUp
-    ? customizer.isCollapse && !customizer.isSidebarHover
-    : "";
+  const hideMenu: any = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : "";
   const dispatch = useDispatch();
 
   return (
@@ -30,13 +28,11 @@ const SidebarItems = () => {
         <Wallet hideMenu={hideMenu} />
         <SwitchCompany />
       </Box>
-      <List sx={{ pt: 0 }} className="sidebarNav">
+      <List sx={{ pt: 0 }} className='sidebarNav'>
         {MenuitemsKazan[companyChanger.activeCompany].map((item) => {
           // {/********SubHeader**********/}
           if (item.subheader) {
-            return (
-              <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />
-            );
+            return <NavGroup item={item} hideMenu={hideMenu} key={item.subheader} />;
 
             // {/********If Sub Menu**********/}
             /* eslint no-else-return: "off" */

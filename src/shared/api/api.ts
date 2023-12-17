@@ -4,9 +4,9 @@ import useAutoRefreshToken from "@/hooks/useСheckToken/useCheckToken";
 
 const axiosApiInstance = axios.create();
 
-axiosApiInstance.interceptors.request.use( async (config: any) => {
+axiosApiInstance.interceptors.request.use(async (config: any) => {
   const token = await useAutoRefreshToken();
-  config.headers.Authorization = `Bearer ${ token }`;
+  config.headers.Authorization = `Bearer ${token}`;
   config.headers["X-Request-ID"] = `${uuidv4()}`;
   return config;
 });

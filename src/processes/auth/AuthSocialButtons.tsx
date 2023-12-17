@@ -20,18 +20,18 @@ const AuthSocialButtons = ({ title }: signInType) => {
     const user = await signInGoogle();
 
     if (user?.email) {
-      router.push("/");
+      // router.push("/");
+      router.push("/profile");
     }
     localStorage.setItem("remember", "on");
     if (auth.currentUser) {
-      const { uid, accessToken, displayName, email, photoURL } =
-        auth.currentUser as any;
+      const { uid, accessToken, displayName, email, photoURL } = auth.currentUser as any;
       const user = {
         uid,
         accessToken,
         displayName,
         email,
-        photoURL,
+        photoURL
       } as IUser;
 
       dispatch(setUser(user));
@@ -39,11 +39,8 @@ const AuthSocialButtons = ({ title }: signInType) => {
   };
 
   return (
-    <Stack direction="row" justifyContent="center" spacing={2} mt={3}>
-      <CustomSocialButton
-        onClick={() => signIn()}
-        style={{ maxWidth: "340px", width: "100%" }}
-      >
+    <Stack direction='row' justifyContent='center' spacing={2} mt={3}>
+      <CustomSocialButton onClick={() => signIn()} style={{ maxWidth: "340px", width: "100%" }}>
         <Avatar
           src={"/images/svgs/google-icon.svg"}
           alt={"icon1"}
@@ -51,14 +48,14 @@ const AuthSocialButtons = ({ title }: signInType) => {
             width: 16,
             height: 16,
             borderRadius: 0,
-            mr: 1,
+            mr: 1
           }}
         />
         <Box
           sx={{
             display: { xs: "none", sm: "flex" },
             whiteSpace: "nowrap",
-            mr: { sm: "3px" },
+            mr: { sm: "3px" }
           }}
         >
           {title}{" "}

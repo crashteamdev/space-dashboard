@@ -1,7 +1,6 @@
-import axios from "../../../axios/axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
-import { v4 as uuidv4 } from "uuid";
+import axiosApiInstance from "@/shared/api/api";
 
 const initialState = {
   token: "",
@@ -38,12 +37,9 @@ export const fetchToken = (token: string, context: string) => async (dispatch: A
     const config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      url: `https://${context}-api.marketdb.pro/v1/user/api-key`
     };
-    axios
+    axiosApiInstance
       .request(config)
       .then((response) => {
         dispatch(getTokens(response.data));
@@ -62,12 +58,9 @@ export const fetchRefreshToken =
       const config = {
         method: "put",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        url: `https://${context}-api.marketdb.pro/v1/user/api-key`
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(getTokens(response.data));
@@ -86,12 +79,9 @@ export const fetchGenerateToken =
       const config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/v1/user/api-key`,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        url: `https://${context}-api.marketdb.pro/v1/user/api-key`
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(getTokens(response.data));
@@ -110,12 +100,9 @@ export const fetchProfileStatus =
       const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/v1/user/subscription`,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        url: `https://${context}-api.marketdb.pro/v1/user/subscription`
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           console.log("CONFIG", config, "DATA", response.data);
@@ -140,16 +127,12 @@ export const getListPayments =
         method: "get",
         maxBodyLength: Infinity,
         url: `https://api.marketdb.pro/gateway/payments?fromDate=${fromDate}&toDate=${toDate} `,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "X-Request-ID": `${uuidv4()}`
-        },
         data: {
           fromDate: fromDate,
           toDate: toDate
         }
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(setPaymentList(response.data));

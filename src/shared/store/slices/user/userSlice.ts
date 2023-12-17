@@ -2,16 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IUser } from "@/shared/types/apps/user";
 
 interface StateType {
-  data: IUser
+  data: IUser;
 }
 
 const initialState = {
   data: {
     uid: "",
     accessToken: "",
-    displayName:  null,
+    displayName: null,
     email: "",
-    photoURL: null,
+    photoURL: null
   }
 };
 
@@ -26,12 +26,12 @@ export const UserSlice = createSlice({
       state.data = {
         uid: "",
         accessToken: "",
-        displayName:  null,
+        displayName: null,
         email: "",
-        photoURL: null,
+        photoURL: null
       };
-    },
-  },
+    }
+  }
 });
 
 export const { setUser, deleteUser } = UserSlice.actions;

@@ -16,7 +16,7 @@ interface MenuitemsType {
 }
 
 interface MenuitemsT {
-  [companyName: string]: MenuitemsType[]
+  [companyName: string]: MenuitemsType[];
 }
 
 import {
@@ -24,19 +24,20 @@ import {
   IconTicket,
   IconStar,
   IconChartDonut3,
+  IconFileDots
 } from "@tabler/icons-react";
 
 const MenuitemsKazan: MenuitemsT = {
-  "ke": [
+  ke: [
     {
       navlabel: true,
-      subheader: " ",
+      subheader: " "
     },
     {
       id: uniqueId(),
       title: "Личный профиль",
       icon: IconStar,
-      href: "/profile",
+      href: "/profile"
     },
     {
       id: uniqueId(),
@@ -58,23 +59,23 @@ const MenuitemsKazan: MenuitemsT = {
         },
       ],
     },
-    // {
-    //   id: uniqueId(),
-    //   title: "Управление ценами",
-    //   icon: IconFileDots,
-    //   href: "/reprice",
-    // },
+    {
+      id: uniqueId(),
+      title: "Управление ценами",
+      icon: IconFileDots,
+      href: "/reprice"
+    }
   ],
-  "uzum": [
+  uzum: [
     {
       navlabel: true,
-      subheader: " ",
+      subheader: " "
     },
     {
       id: uniqueId(),
       title: "Личный профиль",
       icon: IconStar,
-      href: "/profile",
+      href: "/profile"
     },
     {
       id: uniqueId(),
@@ -96,12 +97,12 @@ const MenuitemsKazan: MenuitemsT = {
         },
       ],
     },
-    // {
-    //   id: uniqueId(),
-    //   title: "Управление ценами",
-    //   icon: IconFileDots,
-    //   href: "/reprice",
-    // },
+    {
+      id: uniqueId(),
+      title: "Управление ценами",
+      icon: IconFileDots,
+      href: "/reprice"
+    }
   ]
 };
 
