@@ -37,6 +37,7 @@ export const Profile = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   };
   return (
+    // <ProfileUpgrade />
     <Box
       display={"flex"}
       alignItems="center"

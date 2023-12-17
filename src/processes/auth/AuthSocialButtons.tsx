@@ -20,7 +20,8 @@ const AuthSocialButtons = ({ title }: signInType) => {
     const user = await signInGoogle();
 
     if (user?.email) {
-      router.push("/");
+      // router.push("/");
+      router.push("/profile");
     }
     localStorage.setItem("remember", "on");
     if (auth.currentUser) {
