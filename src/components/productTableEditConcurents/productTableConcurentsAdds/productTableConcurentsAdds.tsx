@@ -109,7 +109,7 @@ const ProductTableConcurentsAdds = ({getComp, dataConc } : any) => {
                 </TableCell>
                 <TableCell>
                   <Tooltip title='Удалить конкурента из таблицы'>
-                    <Button onClick={() => deleteNewItem(row)} color='primary' variant='contained'>
+                    <Button onClick={() => deleteNewItem(row)} color='error' variant='contained'>
                       <IconTrash />
                     </Button>
                   </Tooltip>

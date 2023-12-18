@@ -28,8 +28,10 @@ import { useParams } from "next/navigation";
 import CustomRadio from "@/components/ui/сustomRadio/CustomRadio";
 
 const ConcurentsBlock = () => {
+  const [selectedValue, setSelectedValue] = useState("c");
+
   const validationSchema = yup.object({
-    url: yup.string().required("Введите ссылку на товар"),
+    url: selectedValue === "a" ? yup.string().required("Введите ссылку на товар") : yup.string(),
     competitorProductId: yup.number().required("Введите productId"),
     competitorSkuId: yup.number().required("Введите skuId")
   });
@@ -39,7 +41,6 @@ const ConcurentsBlock = () => {
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
   const [dataAdds, setDataAdds] = useState([]) as any;
   const [dataConc, setDataConc] = useState([]) as any;
-  const [selectedValue, setSelectedValue] = React.useState("");
 
   const auth = getAuth(firebase_app) as any;
   const dispatch = useDispatch();
@@ -82,20 +83,27 @@ const ConcurentsBlock = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      const data = {
+        shopItemRef: {
+          shopId: shopId,
+          shopItemId: repricer.currentItem
+        },
+        url: values.url
+      };
+      const dataId = {
+        shopItemRef: {
+          shopId: shopId,
+          shopItemId: repricer.currentItem
+        },
+        competitorProductId: values.competitorProductId,
+        competitorSkuId: values.competitorSkuId
+      };
       dispatch(
-        addComcurentItem(auth.currentUser.accessToken, company.activeCompany, accountId, {
-          shopItemRef: {
-            shopId: shopId,
-            shopItemId: repricer.currentItem
-          },
-          url: values.url,
-          competitorProductId: values.competitorProductId,
-          competitorSkuId: values.competitorSkuId
-        })
+        addComcurentItem(auth.currentUser.accessToken, company.activeCompany, accountId, selectedValue === "a" ? data : dataId)
       );
     }
   });
-
+  console.log(selectedValue);
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -104,36 +112,36 @@ const ConcurentsBlock = () => {
           <DialogContentText mx={3}>Добавить конкурента для отслеживания</DialogContentText>
         </Box>
       </Box>
+      <Box mx={3}>
+        <CustomFormLabel>Выберите вариант добавления</CustomFormLabel>
+        <FormControl
+          sx={{
+            width: "100%"
+          }}
+        >
+          <Box>
+            <FormControlLabel
+              checked={selectedValue === "a"}
+              onChange={handleChange3}
+              value='a'
+              label='По ссылке'
+              name='radio-button-demo'
+              control={<CustomRadio />}
+            />
+            <FormControlLabel
+              checked={selectedValue === "b"}
+              onChange={handleChange3}
+              value='b'
+              label='ProductId, SkuId'
+              control={<CustomRadio />}
+              name='radio-button-demo'
+            />
+          </Box>
+        </FormControl>
+      </Box>
       <form onSubmit={formik.handleSubmit}>
-        <Box mx={3}>
-          <CustomFormLabel>Выберите вариант добавления</CustomFormLabel>
-          <FormControl
-            sx={{
-              width: "100%"
-            }}
-          >
-            <Box>
-              <FormControlLabel
-                checked={selectedValue === "a"}
-                onChange={handleChange3}
-                value='a'
-                label='По ссылке'
-                name='radio-button-demo'
-                control={<CustomRadio />}
-              />
-              <FormControlLabel
-                checked={selectedValue === "b"}
-                onChange={handleChange3}
-                value='b'
-                label='ProductId, SkuId'
-                control={<CustomRadio />}
-                name='radio-button-demo'
-              />
-            </Box>
-          </FormControl>
-        </Box>
-        {selectedValue === "a" ? (
-          <Stack mx={3} direction='row' gap={3} justifyContent={"space-between"}>
+        <Stack mx={3} direction='row' gap={3} justifyContent={"space-between"}>
+          {selectedValue === "a" ? (
             <Box width={"100%"}>
               <CustomFormLabel>Ссылка на товар</CustomFormLabel>
               <CustomTextField
@@ -147,77 +155,79 @@ const ConcurentsBlock = () => {
                 helperText={formik.touched.url && formik.errors.url}
               />
             </Box>
-          </Stack>
-        ) : (
-          <Stack mx={3} direction="row" gap={1} justifyContent={"space-between"}>
-            <Box width={"50%"}>
-              <CustomFormLabel>PRODUCT ID</CustomFormLabel>
-              <CustomTextField
-                fullWidth
-                id='competitorProductId'
-                type='number'
-                name='competitorProductId'
-                value={formik.values.competitorProductId}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.competitorProductId && Boolean(formik.errors.competitorProductId)
-                }
-                helperText={formik.touched.competitorProductId && formik.errors.competitorProductId}
-              />
-            </Box>
-            <Box width={"50%"}>
-              <CustomFormLabel>SKU ID</CustomFormLabel>
-              <CustomTextField
-                fullWidth
-                id='competitorSkuId'
-                type='number'
-                name='competitorSkuId'
-                value={formik.values.competitorSkuId}
-                onChange={formik.handleChange}
-                error={formik.touched.competitorSkuId && Boolean(formik.errors.competitorSkuId)}
-                helperText={formik.touched.competitorSkuId && formik.errors.competitorSkuId}
-              />
-            </Box>
-          </Stack>
-        )}
+          ) : selectedValue === "b" ? (
+            <>
+              <Box width={"50%"}>
+                <CustomFormLabel>PRODUCT ID</CustomFormLabel>
+                <CustomTextField
+                  fullWidth
+                  id='competitorProductId'
+                  type='number'
+                  name='competitorProductId'
+                  value={formik.values.competitorProductId}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.competitorProductId && Boolean(formik.errors.competitorProductId)
+                  }
+                  helperText={
+                    formik.touched.competitorProductId && formik.errors.competitorProductId
+                  }
+                />
+              </Box>
+              <Box width={"50%"}>
+                <CustomFormLabel>SKU ID</CustomFormLabel>
+                <CustomTextField
+                  fullWidth
+                  id='competitorSkuId'
+                  type='number'
+                  name='competitorSkuId'
+                  value={formik.values.competitorSkuId}
+                  onChange={formik.handleChange}
+                  error={formik.touched.competitorSkuId && Boolean(formik.errors.competitorSkuId)}
+                  helperText={formik.touched.competitorSkuId && formik.errors.competitorSkuId}
+                />
+              </Box>
+            </>
+          ) : null}
+        </Stack>
         <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
           <Button variant='contained' color='primary' type='submit'>
             Добавить
           </Button>
         </Stack>
-        <Box display={"flex"} position={"relative"} mt={2} justifyContent={"flex-start"}>
-          <div></div>
-          <Typography
-            ml={5}
-            sx={{ backgroundColor: "background.default" }}
-            color='textSecondary'
-            variant='h5'
-          >
-            Добавленные конкуренты на товар
-          </Typography>
-        </Box>
-        <Box mx={3} mt={3}>
-          <ProductTableConcurentsAdds getComp={getComp} dataConc={dataAdds} />
-        </Box>
-        <Box display={"flex"} position={"relative"} mt={6} justifyContent={"flex-start"}>
-          <div></div>
-          <Typography
-            ml={5}
-            sx={{ backgroundColor: "background.default" }}
-            color='textSecondary'
-            variant='h5'
-          >
-            Возможные конкуренты
-          </Typography>
-        </Box>
-        <Box mx={3} mt={4}>
-          <ProductTableEditConcurentsTable
-            getItems={getItems}
-            getComp={getComp}
-            dataAdds={dataConc}
-          />
-        </Box>
       </form>
+      <Box display={"flex"} position={"relative"} mt={2} justifyContent={"flex-start"}>
+        <div></div>
+        <Typography
+          ml={5}
+          sx={{ backgroundColor: "background.default" }}
+          color='textSecondary'
+          variant='h5'
+        >
+          Добавленные конкуренты на товар
+        </Typography>
+      </Box>
+      <Box mx={3} mt={3}>
+        <ProductTableConcurentsAdds getComp={getComp} dataConc={dataAdds} />
+      </Box>
+      <Box display={"flex"} position={"relative"} mt={6} justifyContent={"flex-start"}>
+        <div></div>
+        <Typography
+          ml={5}
+          sx={{ backgroundColor: "background.default" }}
+          color='textSecondary'
+          variant='h5'
+        >
+          Возможные конкуренты
+        </Typography>
+      </Box>
+      <Box mx={3} mt={4}>
+        <ProductTableEditConcurentsTable
+          getItems={getItems}
+          getComp={getComp}
+          dataAdds={dataConc}
+        />
+      </Box>
     </>
   );
 };

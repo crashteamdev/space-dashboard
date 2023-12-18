@@ -29,24 +29,32 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const theme = useTheme();
-  const getProms = async () => {
+
+  const getStrategyIdHandler = async () => {
     const strategyId = await dispatch(getStrategyId(company.activeCompany, item.id));
-    const strategies = await dispatch(getStrategiesTypes(company.activeCompany));
     await setStrategy(strategyId);
+    return strategyId;
+  };
+
+  const getProms = async () => {
+    const strategiData = await getStrategyIdHandler();
+    const strategies = await dispatch(getStrategiesTypes(company.activeCompany));
     setStrategies(strategies);
-    setLoading(true);
-    if (strategyId?.strategyType) {
-      setSelected(strategyId?.strategyType);
+    if (strategiData?.strategyType) {
+      setSelected(strategiData?.strategyType);
     }
-    if (strategyId?.strategyType === "close_to_minimal") {
-      return setDataS({ min: true, max: true, step: true, discount: true });
-    } else if (strategyId?.strategyType === "quantity_dependent") {
-      return setDataS({ min: true, max: true, step: true, discount: true });
-    } else if (strategyId?.strategyType === "equal_price") {
-      return setDataS({ min: true, max: true, step: false, discount: true });
+    if (strategiData?.strategyType === "close_to_minimal") {
+      setDataS({ min: true, max: true, step: true, discount: true });
+    } else if (strategiData?.strategyType === "quantity_dependent") {
+      setDataS({ min: true, max: true, step: true, discount: true });
+    } else if (strategiData?.strategyType === "equal_price") {
+      setDataS({ min: true, max: true, step: false, discount: true });
     } else {
-      return setDataS({ min: false, max: false, step: false, discount: false });
+      setSelected("");
+      setStrategy({});
+      setDataS({ min: false, max: false, step: false, discount: false });
     }
+    setLoading(true);
   };
 
   const changeStrategy = (value: any) => {
@@ -189,6 +197,7 @@ const SettingsBlock = ({ getFirstData, item }: any) => {
             strategy={strategy}
             selected={selected}
             getFirstData={getFirstData}
+            getStrategyIdHandler={getStrategyIdHandler}
             item={item}
             dataS={dataS}
           />

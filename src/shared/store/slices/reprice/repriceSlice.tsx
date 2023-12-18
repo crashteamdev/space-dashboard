@@ -53,6 +53,64 @@ export const getItemsShop =
     }
   };
 
+export const getItemsFilteredShop =
+(token: string, context: string, id: string, shopId: string, filter: any) => async (dispatch: AppDispatch) => {
+  try {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops/${shopId}/items?limit=1000${filter ? filter : ""}`
+    };
+    return axiosApiInstance
+      .request(config)
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(
+          addItem({
+            title: `Ошибка ${error.response.status}`,
+            status: "error",
+            timelife: 4000,
+            id: uuidv4()
+          })
+        );
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+  export const getItemsInPoolShop =
+  (token: string, context: string, id: string, shopId: string) => async (dispatch: AppDispatch) => {
+    try {
+      const config = {
+        method: "get",
+        maxBodyLength: Infinity,
+        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops/${shopId}/pool-items?limit=1000`
+      };
+      return axiosApiInstance
+        .request(config)
+        .then((response) => {
+          return response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        });
+    } catch (err: any) {
+      throw new Error(err);
+    }
+  };
+
 export const getCompetitiveProducts =
   (token: string, context: string, id: string, shopId: string, shopItemId: string) =>
   async (dispatch: AppDispatch) => {
@@ -298,7 +356,7 @@ export const addItemInPull =
         .then((response) => {
           dispatch(
             addItem({
-              title: "Товар добавлен в пул",
+              title: "Выбранные товары добавлены в пул",
               status: "success",
               timelife: 4000,
               id: uuidv4()
@@ -332,6 +390,110 @@ export const addItemInPull =
       throw new Error(err);
     }
   };
+  
+export const addItemsInPull =
+(token: string, context: string, id: string, data: any) => async (dispatch: AppDispatch) => {
+  try {
+    const config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/pool-items/bulk`,
+      data: {
+        shopId: data.shopId,
+        shopItemIds: data.shopItemIds
+      }
+    };
+    return axiosApiInstance
+      .request(config)
+      .then((response) => {
+        dispatch(
+          addItem({
+            title: "Товар добавлен в пул",
+            status: "success",
+            timelife: 4000,
+            id: uuidv4()
+          })
+        );
+        return response.data;
+      })
+      .catch((error) => {
+        if (error.response.status === 409) {
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              description: "Достигнуто максимальное кол-во товаров в пуле",
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        } else {
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        }
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const removeItemsInPull =
+(token: string, context: string, id: string, data: any) => async (dispatch: AppDispatch) => {
+  try {
+    const config = {
+      method: "delete",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/pool-items/bulk`,
+      data: {
+        shopId: data.shopId,
+        shopItemIds: data.shopItemIds
+      }
+    };
+    return axiosApiInstance
+      .request(config)
+      .then((response) => {
+        dispatch(
+          addItem({
+            title: "Выбранные товары удалены из пула",
+            status: "success",
+            timelife: 4000,
+            id: uuidv4()
+          })
+        );
+        return response.data;
+      })
+      .catch((error) => {
+        if (error.response.status === 409) {
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              description: "Достигнуто максимальное кол-во товаров в пуле",
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        } else {
+          dispatch(
+            addItem({
+              title: `Ошибка ${error.response.status}`,
+              status: "error",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+        }
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
 
 export const deleteItemInPull =
   (token: string, context: string, id: string, data: any) => async (dispatch: AppDispatch) => {

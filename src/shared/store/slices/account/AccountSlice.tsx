@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { addItem } from "../alerts/AlertsSlice";
 import { AppDispatch } from "../../store";
 import axiosApiInstance from "@/shared/api/api";
+import { changeLimits } from "../companyChanger/CompanyChangerSlice";
 
 interface StateType {
   amount: number;
@@ -43,9 +43,31 @@ export const getAccounts = (token: string, context: string) => async () => {
         "X-Request-ID": `${uuidv4()}`
       }
     };
-    return axios
+    return axiosApiInstance
       .request(config)
       .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
+
+export const getLimits = (token: string, context: string) => (dispatch: AppDispatch) => {
+  try {
+    const config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `https://${context}-api.marketdb.pro/space/v1/user/limits`
+    };
+    return axiosApiInstance
+      .request(config)
+      .then((response) => {
+        console.log(response.data);
+        dispatch(changeLimits(response.data));
         return response.data;
       })
       .catch((error) => {
@@ -87,7 +109,7 @@ export const getAccount = (token: string, context: string, id: string) => async 
         "X-Request-ID": `${uuidv4()}`
       }
     };
-    return axios
+    return axiosApiInstance
       .request(config)
       .then((response) => {
         return response.data;
@@ -117,7 +139,7 @@ export const createNewAccount =
           password: password
         }
       };
-      return axios
+      return axiosApiInstance
         .request(config)
         .then((response) => {
           setAccounts(response.data);
@@ -152,7 +174,7 @@ export const deleteAccount =
           "X-Request-ID": `${uuidv4()}`
         }
       };
-      axios
+      axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(
@@ -185,7 +207,7 @@ export const getShops = (token: string, context: string, id: string) => async ()
         "X-Request-ID": `${uuidv4()}`
       }
     };
-    return axios
+    return axiosApiInstance
       .request(config)
       .then((response) => {
         return response.data;
@@ -210,7 +232,7 @@ export const syncAccount =
           "X-Request-ID": `${uuidv4()}`
         }
       };
-      return axios
+      return axiosApiInstance
         .request(config)
         .then((response) => {
           console.log(response.data);

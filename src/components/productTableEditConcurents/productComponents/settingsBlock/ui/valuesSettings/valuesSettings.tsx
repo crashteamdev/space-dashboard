@@ -8,7 +8,14 @@ import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { addStrategyId, editStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
 
-const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) => {
+const ValuesSettings = ({
+  strategy,
+  getStrategyIdHandler,
+  selected,
+  item,
+  getFirstData,
+  dataS
+}: any) => {
   const validationSchema = yup.object({
     minValue: yup
       .number()
@@ -74,6 +81,7 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
           })
         );
       }
+      await getStrategyIdHandler();
       await getFirstData();
     }
   });
@@ -145,20 +153,13 @@ const ValuesSettings = ({ strategy, selected, item, getFirstData, dataS }: any) 
             </Box>
           )}
         </Stack>
-        {selected  && (
-          <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
-            <Button variant='contained' color='primary' type='submit'>
-              Добавить стратегию
-            </Button>
-          </Stack>
-        )}
-        {strategy?.strategyType  && (
+        {strategy?.strategyType || selected ? (
           <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
             <Button variant='contained' color='primary' type='submit'>
               Сохранить
             </Button>
           </Stack>
-        )}
+        ) : null}
       </form>
     </div>
   );

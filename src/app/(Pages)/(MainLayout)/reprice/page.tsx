@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useDispatch } from "@/shared/store/hooks";
-import { getAccounts } from "@/shared/store/slices/account/AccountSlice";
+import { getAccounts, getLimits } from "@/shared/store/slices/account/AccountSlice";
 import { AppState } from "@/shared/store/store";
 
 const BCrumb = [
@@ -41,10 +41,17 @@ const Reprice = () => {
     await setLoading(true);
   };
 
+  const getLimitsData = () => {
+    dispatch(getLimits(auth.currentUser.accessToken, company.activeCompany));
+  };
+
   useEffect(() => {
+    setData([]);
+    setLoading(false);
+    getLimitsData();
     getFirstData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [company.activeCompany]);
 
   return (
     <PageContainer title='Master settings' description='Master settings'>
