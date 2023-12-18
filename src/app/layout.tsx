@@ -59,7 +59,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Если пользователь не загрузился или не авторизован, перенаправьте на страницу входа.
     if (!loading && !user) {
-      router.push("/auth/login");
+      // router.push("/auth/login");
       setLoadingPage(true);
     }
     if (user) {

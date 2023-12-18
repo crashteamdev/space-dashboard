@@ -8,7 +8,7 @@
     "yourRate": "Тариф",
     "status": "Статус",
     "validUntil": "Действует до",
-    "tarifNotFound": "У вас не выбран тариф",
+    "tarifNotFound": "У вас нет активной подписки",
     "selectTarif": "Выбрать тариф"
   },
   "extension": {

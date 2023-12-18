@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import CustomLink from "../ui/link/Link";
 import { v4 as uuidv4 } from "uuid";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 const TokenContainer = () => {
   const auth = getAuth(firebase_app) as any;
@@ -97,13 +98,14 @@ const TokenContainer = () => {
                           {t("Token.upInput")}
                         </Typography>
                         <Box
-                          className="bg-black-800 text-white dark:bg-white dark:text-black-800"
+                          className="bg-black-800 text-white dark:bg-white dark:text-black-800 relative flex items-center"
                           // bgcolor={"info.light"}
                           style={styles.paper}
                           onClick={copyToken}
                           p={2}
                         >
                           {token?.token?.apiKey}
+                          <ContentCopyIcon className="absolute right-4" />
                         </Box>
                         <Box pt={2}>
                           <Button onClick={refreshToken} variant='contained' color='primary'>

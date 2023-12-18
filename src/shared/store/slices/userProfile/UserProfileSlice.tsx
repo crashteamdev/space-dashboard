@@ -109,10 +109,8 @@ export const fetchProfileStatus =
           dispatch(getSubscription(response.data));
         })
         .catch((error) => {
-          if (error === "Wrong Services") {
-            console.log(error);
-            dispatch(getSubscription({}));
-          }
+          console.log(error.message);
+          dispatch(getSubscription({}));
         });
     } catch (err: any) {
       console.log(err);
