@@ -11,6 +11,7 @@ import Scrollbar from "@/components/ui/custom-scroll/Scrollbar";
 import { Profile } from "./SidebarProfile/Profile";
 import { AppState } from "@/shared/store/store";
 import styles from "./style/sidebar.module.scss";
+import { AppTelegramWidget } from "@/components/AppTelegramWidget";
 
 const Sidebar = () => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
@@ -70,9 +71,10 @@ const Sidebar = () => {
             <Box px={3}>
               <Logo />
             </Box>
-            <Scrollbar sx={{ height: "calc(100% - 190px)" }}>
+            <Scrollbar sx={{ height: "calc(100% - 270px)" }}>
               <SidebarItems />
             </Scrollbar>
+            <AppTelegramWidget />
             <Profile />
           </Box>
         </Drawer>
