@@ -32,6 +32,7 @@ import { pricing } from "@/components/ui/popup/data";
 import PaymentList from "@/components/paymentList/paymentList";
 import { useRouter } from "next/navigation";
 import { getPluralNoun } from "@/shared/lib/getPluralNoun";
+import { motion } from "framer-motion";
 
 const BCrumb = [
   {
@@ -97,7 +98,10 @@ const Pricing = () => {
     router.push(balanceReducer.linkPayment);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [balanceReducer.linkPayment]);
-
+  const itemsd = {
+    hidden: { opacity: 0, x: -100 },
+    show: { opacity: 1, x: 0 }
+  };
   return (
     <PageContainer title="Тарифы" description="Тарифы">
       <Breadcrumb title="Тарифы" items={BCrumb} />
@@ -143,9 +147,15 @@ const Pricing = () => {
                       </Typography>
                       {show ? (
                         <>
-                          <Typography fontSize="48px" fontWeight="600">
-                            {(price.monthlyplan * 3 - (price.monthlyplan * 3 * price.diccountMath))}
-                          </Typography>
+                          <motion.div
+                          variants={itemsd}
+                          initial="hidden"
+                          animate="show"
+                            >
+                            <Typography fontSize="48px" fontWeight="600">
+                              {(price.monthlyplan * 3 - (price.monthlyplan * 3 * price.diccountMath))}
+                            </Typography>
+                          </motion.div>
                           <Typography
                             fontSize='15px'
                             fontWeight={400}
