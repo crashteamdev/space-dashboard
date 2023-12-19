@@ -51,7 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   }, [auth]);
 
   return (
-    <MainWrapper>
+    <MainWrapper >
       {customizer.isHorizontal ? "" : <Sidebar />}
       <PageWrapper
         className='page-wrapper'

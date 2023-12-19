@@ -55,7 +55,7 @@ const CheckPromoCode = () => {
           id='new-password'
           name='new-password'
         />
-        <button className="absolute right-2 bg-blue-800 rounded-[7px] py-[4px] px-2.5 font-medium" onClick={() => checkPromo()} >
+        <button className="absolute right-2 bg-blue-800 rounded-[7px] py-[4px] px-2.5 font-medium text-white" onClick={() => checkPromo()} >
           Использовать
         </button>
       </Box>

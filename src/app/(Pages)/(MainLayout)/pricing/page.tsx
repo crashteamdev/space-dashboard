@@ -245,7 +245,7 @@ const Pricing = () => {
               <Box mt={2}>
                 <PaymentList pay={true} error={empty} context={context} setContext={setContext} />
               </Box>
-              <CheckPromoCode />
+              {context !== "Оплата с баланса" && <CheckPromoCode /> }
             </Stack>
             <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"space-between"}>
               <Button variant='contained' color='error' onClick={() => setOpen(0)}>

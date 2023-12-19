@@ -200,13 +200,13 @@ const ProductTableList = () => {
       const toDate = `${year}-${month}-${day}`;
       const formattedDate = `${String(today.getFullYear() - 2)}-${month}-${day}`;
       dispatch(
-        getListPayments(auth.currentUser.accessToken, company.activeCompany, formattedDate, toDate)
+        getListPayments(formattedDate, toDate)
       );
+      setRows(userPost.paymentList);
     }
     // setProducts(userPost.paymentList);
-    setRows(userPost.paymentList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [company]);
+  }, [userPost, company]);
 
   // This is for the sorting
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: any) => {

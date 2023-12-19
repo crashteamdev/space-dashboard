@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import { Grid, Box, Card, Typography, Button } from "@mui/material";
-import Logo from "@/components/ui/logo/Logo";
 import PageContainer from "@/components/ui/container/PageContainer";
 import AuthForgotPassword from "../../../processes/auth/AuthForgotPassword";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function ForgotPassword2() {
   const [isSend, setIsSend] = useState(false);
@@ -46,7 +46,13 @@ export default function ForgotPassword2() {
           >
             <Card elevation={9} sx={{ p: 4, zIndex: 1, width: "100%", maxWidth: "500px" }}>
               <Box display='flex' alignItems='center' justifyContent='center'>
-                <Logo />
+                <Image
+                  src='/images/logos/logo-horizontal.svg'
+                  alt='logo'
+                  height={70}
+                  width={174}
+                  priority
+                />
               </Box>
               <Typography
                 color='textSecondary'

@@ -117,8 +117,7 @@ export const fetchProfileStatus =
     }
   };
 
-export const getListPayments =
-  (token: string, context: string, fromDate: string, toDate: string) =>
+export const getListPayments = (fromDate: string, toDate: string) =>
   async (dispatch: AppDispatch) => {
     try {
       const config = {
