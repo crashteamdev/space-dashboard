@@ -144,7 +144,7 @@ const Pricing = () => {
                       {show ? (
                         <>
                           <Typography fontSize="48px" fontWeight="600">
-                            {(price.monthlyplan * 3 - (price.monthlyplan * 3 * .10)) - 1}
+                            {(price.monthlyplan * 3 - (price.monthlyplan * 3 * price.diccountMath))}
                           </Typography>
                           <Typography
                             fontSize='15px'
