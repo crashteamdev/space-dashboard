@@ -239,7 +239,7 @@ const Pricing = () => {
               <Typography variant="h6" sx={{ mt: 1 }}>
                 Сумма: $
                 {show
-                  ? pricing[open - 1]?.monthlyplan * 3 - (pricing[open - 1]?.monthlyplan * 3 * .10) - 1
+                  ? pricing[open - 1]?.monthlyplan * 3 - (pricing[open - 1]?.monthlyplan * 3 * pricing[open - 1]?.diccountMath)
                   : pricing[open - 1]?.monthlyplan}{" "}
                 -{" "}
                 {Math.floor(
