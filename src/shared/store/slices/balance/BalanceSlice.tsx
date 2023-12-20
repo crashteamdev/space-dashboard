@@ -100,7 +100,7 @@ export const getListPayments =
               id: uuidv4()
             })
           );
-          console.log(response);
+          console.log("res: ",response);
         })
         .catch((error) => {
           dispatch(

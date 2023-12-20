@@ -8,9 +8,10 @@ import {
   toggleMobileSidebar
 } from "@/shared/store/slices/customizer/CustomizerSlice";
 import Scrollbar from "@/components/ui/custom-scroll/Scrollbar";
-import { Profile } from "./SidebarProfile/Profile";
 import { AppState } from "@/shared/store/store";
 import styles from "./style/sidebar.module.scss";
+import { AppTelegramWidget } from "@/components/AppTelegramWidget";
+import clsx from "clsx";
 
 const Sidebar = () => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
@@ -61,8 +62,7 @@ const Sidebar = () => {
           }}
         >
           <Box
-            bgcolor={customizer.activeMode === "light" ? "sidebar.bg" : "sidebar.bg"}
-            className={styles.sidebar}
+            className={clsx("bg-black-800", styles.sidebar)}
             sx={{
               height: "100%"
             }}
@@ -70,10 +70,10 @@ const Sidebar = () => {
             <Box px={3}>
               <Logo />
             </Box>
-            <Scrollbar sx={{ height: "calc(100% - 190px)" }}>
+            <Scrollbar sx={{ height: "calc(100% - 170px)" }}>
               <SidebarItems />
             </Scrollbar>
-            <Profile />
+            <AppTelegramWidget />
           </Box>
         </Drawer>
       </Box>

@@ -179,7 +179,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             Забыли пароль ?
           </Typography>
         </Stack>
-        <Button color='primary' variant='contained' type='submit'>
+        <Button className="w-full" color='primary' variant='contained' type='submit'>
           Войти
         </Button>
       </form>

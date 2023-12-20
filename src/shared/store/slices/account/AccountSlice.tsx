@@ -89,8 +89,8 @@ export const getSubscription = (context: string) => async () => {
       .then((response) => {
         return response.data;
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        return null;
       });
   } catch (err: any) {
     console.log(err);

@@ -37,6 +37,8 @@ const Reprice = () => {
     console.log(data);
     if (data.length >= 1) {
       setData(data);
+    } else {
+      setData([]);
     }
     await setLoading(true);
   };

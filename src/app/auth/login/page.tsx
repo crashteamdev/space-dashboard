@@ -2,10 +2,9 @@
 import React from "react";
 import Link from "next/link";
 import { Grid, Box, Card, Stack, Typography } from "@mui/material";
-
-import Logo from "@/components/ui/logo/Logo";
 import PageContainer from "@/components/ui/container/PageContainer";
 import AuthLogin from "../../../processes/auth/AuthLogin";
+import Image from "next/image";
 
 export default function Login2() {
   return (
@@ -38,7 +37,13 @@ export default function Login2() {
           >
             <Card elevation={9} sx={{ p: 4, zIndex: 1, width: "100%", maxWidth: "450px" }}>
               <Box display='flex' alignItems='center' justifyContent='center'>
-                <Logo />
+              <Image
+                src='/images/logos/logo-horizontal.svg'
+                alt='logo'
+                height={70}
+                width={174}
+                priority
+              />
               </Box>
               <AuthLogin
                 subtitle={

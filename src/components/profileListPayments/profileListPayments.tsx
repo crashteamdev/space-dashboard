@@ -195,7 +195,7 @@ const ProductTableList = () => {
       const toDate = `${year}-${month}-${day}`;
       const formattedDate = `${String(today.getFullYear() - 2)}-${month}-${day}`;
       const data = await dispatch(
-        getListPayments(auth.currentUser.accessToken, company.activeCompany, formattedDate, toDate)
+        getListPayments(formattedDate, toDate)
       );
       await setRows(data);
     };
@@ -204,7 +204,7 @@ const ProductTableList = () => {
   useEffect(() => {
     getListPaymentsHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [company]);
+  }, [userPost, company]);
 
   // This is for the sorting
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: any) => {

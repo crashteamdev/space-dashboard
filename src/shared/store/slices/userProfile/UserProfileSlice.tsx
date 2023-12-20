@@ -109,18 +109,15 @@ export const fetchProfileStatus =
           dispatch(getSubscription(response.data));
         })
         .catch((error) => {
-          if (error === "Wrong Services") {
-            console.log(error);
-            dispatch(getSubscription({}));
-          }
+          console.log(error.message);
+          dispatch(getSubscription({}));
         });
     } catch (err: any) {
       console.log(err);
     }
   };
 
-export const getListPayments =
-  (token: string, context: string, fromDate: string, toDate: string) =>
+export const getListPayments = (fromDate: string, toDate: string) =>
   async (dispatch: AppDispatch) => {
     try {
       const config = {
