@@ -175,7 +175,6 @@ const ProductTableList = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<any>("calories");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [getProducts] = React.useState<any>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const auth = getAuth(firebase_app) as any;
@@ -186,11 +185,7 @@ const ProductTableList = () => {
 
   const [rows, setRows] = React.useState<any>(userPost.paymentList);
 
-  React.useEffect(() => {
-    setRows(getProducts);
-  }, [getProducts]);
-
-  useEffect(() => {
+  const getListPaymentsHandler = async () => {
     if (auth.currentUser) {
       const today = new Date() as any;
       const year = today.getFullYear();
@@ -199,12 +194,15 @@ const ProductTableList = () => {
 
       const toDate = `${year}-${month}-${day}`;
       const formattedDate = `${String(today.getFullYear() - 2)}-${month}-${day}`;
-      dispatch(
+      const data = await dispatch(
         getListPayments(auth.currentUser.accessToken, company.activeCompany, formattedDate, toDate)
       );
-    }
-    // setProducts(userPost.paymentList);
-    setRows(userPost.paymentList);
+      await setRows(data);
+    };
+  };
+
+  useEffect(() => {
+    getListPaymentsHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company]);
 
@@ -220,7 +218,6 @@ const ProductTableList = () => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n: any) => n.title);
       setSelected(newSelecteds);
-
       return;
     }
     setSelected([]);

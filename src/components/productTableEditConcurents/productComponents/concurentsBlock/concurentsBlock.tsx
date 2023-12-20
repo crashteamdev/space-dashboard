@@ -9,11 +9,12 @@ import {
   FormControl,
   FormControlLabel,
   Stack,
-  Typography
+  Typography,
+  useTheme
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductTableConcurentsAdds from "../../productTableConcurentsAdds/productTableConcurentsAdds";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import {
@@ -26,6 +27,7 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useParams } from "next/navigation";
 import CustomRadio from "@/components/ui/сustomRadio/CustomRadio";
+import { getLimits } from "@/shared/store/slices/account/AccountSlice";
 
 const ConcurentsBlock = () => {
   const [selectedValue, setSelectedValue] = useState("c");
@@ -36,6 +38,7 @@ const ConcurentsBlock = () => {
     competitorSkuId: yup.number().required("Введите skuId")
   });
 
+  const theme = useTheme();
   const { accountId, shopId } = useParams() as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
@@ -69,6 +72,11 @@ const ConcurentsBlock = () => {
       )
     );
     await setDataAdds(result);
+    await getLimitsData();
+  };
+
+  const getLimitsData = () => {
+    dispatch(getLimits(auth.currentUser.accessToken, company.activeCompany));
   };
 
   const handleChange3 = (event: any) => {
@@ -99,21 +107,56 @@ const ConcurentsBlock = () => {
         competitorSkuId: values.competitorSkuId
       };
       dispatch(
-        addComcurentItem(auth.currentUser.accessToken, company.activeCompany, accountId, selectedValue === "a" ? data : dataId)
+        addComcurentItem(
+          auth.currentUser.accessToken,
+          company.activeCompany,
+          accountId,
+          selectedValue === "a" ? data : dataId
+        )
       );
+      getLimitsData();
     }
   });
-  console.log(selectedValue);
+
+  useEffect(() => {
+    getLimitsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
           <DialogTitle mt={2}>Конкуренты</DialogTitle>
           <DialogContentText mx={3}>Добавить конкурента для отслеживания</DialogContentText>
+          <Box display={"flex"} alignItems={"center"}></Box>
+          <Box mt={1} display={"flex"} alignItems={"center"}>
+            <DialogContentText ml={3}>Осталось добавлений конкурентов: </DialogContentText>
+            <Typography
+              ml={1}
+              variant='h6'
+              color={theme.palette.info.main}
+              sx={{
+                borderRadius: "100%"
+              }}
+            >
+              {company.limits.itemCompetitorLimitCurrent}
+            </Typography>
+          </Box>
         </Box>
       </Box>
       <Box mx={3}>
-        <CustomFormLabel>Выберите вариант добавления</CustomFormLabel>
+        <Typography
+          mt={3}
+          mb={1}
+          variant='h6'
+          color='textSecondary'
+          sx={{
+            borderRadius: "100%"
+          }}
+        >
+          Выберите вариант добавления конкурентов
+        </Typography>
         <FormControl
           sx={{
             width: "100%"
@@ -190,13 +233,15 @@ const ConcurentsBlock = () => {
             </>
           ) : null}
         </Stack>
-        <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
-          <Button variant='contained' color='primary' type='submit'>
-            Добавить
-          </Button>
-        </Stack>
+        {selectedValue !== "c" && (
+          <Stack direction='row' px={3} mt={2} justifyContent={"flex-end"}>
+            <Button variant='contained' color='primary' type='submit'>
+              Добавить
+            </Button>
+          </Stack>
+        )}
       </form>
-      <Box display={"flex"} position={"relative"} mt={2} justifyContent={"flex-start"}>
+      <Box display={"flex"} position={"relative"} mt={5} justifyContent={"flex-start"}>
         <div></div>
         <Typography
           ml={5}

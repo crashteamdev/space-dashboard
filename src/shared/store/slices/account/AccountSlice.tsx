@@ -66,7 +66,6 @@ export const getLimits = (token: string, context: string) => (dispatch: AppDispa
     return axiosApiInstance
       .request(config)
       .then((response) => {
-        console.log(response.data);
         dispatch(changeLimits(response.data));
         return response.data;
       })

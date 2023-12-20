@@ -9,6 +9,7 @@ import firebase_app from "@/shared/firebase/firebase";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
+import { format } from "date-fns";
 import Link from "next/link";
 import ProfileListPayments from "../profileListPayments/profileListPayments";
 import { getSubscription } from "@/shared/store/slices/account/AccountSlice";
@@ -25,6 +26,16 @@ const ProfileInfo = () => {
   const getSubRepricer = async () => {
     const data = await dispatch(getSubscription(company.activeCompany));
     await setRepriceData(data);
+  };
+
+  const checkStrategy = (value: string) => {
+    if (value === "default") {
+      return "БАЗОВЫЙ";
+    } else if (value === "advanced") {
+      return "РАСШИРЕННЫЙ";
+    } else if (value === "pro") {
+      return "ПРОФЕССИОНАЛЬНЫЙ";
+    }
   };
 
   useEffect(() => {
@@ -50,7 +61,7 @@ const ProfileInfo = () => {
                     <>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.yourRate")}: </b>
-                        <span>{token.subscription?.type?.toUpperCase()}</span>
+                        <span>{checkStrategy(token.subscription?.type)}</span>
                       </Typography>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.status")}: </b>
@@ -64,7 +75,7 @@ const ProfileInfo = () => {
                       </Typography>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{token.subscription?.endAt}</span>
+                        <span>{format(new Date(token.subscription?.endAt), "yyyy-MM-dd HH:mm")}</span>
                       </Typography>
                     </>
                   ) : (
@@ -91,11 +102,11 @@ const ProfileInfo = () => {
                     <>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.yourRate")}: </b>
-                        <span>{repriceData?.plan?.toUpperCase()}</span>
+                        <span>{checkStrategy(repriceData?.plan)}</span>
                       </Typography>
                       <Typography color='h4' mb={0}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{repriceData.validUntil}</span>
+                        <span>{format(new Date(repriceData.validUntil), "yyyy-MM-dd HH:mm")}</span>
                       </Typography>
                     </>
                   ) : (

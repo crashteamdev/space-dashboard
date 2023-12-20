@@ -1,7 +1,7 @@
-import { Box, Button, Grid, Theme, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Grid, Theme, Tooltip, Typography, useTheme } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { IconRefresh, IconEdit, IconPlayerPause,IconPlayerPlay } from "@tabler/icons-react";
-import { getAccount, syncAccount } from "@/shared/store/slices/account/AccountSlice";
+import { getAccount, getLimits, syncAccount } from "@/shared/store/slices/account/AccountSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
@@ -53,6 +53,7 @@ const HeaderAccount = () => {
 
   const [open, setOpen] = useState(false) as any;
 
+  const theme = useTheme();
   const [data, setData] = useState({}) as any;
   const [date, setDate] = useState("") as any;
   const auth = getAuth(firebase_app) as any;
@@ -80,7 +81,12 @@ const HeaderAccount = () => {
     setDate(data.lastUpdate ? format(new Date(data.lastUpdate), "yyyy-MM-dd HH:mm") : "");
   };
 
+  const getLimitsData = () => {
+    dispatch(getLimits(auth.currentUser.accessToken, company.activeCompany));
+  };
+
   useEffect(() => {
+    getLimitsData();
     getFirstData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -168,6 +174,27 @@ const HeaderAccount = () => {
               {checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState).title}
             </Typography>
           </Typography> : "Загрузка..."}
+          {company.limits.itemPoolLimit ? <Typography
+            display={"flex"}
+            variant='h6'
+            fontWeight={500}
+            color='textPrimary'
+            className='text-hover'
+            noWrap
+          >
+            Осталось добавлений в пул:{" "}
+            <Typography
+              ml={1}
+              variant='h6'
+              color={theme.palette.info.main}
+              sx={{
+                borderRadius: "100%"
+              }}
+            >
+              {""}
+              {company.limits.itemPoolLimitCurrent}
+            </Typography>
+          </Typography> : null}
         </Box>
 
       <Box

@@ -57,10 +57,13 @@ const Reprice = () => {
     <PageContainer title='Master settings' description='Master settings'>
       <Box mt={4}></Box>
       <Breadcrumb title={"Управление ценами"} items={BCrumb} />
-      <Box mb={2}>
+      <Box mb={2} display={"flex"} gap={2} alignItems={"center"}>
         <Button variant='contained' onClick={() => setOpen(true)} color='primary'>
           Добавить аккаунт
         </Button>
+        <Typography ml={1} variant='h6'>
+          Осталось аккаунтов для добавления: {company.limits.keAccountLimitCurrent}
+        </Typography>
         <CreateNewAccount getFirstData={getFirstData} data={data} open={open} setOpen={setOpen} />
       </Box>
       {loading ? (

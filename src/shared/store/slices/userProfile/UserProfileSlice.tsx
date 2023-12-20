@@ -132,10 +132,11 @@ export const getListPayments =
           toDate: toDate
         }
       };
-      axiosApiInstance
+      return axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(setPaymentList(response.data));
+          return response.data;
         })
         .catch(() => {});
     } catch (err: any) {

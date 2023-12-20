@@ -197,7 +197,6 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const { numSelected, selectedIds, showOnlyPool, setShowOnlyPool, removeFromPullArray, selected, handleSearch, search, addInPullArray } = props;
 
   const isAdd = selectedIds.filter((isInPool: any) => !isInPool).length >= selectedIds.length - selectedIds.filter((isInPool: any) => !isInPool).length;
-  console.log(isAdd, selectedIds.filter((isInPool: any) => !isInPool).length, selectedIds.length - selectedIds.filter((isInPool: any) => !isInPool).length);
   return (
     <Toolbar
       sx={{
@@ -445,15 +444,19 @@ const ProductTableList = () => {
 
   const getFilteredItems = async () => {
     console.log(search);
-    const name = `&filter=name:${search}`;
-
+    let queryFilter;
+    if (!isNaN(parseFloat(search))) {
+      queryFilter = `&filter=skuId:${+search}`;
+    } else {
+      queryFilter = `&filter=name:${search}`;
+    }
     const data = await dispatch(
       getItemsFilteredShop(
         auth.currentUser.accessToken,
         company.activeCompany,
         params.accountId,
         params.shopId,
-        search ? name : null
+        search ? queryFilter : null
       )
     );
     if (data.length > 0) {
