@@ -9,7 +9,6 @@ import firebase_app from "@/shared/firebase/firebase";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
-import { format } from "date-fns";
 import Link from "next/link";
 import ProfileListPayments from "../profileListPayments/profileListPayments";
 import { getSubscription } from "@/shared/store/slices/account/AccountSlice";
