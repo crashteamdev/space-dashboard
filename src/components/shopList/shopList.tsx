@@ -74,17 +74,17 @@ const ShopList = () => {
                   <Box justifyContent={"space-between"} display='flex' gap={6}>
                     <Button>Открыть магазин</Button>
                     <Box justifyContent={"space-between"} display='flex' gap={2}>
-                      <Tooltip title='Товаров в пуле'>
+                      <Tooltip title="Товаров в пуле">
                         <BoxShopInfo>
                           {item.shopData.poolItems}
                         </BoxShopInfo>
                       </Tooltip>
-                      <Tooltip title='Товаров в наличие'>
+                      <Tooltip title="Количество товаров">
                         <BoxShopInfo sx={{ backgroundColor: theme.palette.warning.main }}>
                           {item.shopData.products}
                         </BoxShopInfo>
                       </Tooltip>
-                      <Tooltip title='Всего товаров'>
+                      <Tooltip title="Количество вариаций товаров">
                         <BoxShopInfo sx={{ backgroundColor: theme.palette.info.main }}>
                           {item.shopData.skus}
                         </BoxShopInfo>

@@ -20,16 +20,11 @@ import {
   Button
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import {
-  IconSearch,
-  IconPlus,
-  IconMinus
-} from "@tabler/icons-react";
+import { IconSearch, IconPlus, IconMinus } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import CustomCheckbox from "../ui/forms/CustomCheckbox";
 import ProductTableEditConcurents from "../productTableEditConcurents/productTableEditConcurents";
 import {
-  getItemsShop,
   setCurrentItem,
   addItemInPull,
   deleteItemInPull,
@@ -194,9 +189,21 @@ interface EnhancedTableToolbarProps {
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected, selectedIds, showOnlyPool, setShowOnlyPool, removeFromPullArray, selected, handleSearch, search, addInPullArray } = props;
+  const {
+    numSelected,
+    selectedIds,
+    showOnlyPool,
+    setShowOnlyPool,
+    removeFromPullArray,
+    selected,
+    handleSearch,
+    search,
+    addInPullArray
+  } = props;
 
-  const isAdd = selectedIds.filter((isInPool: any) => !isInPool).length >= selectedIds.length - selectedIds.filter((isInPool: any) => !isInPool).length;
+  const isAdd =
+    selectedIds.filter((isInPool: any) => !isInPool).length >=
+    selectedIds.length - selectedIds.filter((isInPool: any) => !isInPool).length;
   return (
     <Toolbar
       sx={{
@@ -245,9 +252,14 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       {numSelected > 0 && isAdd && (
         <Box mr={3}>
           <Tooltip title='Добавить в пул выбранные товары'>
-            <Button onClick={(e) => {
-              addInPullArray(selected, e);
-            }} color='success' variant='contained' type='submit'>
+            <Button
+              onClick={(e) => {
+                addInPullArray(selected, e);
+              }}
+              color='success'
+              variant='contained'
+              type='submit'
+            >
               <IconPlus />
             </Button>
           </Tooltip>
@@ -256,9 +268,14 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       {numSelected > 0 && !isAdd && (
         <Box mr={3}>
           <Tooltip title='Удалить из пула выбранные товары'>
-            <Button onClick={(e) => {
-              removeFromPullArray(selected, e);
-            }} color='error' variant='contained' type='submit'>
+            <Button
+              onClick={(e) => {
+                removeFromPullArray(selected, e);
+              }}
+              color='error'
+              variant='contained'
+              type='submit'
+            >
               <IconMinus />
             </Button>
           </Tooltip>
@@ -281,11 +298,11 @@ const ProductTableList = () => {
 
   const dispatch = useDispatch();
 
+  const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const auth = getAuth(firebase_app) as any;
   const [openEditConc, setOpenEditConc] = useState(false);
   const [rows, setRows] = React.useState<any>([]);
-  const [data, setData] = React.useState<any>([]);
   const [showOnlyPool, setShowOnlyPool] = React.useState<any>(false);
   const [search, setSearch] = React.useState("");
 
@@ -293,7 +310,7 @@ const ProductTableList = () => {
     setOpenEditConc(true);
     dispatch(setCurrentItem(itemId));
   };
-  
+
   const addInPull = async (row: any, event: any) => {
     event.stopPropagation();
     await dispatch(
@@ -304,7 +321,7 @@ const ProductTableList = () => {
     );
     await getList();
   };
-  
+
   const addInPullArray = async (array: any, event: any) => {
     event.stopPropagation();
     await dispatch(
@@ -315,7 +332,7 @@ const ProductTableList = () => {
     );
     await getList();
   };
-  
+
   const removeFromPullArray = async (array: any, event: any) => {
     event.stopPropagation();
     await dispatch(
@@ -338,49 +355,58 @@ const ProductTableList = () => {
     await getList();
   };
 
-  const getFirstData = async () => {
+  const getFilteredItems = async () => {
+    let queryFilter;
+    if (!isNaN(parseFloat(search))) {
+      queryFilter = `&filter=skuId:${+search}`;
+    } else {
+      queryFilter = `&filter=name:${search}`;
+    }
     const data = await dispatch(
-      getItemsShop(
+      getItemsFilteredShop(
         auth.currentUser.accessToken,
         company.activeCompany,
         params.accountId,
-        params.shopId
+        params.shopId,
+        search ? queryFilter : null
       )
     );
-    setData(data);
+    if (data.length > 0) {
+      setRows(data);
+    }
     await setLoading(true);
   };
 
   const getJustPoolData = async () => {
+    let queryFilter;
+    if (!isNaN(parseFloat(search))) {
+      queryFilter = `&filter=skuId:${+search}`;
+    } else {
+      queryFilter = `&filter=name:${search}`;
+    }
     const data = await dispatch(
       getItemsInPoolShop(
         auth.currentUser.accessToken,
         company.activeCompany,
         params.accountId,
-        params.shopId
+        params.shopId,
+        search ? queryFilter : null
       )
     );
-    setData(data);
+    if (data.length > 0) {
+      setRows(data);
+    }
     await setLoading(true);
   };
 
   const getList = () => {
+    setLoading(false);
     if (showOnlyPool) {
       getJustPoolData();
     } else {
-      getFirstData();
+      getFilteredItems();
     }
   };
-
-  useEffect(() => {
-    getList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showOnlyPool]);
-
-  useEffect(() => {
-    setRows(data);
-  }, [data]);
-
   const debouncedInputValue = useDebounce(search, 600);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -442,33 +468,6 @@ const ProductTableList = () => {
     setPage(0);
   };
 
-  const getFilteredItems = async () => {
-    console.log(search);
-    let queryFilter;
-    if (!isNaN(parseFloat(search))) {
-      queryFilter = `&filter=skuId:${+search}`;
-    } else {
-      queryFilter = `&filter=name:${search}`;
-    }
-    const data = await dispatch(
-      getItemsFilteredShop(
-        auth.currentUser.accessToken,
-        company.activeCompany,
-        params.accountId,
-        params.shopId,
-        search ? queryFilter : null
-      )
-    );
-    if (data.length > 0) {
-      setRows(data);
-    }
-  };
-
-  useEffect(() => {
-    getFilteredItems();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedInputValue]);
-
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -476,7 +475,13 @@ const ProductTableList = () => {
   const theme = useTheme();
   const borderColor = theme.palette.divider;
 
-  return loading ? (
+  useEffect(() => {
+    getList();
+    console.log("w");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showOnlyPool, debouncedInputValue]);
+
+  return (
     <Box>
       <Box>
         <EnhancedTableToolbar
@@ -490,147 +495,149 @@ const ProductTableList = () => {
           search={search}
           handleSearch={(event: any) => handleSearch(event)}
         />
-        <Paper variant='outlined' sx={{ mt: 1, border: `1px solid ${borderColor}` }}>
-          <TableContainer>
-            <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={"small"}>
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows?.length}
-              />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: any, index: number) => {
-                    const isItemSelected = isSelected(row.id);
-                    const labelId = `enhanced-table-checkbox-${index}`;
+          <Paper variant='outlined' sx={{ mt: 1, border: `1px solid ${borderColor}` }}>
+            <TableContainer>
+              <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={"small"}>
+                <EnhancedTableHead
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={rows?.length}
+                />
 
-                    return (
-                      <TableRow
-                        hover
-                        style={{ cursor: "pointer" }}
-                        role='checkbox'
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        onClick={() => handleOpenConcurents(row.id)}
-                        selected={isItemSelected}
-                      >
-                        <TableCell padding='checkbox'>
-                          <CustomCheckbox
-                            color='primary'
-                            onClick={(event) => handleClick(event, row)}
-                            checked={isItemSelected}
-                            inputProps={{
-                              "aria-labelledby": labelId
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Box display='flex' alignItems='center'>
-                            <Avatar
-                              src={`https://image.kazanexpress.ru/${row.photoKey}/t_product_high.jpg`}
-                              alt='product'
-                              sx={{ width: 56, height: 56 }}
-                            />
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>{row.name}</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>{row.price} рублей</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Box display='flex' alignItems='center'>
-                            <Box
-                              sx={{
-                                backgroundColor: row.isInPool
-                                  ? (theme) => theme.palette.success.main
-                                  : (theme) => theme.palette.error.main,
-                                borderRadius: "100%",
-                                height: "10px",
-                                width: "10px"
+                <TableBody>
+                  {stableSort(rows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row: any, index: number) => {
+                      const isItemSelected = isSelected(row.id);
+                      const labelId = `enhanced-table-checkbox-${index}`;
+
+                      return (
+                        <TableRow
+                          hover
+                          style={{ cursor: "pointer" }}
+                          role='checkbox'
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.id}
+                          onClick={() => handleOpenConcurents(row.id)}
+                          selected={isItemSelected}
+                        >
+                          <TableCell padding='checkbox'>
+                            <CustomCheckbox
+                              color='primary'
+                              onClick={(event) => handleClick(event, row)}
+                              checked={isItemSelected}
+                              inputProps={{
+                                "aria-labelledby": labelId
                               }}
                             />
-                            <Typography
-                              color='textSecondary'
-                              variant='subtitle2'
-                              sx={{
-                                ml: 1
-                              }}
-                            >
-                              {row.isInPool ? "В пуле" : "Не в пуле"}
-                            </Typography>
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>{`${row.availableAmount}`} шт.</Typography>
-                        </TableCell>
-                        <TableCell>
-                          {row.isInPool ? (
-                            <Tooltip title='Удалить товар из пула'>
-                              <Button
-                                onClick={(e: any) => removeInPull(row, e)}
-                                color='error'
-                                variant='contained'
-                                type='submit'
+                          </TableCell>
+                          <TableCell>
+                            <Box display='flex' alignItems='center'>
+                              <Avatar
+                                src={`https://image.kazanexpress.ru/${row.photoKey}/t_product_high.jpg`}
+                                alt='product'
+                                sx={{ width: 56, height: 56 }}
+                              />
+                            </Box>
+                          </TableCell>
+                          <TableCell>
+                            <Typography>{row.name}</Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography>{row.price} рублей</Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Box display='flex' alignItems='center'>
+                              <Box
+                                sx={{
+                                  backgroundColor: row.isInPool
+                                    ? (theme) => theme.palette.success.main
+                                    : (theme) => theme.palette.error.main,
+                                  borderRadius: "100%",
+                                  height: "10px",
+                                  width: "10px"
+                                }}
+                              />
+                              <Typography
+                                color='textSecondary'
+                                variant='subtitle2'
+                                sx={{
+                                  ml: 1
+                                }}
                               >
-                                <IconMinus />
-                              </Button>
-                            </Tooltip>
-                          ) : (
-                            <Tooltip title='Добавить в пул'>
-                              <Button
-                                onClick={(e: any) => addInPull(row, e)}
-                                color='success'
-                                variant='contained'
-                                type='submit'
-                              >
-                                <IconPlus />
-                              </Button>
-                            </Tooltip>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: 33 * emptyRows
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component='div'
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
+                                {row.isInPool ? "В пуле" : "Не в пуле"}
+                              </Typography>
+                            </Box>
+                          </TableCell>
+                          <TableCell>
+                            <Typography>{`${row.availableAmount}`} шт.</Typography>
+                          </TableCell>
+                          <TableCell>
+                            {row.isInPool ? (
+                              <Tooltip title='Удалить товар из пула'>
+                                <Button
+                                  onClick={(e: any) => removeInPull(row, e)}
+                                  color='error'
+                                  variant='contained'
+                                  type='submit'
+                                >
+                                  <IconMinus />
+                                </Button>
+                              </Tooltip>
+                            ) : (
+                              <Tooltip title='Добавить в пул'>
+                                <Button
+                                  onClick={(e: any) => addInPull(row, e)}
+                                  color='success'
+                                  variant='contained'
+                                  type='submit'
+                                >
+                                  <IconPlus />
+                                </Button>
+                              </Tooltip>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: 33 * emptyRows
+                      }}
+                    >
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 20, 30]}
+              component='div'
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
       </Box>
-      <ProductTableEditConcurents
-        getFirstData={getList}
-        setOpen={setOpenEditConc}
-        open={openEditConc}
-      />
+      {
+        repricer.currentItem && (
+          <ProductTableEditConcurents
+            getFirstData={getList}
+            setOpen={setOpenEditConc}
+            open={openEditConc}
+          />
+        )
+      }
+      
     </Box>
-  ) : (
-    <Typography ml={1} variant='h6'>
-      Идет загрузка товаров
-    </Typography>
   );
 };
 

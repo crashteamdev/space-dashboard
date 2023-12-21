@@ -30,7 +30,7 @@ export const getItemsShop =
       const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops/${shopId}/items?limit=1000`
+        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops/${shopId}/items?limit=10000`
       };
       return axiosApiInstance
         .request(config)
@@ -83,12 +83,12 @@ export const getItemsFilteredShop =
 };
 
   export const getItemsInPoolShop =
-  (token: string, context: string, id: string, shopId: string) => async (dispatch: AppDispatch) => {
+  (token: string, context: string, id: string, shopId: string, filter: any) => async (dispatch: AppDispatch) => {
     try {
       const config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops/${shopId}/pool-items?limit=1000`
+        url: `https://${context}-api.marketdb.pro/space/v1/accounts/${id}/shops/${shopId}/pool-items?limit=1000${filter ? filter : ""}`
       };
       return axiosApiInstance
         .request(config)
@@ -279,6 +279,15 @@ export const addComcurentItem =
               addItem({
                 title: `Ошибка ${error.response.status}`,
                 description: "Достигнуто максимальное кол-во конкурентных товаров",
+                status: "error",
+                timelife: 4000,
+                id: uuidv4()
+              })
+            );
+          } else if (error.response.status === 403) {
+            dispatch(
+              addItem({
+                title: "Вы достигли лимита добавления конкурентов к товару",
                 status: "error",
                 timelife: 4000,
                 id: uuidv4()

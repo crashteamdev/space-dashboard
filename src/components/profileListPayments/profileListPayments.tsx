@@ -133,44 +133,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-// interface EnhancedTableToolbarProps {
-//   numSelected: number;
-//   eslint-disable-next-line no-secrets/no-secrets
-//   handleSearch: React.ChangeEvent<HTMLInputElement> | any;
-//   search: string;
-// }
-
-// const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-//   const { numSelected } = props;
-
-//   return (
-//     <Toolbar
-//       sx={{
-//         pl: { sm: 2 },
-//         pr: { xs: 1, sm: 1 },
-//         ...(numSelected > 0 && {
-//           bgcolor: (theme) =>
-//             alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity)
-//         })
-//       }}
-//     >
-//       {numSelected > 0 ? (
-//         <Tooltip title='Delete'>
-//           <IconButton>
-//             <IconTrash width='18' />
-//           </IconButton>
-//         </Tooltip>
-//       ) : (
-//         <Tooltip title='Filter list'>
-//           <IconButton>
-//             <IconFilter size='1.2rem' />
-//           </IconButton>
-//         </Tooltip>
-//       )}
-//     </Toolbar>
-//   );
-// };
-
 const ProductTableList = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<any>("calories");
@@ -204,7 +166,7 @@ const ProductTableList = () => {
   useEffect(() => {
     getListPaymentsHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userPost, company]);
+  }, [company]);
 
   // This is for the sorting
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: any) => {

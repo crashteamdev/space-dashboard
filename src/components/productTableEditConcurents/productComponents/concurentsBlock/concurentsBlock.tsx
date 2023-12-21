@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ProductTableConcurentsAdds from "../../productTableConcurentsAdds/productTableConcurentsAdds";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import {
@@ -61,7 +61,8 @@ const ConcurentsBlock = () => {
     setDataConc(result);
   };
 
-  const getComp = async () => {
+  const getComp = useCallback(async () => {
+    
     const result = await dispatch(
       getCompetitiveProductsAdds(
         auth.currentUser.accessToken,
@@ -71,11 +72,18 @@ const ConcurentsBlock = () => {
         repricer.currentItem
       )
     );
+    console.log("222");
     await setDataAdds(result);
-    await getLimitsData();
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dataAdds]);
+
+  useEffect(() => {
+    getLimitsData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getLimitsData = () => {
+    console.log("we");
     dispatch(getLimits(auth.currentUser.accessToken, company.activeCompany));
   };
 
@@ -90,7 +98,7 @@ const ConcurentsBlock = () => {
       competitorSkuId: 0
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const data = {
         shopItemRef: {
           shopId: shopId,
@@ -106,7 +114,7 @@ const ConcurentsBlock = () => {
         competitorProductId: values.competitorProductId,
         competitorSkuId: values.competitorSkuId
       };
-      dispatch(
+      await dispatch(
         addComcurentItem(
           auth.currentUser.accessToken,
           company.activeCompany,
@@ -114,14 +122,10 @@ const ConcurentsBlock = () => {
           selectedValue === "a" ? data : dataId
         )
       );
-      getLimitsData();
+      await getLimitsData();
+      await getComp();
     }
   });
-
-  useEffect(() => {
-    getLimitsData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <>

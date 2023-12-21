@@ -25,6 +25,7 @@ const ProfileInfo = () => {
 
   const getSubRepricer = async () => {
     const data = await dispatch(getSubscription(company.activeCompany));
+    await dispatch(fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany));
     await setRepriceData(data);
   };
 
@@ -41,7 +42,7 @@ const ProfileInfo = () => {
   useEffect(() => {
     if (auth.currentUser) {
       getSubRepricer();
-      dispatch(fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany));
+      console.log("w");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company.activeCompany]);
@@ -75,7 +76,7 @@ const ProfileInfo = () => {
                       </Typography>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{format(new Date(token.subscription?.endAt), "yyyy-MM-dd HH:mm")}</span>
+                        <span>{token.subscription?.endAt ? format(new Date(token.subscription?.endAt), "yyyy-MM-dd HH:mm") : ""}</span>
                       </Typography>
                     </>
                   ) : (
@@ -106,7 +107,7 @@ const ProfileInfo = () => {
                       </Typography>
                       <Typography color='h4' mb={0}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{format(new Date(repriceData.validUntil), "yyyy-MM-dd HH:mm")}</span>
+                        <span>{repriceData.validUntil ? format(new Date(repriceData.validUntil), "yyyy-MM-dd HH:mm") : ""}</span>
                       </Typography>
                     </>
                   ) : (
