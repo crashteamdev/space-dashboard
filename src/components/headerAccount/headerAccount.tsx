@@ -174,69 +174,83 @@ const HeaderAccount = () => {
               {checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState).title}
             </Typography>
           </Typography> : "Загрузка..."}
-          {company.limits.itemPoolLimit ? <Typography
-            display={"flex"}
-            variant='h6'
-            fontWeight={500}
-            color='textPrimary'
-            className='text-hover'
-            noWrap
-          >
-            Осталось добавлений в пул:{" "}
-            <Typography
-              ml={1}
+          {company.limits.itemPoolLimit ? <div style={{display: "flex", alignItems: "baseline"}}><Typography
+              display={"flex"}
               variant='h6'
-              color={theme.palette.info.main}
-              sx={{
-                borderRadius: "100%"
-              }}
+              fontWeight={500}
+              color='textPrimary'
+              className='text-hover'
+              noWrap
+          >
+            Товаров в пуле доступно:{" "}
+            <Typography
+                ml={1}
+                variant='h6'
+                color={theme.palette.info.main}
+                sx={{
+                  borderRadius: "100%"
+                }}
             >
               {""}
               {company.limits.itemPoolLimitCurrent}
             </Typography>
-          </Typography> : null}
+            <Typography color='inherit' noWrap>
+              &nbsp;из
+            </Typography>
+            <Typography
+                ml={0.4}
+                variant='h6'
+                color={theme.palette.info.main}
+                sx={{
+                  borderRadius: "100%"
+                }}
+            >
+              {company.limits.itemPoolLimit}
+            </Typography>
+          </Typography></div> : null}
         </Box>
 
       <Box
-        mt={2}
-        sx={{
-          display: "flex",
-          gap: "20px"
-        }}
+          mt={2}
+          sx={{
+            display: "flex",
+            gap: "20px"
+          }}
       >
         <Tooltip title='Изменить данные аккаунта'>
           <Button onClick={() => setOpen(true)} color='primary' variant='contained' type='submit'>
-            <IconEdit />
+            <IconEdit/>
           </Button>
         </Tooltip>
-        <Tooltip title={data.monitorState === "active" ? "Остановить мониторинг аккаунта" : "Включить мониторинг аккаунта"}>
+        <Tooltip
+            title={data.monitorState === "active" ? "Остановить мониторинг аккаунта" : "Включить мониторинг аккаунта"}>
           <Button
-            onClick={() => monitoringAccountHandler()}
-            color='primary'
-            variant='contained'
-            type='submit'
+              onClick={() => monitoringAccountHandler()}
+              color='primary'
+              variant='contained'
+              type='submit'
           >
             {
-              data.monitorState === "active" ? <IconPlayerPause /> : <IconPlayerPlay />
+              data.monitorState === "active" ? <IconPlayerPause/> : <IconPlayerPlay/>
             }
           </Button>
         </Tooltip>
         <Tooltip title='Запустить синхронизацию данных с системой'>
           <Button
-            onClick={() => syncAccountHandler()}
-            color='primary'
-            variant='contained'
-            type='submit'
+              onClick={() => syncAccountHandler()}
+              color='primary'
+              variant='contained'
+              type='submit'
           >
-            <IconRefresh />
+            <IconRefresh/>
           </Button>
         </Tooltip>
         <Button
-          component={Link}
-          href={`/reprice/${accountId}/history`}
-          color='primary'
-          variant='contained'
-          type='submit'
+            component={Link}
+            href={`/reprice/${accountId}/history`}
+            color='primary'
+            variant='contained'
+            type='submit'
         >
           История изменения цен
         </Button>
