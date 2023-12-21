@@ -6,7 +6,6 @@ import {
   Button,
   DialogContentText,
   DialogTitle,
-  Divider,
   FormControl,
   FormControlLabel,
   Stack,
