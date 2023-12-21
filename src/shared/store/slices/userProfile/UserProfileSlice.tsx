@@ -102,11 +102,11 @@ export const fetchProfileStatus =
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/v1/user/subscription`
       };
-      axiosApiInstance
+      return axiosApiInstance
         .request(config)
         .then((response) => {
-          console.log("CONFIG", config, "DATA", response.data);
           dispatch(getSubscription(response.data));
+          return response.data;
         })
         .catch((error) => {
           console.log(error.message);
@@ -129,10 +129,11 @@ export const getListPayments = (fromDate: string, toDate: string) =>
           toDate: toDate
         }
       };
-      axiosApiInstance
+      return axiosApiInstance
         .request(config)
         .then((response) => {
           dispatch(setPaymentList(response.data));
+          return response.data;
         })
         .catch(() => {});
     } catch (err: any) {

@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dialog, Box, Tab, Button } from "@mui/material";
-import { getAuth } from "firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
 import styles from "./productTableEditConcurents.module.scss";
 import ConcurentsBlock from "./productComponents/concurentsBlock/concurentsBlock";
 import SettingsBlock from "./productComponents/settingsBlock/settingsBlock";
-import { useParams } from "next/navigation";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { AppState } from "@/shared/store/store";
-import { getItemShop } from "@/shared/store/slices/reprice/repriceSlice";
 import TabList from "@mui/lab/TabList";
 import TabContext from "@mui/lab/TabContext";
+import { useParams } from "next/navigation";
+import { getItemShop, setCurrentItem } from "@/shared/store/slices/reprice/repriceSlice";
+import { useSelector, useDispatch } from "@/shared/store/hooks";
+import { AppState } from "@/shared/store/store";
+import firebase_app from "@/shared/firebase/firebase";
+import { getAuth } from "firebase/auth";
 
 const COMMON_TAB = [
   { value: "1", icon: "", label: "Настройки", ul: "set", disabled: false },
@@ -19,8 +19,9 @@ const COMMON_TAB = [
 
 const ProductTableEditConcurents = ({ getFirstData, open, setOpen }: any) => {
   const { accountId } = useParams() as any;
-  const [data, setData] = useState({}) as any;
+  const auth = getAuth(firebase_app) as any;
   const [value, setValue] = React.useState("set") as any;
+  const [data, setData] = useState({}) as any;
   const dispatch = useDispatch();
 
   const company = useSelector((state: AppState) => state.companyChanger) as any;
@@ -28,15 +29,6 @@ const ProductTableEditConcurents = ({ getFirstData, open, setOpen }: any) => {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const [step, setStep] = useState(0);
-
-  const auth = getAuth(firebase_app) as any;
-
-  const handleChange = (event: React.SyntheticEvent, newValue: any) => {
-    setStep(step === 1 ? 0 : 1);
-    setValue(newValue);
   };
 
   const getItem = async () => {
@@ -48,15 +40,27 @@ const ProductTableEditConcurents = ({ getFirstData, open, setOpen }: any) => {
         repricer.currentItem
       )
     );
-    console.log(result);
     await setData(result);
   };
 
+  const [step, setStep] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: any) => {
+    setStep(step === 1 ? 0 : 1);
+    setValue(newValue);
+  };
+
   useEffect(() => {
-    if (open) {
-      getItem();
-    }
+    getItem();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  
+  useEffect(() => {
+    if (open === false) {
+      dispatch(setCurrentItem(""));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   return (
@@ -80,7 +84,11 @@ const ProductTableEditConcurents = ({ getFirstData, open, setOpen }: any) => {
           Закрыть
         </Button>
       </Box>
-      {step == 0 ? <SettingsBlock getFirstData={getFirstData} item={data} setStep={setStep} /> : <ConcurentsBlock />}
+      {step == 0 ? (
+        <SettingsBlock open={open} getFirstData={getFirstData} item={data} setStep={setStep} />
+      ) : (
+        <ConcurentsBlock />
+      )}
     </Dialog>
   );
 };

@@ -35,7 +35,7 @@ const initialState: StateType = {
   isCardShadow: true,
   borderRadius: 7,
   isHeader: true,
-  isBreadcrumb: false,
+  isBreadcrumb: true,
 };
 
 export const CustomizerSlice = createSlice({

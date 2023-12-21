@@ -1,4 +1,4 @@
-import { Box, Button, CardContent, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, CardContent, Divider, Tooltip, Grid, Stack, Typography, styled, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import BlankCard from "../ui/shared/BlankCard";
 import Link from "next/link";
@@ -16,6 +16,7 @@ const ShopList = () => {
   const [getData, setGetData] = useState([]);
   const [loading, setLoading] = useState(false) as any;
 
+  const theme = useTheme();
   const auth = getAuth(firebase_app) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
@@ -31,6 +32,17 @@ const ShopList = () => {
     getFirstData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  
+  const BoxShopInfo = styled(Box)(({ theme }: any) => ({
+    color: "#FFFFFF",
+    fontSize: 16,
+    minWidth: 45,
+    padding: "12px",
+    backgroundColor: theme.palette.success.main,
+    overflow: "hidden",
+    textOverflow: "ellipsis"
+  })) as any;
 
   return loading ? (
     getData?.length >= 1 ? (
@@ -59,8 +71,25 @@ const ShopList = () => {
                 </CardContent>
                 <Divider />
                 <Box p={2} py={1} textAlign={"center"} sx={{ backgroundColor: "grey.100" }}>
-                  <Box justifyContent={"center"} display='flex' gap={2}>
+                  <Box justifyContent={"space-between"} display='flex' gap={6}>
                     <Button>Открыть магазин</Button>
+                    <Box justifyContent={"space-between"} display='flex' gap={2}>
+                      <Tooltip title="Товаров в пуле">
+                        <BoxShopInfo>
+                          {item.shopData.poolItems}
+                        </BoxShopInfo>
+                      </Tooltip>
+                      <Tooltip title="Количество товаров">
+                        <BoxShopInfo sx={{ backgroundColor: theme.palette.warning.main }}>
+                          {item.shopData.products}
+                        </BoxShopInfo>
+                      </Tooltip>
+                      <Tooltip title="Количество вариаций товаров">
+                        <BoxShopInfo sx={{ backgroundColor: theme.palette.info.main }}>
+                          {item.shopData.skus}
+                        </BoxShopInfo>
+                      </Tooltip>
+                    </Box>
                   </Box>
                 </Box>
               </BlankCard>

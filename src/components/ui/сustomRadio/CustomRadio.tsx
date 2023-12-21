@@ -37,7 +37,7 @@ const BpCheckedIcon = styled(BpIcon)(({ theme }) => ({
       theme.palette.mode === "dark"
         ? `radial-gradient(${theme.palette.background.paper},${theme.palette.background.paper} 28%,transparent 32%)`
         : "radial-gradient(#fff,#fff 28%,transparent 32%)",
-    content: ""
+    content: "''"
   }
 }));
 

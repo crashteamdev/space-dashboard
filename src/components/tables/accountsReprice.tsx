@@ -5,7 +5,7 @@ import RepricerAccountItem from "../repricerAccountItem/repricerAccountItem";
 const AccountsReprice = ({ data, getFirstData }: any) => {
   return (
     <Box display={"flex"} gap={"24px"} flexWrap={"wrap"}>
-      {data
+      {data.length >= 1
         ? data.map((item: any, index: number) => {
             return <RepricerAccountItem getFirstData={getFirstData} key={index} item={item} />;
           })
