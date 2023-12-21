@@ -31,11 +31,11 @@ const ProfileInfo = () => {
 
   const checkStrategy = (value: string) => {
     if (value === "default") {
-      return "БАЗОВЫЙ";
+      return "Базовый";
     } else if (value === "advanced") {
-      return "РАСШИРЕННЫЙ";
+      return "Расширенный";
     } else if (value === "pro") {
-      return "ПРОФЕССИОНАЛЬНЫЙ";
+      return "Профессиональный";
     }
   };
 
@@ -76,7 +76,7 @@ const ProfileInfo = () => {
                       </Typography>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{token.subscription?.endAt ? format(new Date(token.subscription?.endAt), "yyyy-MM-dd HH:mm") : ""}</span>
+                        <span>{token.subscription?.endAt}</span>
                       </Typography>
                     </>
                   ) : (

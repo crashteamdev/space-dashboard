@@ -1,3 +1,4 @@
 export type IconType =
     | "lava-pay"
-    | "freekassa";
+    | "freekassa"
+    | "logo";

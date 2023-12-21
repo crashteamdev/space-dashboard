@@ -20,6 +20,7 @@ import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
 import ChildCard from "../ui/shared/ChildCard";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
+import { AppButton } from "@/shared/components/AppButton";
 
 const Wallet = ({ hideMenu }: any) => {
   const [valueText, setValueText] = React.useState("");
@@ -56,23 +57,21 @@ const Wallet = ({ hideMenu }: any) => {
   return (
     <>
       {!hideMenu ? (
-        <Box bgcolor={"info.light"} mt={4} p={2}>
+        <Box className="bg-white" mt={4} p={2}>
           <Typography variant='h6' fontWeight={400} mb={1}>
             {t("balance.title")}:
           </Typography>
           <Stack direction='row' spacing={2} justifyContent='space-between'>
-            <Typography variant='h4'>$ {balanceReducer.amount}</Typography>
+            <Typography variant='h4'>$ {balanceReducer.amount ? balanceReducer.amount : "Загрузка"}</Typography>
           </Stack>
           <Box mt={2}>
-            <Button
+            <AppButton 
+              tag="button" 
               onClick={handleClickOpen}
-              color='primary'
-              variant='contained'
-              fullWidth
-              type='submit'
+              className="w-full bg-blueGray-600 text-white rounded-lg py-3 flex justify-center font-semibold"
             >
               Пополнить баланс
-            </Button>
+            </AppButton>
           </Box>
         </Box>
       ) : null}
