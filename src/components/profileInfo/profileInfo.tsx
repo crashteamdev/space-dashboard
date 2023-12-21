@@ -42,7 +42,6 @@ const ProfileInfo = () => {
   useEffect(() => {
     if (auth.currentUser) {
       getSubRepricer();
-      console.log("w");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company.activeCompany]);
@@ -76,7 +75,7 @@ const ProfileInfo = () => {
                       </Typography>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{token.subscription?.endAt ? format(new Date(token.subscription?.endAt), "yyyy-MM-dd HH:mm") : ""}</span>
+                        <span>{token.subscription?.endAt}</span>
                       </Typography>
                     </>
                   ) : (
@@ -107,7 +106,7 @@ const ProfileInfo = () => {
                       </Typography>
                       <Typography color='h4' mb={0}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{repriceData.validUntil ? format(new Date(repriceData.validUntil), "yyyy-MM-dd HH:mm") : ""}</span>
+                        <span>{repriceData.validUntil}</span>
                       </Typography>
                     </>
                   ) : (

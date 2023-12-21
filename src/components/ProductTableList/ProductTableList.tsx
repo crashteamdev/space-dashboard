@@ -330,6 +330,7 @@ const ProductTableList = () => {
       })
     );
     await getList();
+    await setSelected([]);
   };
 
   const removeFromPullArray = async (array: any, event: any) => {
@@ -341,6 +342,7 @@ const ProductTableList = () => {
       })
     );
     await getList();
+    await setSelected([]);
   };
 
   const removeInPull = async (row: any, event: any) => {
