@@ -199,7 +199,8 @@ export const purchaseService =
     promoCode: string,
     multiply: number,
     provider: string,
-    method: string
+    method: string,
+    name: string
   ) =>
   async (dispatch: AppDispatch) => {
     try {
@@ -248,27 +249,47 @@ export const purchaseService =
             );
             return null;
           }
-          dispatch(
-            addItem({
-              title: "Ожидайте",
-              description: "Происходит редирект на страницу оплаты",
-              status: "info",
-              timelife: 4000,
-              id: uuidv4()
-            })
-          );
           if (method === "one-time") {
+            dispatch(
+              addItem({
+                title: "Ожидайте",
+                description: "Происходит редирект на страницу оплаты",
+                status: "info",
+                timelife: 4000,
+                id: uuidv4()
+              })
+            );
             dispatch(setLinkPayment(response.data.redirectUrl));
           } else {
+            dispatch(
+              addItem({
+                title: `Вы приобрели тариф ${name}`,
+                description: "Со своего баланса",
+                status: "info",
+                timelife: 4000,
+                id: uuidv4()
+              })
+            );
             dispatch(setAmount(response.data.balance));
           }
         })
         .catch((error) => {
+          if (error.response.status === 422) {
+            dispatch(
+              addItem({
+                title: errorHandler(error.response.status, {
+                  four: "На вашем аккаунте не достаточно средств для покупки тарифа"
+                }),
+                status: "error",
+                timelife: 4000,
+                id: uuidv4()
+              })
+            );
+            return null;
+          }
           dispatch(
             addItem({
-              title: errorHandler(error.response.status, {
-                four: "На вашем аккаунте не достаточно средств для покупки тарифа"
-              }),
+              title: `Ошибка ${error.response.status}`,
               status: "error",
               timelife: 4000,
               id: uuidv4()

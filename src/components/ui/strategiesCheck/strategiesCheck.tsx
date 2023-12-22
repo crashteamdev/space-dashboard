@@ -27,7 +27,7 @@ const StrategiesCheck = ({ getProms, item, strategy, selected, setSelected, stra
     await getProms();
     setSelected("");
   };
-
+  console.log(strategies);
   return !strategy?.strategyType ? (
     <Box mb={2} display={"flex"} flexDirection={"column"}>
       <CustomFormLabel htmlFor='demo-simple-select'>Выберите стратегию</CustomFormLabel>
@@ -38,7 +38,7 @@ const StrategiesCheck = ({ getProms, item, strategy, selected, setSelected, stra
         onChange={(e: any) => setSelected(e.target.value)}
         fullWidth
       >
-        {strategies.map((item: any, index: number) => {
+        {strategies.length >= 1 && strategies?.map((item: any, index: number) => {
           return (
             <MenuItem key={index} value={`${item}`}>
               <Box display={"flex"} alignItems={"center"}>

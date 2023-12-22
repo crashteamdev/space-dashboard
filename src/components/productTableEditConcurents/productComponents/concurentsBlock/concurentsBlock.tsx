@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import ProductTableConcurentsAdds from "../../productTableConcurentsAdds/productTableConcurentsAdds";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import {
@@ -27,9 +27,8 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useParams } from "next/navigation";
 import CustomRadio from "@/components/ui/сustomRadio/CustomRadio";
-import { getLimits } from "@/shared/store/slices/account/AccountSlice";
 
-const ConcurentsBlock = () => {
+const ConcurentsBlock = ({ getItem, data }: any) => {
   const [selectedValue, setSelectedValue] = useState("c");
 
   const validationSchema = yup.object({
@@ -77,16 +76,6 @@ const ConcurentsBlock = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataAdds]);
 
-  useEffect(() => {
-    getLimitsData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getLimitsData = () => {
-    console.log("we");
-    dispatch(getLimits(auth.currentUser.accessToken, company.activeCompany));
-  };
-
   const handleChange3 = (event: any) => {
     setSelectedValue(event.target.value);
   };
@@ -122,8 +111,8 @@ const ConcurentsBlock = () => {
           selectedValue === "a" ? data : dataId
         )
       );
-      await getLimitsData();
       await getComp();
+      await getItem();
     }
   });
 
@@ -145,7 +134,7 @@ const ConcurentsBlock = () => {
                     borderRadius: "100%"
                   }}
               >
-                {company.limits.itemCompetitorLimitCurrent}
+                {data.competitorsCurrent}
               </Typography>
               <Typography color='inherit' noWrap>
                 &nbsp;из
@@ -158,7 +147,7 @@ const ConcurentsBlock = () => {
                     borderRadius: "100%"
                   }}
               >
-                {company.limits.itemCompetitorLimit}
+                {data.availableCompetitors}
               </Typography>
             </div>
           </Box>
@@ -272,7 +261,7 @@ const ConcurentsBlock = () => {
         </Typography>
       </Box>
       <Box mx={3} mt={3}>
-        <ProductTableConcurentsAdds getComp={getComp} dataConc={dataAdds} />
+        <ProductTableConcurentsAdds getItem={getItem} getComp={getComp} dataConc={dataAdds} />
       </Box>
       <Box display={"flex"} position={"relative"} mt={6} justifyContent={"flex-start"}>
         <div></div>
@@ -288,6 +277,7 @@ const ConcurentsBlock = () => {
       <Box mx={3} mt={4}>
         <ProductTableEditConcurentsTable
           getItems={getItems}
+          getItem={getItem}
           getComp={getComp}
           dataAdds={dataConc}
         />

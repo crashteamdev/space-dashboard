@@ -88,6 +88,7 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
       setLoading(false);
       setSelected("");
       setStrategy({});
+      setStrategies([]);
       console.log(open);
       setDataS({ min: false, max: false, step: false, discount: false });
     }
@@ -96,7 +97,6 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
   useEffect(() => {
     if (repricer.currentItem) {
       getProms();
-      getTypes();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repricer.currentItem]);

@@ -10,6 +10,7 @@ import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
+import moment from "moment";
 import ProfileListPayments from "../profileListPayments/profileListPayments";
 import { getSubscription } from "@/shared/store/slices/account/AccountSlice";
 
@@ -74,7 +75,7 @@ const ProfileInfo = () => {
                       </Typography>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{token.subscription?.endAt}</span>
+                        <span>{token.subscription?.endAt ? moment(token.subscription?.endAt).format("MM DD YYYY, hh:mm:ss") : ""}</span>
                       </Typography>
                     </>
                   ) : (
@@ -105,7 +106,7 @@ const ProfileInfo = () => {
                       </Typography>
                       <Typography color='h4' mb={0}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{repriceData.validUntil}</span>
+                        <span>{repriceData.validUntil ? moment(repriceData.validUntil).format("MM DD YYYY, hh:mm:ss") : ""}</span>
                       </Typography>
                     </>
                   ) : (

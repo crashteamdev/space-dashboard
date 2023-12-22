@@ -87,7 +87,7 @@ const ProductTableEditConcurents = ({ getFirstData, open, setOpen }: any) => {
       {step == 0 ? (
         <SettingsBlock open={open} getFirstData={getFirstData} item={data} setStep={setStep} />
       ) : (
-        <ConcurentsBlock />
+        <ConcurentsBlock data={data} getItem={getItem} />
       )}
     </Dialog>
   );

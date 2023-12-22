@@ -23,7 +23,7 @@ import {
 } from "@/shared/store/slices/reprice/repriceSlice";
 import { IconPlus } from "@tabler/icons-react";
 
-const ProductTableEditConcurentsTable = ({ getItems, dataAdds, getComp } : any) => {
+const ProductTableEditConcurentsTable = ({ getItem, getItems, dataAdds, getComp } : any) => {
   const { accountId, shopId } = useParams() as any;
   const dispatch = useDispatch();
 
@@ -45,6 +45,7 @@ const ProductTableEditConcurentsTable = ({ getItems, dataAdds, getComp } : any) 
     );
     await getItems();
     await getComp();
+    await getItem();
   };
 
   const AppBarStyled = styled(Typography)(({ theme }) => ({

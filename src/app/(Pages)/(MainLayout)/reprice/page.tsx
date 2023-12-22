@@ -33,6 +33,7 @@ const Reprice = () => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const getFirstData = async () => {
+    await setLoading(false);
     const data = await dispatch(getAccounts(auth.currentUser.accessToken, company.activeCompany));
     console.log(data);
     if (data.length >= 1) {

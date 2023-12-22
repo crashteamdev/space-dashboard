@@ -23,7 +23,7 @@ import {
 import BlankCard from "@/components/ui/shared/BlankCard";
 import { IconTrash } from "@tabler/icons-react";
 
-const ProductTableConcurentsAdds = ({getComp, dataConc } : any) => {
+const ProductTableConcurentsAdds = ({ getItem, getComp, dataConc } : any) => {
   const { accountId } = useParams() as any;
   const dispatch = useDispatch();
 
@@ -41,6 +41,7 @@ const ProductTableConcurentsAdds = ({getComp, dataConc } : any) => {
     );
     console.log("3");
     await getComp();
+    await getItem();
   };
 
   const AppBarStyled = styled(Typography)(({ theme }) => ({
