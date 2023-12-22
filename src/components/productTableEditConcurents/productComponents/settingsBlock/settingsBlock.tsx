@@ -13,7 +13,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { getStrategiesTypes, getStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
+import { getStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
 import StrategiesCheck from "@/components/ui/strategiesCheck/strategiesCheck";
 import ValuesSettings from "./ui/valuesSettings/valuesSettings";
@@ -36,13 +36,6 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
       const strategyId = await dispatch(getStrategyId(company.activeCompany, repricer.currentItem));
       await setStrategy(strategyId);
       return strategyId;
-    }
-  };
-
-  const getTypes = async () => {
-    if (repricer.currentItem) {
-      const strategies = await dispatch(getStrategiesTypes(company.activeCompany));
-      setStrategies(strategies);
     }
   };
 
