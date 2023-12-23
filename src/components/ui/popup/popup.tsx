@@ -18,7 +18,7 @@ const Popup = ({ children, open, setOpen, title, description }: TypesPopup) => {
 
   return (
     <>
-      <Dialog open={!!open} onClose={handleClose}>
+      <Dialog fullWidth={true} open={!!open} onClose={handleClose}>
         <DialogTitle mt={2}>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{description}</DialogContentText>

@@ -228,8 +228,7 @@ const Pricing = () => {
           open={open}
           setOpen={setOpen}
           title={"Оплата"}
-          description={`Вы выбрали тариф ${pricing[open - 1]
-            ?.packageRu}, проверьте еще раз чтобы не ошибится`}
+          description={`Вы выбрали тариф для ${(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}`}
         >
           <>
             <Stack px={3}>
@@ -241,7 +240,7 @@ const Pricing = () => {
                 {show
                   ? pricing[open - 1]?.monthlyplan * 3 - (pricing[open - 1]?.monthlyplan * 3 * pricing[open - 1]?.diccountMath)
                   : pricing[open - 1]?.monthlyplan}{" "}
-                -{" "}
+                ~{" "}
                 {Math.floor(
                   show
                     ? pricing[open - 1]?.monthlyplan * 3 * balanceReducer.exchange
