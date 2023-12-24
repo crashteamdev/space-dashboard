@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
-import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
 import PageContainer from "@/components/ui/container/PageContainer";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import BlankCard from "@/components/ui/shared/BlankCard";
@@ -33,16 +32,6 @@ import PaymentList from "@/components/paymentList/paymentList";
 import { useRouter } from "next/navigation";
 import { getPluralNoun } from "@/shared/lib/getPluralNoun";
 import { motion } from "framer-motion";
-
-const BCrumb = [
-  {
-    to: "/",
-    title: "Главная"
-  },
-  {
-    title: "Тарифы"
-  }
-];
 
 const Pricing = () => {
   const [show, setShow] = React.useState(false);
@@ -104,7 +93,6 @@ const Pricing = () => {
   };
   return (
     <PageContainer title="Тарифы" description="Тарифы">
-      <Breadcrumb title="Тарифы" items={BCrumb} />
       <Grid container spacing={3} justifyContent="center" mt={3}>
         <Grid item xs={12} sm={10} lg={8} textAlign="center">
           <Typography variant="h2">Тарифы</Typography>
@@ -252,7 +240,7 @@ const Pricing = () => {
                 Срок: {show ? 1 * 3 : 1} {getPluralNoun(show ? 1 * 3 : 1 || 0, "месяц", "месяца", "месяцев")}
               </Typography>
               <Box mt={2}>
-                <PaymentList pay={true} error={empty} context={context} setContext={setContext} />
+                <PaymentList company={company.activeCompany} pay={true} error={empty} context={context} setContext={setContext} />
               </Box>
               {context !== "Оплата с баланса" && <CheckPromoCode /> }
             </Stack>

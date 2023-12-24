@@ -95,9 +95,9 @@ const ProfileInfo = () => {
             </Grid>
             <Grid item lg={6} md={12} sm={12}>
               <BlankCard className="h-full">
-                <CardContent>
+                <CardContent className="h-full">
                   <Typography variant='h5' mb={2}>
-                    Информация о подписке на Repricer
+                    {/* Информация о подписке на Repricer */}
                   </Typography>
                   {repriceData ? (
                     <>
@@ -111,9 +111,13 @@ const ProfileInfo = () => {
                       </Typography>
                     </>
                   ) : (
-                    <Typography color='h4' mb={0}>
-                      <b>{t("profileT.tarifNotFound")}</b>
-                    </Typography>
+                    // <Typography color='h4' mb={0}>
+                    //   <b>{t("profileT.tarifNotFound")}</b>
+                    // </Typography>
+                    <div className="flex flex-col gap-3 justify-center items-center h-full">
+                      <div className="text-[20px] font-semibold">Управление ценами</div>
+                      <div className="text-[18px] font-medium">Скоро! 😉</div>
+                    </div>
                   )}
                 </CardContent>
               </BlankCard>

@@ -11,9 +11,10 @@ interface paymentListProps {
   context: string;
   error: string;
   pay: boolean;
+  company?: string;
 }
 
-const PaymentList = ({ setContext, context = "Freekassa", error, pay }: paymentListProps) => {
+const PaymentList = ({ company, setContext, context = "Freekassa", error, pay }: paymentListProps) => {
   const theme = useSelector((state: AppState) => state.customizer) as any;
   return (
     <Grid item xs={12} sm={12} lg={12}>
@@ -29,12 +30,11 @@ const PaymentList = ({ setContext, context = "Freekassa", error, pay }: paymentL
         <MenuItem value={"Freekassa"}>
           <AppIcon className="h-[20px]" type="freekassa" color={theme.activeMode === "light" ? "black" : "white"} />
         </MenuItem>
-        {/* <MenuItem value={"uz-click"}>
-          <Box display={"flex"} alignItems={"center"}>
-            <Image src={click} alt={""} />
-            Click
-          </Box>
-        </MenuItem> */}
+        {(company !== "ke") &&
+          <MenuItem value={"uz-click"}>
+            <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
+          </MenuItem>
+        }
         <MenuItem value={"lava"}>
           <AppIcon className="h-[30px]" type="lava-pay" color={theme.activeMode === "light" ? "black" : "white"} />
         </MenuItem>
