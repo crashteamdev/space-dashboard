@@ -66,9 +66,8 @@ export default function NavItem({ item, level, pathDirect, hideMenu, onClick }: 
         : "#fff",
     paddingLeft: hideMenu ? "10px" : level > 2 ? `${level * 15}px` : "10px",
     "&:hover": {
-      backgroundColor: theme.palette.primary.light,
-      // color: theme.palette.primary.main,
-      color: "#fff",
+      backgroundColor: "white",
+      color: "#000",
     },
     "&.Mui-selected": {
       color: "white",

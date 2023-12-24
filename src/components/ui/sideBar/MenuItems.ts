@@ -24,7 +24,7 @@ import {
   IconTicket,
   IconStar,
   IconChartDonut3,
-  // IconFileDots
+  // IconFileDots,
 } from "@tabler/icons-react";
 
 const MenuitemsKazan: MenuitemsT = {

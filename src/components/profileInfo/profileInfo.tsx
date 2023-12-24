@@ -1,5 +1,5 @@
 import { CardContent, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
 import ParentCard from "../ui/shared/ParentCard";
@@ -9,29 +9,40 @@ import firebase_app from "@/shared/firebase/firebase";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
+import { format } from "date-fns";
 import Link from "next/link";
 import ProfileListPayments from "../profileListPayments/profileListPayments";
-// import { getSubscription } from "@/shared/store/slices/account/AccountSlice";
+import { getSubscription } from "@/shared/store/slices/account/AccountSlice";
 
 const ProfileInfo = () => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const token = useSelector((state: AppState) => state.userpostsReducer) as any;
-  // const [repriceData, setRepriceData] = useState({}) as any;
+  const [repriceData, setRepriceData] = useState({}) as any;
   const auth = getAuth(firebase_app) as any;
 
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  // const getSubRepricer = async () => {
-  //   const data = await dispatch(getSubscription(company.activeCompany));
-  //   console.log(data);
-  //   await setRepriceData(data);
-  // };
+  const getSubRepricer = async () => {
+    const data = await dispatch(getSubscription(company.activeCompany));
+    await dispatch(fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany));
+    await setRepriceData(data);
+  };
+
+  const checkStrategy = (value: string) => {
+    if (value === "default") {
+      return "Базовый";
+    } else if (value === "advanced") {
+      return "Расширенный";
+    } else if (value === "pro") {
+      return "Профессиональный";
+    }
+  };
 
   useEffect(() => {
     if (auth.currentUser) {
-      // getSubRepricer();
-      dispatch(fetchProfileStatus(auth.currentUser.accessToken, company.activeCompany));
+      getSubRepricer();
+      console.log("w");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company.activeCompany]);
@@ -41,7 +52,7 @@ const ProfileInfo = () => {
       <>
         <form>
           <Grid container spacing={3}>
-            <Grid item lg={12} md={12} sm={12}>
+            <Grid item lg={6} md={12} sm={12}>
               <BlankCard>
                 <CardContent>
                   <Typography variant='h5' mb={2}>
@@ -51,7 +62,7 @@ const ProfileInfo = () => {
                     <>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.yourRate")}: </b>
-                        <span>{token.subscription?.type?.toUpperCase()}</span>
+                        <span>{checkStrategy(token.subscription?.type)}</span>
                       </Typography>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.status")}: </b>
@@ -82,37 +93,35 @@ const ProfileInfo = () => {
                 </CardContent>
               </BlankCard>
             </Grid>
-            {/* <Grid item lg={6} md={12} sm={12}>
+            <Grid item lg={6} md={12} sm={12}>
               <BlankCard className="h-full">
-                <CardContent>
+                <CardContent className="h-full">
                   <Typography variant='h5' mb={2}>
-                    Информация о подписке на Repricer
+                    {/* Информация о подписке на Repricer */}
                   </Typography>
                   {repriceData ? (
                     <>
                       <Typography color='h4' mb={3}>
                         <b>{t("profileT.yourRate")}: </b>
-                        <span>{repriceData?.plan?.toUpperCase()}</span>
+                        <span>{checkStrategy(repriceData?.plan)}</span>
                       </Typography>
-                      <Typography color='h4' mb={3}>
+                      <Typography color='h4' mb={0}>
                         <b>{t("profileT.validUntil")}: </b>
-                        <span>{repriceData.validUntil}</span>
+                        <span>{repriceData.validUntil ? format(new Date(repriceData.validUntil), "yyyy-MM-dd HH:mm") : ""}</span>
                       </Typography>
                     </>
                   ) : (
-                    <Typography color='h4' mb={3}>
-                      <b>{t("profileT.tarifNotFound")}</b>
-                    </Typography>
+                    // <Typography color='h4' mb={0}>
+                    //   <b>{t("profileT.tarifNotFound")}</b>
+                    // </Typography>
+                    <div className="flex flex-col gap-3 justify-center items-center h-full">
+                      <div className="text-[20px] font-semibold">Управление ценами</div>
+                      <div className="text-[18px] font-medium">Скоро! 😉</div>
+                    </div>
                   )}
-
-                  <Box>
-                    <Button variant='contained' component={Link} href={"/pricing"} color='primary'>
-                      {t("profileT.selectTarif")}
-                    </Button>
-                  </Box>
                 </CardContent>
               </BlankCard>
-            </Grid> */}
+            </Grid>
             <Grid item xs={12} lg={12}>
               <Grid item xs={12} lg={12}>
                 <ProfileListPayments />

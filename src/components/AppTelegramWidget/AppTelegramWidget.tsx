@@ -14,7 +14,7 @@ export const AppTelegramWidget = () => {
             </div>
             <div className="flex flex-col gap">
                 <div className="text-base text-black-800 font-semibold">Telegram</div>
-                <div className="text-xs text-gray font-medium text-[#a7a7a7]">1000 подписчиков</div>
+                <div className="text-xs text-gray font-medium text-[#a7a7a7]">1122 подписчиков</div>
             </div>
         </Link>
     );

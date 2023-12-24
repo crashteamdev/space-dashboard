@@ -85,19 +85,10 @@ export default function NavCollapse({
     backgroundColor: open && level < 2 ? theme.palette.primary.main : "",
     whiteSpace: "nowrap",
     "&:hover": {
-      backgroundColor:
-        pathname.includes(menu.href) || open
-          ? theme.palette.primary.main
-          : theme.palette.primary.light,
-      color: pathname.includes(menu.href) || open ? "white" : theme.palette.primary.main
+      backgroundColor: "white",
+      color: "black"
     },
-    color:
-      open && level < 2
-        ? "white"
-        : "inherit" && level > 1 && open
-        ? theme.palette.primary.main
-        // : theme.palette.text.secondary,
-        : "#fff",
+    color: "white",
     borderRadius: `${customizer.borderRadius}px`,
   }));
 
@@ -145,10 +136,10 @@ export default function NavCollapse({
         >
           {menuIcon}
         </ListItemIcon>
-        <ListItemText color='inherit'>{hideMenu ? "" : <>{t(`${menu.title}`)}</>}</ListItemText>
+        <ListItemText color='red'>{hideMenu ? "" : <>{t(`${menu.title}`)}</>}</ListItemText>
         {!open ? <IconChevronDown size='1rem' /> : <IconChevronUp size='1rem' />}
       </ListItemStyled>
-      <Collapse in={open} timeout='auto'>
+      <Collapse className="custom-white" in={open} timeout='auto'>
         {submenus}
       </Collapse>
     </>

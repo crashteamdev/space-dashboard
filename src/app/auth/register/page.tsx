@@ -2,13 +2,13 @@
 import React from "react";
 import { Grid, Box, Card, Typography, Stack, Button } from "@mui/material";
 import Link from "next/link";
-import Logo from "@/components/ui/logo/Logo";
 import PageContainer from "@/components/ui/container/PageContainer";
 import AuthRegister from "../../../processes/auth/AuthRegister";
 import { useState } from "react";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { useDispatch } from "@/shared/store/hooks";
 import { v4 as uuidv4 } from "uuid";
+import Image from "next/image";
 
 export default function Register2() {
   const [isCreated, setIsCreated] = useState<boolean>(false);
@@ -57,7 +57,13 @@ export default function Register2() {
           >
             <Card elevation={9} sx={{ p: 4, zIndex: 1, width: "100%", maxWidth: "450px" }}>
               <Box display='flex' alignItems='center' justifyContent='center'>
-                <Logo />
+                <Image
+                  src='/images/logos/logo-horizontal.svg'
+                  alt='logo'
+                  height={70}
+                  width={174}
+                  priority
+                />
               </Box>
               {isCreated ? (
                 <>

@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-white div {
+    color: #fff!important;
+}
+
+.custom-white .MuiListItemButton-root:hover div{
+    color: #5d87ff!important;
+}
