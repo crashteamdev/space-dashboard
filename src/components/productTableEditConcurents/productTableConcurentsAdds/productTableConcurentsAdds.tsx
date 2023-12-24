@@ -39,7 +39,6 @@ const ProductTableConcurentsAdds = ({ getItem, getComp, dataConc } : any) => {
         competitorId: row.id
       })
     );
-    console.log("3");
     await getComp();
     await getItem();
   };
@@ -53,8 +52,6 @@ const ProductTableConcurentsAdds = ({ getItem, getComp, dataConc } : any) => {
 
   useEffect(() => {
     getComp();
-    
-    console.log("5");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

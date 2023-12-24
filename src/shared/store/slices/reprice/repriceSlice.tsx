@@ -38,7 +38,6 @@ export const getItemsShop =
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
           dispatch(
             addItem({
               title: `Ошибка ${error.response.status}`,
@@ -67,7 +66,6 @@ export const getItemsFilteredShop =
         return response.data;
       })
       .catch((error) => {
-        console.log(error);
         dispatch(
           addItem({
             title: `Ошибка ${error.response.status}`,
@@ -96,7 +94,6 @@ export const getItemsFilteredShop =
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
           dispatch(
             addItem({
               title: `Ошибка ${error.response.status}`,
@@ -126,7 +123,6 @@ export const getCompetitiveProducts =
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
           dispatch(
             addItem({
               title: `Ошибка ${error.response.status}`,
@@ -156,7 +152,6 @@ export const getCompetitiveProductsAdds =
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
           dispatch(
             addItem({
               title: `Ошибка ${error.response.status}`,
@@ -185,7 +180,6 @@ export const getItemShop =
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
           dispatch(
             addItem({
               title: `Ошибка ${error.response.status}`,
@@ -229,7 +223,6 @@ export const patchParamsItem =
           return response.data;
         })
         .catch((error) => {
-          console.log(error);
           dispatch(
             addItem({
               title: `Ошибка ${error.response.status}`,

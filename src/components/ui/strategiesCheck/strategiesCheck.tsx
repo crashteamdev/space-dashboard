@@ -27,7 +27,7 @@ const StrategiesCheck = ({ getProms, item, strategy, selected, setSelected, stra
     await getProms();
     setSelected("");
   };
-  console.log(strategies);
+  
   return !strategy?.strategyType ? (
     <Box mb={2} display={"flex"} flexDirection={"column"}>
       <CustomFormLabel htmlFor='demo-simple-select'>Выберите стратегию</CustomFormLabel>

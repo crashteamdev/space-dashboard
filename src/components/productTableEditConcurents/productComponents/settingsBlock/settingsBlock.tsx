@@ -13,7 +13,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { getStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
+import { getStrategiesTypes, getStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
 import StrategiesCheck from "@/components/ui/strategiesCheck/strategiesCheck";
 import ValuesSettings from "./ui/valuesSettings/valuesSettings";
@@ -35,14 +35,15 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
     if (repricer.currentItem) {
       const strategyId = await dispatch(getStrategyId(company.activeCompany, repricer.currentItem));
       await setStrategy(strategyId);
-      return strategyId;
+      return await strategyId;
     }
   };
 
   const getProms = useCallback(async () => {
     if (repricer.currentItem) {
       setLoading(false);
-      console.log("fwfw");
+      const types = await dispatch(getStrategiesTypes(company.activeCompany));
+      setStrategies(types);
       const strategiData = await getStrategyIdHandler();
       if (strategiData?.strategyType) {
         setSelected(strategiData?.strategyType);
@@ -55,7 +56,6 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
         setDataS({ min: true, max: true, step: false, discount: true });
       } else {
         setSelected("");
-        setStrategy({});
         setDataS({ min: false, max: false, step: false, discount: false });
       }
       await setLoading(true);
@@ -82,13 +82,12 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
       setSelected("");
       setStrategy({});
       setStrategies([]);
-      console.log(open);
       setDataS({ min: false, max: false, step: false, discount: false });
     }
   }, [open]);
 
   useEffect(() => {
-    if (repricer.currentItem) {
+    if (repricer.currentItem && open === true) {
       getProms();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

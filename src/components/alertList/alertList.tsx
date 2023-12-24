@@ -12,9 +12,9 @@ const AlertList = ({ children }: any) => {
       <div className={styles.container}>
         {alerts.map((item: any, index: number) => {
           return (
-            <>
-              <AlertItem key={item.title + index} item={item} />
-            </>
+            <div key={index}>
+              <AlertItem item={item} />
+            </div>
           );
         })}
       </div>

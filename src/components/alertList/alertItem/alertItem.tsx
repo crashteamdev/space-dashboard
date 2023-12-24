@@ -25,7 +25,7 @@ const AlertItem = ({ item }: any) => {
   memoizedCallback();
 
   if (!item.description) {
-    <Collapse in={open}>
+    <Collapse key={item.title} in={open}>
       <Alert variant='filled' severity={item.status} onClick={() => setOpen(false)} sx={{ mb: 1 }}>
         {item.title}
       </Alert>
@@ -33,7 +33,7 @@ const AlertItem = ({ item }: any) => {
   }
 
   return (
-    <Collapse in={open}>
+    <Collapse key={item.title} in={open}>
       <Alert variant='filled' severity={item.status} onClick={() => setOpen(false)} sx={{ mb: 1 }}>
         <AlertTitle>{item.title}</AlertTitle>
         {item?.description}

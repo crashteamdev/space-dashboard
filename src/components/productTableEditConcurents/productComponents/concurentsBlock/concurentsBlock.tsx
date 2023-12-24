@@ -71,7 +71,6 @@ const ConcurentsBlock = ({ getItem, data }: any) => {
         repricer.currentItem
       )
     );
-    console.log("222");
     await setDataAdds(result);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataAdds]);

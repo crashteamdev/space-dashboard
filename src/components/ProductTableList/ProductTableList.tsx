@@ -331,6 +331,7 @@ const ProductTableList = () => {
     );
     await getList();
     await setSelected([]);
+    await setSelectedIds([]);
   };
 
   const removeFromPullArray = async (array: any, event: any) => {
@@ -343,6 +344,7 @@ const ProductTableList = () => {
     );
     await getList();
     await setSelected([]);
+    await setSelectedIds([]);
   };
 
   const removeInPull = async (row: any, event: any) => {
@@ -475,7 +477,6 @@ const ProductTableList = () => {
 
   useEffect(() => {
     getList();
-    console.log("w");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showOnlyPool, debouncedInputValue]);
 
