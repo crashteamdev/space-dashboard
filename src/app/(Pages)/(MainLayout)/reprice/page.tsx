@@ -1,9 +1,7 @@
 "use client";
 import React, { useState, useEffect} from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
-import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
-import { t } from "i18next";
 import AccountsReprice from "../../../../components/tables/accountsReprice";
 import CreateNewAccount from "../../../../components/createNewAccount/createNewAccount";
 import { useSelector } from "react-redux";
@@ -12,16 +10,7 @@ import firebase_app from "@/shared/firebase/firebase";
 import { useDispatch } from "@/shared/store/hooks";
 import { getAccounts, getLimits } from "@/shared/store/slices/account/AccountSlice";
 import { AppState } from "@/shared/store/store";
-
-const BCrumb = [
-  {
-    to: "/",
-    title: t("main")
-  },
-  {
-    title: "Управление ценами"
-  }
-] as any;
+import { AppButton } from "@/shared/components/AppButton";
 
 const Reprice = () => {
   const [data, setData] = useState([]);
@@ -33,6 +22,7 @@ const Reprice = () => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const getFirstData = async () => {
+    
     const data = await dispatch(getAccounts(auth.currentUser.accessToken, company.activeCompany));
     console.log(data);
     if (data.length >= 1) {
@@ -57,12 +47,10 @@ const Reprice = () => {
 
   return (
     <PageContainer title='Master settings' description='Master settings'>
-      <Box mt={4}></Box>
-      <Breadcrumb title={"Управление ценами"} items={BCrumb} />
       <Box mb={2} display={"flex"} gap={2} alignItems={"center"}>
-        <Button variant='contained' onClick={() => setOpen(true)} color='primary'>
+        <AppButton tag="button" onClick={() => setOpen(true)}>
           Добавить аккаунт
-        </Button>
+        </AppButton>
         <Typography ml={1} variant='h6'>
           Осталось аккаунтов для добавления: {company.limits.keAccountLimitCurrent}
         </Typography>

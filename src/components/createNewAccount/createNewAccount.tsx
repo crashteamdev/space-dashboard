@@ -2,7 +2,6 @@ import React from "react";
 import {
   Box,
   Stack,
-  Button,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -18,6 +17,7 @@ import { useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useDispatch } from "@/shared/store/hooks";
+import { AppButton } from "@/shared/components/AppButton";
 
 const CreateNewAccount = ({ open, setOpen, getFirstData }: any) => {
   const handleClose = () => {
@@ -100,9 +100,9 @@ const CreateNewAccount = ({ open, setOpen, getFirstData }: any) => {
           </Box>
         </Stack>
         <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
-          <Button variant='contained' color='primary' type='submit'>
+          <AppButton tag="button">
             Добавить аккаунт
-          </Button>
+          </AppButton>
         </Stack>
       </form>
     </Dialog>

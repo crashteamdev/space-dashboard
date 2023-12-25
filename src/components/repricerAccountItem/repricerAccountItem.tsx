@@ -1,28 +1,15 @@
 import React, { useState } from "react";
-import {
-  Typography,
-  Box,
-  Grid,
-  CardContent,
-  Divider,
-  Tooltip,
-  IconButton,
-  styled
-} from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
-import BlankCard from "../ui/shared/BlankCard";
-import { Stack } from "@mui/system";
-import { Edit, Delete, Refresh } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 import { getAuth } from "firebase/auth";
-import Link from "next/link";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import firebase_app from "@/shared/firebase/firebase";
 import { deleteAccount, syncAccount } from "@/shared/store/slices/account/AccountSlice";
 import EditAccount from "../editAccount/editAccount";
-import { AppIcon } from "@/shared/components/AppIcon";
 import { AppButton } from "@/shared/components/AppButton";
 import moment from "moment";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 const RepricerAccountItem = ({ item, getFirstData }: any) => {
   const dispatch = useDispatch();
@@ -36,15 +23,11 @@ const RepricerAccountItem = ({ item, getFirstData }: any) => {
     await getFirstData();
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const syncHandler = async () => {
     await dispatch(syncAccount(auth.currentUser.accessToken, company.activeCompany, item.id));
     await getFirstData();
   };
-
-  const AppBarStyled = styled(Typography)(({ theme }) => ({
-    color: theme.palette.text.primary,
-    maxWidth: "300px"
-  })) as any;
 
   return (
     // <Grid style={{ cursor: "pointer" }} item sm={12} lg={12} key={item.id}>
@@ -100,10 +83,14 @@ const RepricerAccountItem = ({ item, getFirstData }: any) => {
     // </Grid>
     <>
     <div className="card bg-white p-3 rounded-lg w-full max-w-[435px] relative">
-      <div className="font-bold text-base">{item.login || item.email}</div>
-      <div className="font-normal text-xs text-[gray]">KazanExpress</div>
-      <AppButton className="absolute right-3 top-3 !p-2 bg-blueGray-100" tag="button" onClick={() => deleteHandler()}>
-        <Delete className="text-white" />
+      <div className="font-bold text-base relative">
+        {item.login || item.email}
+      </div>
+      <div className="font-normal text-xs text-[gray]">
+        KazanExpress
+      </div>
+      <AppButton tag="a" href={`/reprice/${item.id}`} className="absolute right-3 top-3 !p-2 bg-blueGray-100">
+        <NavigateNextIcon className="text-white" />
       </AppButton>
       <div className="flex flex-col gap-4 mt-4 mb-4">
           <div className="flex justify-between border-b border-[#909090] pb-0.5">
@@ -124,10 +111,15 @@ const RepricerAccountItem = ({ item, getFirstData }: any) => {
             </span>
           </div>
       </div>
-      <AppButton className="items-center" tag="button" themeType="primary" onClick={() => setOpen(!open)}>
-        <SettingsIcon className="!w-[20px] !h-[20px] mr-2" />
-        <span>Редактировать</span>
-      </AppButton>
+      <div className="flex justify-between items-center">
+        <AppButton className="items-center" tag="button" themeType="primary" onClick={() => setOpen(!open)}>
+          <SettingsIcon className="!w-[20px] !h-[20px] mr-2" />
+          <span>Редактировать</span>
+        </AppButton>
+        <AppButton className="!p-2 bg-blueGray-100" tag="button" onClick={() => deleteHandler()}>
+          <Delete className="text-white" />
+        </AppButton>
+      </div>
     </div>
     <EditAccount getFirstData={getFirstData} id={item.id} setOpen={setOpen} open={open} />
     </>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Stack, Button, Dialog, DialogTitle, DialogContent } from "@mui/material";
+import { Box, Stack, Dialog, DialogTitle, DialogContent } from "@mui/material";
 import CustomTextField from "../ui/theme-elements/CustomTextField";
 import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
 import { useFormik } from "formik";
@@ -9,6 +9,7 @@ import { updateAccount } from "@/shared/store/slices/account/AccountSlice";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { useDispatch } from "@/shared/store/hooks";
+import { AppButton } from "@/shared/components/AppButton";
 
 const EditAccount = ({ getFirstData, open, setOpen, id }: any) => {
   const handleClose = () => {
@@ -79,9 +80,9 @@ const EditAccount = ({ getFirstData, open, setOpen, id }: any) => {
           </Box>
         </Stack>
         <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
-          <Button variant='contained' color='primary' type='submit'>
+          <AppButton tag="button">
             Сохранить
-          </Button>
+          </AppButton>
         </Stack>
       </form>
     </Dialog>
