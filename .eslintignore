@@ -4,3 +4,4 @@
 **/dist/**
 **/node_modules
 *.d.ts
+layout.tsx
