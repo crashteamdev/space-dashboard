@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body, header {
+    @apply dark:bg-blueGray-900;
+}
 .custom-white div {
     color: #fff!important;
 }

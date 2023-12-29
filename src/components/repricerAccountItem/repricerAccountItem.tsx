@@ -82,11 +82,11 @@ const RepricerAccountItem = ({ item, getFirstData }: any) => {
     //   <EditAccount getFirstData={getFirstData} id={item.id} setOpen={setOpen} open={open} />
     // </Grid>
     <>
-    <div className="card bg-white p-3 rounded-lg w-full max-w-[435px] relative">
+    <div className="card bg-white p-3 rounded-lg w-full max-w-[435px] relative dark:bg-blueGray-800">
       <div className="font-bold text-base relative">
         {item.login || item.email}
       </div>
-      <div className="font-normal text-xs text-[gray]">
+      <div className="font-normal text-xs text-[gray] dark:text-white">
         KazanExpress
       </div>
       <AppButton tag="a" href={`/reprice/${item.id}`} className="absolute right-3 top-3 !p-2 bg-blueGray-100">
@@ -94,16 +94,16 @@ const RepricerAccountItem = ({ item, getFirstData }: any) => {
       </AppButton>
       <div className="flex flex-col gap-4 mt-4 mb-4">
           <div className="flex justify-between border-b border-[#909090] pb-0.5">
-            <span className="text-sm text-[#909090]">Мониторинг:</span>
-            <span className="text-blueGray-900 font-normal">{(item.monitorState === "suspended") ? "Выключен" : "Включен"}</span>
+            <span className="text-sm text-[#909090] dark:text-white">Мониторинг:</span>
+            <span className="text-blueGray-900 font-normal dark:text-white">{(item.monitorState === "suspended") ? "Выключен" : "Включен"}</span>
           </div>
           <div className="flex justify-between border-b border-[#909090] pb-0.5">
-            <span className="text-sm text-[#909090]">Последнее обновление:</span>
-            <span className="text-blueGray-900 font-normal">{item.lastUpdate ? moment(item.lastUpdate).format("DD.MM.YYYY") : "" }</span>
+            <span className="text-sm text-[#909090] dark:text-white">Последнее обновление:</span>
+            <span className="text-blueGray-900 font-normal dark:text-white">{item.lastUpdate ? moment(item.lastUpdate).format("DD.MM.YYYY") : "" }</span>
           </div>
           <div className="flex justify-between border-b border-[#909090] pb-0.5">
-            <span className="text-sm text-[#909090]">Синхронизация с аккаунтом:</span>
-            <span className="text-blueGray-900 font-normal">
+            <span className="text-sm text-[#909090] dark:text-white">Синхронизация с аккаунтом:</span>
+            <span className="text-blueGray-900 font-normal dark:text-white">
               {item.initializeState === "error" && "Ошибка"}
               {item.initializeState === "finished" && "Синхронизировано"}
               {item.initializeState === "in_progress" && "В процессе"}

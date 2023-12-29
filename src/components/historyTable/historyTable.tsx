@@ -11,8 +11,9 @@ import {
   TableRow,
   TableSortLabel,
   Typography,
+  Paper,
   Avatar,
-  Paper
+  Tooltip
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
@@ -22,6 +23,7 @@ import firebase_app from "@/shared/firebase/firebase";
 import { useParams } from "next/navigation";
 import { AppState } from "@/shared/store/store";
 import { getHistory } from "@/shared/store/slices/account/AccountSlice";
+import moment from "moment";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -68,41 +70,52 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
+    id: "photo",
+    numeric: false,
+    disablePadding: false,
+    label: "Фото"
+  },
+  {
     id: "name",
     numeric: false,
     disablePadding: false,
-    label: "Название"
+    label: "Товар"
   },
   {
-    id: "pname",
+    id: "shop",
     numeric: false,
     disablePadding: false,
-    label: "Название магазина"
-  },
-
-  {
-    id: "skuId",
-    numeric: false,
-    disablePadding: false,
-    label: "skuId"
+    label: "Магазин"
   },
   {
     id: "productId",
     numeric: false,
     disablePadding: false,
-    label: "productId"
+    label: "productID"
   },
   {
-    id: "new",
+    id: "skuId",
+    numeric: false,
+    disablePadding: false,
+    label: "skuID"
+  },
+  {
+    id: "newPrice",
     numeric: false,
     disablePadding: false,
     label: "Старая цена"
   },
   {
-    id: "old",
+    id: "oldPrice",
     numeric: false,
     disablePadding: false,
     label: "Новая цена"
+  },
+  {
+    id: "date",
+    numeric: false,
+    disablePadding: false,
+    label: "Дата изменения"
   }
 ];
 
@@ -218,110 +231,112 @@ const HistoryTable = () => {
   const borderColor = theme.palette.divider;
 
   return (
-    <Box>
-      <Box>
-        <Paper variant='outlined' sx={{ mx: 2, mt: 1, border: `1px solid ${borderColor}` }}>
-          <TableContainer>
-            <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={"small"}>
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows?.length}
-              />
-              <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row: any) => {
-                    const isItemSelected = isSelected(row.title);
-
-                    return (
-                      <TableRow
-                        hover
-                        style={{ cursor: "pointer" }}
-                        role='checkbox'
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.title}
-                        onClick={() => handleOpenConcurents(row.id)}
-                        selected={isItemSelected}
-                      >
-                        <TableCell>
-                          <Box display='flex' alignItems='center'>
-                            <Avatar
-                              src={`https://image.kazanexpress.ru/${row.photoKey}/t_product_high.jpg`}
-                              alt='product'
-                              sx={{ width: 56, height: 56 }}
-                            />
-                          </Box>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>{row.name}</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>{row.price} рублей</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography>{`${row.isInPool}`}</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Box display='flex' alignItems='center'>
-                            <Box
-                              sx={{
-                                backgroundColor: row.stock
-                                  ? (theme) => theme.palette.success.main
-                                  : (theme) => theme.palette.error.main,
-                                borderRadius: "100%",
-                                height: "10px",
-                                width: "10px"
-                              }}
-                            />
-                            <Typography
-                              color='textSecondary'
-                              variant='subtitle2'
-                              sx={{
-                                ml: 1
-                              }}
-                            >
-                              {row.stock ? "InStock" : "Out of Stock"}
-                            </Typography>
-                          </Box>
-                        </TableCell>
-
-                        <TableCell>
-                          <Typography fontWeight={600} variant='h6'>
-                            {row.availableAmount} шт.
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: 33 * emptyRows
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 20, 30]}
-            component='div'
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+    <Paper variant='outlined' sx={{ border: `1px solid ${borderColor}` }}>
+      <TableContainer>
+        <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={"small"}>
+          <EnhancedTableHead
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAllClick}
+            onRequestSort={handleRequestSort}
+            rowCount={rows?.length}
           />
-        </Paper>
-      </Box>
-    </Box>
+          <TableBody>
+            {stableSort(rows, getComparator(order, orderBy))
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row: any) => {
+                const isItemSelected = isSelected(row.title);
+
+                return (
+                  <TableRow
+                    hover
+                    style={{ cursor: "pointer" }}
+                    role='checkbox'
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.title}
+                    onClick={() => handleOpenConcurents(row.id)}
+                    selected={isItemSelected}
+                  >
+                    <TableCell>
+                      <Box display='flex' alignItems='center'>
+                        <Avatar
+                          src={`https://image.kazanexpress.ru/${row.photoKey}/t_product_240_high.jpg`}
+                          alt='product'
+                          sx={{ width: 56, height: 56 }}
+                        />
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Tooltip className="ml-3" title={row.itemName}>
+                        <Typography>{row.itemName?.length > 50 ? row.itemName?.slice(0, 50) + "..." : row.itemName}</Typography>
+                      </Tooltip>
+                      {/* <Typography>{row.itemName}</Typography> */}
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{row.shopName}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{row.productId}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{row.skuId}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Box display='flex' alignItems='center'>
+                        <Box
+                          sx={{
+                            backgroundColor: (theme) => theme.palette.error.main,
+                            borderRadius: "100%",
+                            height: "10px",
+                            width: "10px"
+                          }}
+                        />
+                        <div className="ml-2">{(row.oldPrice / 100).toFixed(2)}</div>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Box display='flex' alignItems='center'>
+                        <Box
+                          sx={{
+                            backgroundColor: (theme) => theme.palette.success.main,
+                            borderRadius: "100%",
+                            height: "10px",
+                            width: "10px"
+                          }}
+                        />
+                        <div className="ml-2">{(row.newPrice / 100).toFixed(2)}</div>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{moment(row.changeTime).format("DD.MM.YYYY HH:MM")}</Typography>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            {emptyRows > 0 && (
+              <TableRow
+                style={{
+                  height: 33 * emptyRows
+                }}
+              >
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 20, 30]}
+        component='div'
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
   );
 };
 

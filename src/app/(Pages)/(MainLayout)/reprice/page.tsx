@@ -46,7 +46,8 @@ const Reprice = () => {
   }, [company.activeCompany]);
 
   return (
-    <PageContainer title='Master settings' description='Master settings'>
+    <PageContainer title='Автоизменение цен | MarketDB' description='Автоизменение цен на маркетплейсах KazanExpress и Uzum'>
+      <h1 className="text-[22px] mb-10 font-bold">Сервис автоматического изменения цен</h1>
       <Box mb={2} display={"flex"} gap={2} alignItems={"center"}>
         <AppButton tag="button" onClick={() => setOpen(true)}>
           Добавить аккаунт

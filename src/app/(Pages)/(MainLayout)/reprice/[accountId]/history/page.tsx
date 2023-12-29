@@ -1,40 +1,21 @@
 "use client";
 
 import HistoryTable from "@/components/historyTable/historyTable";
-import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
 import PageContainer from "@/components/ui/container/PageContainer";
-import { Box } from "@mui/material";
-import { t } from "i18next";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
+import EastIcon from "@mui/icons-material/East";
 
 const HistoryPage = () => {
-  const { accountId } = useParams();
-
-  const BCrumb = [
-    {
-      to: "/",
-      title: t("main")
-    },
-    {
-      to: "/reprice",
-      title: "Управление ценами"
-    },
-    {
-      to: `/reprice/${accountId}`,
-      title: "Выбор магазина"
-    },
-    {
-      title: "История изменения цен"
-    }
-  ] as any;
+  const router = useRouter();
   return (
-    <PageContainer title='Master settings' description='Master settings'>
-      <Box mt={4}></Box>
-      <Breadcrumb title={"История изменения цен"} items={BCrumb} />
-      <Box mb={2}>
-        <HistoryTable />
-      </Box>
+    <PageContainer title='История изменения товара | MarketDB' description='История изменения цен на товары'>
+      <button onClick={router.back} className="flex gap-1 items-center mb-2">
+        <EastIcon className="rotate-180 !w-[15px] !h-[15px]" />
+        <span className="text-[12px] font-medium">Назад</span>
+      </button>
+      <h1 className="text-[22px] mb-5 font-bold">История изменения цены</h1>
+      <HistoryTable />
     </PageContainer>
   );
 };

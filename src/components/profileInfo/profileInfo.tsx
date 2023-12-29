@@ -97,7 +97,7 @@ const ProfileInfo = () => {
               <BlankCard className="h-full">
                 <CardContent className="h-full">
                   <Typography variant='h5' mb={2}>
-                    {/* Информация о подписке на Repricer */}
+                  Сервис автоматического изменения цен
                   </Typography>
                   {repriceData ? (
                     <>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Dialog, Box, Tab, Button } from "@mui/material";
+import { Dialog, Box, Tab } from "@mui/material";
 import styles from "./productTableEditConcurents.module.scss";
 import ConcurentsBlock from "./productComponents/concurentsBlock/concurentsBlock";
 import SettingsBlock from "./productComponents/settingsBlock/settingsBlock";
@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import firebase_app from "@/shared/firebase/firebase";
 import { getAuth } from "firebase/auth";
+import { AppButton } from "@/shared/components/AppButton";
 
 const COMMON_TAB = [
   { value: "1", icon: "", label: "Настройки", ul: "set", disabled: false },
@@ -80,9 +81,9 @@ const ProductTableEditConcurents = ({ getFirstData, open, setOpen }: any) => {
             </TabList>
           </Box>
         </TabContext>
-        <Button onClick={() => handleClose()} color='secondary'>
+        <AppButton onClick={() => handleClose()} tag="button" className="!py-0 items-center">
           Закрыть
-        </Button>
+        </AppButton>
       </Box>
       {step == 0 ? (
         <SettingsBlock open={open} getFirstData={getFirstData} item={data} setStep={setStep} />

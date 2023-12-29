@@ -1,40 +1,20 @@
 "use client";
 import React from "react";
-import { useParams } from "next/navigation";
-import { Box } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
-import Breadcrumb from "@/components/ui/breadcrumb/Breadcrumb";
-import { t } from "i18next";
 import ProductTableList from "@/components/ProductTableList/ProductTableList";
+import EastIcon from "@mui/icons-material/East";
+import { useRouter } from "next/navigation";
 
 const Accounts = () => {
-  const { accountId } = useParams();
-
-  const BCrumb = [
-    {
-      to: "/",
-      title: t("main")
-    },
-    {
-      to: "/reprice",
-      title: "Управление ценами"
-    },
-    {
-      to: `/reprice/${accountId}`,
-      title: "Выбор магазина"
-    },
-    {
-      title: "Ваш аккаунт"
-    }
-  ] as any;
-
+  const router = useRouter();
   return (
-    <PageContainer title='Profile' description='this is profile'>
-      <Box mt={4}></Box>
-      <Breadcrumb title={"Ваш аккаунт"} items={BCrumb} />
-      <Box mb={2}>
-        <ProductTableList />
-      </Box>
+    <PageContainer title='Список товаров магазина | MarketDB' description='Список товаров, выгрузка из магазинов маркетплейса, настройка товара'>
+      <button onClick={router.back} className="flex gap-1 items-center mb-2">
+        <EastIcon className="rotate-180 !w-[15px] !h-[15px]" />
+        <span className="text-[12px] font-medium">Назад</span>
+      </button>
+      <h1 className="text-[22px] mb-5 font-bold">Список товаров магазина</h1>
+      <ProductTableList />
     </PageContainer>
   );
 };

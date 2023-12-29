@@ -38,6 +38,7 @@ import firebase_app from "@/shared/firebase/firebase";
 import { useParams } from "next/navigation";
 import { AppState } from "@/shared/store/store";
 import { useDebounce } from "@/processes/useDebounce/useDebounce";
+import { AppButton } from "@/shared/components/AppButton";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -575,25 +576,26 @@ const ProductTableList = () => {
                         <TableCell>
                           {row.isInPool ? (
                             <Tooltip title='Удалить товар из пула'>
-                              <Button
-                                onClick={(e: any) => removeInPull(row, e)}
-                                color='error'
-                                variant='contained'
-                                type='submit'
-                              >
-                                <IconMinus />
-                              </Button>
+                              <div>
+                                <AppButton tag="button"
+                                  onClick={(e: any) => removeInPull(row, e)}
+                                  className="bg-[#b91c1c]"
+                                >
+                                  <IconMinus />
+                                </AppButton>
+                              </div>
                             </Tooltip>
                           ) : (
                             <Tooltip title='Добавить в пул'>
-                              <Button
+                              <div>
+                              <AppButton
                                 onClick={(e: any) => addInPull(row, e)}
-                                color='success'
-                                variant='contained'
-                                type='submit'
+                                tag="button"
+                                className="!bg-[#15803d]"
                               >
                                 <IconPlus />
-                              </Button>
+                              </AppButton>
+                              </div>
                             </Tooltip>
                           )}
                         </TableCell>
