@@ -1,11 +1,12 @@
 import React from "react";
-import { Box, Button, MenuItem } from "@mui/material";
+import { Box, MenuItem } from "@mui/material";
 import CustomFormLabel from "../theme-elements/CustomFormLabel";
 import CustomSelect from "../theme-elements/CustomSelect";
 import CustomTextField from "../theme-elements/CustomTextField";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { deleteStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
+import { AppButton } from "@/shared/components/AppButton";
 
 const StrategiesCheck = ({ getProms, item, strategy, selected, setSelected, strategies }: any) => {
 
@@ -62,9 +63,9 @@ const StrategiesCheck = ({ getProms, item, strategy, selected, setSelected, stra
           disabled
         />
       </Box>
-      <Button onClick={() => deleteStrategy()} color='secondary'>
+      <AppButton tag="button" className="!py-3 text-center flex justify-center" onClick={() => deleteStrategy()} color='secondary'>
         Удалить стратегию
-      </Button>
+      </AppButton>
     </Box>
   );
 };

@@ -44,7 +44,7 @@ export const AppButton: React.FC<PropsWithChildren<Props>> = ({
     "px-[16px] py-[10px]",
     "text-sm font-medium shadow-base",
     {
-      "bg-blue text-white hover:bg-blue-hover": themeType === "primary",
+      "bg-blueGray-600 hover:bg-blueGray-700 text-white": themeType === "primary",
       "bg-white text-blue hover:bg-white-hover": themeType === "secondary",
       "!rounded-full": rounded
     },

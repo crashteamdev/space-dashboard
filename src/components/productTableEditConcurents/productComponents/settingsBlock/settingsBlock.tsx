@@ -1,5 +1,4 @@
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
-import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import {
   Box,
   DialogContentText,
@@ -7,11 +6,9 @@ import {
   Divider,
   Grid,
   Typography,
-  Avatar,
-  useTheme
+  Avatar
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { getStrategiesTypes, getStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
@@ -28,8 +25,6 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
   const dispatch = useDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
-
-  const theme = useTheme();
 
   const getStrategyIdHandler = async () => {
     if (repricer.currentItem) {
@@ -101,11 +96,6 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [repricer.currentItem]);
 
-  const DisabledInputs = styled(CustomTextField)({
-    WebkitTextFillColor: theme.palette.text.primary,
-    color: theme.palette.text.primary
-  });
-
   return loading ? (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -127,72 +117,30 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
         <Grid style={{ width: "100%" }} ml={3} xs={12}>
           <Box width={"100% !important"}>
             <CustomFormLabel>Название товара</CustomFormLabel>
-            <DisabledInputs
-              fullWidth
-              id='minValue'
-              name='minValue'
-              type='string'
-              value={item.name}
-              disabled
-            />
+            <div className="border-b border-black-800 py-1">{item.name}</div>
           </Box>
           <Grid style={{ width: "100%", display: "flex", gap: "32px" }} xs={12}>
-            <Box width={"18% !important"}>
+            <Box width={"12% !important"}>
               <CustomFormLabel>ProductId</CustomFormLabel>
-              <DisabledInputs
-                fullWidth
-                id='minValue'
-                name='minValue'
-                type='string'
-                value={item.productId}
-                disabled
-              />
+              <div className="border-b border-black-800 py-1">{item.productId}</div>
             </Box>
-            <Box width={"18% !important"}>
+            <Box width={"12% !important"}>
               <CustomFormLabel>SkuId</CustomFormLabel>
-              <DisabledInputs
-                fullWidth
-                id='minValue'
-                name='minValue'
-                type='string'
-                value={item.skuId}
-                disabled
-              />
+              <div className="border-b border-black-800 py-1">{item.skuId}</div>
             </Box>
             <Box width={"54% !important"}>
               <CustomFormLabel>SkuTitle</CustomFormLabel>
-              <DisabledInputs
-                fullWidth
-                id='minValue'
-                name='minValue'
-                type='string'
-                value={item.skuTitle}
-                disabled
-              />
+              <div className="border-b border-black-800 py-1">{item.skuTitle}</div>
             </Box>
           </Grid>
           <Grid style={{ width: "100%", display: "flex", gap: "32px" }} xs={12}>
             <Box width={"30% !important"}>
               <CustomFormLabel>Цена товара</CustomFormLabel>
-              <DisabledInputs
-                fullWidth
-                id='minValue'
-                name='minValue'
-                type='string'
-                value={item.price + "руб."}
-                disabled
-              />
+              <div className="border-b border-black-800 py-1">{item.price + "руб."}</div>
             </Box>
             <Box width={"65% !important"}>
               <CustomFormLabel>Barcode</CustomFormLabel>
-              <DisabledInputs
-                fullWidth
-                id='minValue'
-                name='minValue'
-                type='string'
-                value={item.barcode}
-                disabled
-              />
+              <div className="border-b border-black-800 py-1">{item.barcode}</div>
             </Box>
           </Grid>
         </Grid>

@@ -1,12 +1,13 @@
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
 import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { addStrategyId, editStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
+import { AppButton } from "@/shared/components/AppButton";
 
 const ValuesSettings = ({
   strategy,
@@ -20,11 +21,11 @@ const ValuesSettings = ({
     minValue: yup
       .number()
       .required("Минимально значение не заполнено")
-      .min(100, "Число не должно быть меньше 100"),
+      .min(1, "Число не должно быть меньше 1"),
     maxValue: yup
       .number()
       .required("Максимальное значение не заполнено")
-      .min(100, "Число не должно быть меньше 100"),
+      .min(1, "Число не должно быть меньше 1"),
     sale: yup
       .number()
       .required("Допустимая скидка не заполнена")
@@ -155,9 +156,9 @@ const ValuesSettings = ({
         </Stack>
         {strategy?.strategyType || selected ? (
           <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"flex-end"}>
-            <Button variant='contained' color='primary' type='submit'>
+            <AppButton tag="button">
               Сохранить
-            </Button>
+            </AppButton>
           </Stack>
         ) : null}
       </form>
