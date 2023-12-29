@@ -34,7 +34,9 @@ const Sidebar = () => {
             styles.sidebar
           )}
           sx={{
-            height: "100%"
+            height: "100%",
+            width: "270px",
+            position: "fixed"
           }}
         >
           <Box px={3}>
@@ -42,7 +44,7 @@ const Sidebar = () => {
               <AppIcon type="logo" color="white" />
             </Link>
           </Box>
-          <Scrollbar sx={{ height: "calc(100% - 170px)" }}>
+          <Scrollbar sx={{}}>
             <SidebarItems />
           </Scrollbar>
           <AppTelegramWidget />

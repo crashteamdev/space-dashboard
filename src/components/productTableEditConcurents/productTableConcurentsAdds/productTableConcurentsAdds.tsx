@@ -9,7 +9,6 @@ import {
   Typography,
   TableHead,
   styled,
-  Button,
   Tooltip
 } from "@mui/material";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
@@ -22,6 +21,7 @@ import {
 } from "@/shared/store/slices/reprice/repriceSlice";
 import BlankCard from "@/components/ui/shared/BlankCard";
 import { IconTrash } from "@tabler/icons-react";
+import { AppButton } from "@/shared/components/AppButton";
 
 const ProductTableConcurentsAdds = ({getComp, dataConc } : any) => {
   const { accountId } = useParams() as any;
@@ -112,9 +112,11 @@ const ProductTableConcurentsAdds = ({getComp, dataConc } : any) => {
                 </TableCell>
                 <TableCell>
                   <Tooltip title='Удалить конкурента из таблицы'>
-                    <Button onClick={() => deleteNewItem(row)} color='error' variant='contained'>
-                      <IconTrash />
-                    </Button>
+                    <div>
+                      <AppButton className="!bg-[#b91c1c]" tag="button" onClick={() => deleteNewItem(row)}>
+                        <IconTrash />
+                      </AppButton>
+                    </div>
                   </Tooltip>
                 </TableCell>
               </TableRow>

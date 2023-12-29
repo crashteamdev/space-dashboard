@@ -29,7 +29,8 @@ import { useParams } from "next/navigation";
 import CustomRadio from "@/components/ui/сustomRadio/CustomRadio";
 import { getLimits } from "@/shared/store/slices/account/AccountSlice";
 
-const ConcurentsBlock = () => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const ConcurentsBlock = (item: any) => {
   const [selectedValue, setSelectedValue] = useState("c");
 
   const validationSchema = yup.object({
@@ -72,7 +73,7 @@ const ConcurentsBlock = () => {
         repricer.currentItem
       )
     );
-    console.log("222");
+
     await setDataAdds(result);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataAdds]);
@@ -83,7 +84,6 @@ const ConcurentsBlock = () => {
   }, []);
 
   const getLimitsData = () => {
-    console.log("we");
     dispatch(getLimits(auth.currentUser.accessToken, company.activeCompany));
   };
 
@@ -145,7 +145,7 @@ const ConcurentsBlock = () => {
                     borderRadius: "100%"
                   }}
               >
-                {company.limits.itemCompetitorLimitCurrent}
+                {item.item.competitorsCurrent}
               </Typography>
               <Typography color='inherit' noWrap>
                 &nbsp;из
@@ -158,7 +158,7 @@ const ConcurentsBlock = () => {
                     borderRadius: "100%"
                   }}
               >
-                {company.limits.itemCompetitorLimit}
+                {item.item.availableCompetitors}
               </Typography>
             </div>
           </Box>
