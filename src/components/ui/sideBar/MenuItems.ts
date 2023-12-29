@@ -22,10 +22,10 @@ interface MenuitemsT {
 import {
   IconPoint,
   IconTicket,
-  IconStar,
-  IconChartDonut3,
-  // IconFileDots,
 } from "@tabler/icons-react";
+import PersonIcon from "@mui/icons-material/Person";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import BallotIcon from "@mui/icons-material/Ballot";
 
 const MenuitemsKazan: MenuitemsT = {
   ke: [
@@ -36,13 +36,13 @@ const MenuitemsKazan: MenuitemsT = {
     {
       id: uniqueId(),
       title: "Личный профиль",
-      icon: IconStar,
+      icon: PersonIcon,
       href: "/profile"
     },
     {
       id: uniqueId(),
       title: "Аналитика",
-      icon: IconChartDonut3,
+      icon: BarChartIcon,
       href: "/apps/blog/",
       children: [
         {
@@ -59,12 +59,12 @@ const MenuitemsKazan: MenuitemsT = {
         },
       ],
     },
-    // {
-    //   id: uniqueId(),
-    //   title: "Управление ценами",
-    //   icon: IconFileDots,
-    //   href: "/reprice"
-    // }
+    {
+      id: uniqueId(),
+      title: "Управление ценами",
+      icon: BallotIcon,
+      href: "/reprice"
+    }
   ],
   uzum: [
     {
@@ -74,13 +74,13 @@ const MenuitemsKazan: MenuitemsT = {
     {
       id: uniqueId(),
       title: "Личный профиль",
-      icon: IconStar,
+      icon: PersonIcon,
       href: "/profile"
     },
     {
       id: uniqueId(),
       title: "Аналитика",
-      icon: IconChartDonut3,
+      icon: BarChartIcon,
       href: "/",
       children: [
         {
@@ -97,12 +97,12 @@ const MenuitemsKazan: MenuitemsT = {
         },
       ],
     },
-    // {
-    //   id: uniqueId(),
-    //   title: "Управление ценами",
-    //   icon: IconFileDots,
-    //   href: "/reprice"
-    // }
+    {
+      id: uniqueId(),
+      title: "Управление ценами",
+      icon: BallotIcon,
+      href: "/reprice"
+    }
   ]
 };
 
