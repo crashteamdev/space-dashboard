@@ -9,8 +9,7 @@ import {
   Typography,
   TableHead,
   styled,
-  Tooltip,
-  Button
+  Tooltip
 } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
@@ -22,6 +21,7 @@ import {
   addComcurentItem,
 } from "@/shared/store/slices/reprice/repriceSlice";
 import { IconPlus } from "@tabler/icons-react";
+import { AppButton } from "@/shared/components/AppButton";
 
 const ProductTableEditConcurentsTable = ({ getItems, dataAdds, getComp } : any) => {
   const { accountId, shopId } = useParams() as any;
@@ -98,14 +98,15 @@ const ProductTableEditConcurentsTable = ({ getItems, dataAdds, getComp } : any) 
                 </TableCell>
                 <TableCell>
                   <Tooltip title='Добавить конкурента'>
-                    <Button
-                      onClick={() => addNewItem(row)}
-                      color='primary'
-                      variant='contained'
-                      type='submit'
-                    >
-                      <IconPlus />
-                    </Button>
+                    <div>
+                      <AppButton
+                        onClick={() => addNewItem(row)}
+                        tag="button"
+                        className="!bg-[#15803d]"
+                      >
+                        <IconPlus />
+                      </AppButton>
+                    </div>
                   </Tooltip>
                 </TableCell>
               </TableRow>

@@ -218,7 +218,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
     >
       {numSelected > 0 ? (
         <Typography sx={{ flex: "1 1 100%" }} color='inherit' variant='subtitle2' component='div'>
-          {numSelected} selected
+          Выбрано товаров: {numSelected} шт
         </Typography>
       ) : (
         <Box sx={{ flex: "1 1 100%", display: "flex", gap: "24px" }}>
@@ -253,16 +253,15 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       {numSelected > 0 && isAdd && (
         <Box mr={3}>
           <Tooltip title='Добавить в пул выбранные товары'>
-            <Button
+            <AppButton
               onClick={(e) => {
                 addInPullArray(selected, e);
               }}
-              color='success'
-              variant='contained'
-              type='submit'
+              tag="button"
+              className="!bg-[#15803d]"
             >
               <IconPlus />
-            </Button>
+            </AppButton>
           </Tooltip>
         </Box>
       )}
@@ -579,7 +578,7 @@ const ProductTableList = () => {
                               <div>
                                 <AppButton tag="button"
                                   onClick={(e: any) => removeInPull(row, e)}
-                                  className="bg-[#b91c1c]"
+                                  className="!bg-[#b91c1c]"
                                 >
                                   <IconMinus />
                                 </AppButton>
@@ -620,6 +619,7 @@ const ProductTableList = () => {
             count={rows.length}
             rowsPerPage={rowsPerPage}
             page={page}
+            labelRowsPerPage="Выберите кол-во строк:"
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />

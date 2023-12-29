@@ -38,7 +38,6 @@ const CreateNewAccount = ({ open, setOpen, getFirstData }: any) => {
   });
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const dispatch = useDispatch();
-
   const formik = useFormik({
     initialValues: {
       login: "",
@@ -63,7 +62,7 @@ const CreateNewAccount = ({ open, setOpen, getFirstData }: any) => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle mt={2}>Добавить аккаунт KazanExpress</DialogTitle>
+      <DialogTitle mt={2}>{(company.activeCompany === "uzum") ?  "Добавить аккаунт Uzum" : "Добавить аккаунт KazanExpress"}</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Для того чтобы использовать систему изменения цен, необходимо добавить аккаунт указав
