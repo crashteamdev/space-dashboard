@@ -295,8 +295,8 @@ export const checkPromoCode =
       axios
         .request(config)
         .then((response) => {
-          dispatch(setResultPromo(promoCode));
-          return response.data;
+          dispatch(setResultPromo(response.data.code));
+          return response.data.code;
         })
         .catch((error) => {
           console.log(error);
