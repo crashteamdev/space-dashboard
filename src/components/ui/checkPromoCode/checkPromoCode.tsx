@@ -34,6 +34,7 @@ const CheckPromoCode = () => {
   const dispatch = useDispatch();
 
   const checkPromo = () => {
+    console.log(balanceReducer);
     if (promocode) {
       dispatch(checkPromoCode(auth.currentUser.accessToken, promocode));
       dispatch(checkPromoCode(auth.currentUser.accessToken, promocode));
