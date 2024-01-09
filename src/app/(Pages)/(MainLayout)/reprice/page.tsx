@@ -24,7 +24,6 @@ const Reprice = () => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const getFirstData = async () => {
-    
     const data = await dispatch(getAccounts(auth.currentUser.accessToken, company.activeCompany));
     console.log(data);
     if (data.length >= 1) {
@@ -61,7 +60,7 @@ const Reprice = () => {
           Добавить аккаунт
         </AppButton>
         <Typography ml={1} variant='h6'>
-          Осталось аккаунтов для добавления: {company.limits.keAccountLimitCurrent}
+          Осталось аккаунтов для добавления: {company.limits.accountLimitCurrent}
         </Typography>
         <CreateNewAccount getFirstData={getFirstData} data={data} open={open} setOpen={setOpen} />
       </Box>

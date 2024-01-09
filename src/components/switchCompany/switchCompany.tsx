@@ -8,6 +8,7 @@ import TabList from "@mui/lab/TabList";
 import { useDispatch } from "@/shared/store/hooks";
 import { changeCompany } from "@/shared/store/slices/companyChanger/CompanyChangerSlice";
 import styled from "./switchCompany.module.scss";
+import { useRouter } from "next/navigation";
 
 const COMMON_TAB = [
   { value: "1", icon: "", label: "KazanExpress", ul: "ke", disabled: false },
@@ -16,11 +17,17 @@ const COMMON_TAB = [
 
 const SwitchCompany = () => {
   const [value, setValue] = React.useState("ke") as any;
-
+  const router = useRouter();
   const dispatch = useDispatch();
+
   const handleChange = (event: React.SyntheticEvent, newValue: any) => {
     setValue(newValue);
     dispatch(changeCompany(newValue));
+
+    const regex = /\/reprice\//;
+    const url = window.location.pathname;
+    regex.test(url) && router.push("/reprice");
+    
     if (localStorage.getItem("switch-company")) {
       localStorage.setItem("switch-company", newValue);
     } else {

@@ -136,7 +136,7 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
           <Grid style={{ width: "100%", display: "flex", gap: "32px" }} xs={12}>
             <Box width={"30% !important"}>
               <CustomFormLabel>Цена товара</CustomFormLabel>
-              <div className="border-b border-black-800 py-1">{item.price + "руб."}</div>
+              <div className="border-b border-black-800 py-1">{item.price + (company.activeCompany === "ke" ? "руб" : "сум")}</div>
             </Box>
             <Box width={"65% !important"}>
               <CustomFormLabel>Barcode</CustomFormLabel>
