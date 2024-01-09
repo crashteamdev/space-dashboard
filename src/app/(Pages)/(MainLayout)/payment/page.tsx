@@ -123,13 +123,12 @@ const Payment = () => {
       case 2:
         return (
           <Box pt={3}>
-            <Typography variant='h5'>MarketDB KazanExpress</Typography>
             <Typography variant='h6' sx={{ mt: 1 }}>
-              Провайдер: {context}
+              Платежное средство: {context}
             </Typography>
             <Typography variant='h6' sx={{ mt: 1 }}>
               Сумма: ${walletPopup.value} -{" "}
-              {Math.floor(+walletPopup.value * balanceReducer.exchange)}рублей
+              {Math.floor( +walletPopup.value * balanceReducer.exchange )} рублей
             </Typography>
           </Box>
         );

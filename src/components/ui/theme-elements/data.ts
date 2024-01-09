@@ -1,7 +1,10 @@
 const data = [
-  { title: "freekassa", photo: "https://alllogos.ru/images/logotip-free-kassa.png", key: 1 },
+  { 
+    title: "freekassa", photo: "https://alllogos.ru/images/logotip-free-kassa.png", 
+    key: 1 
+  },
   {
-    title: "uz-click",
+    title: "СlickPay",
     photo: "https://marketing.uz/uploads/articles/1222/article-original.png",
     key: 2
   }
