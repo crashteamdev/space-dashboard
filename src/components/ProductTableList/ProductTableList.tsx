@@ -544,7 +544,7 @@ const ProductTableList = () => {
                           <Typography>{row.name}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography>{row.price} рублей</Typography>
+                          <Typography>{row.price} {company.activeCompany === "ke" ? "руб" : "сум"}</Typography>
                         </TableCell>
                         <TableCell>
                           <Box display='flex' alignItems='center'>

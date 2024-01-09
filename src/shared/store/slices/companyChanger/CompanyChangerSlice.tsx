@@ -7,8 +7,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   activeCompany: "ke",
   limits: {
-    "keAccountLimit": 0,
-    "keAccountLimitCurrent": 0,
+    "accountLimit": 0,
+    "accountLimitCurrent": 0,
     "itemPoolLimit": 0,
     "itemPoolLimitCurrent": 0,
     "itemCompetitorLimit": 0,

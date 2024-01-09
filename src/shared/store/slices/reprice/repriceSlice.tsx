@@ -647,7 +647,7 @@ export const addStrategyId =
         maxBodyLength: Infinity,
         url: `https://${context}-api.marketdb.pro/space/v1/strategies`,
         data: {
-          keAccountShopItemId: idItem,
+          accountShopItemId: idItem,
           strategy: {
             step: data.step ? data.step : null,
             strategyType: data.strategyType,
