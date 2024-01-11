@@ -74,7 +74,7 @@ const Pricing = () => {
         auth.currentUser.accessToken,
         `${company.activeCompany}-analytics`,
         pricing[open - 1]?.package.toLowerCase(),
-        balanceReducer.resultPromo,
+        window.localStorage.getItem("promocode") ? window.localStorage.getItem("promocode") : "",
         show ? 3 : 1,
         context.toLowerCase(),
         context === "Оплата с баланса" ? context.toLowerCase() : "one-time"
