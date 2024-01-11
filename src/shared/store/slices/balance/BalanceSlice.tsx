@@ -196,7 +196,7 @@ export const purchaseService =
     token: string,
     serviceContext: string,
     plan: string,
-    promoCode: string,
+    promoCode: string | null,
     multiply: number,
     provider: string,
     method: string
@@ -296,6 +296,7 @@ export const checkPromoCode =
         .request(config)
         .then((response) => {
           dispatch(setResultPromo(response.data.code));
+          window.localStorage.setItem("promocode", promoCode);
           return response.data.code;
         })
         .catch((error) => {
