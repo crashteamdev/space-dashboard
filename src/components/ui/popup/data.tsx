@@ -41,6 +41,10 @@ export const pricing = [
         title: "Общая аналитика по категорииям"
       },
       {
+        limit: true,
+        title: "Cервис автоматического изменения цен"
+      },
+      {
         limit: false,
         title: "Отчеты по категориям в формате Excel"
       },
@@ -96,6 +100,10 @@ export const pricing = [
       {
         limit: true,
         title: "Приоритетная поддержка"
+      },
+      {
+        limit: true,
+        title: "Cервис автоматического изменения цен"
       }
     ]
   },
@@ -145,6 +153,10 @@ export const pricing = [
       {
         limit: true,
         title: "Приоритетная поддержка"
+      },
+      {
+        limit: true,
+        title: "Cервис автоматического изменения цен"
       }
     ]
   }
