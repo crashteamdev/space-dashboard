@@ -18,7 +18,7 @@ export const pricing = [
       },
       {
         limit: true,
-        title: "Позиции товара"
+        title: "История позиций товара"
       },
       {
         limit: true,
@@ -26,11 +26,23 @@ export const pricing = [
       },
       {
         limit: true,
-        title: "3 отчета по магазинам в сутки"
+        title: "Отчеты по магазинам в формате Excel"
+      },
+      {
+        limit: true,
+        title: "Общая аналитика по магазинам"
+      },
+      {
+        limit: true,
+        title: "Все магазины продавцов"
+      },
+      {
+        limit: true,
+        title: "Общая аналитика по категорииям"
       },
       {
         limit: false,
-        title: "2 отчета Excel по категориям в сутки"
+        title: "Отчеты по категориям в формате Excel"
       },
       {
         limit: false,
@@ -55,19 +67,31 @@ export const pricing = [
       },
       {
         limit: true,
-        title: "Позиции товара"
+        title: "История позиций товара"
       },
       {
         limit: true,
-        title: "30 / 60 дней периода аналитики"
+        title: "30 / 60 / 90 дней периода аналитики"
       },
       {
         limit: true,
-        title: "6 отчетов Excel по магазинам в сутки"
+        title: "Отчеты по магазинам в формате Excel"
       },
       {
         limit: true,
-        title: "2 отчета Excel по категориям в сутки"
+        title: "Отчеты по категориям в формате Excel"
+      },
+      {
+        limit: true,
+        title: "Общая аналитика по магазинам"
+      },
+      {
+        limit: true,
+        title: "Все магазины продавцов"
+      },
+      {
+        limit: true,
+        title: "Общая аналитика по категорииям"
       },
       {
         limit: true,
@@ -92,7 +116,7 @@ export const pricing = [
       },
       {
         limit: true,
-        title: "Позиции товара"
+        title: "История позиций товара"
       },
       {
         limit: true,
@@ -100,11 +124,23 @@ export const pricing = [
       },
       {
         limit: true,
-        title: "15 отчетов Excel по магазинам в сутки"
+        title: "Отчеты по магазинам в формате Excel"
       },
       {
         limit: true,
-        title: "4 отчета Excel по категориям в сутки"
+        title: "Отчеты по категориям в формате Excel"
+      },
+      {
+        limit: true,
+        title: "Общая аналитика по магазинам"
+      },
+      {
+        limit: true,
+        title: "Все магазины продавцов"
+      },
+      {
+        limit: true,
+        title: "Общая аналитика по категорииям"
       },
       {
         limit: true,
