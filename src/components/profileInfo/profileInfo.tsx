@@ -36,6 +36,8 @@ const ProfileInfo = () => {
       return "Расширенный";
     } else if (value === "pro") {
       return "Профессиональный";
+    } else if (value === "demo") {
+      return "Демо Тариф";
     }
   };
 
