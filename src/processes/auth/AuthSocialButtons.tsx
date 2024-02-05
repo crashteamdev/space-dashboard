@@ -10,6 +10,8 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { IUser } from "@/shared/types/apps/user";
 import { setUser } from "@/shared/store/slices/user/userSlice";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
+import { v4 as uuidv4 } from "uuid";
 
 const AuthSocialButtons = ({ title }: signInType) => {
   const router = useRouter();
@@ -20,10 +22,19 @@ const AuthSocialButtons = ({ title }: signInType) => {
     const user = await signInGoogle();
 
     if (user?.email) {
-      // router.push("/");
       router.push("/profile");
+      dispatch(
+        addItem({
+          title: "Вы успешно вошли в аккаунт",
+          status: "success",
+          timelife: 4000,
+          id: uuidv4()
+        })
+      );
     }
+
     localStorage.setItem("remember", "on");
+
     if (auth.currentUser) {
       const { uid, accessToken, displayName, email, photoURL } = auth.currentUser as any;
       const user = {
@@ -36,6 +47,7 @@ const AuthSocialButtons = ({ title }: signInType) => {
 
       dispatch(setUser(user));
     }
+
   };
 
   return (
