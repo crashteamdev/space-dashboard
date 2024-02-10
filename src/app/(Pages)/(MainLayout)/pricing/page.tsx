@@ -36,7 +36,7 @@ import { motion } from "framer-motion";
 const Pricing = () => {
   const [show, setShow] = React.useState(false);
   const [open, setOpen] = React.useState(0);
-  const [context, setContext] = React.useState("Freekassa") as any;
+  const [context, setContext] = React.useState("lava") as any;
   const [empty, setEmpty] = React.useState("") as any;
   const auth = getAuth(firebase_app) as any;
 
