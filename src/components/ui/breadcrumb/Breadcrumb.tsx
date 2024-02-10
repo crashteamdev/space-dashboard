@@ -3,7 +3,7 @@ import { Grid, Typography, Box, Breadcrumbs, Theme } from "@mui/material";
 import NextLink from "next/link";
 import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
-import breadcrumbImg from "public/images/breadcrumb/ChatBc.png";
+import breadcrumbImg from "/public/images/breadcrumb/ChatBc.png";
 import { IconCircle } from "@tabler/icons-react";
 import Image from "next/image";
 
