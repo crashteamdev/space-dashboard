@@ -17,6 +17,11 @@ const ValuesSettings = ({
   getFirstData,
   dataS
 }: any) => {
+
+  const formState = {
+    shouldValidateAmountStep: true // Здесь пример условия, когда мы хотим валидировать amountStep
+  };
+
   const validationSchema = yup.object({
     minValue: yup
       .number()
@@ -33,8 +38,13 @@ const ValuesSettings = ({
       .max(100, "Число не должно быть больше 100"),
     amountStep: yup
       .number()
-      .required("Шаг повышения цены не заполнен")
-      .min(1, "Число не должно быть меньше 1")
+      .when("shouldValidateAmountStep", {
+        is: true, // Валидируем amountStep только если shouldValidateAmountStep равно true
+        then: yup.number()
+          .required("Шаг повышения цены не заполнен")
+          .min(1, "Число не должно быть меньше 1"),
+        otherwise: yup.number() // Валидация не будет применяться, если shouldValidateAmountStep равно false
+      })
   });
 
   const dispatch = useDispatch();
@@ -61,6 +71,11 @@ const ValuesSettings = ({
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      
+      validationSchema.validate(values, { context: formState })
+      .then(valid => console.log("Данные валидны:", valid))
+      .catch(error => console.error("Ошибка валидации:", error.message));
+
       if (step) {
         await dispatch(
           editStrategyId(company.activeCompany, item.id, {
