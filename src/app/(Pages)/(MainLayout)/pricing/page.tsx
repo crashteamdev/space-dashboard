@@ -240,7 +240,7 @@ const Pricing = () => {
                 Срок: {show ? 1 * 3 : 1} {getPluralNoun(show ? 1 * 3 : 1 || 0, "месяц", "месяца", "месяцев")}
               </Typography>
               <Box mt={2}>
-                <PaymentList company={company.activeCompany} pay={true} error={empty} context={context} setContext={setContext} />
+                <PaymentList pay={true} error={empty} context={context} setContext={setContext} />
               </Box>
               {context !== "Оплата с баланса" && <CheckPromoCode /> }
             </Stack>
