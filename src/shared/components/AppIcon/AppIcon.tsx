@@ -18,6 +18,10 @@ const Logo = dynamic(() => import("./components/Logo").then((module) => module.L
     ssr: true
 });
 
+const Enot = dynamic(() => import("./components/Enot").then((module) => module.Enot), {
+    ssr: true
+});
+
 type Props = {
     type: IconType;
     className?: string;
@@ -29,7 +33,8 @@ const icons: Record<IconType, (className: string, color: string) => ReactNode> =
     "lava-pay": (className, color) => <LavaPay className={className} color={color} />,
     "freekassa": (className, color) => <Freekassa className={className} color={color} />,
     "click-up": (className, color) => <ClickUp className={className} color={color} />,
-    "logo": (className, color) => <Logo className={className} color={color} />
+    "logo": (className, color) => <Logo className={className} color={color} />,
+    "enot": (className, color) => <Enot className={className} color={color} />,
 };
 
 
