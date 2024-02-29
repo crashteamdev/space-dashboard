@@ -155,7 +155,7 @@ const ProductTableList = () => {
       const day = String(today.getDate()).padStart(2, "0");
 
       const toDate = `${year}-${month}-${day}`;
-      const formattedDate = `${String(today.getFullYear() - 2)}-${month}-${day}`;
+      const formattedDate = `${String(today.getFullYear() - 1)}-${month}-${day}`;
       const data = await dispatch(
         getListPayments(formattedDate, toDate)
       );
@@ -201,8 +201,7 @@ const ProductTableList = () => {
 
   const theme = useTheme();
   const borderColor = theme.palette.divider;
-
-  return rows.length ? (
+  return rows && rows.length ? (
     <Box>
       <Box>
         <Paper variant='outlined' sx={{ mx: 0, mt: 1, border: `1px solid ${borderColor}` }}>
