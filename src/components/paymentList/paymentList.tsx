@@ -33,6 +33,12 @@ const PaymentList = ({ setContext, context = "enot", error, pay }: paymentListPr
         <MenuItem value={"Freekassa"}>
           <AppIcon className="h-[20px]" type="freekassa" color={theme.activeMode === "light" ? "black" : "white"} />
         </MenuItem>
+        <MenuItem value={"uz-click"}>
+          <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
+        </MenuItem>
+        <MenuItem value={"lava"}>
+          <AppIcon className="h-[30px]" type="lava-pay" color={theme.activeMode === "light" ? "black" : "white"} />
+        </MenuItem>
         {pay && <MenuItem value={"Оплата с баланса"}>Оплата с баланса</MenuItem>}
       </CustomSelect>
       {error ? "Выберите провайдера" : ""}
