@@ -28,7 +28,7 @@ const Payment = () => {
   const [activeStep, setActiveStep] = React.useState(walletPopup.value ? 1 : 0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [empty, setEmpty] = React.useState("");
-  const [context, setContext] = React.useState("");
+  const [context, setContext] = React.useState("Freekassa");
   const router = useRouter();
   const isStepSkipped = (step: any) => skipped.has(step);
 

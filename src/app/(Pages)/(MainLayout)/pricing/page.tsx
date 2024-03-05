@@ -13,7 +13,8 @@ import {
   ListItemIcon,
   Chip,
   Switch,
-  Stack
+  Stack,
+  Alert
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
@@ -32,11 +33,12 @@ import PaymentList from "@/components/paymentList/paymentList";
 import { useRouter } from "next/navigation";
 import { getPluralNoun } from "@/shared/lib/getPluralNoun";
 import { motion } from "framer-motion";
+import { AppButton } from "@/shared/components/AppButton";
 
 const Pricing = () => {
   const [show, setShow] = React.useState(false);
   const [open, setOpen] = React.useState(0);
-  const [context, setContext] = React.useState("enot") as any;
+  const [context, setContext] = React.useState("Freekassa") as any;
   const [empty, setEmpty] = React.useState("") as any;
   const auth = getAuth(firebase_app) as any;
 
@@ -216,11 +218,15 @@ const Pricing = () => {
           open={open}
           setOpen={setOpen}
           title={"Оплата"}
-          description={`Вы выбрали тариф для ${(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}`}
+          description=""
         >
           <>
             <Stack px={3}>
-              <Typography variant="h6">
+              {/* <Typography variant="h6">
+                {`Вы выбрали тариф для ${(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}`}
+              </Typography> */}
+              <Alert className="flex items-center mb-3" variant="filled" severity="info">Вы выбрали тариф для {(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}</Alert>
+              <Typography variant="h6" sx={{ mt: 1 }}>
                 Тариф: {pricing[open - 1]?.packageRu}
               </Typography>
               <Typography variant="h6" sx={{ mt: 1 }}>
@@ -239,18 +245,18 @@ const Pricing = () => {
               <Typography variant="h6" sx={{ mt: 1 }}>
                 Срок: {show ? 1 * 3 : 1} {getPluralNoun(show ? 1 * 3 : 1 || 0, "месяц", "месяца", "месяцев")}
               </Typography>
-              <Box mt={2}>
-                <PaymentList pay={true} error={empty} context={context} setContext={setContext} />
-              </Box>
+                <Box mt={2}>
+                  <PaymentList company={company.activeCompany} pay={true} error={empty} context={context} setContext={setContext} />
+                </Box>
               {context !== "Оплата с баланса" && <CheckPromoCode /> }
             </Stack>
             <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"space-between"}>
-              <Button variant='contained' color='error' onClick={() => setOpen(0)}>
+              <AppButton tag="button" themeType="warning" onClick={() => setOpen(0)}>
                 Отменить
-              </Button>
-              <Button variant='contained' color='primary' onClick={handleLink}>
-                Оплатить тариф
-              </Button>
+              </AppButton>
+              <AppButton tag="button" themeType="success" onClick={handleLink}>
+                Оплатить тариф {(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}
+              </AppButton>
             </Stack>
           </>
         </Popup>

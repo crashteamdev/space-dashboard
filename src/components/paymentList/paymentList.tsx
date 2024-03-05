@@ -14,7 +14,7 @@ interface paymentListProps {
   company?: string;
 }
 
-const PaymentList = ({ setContext, context = "enot", error, pay }: paymentListProps) => {
+const PaymentList = ({ company, setContext, context = "Freekassa", error, pay }: paymentListProps) => {
   const theme = useSelector((state: AppState) => state.customizer) as any;
   return (
     <Grid item xs={12} sm={12} lg={12}>
@@ -23,19 +23,21 @@ const PaymentList = ({ setContext, context = "enot", error, pay }: paymentListPr
         labelId='demo-simple-select-label'
         id='demo-simple-select'
         value={context}
-        defaultValue={"enot"}
+        defaultValue={""}
         onChange={(e: any) => setContext(e.target.value)}
         fullWidth
       >
-        <MenuItem value={"enot"} className="flex">
-          <AppIcon className="h-[30px]" type="enot" color={theme.activeMode === "light" ? "#0D1019" : "white"} />
-        </MenuItem>
         <MenuItem value={"Freekassa"}>
           <AppIcon className="h-[20px]" type="freekassa" color={theme.activeMode === "light" ? "black" : "white"} />
         </MenuItem>
-        <MenuItem value={"uz-click"}>
-          <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
+        <MenuItem value={"enot"} className="flex">
+          <AppIcon className="h-[30px]" type="enot" color={theme.activeMode === "light" ? "#0D1019" : "white"} />
         </MenuItem>
+        {(company === "uzum" || !pay) &&
+          <MenuItem value={"uz-click"}>
+            <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
+          </MenuItem>
+        }
         {pay && <MenuItem value={"Оплата с баланса"}>Оплата с баланса</MenuItem>}
       </CustomSelect>
       {error ? "Выберите провайдера" : ""}
