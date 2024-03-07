@@ -222,10 +222,7 @@ const Pricing = () => {
         >
           <>
             <Stack px={3}>
-              {/* <Typography variant="h6">
-                {`Вы выбрали тариф для ${(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}`}
-              </Typography> */}
-              <Alert className="flex items-center mb-3" variant="filled" severity="info">Вы выбрали тариф для {(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}</Alert>
+              <Alert className="flex items-center mb-3 !bg-blueGray-600" variant="filled" severity="info">Вы выбрали тариф для {(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}</Alert>
               <Typography variant="h6" sx={{ mt: 1 }}>
                 Тариф: {pricing[open - 1]?.packageRu}
               </Typography>
@@ -246,15 +243,19 @@ const Pricing = () => {
                 Срок: {show ? 1 * 3 : 1} {getPluralNoun(show ? 1 * 3 : 1 || 0, "месяц", "месяца", "месяцев")}
               </Typography>
                 <Box mt={2}>
-                  <PaymentList company={company.activeCompany} pay={true} error={empty} context={context} setContext={setContext} />
+                  <PaymentList pricing={
+                    show
+                      ? pricing[open - 1]?.monthlyplan * 3 - (pricing[open - 1]?.monthlyplan * 3 * pricing[open - 1]?.diccountMath)
+                      : pricing[open - 1]?.monthlyplan
+                  } company={company.activeCompany} pay={true} error={empty} context={context} setContext={setContext} />
                 </Box>
               {context !== "Оплата с баланса" && <CheckPromoCode /> }
             </Stack>
             <Stack direction='row' px={3} pb={2} mb={2} mt={2} justifyContent={"space-between"}>
-              <AppButton tag="button" themeType="warning" onClick={() => setOpen(0)}>
+              <AppButton tag="button" themeType="cancel" onClick={() => setOpen(0)}>
                 Отменить
               </AppButton>
-              <AppButton tag="button" themeType="success" onClick={handleLink}>
+              <AppButton tag="button" themeType="primary" onClick={handleLink}>
                 Оплатить тариф {(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}
               </AppButton>
             </Stack>
