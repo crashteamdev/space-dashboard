@@ -87,7 +87,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <NextTopLoader color='#5D87FF' />
+      <NextTopLoader color='#5D87FF' showSpinner={false} />
       <NextAppDirEmotionCacheProvider options={{ key: "modernize" }}>
         <ThemeProvider theme={theme}>
           <RTL direction={customizer.activeDir}>
