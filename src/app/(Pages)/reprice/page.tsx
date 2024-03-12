@@ -2,8 +2,8 @@
 import React, { useState, useEffect} from "react";
 import { Box, Typography } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
-import AccountsReprice from "../../../../components/tables/accountsReprice";
-import CreateNewAccount from "../../../../components/createNewAccount/createNewAccount";
+import AccountsReprice from "@/components/tables/accountsReprice";
+import CreateNewAccount from "@/components/createNewAccount/createNewAccount";
 import { useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";

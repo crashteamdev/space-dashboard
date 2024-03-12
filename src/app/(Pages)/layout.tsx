@@ -1,10 +1,10 @@
 "use client";
 import { styled, Container, Box, useTheme } from "@mui/material";
 import React, { useEffect } from "react";
-import Header from "../../../components/ui/header/Header";
+import Header from "@/components/ui/header/Header";
 import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
-import Sidebar from "../../../components/ui/sideBar/Sidebar";
+import Sidebar from "@/components/ui/sideBar/Sidebar";
 import { getAuth, onIdTokenChanged } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -25,7 +25,7 @@ const PageWrapper = styled("div")(() => ({
   backgroundColor: "transparent"
 })) as any;
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function Pages({ children }: { children: React.ReactNode }) {
   const customizer = useSelector((state: AppState) => state.customizer);
   const theme = useTheme();
   const router = useRouter();

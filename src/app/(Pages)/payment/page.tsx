@@ -10,7 +10,7 @@ import { Stack } from "@mui/system";
 import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import { setValue } from "@/shared/store/slices/walletPopup/WalletPopupSlice";
-import CustomTextField from "../../../../components/ui/theme-elements/CustomTextField";
+import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import { getExchange, topUpBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";

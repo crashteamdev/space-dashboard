@@ -2,7 +2,7 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
-import TokenContainer from "../../../../components/tokenContainer";
+import TokenContainer from "@/components/tokenContainer";
 
 const Extension = () => {
   return (
