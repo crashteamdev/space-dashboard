@@ -2,7 +2,7 @@
 import React from "react";
 import { Grid, Box, Card, Typography, Button } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
-import AuthForgotPassword from "../../../processes/auth/AuthForgotPassword";
+import AuthForgotPassword from "@/processes/auth/AuthForgotPassword";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";

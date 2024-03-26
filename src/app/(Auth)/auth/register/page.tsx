@@ -3,7 +3,7 @@ import React from "react";
 import { Grid, Box, Card, Typography, Stack, Button } from "@mui/material";
 import Link from "next/link";
 import PageContainer from "@/components/ui/container/PageContainer";
-import AuthRegister from "../../../processes/auth/AuthRegister";
+import AuthRegister from "@/processes/auth/AuthRegister";
 import { useState } from "react";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { useDispatch } from "@/shared/store/hooks";

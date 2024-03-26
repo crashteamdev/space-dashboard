@@ -5,8 +5,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeSettings } from "../shared/theme/Theme";
 import { store } from "@/shared/store/store";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { AppState } from "@/shared/store/store";
+import { useDispatch as useReduxDispatch } from 'react-redux';
 import NextTopLoader from "nextjs-toploader";
 import firebase_app from "../shared/firebase/firebase";
 import { getAuth } from "firebase/auth";
@@ -19,13 +18,14 @@ import "slick-carousel/slick/slick-theme.css";
 import { usePathname, useRouter } from "next/navigation";
 import { setUser } from "@/shared/store/slices/user/userSlice";
 import { IUser } from "@/shared/types/apps/user";
-import RTL from "../components/customizer/RTL";
 import { logout } from "../api/auth/logout/logout";
 import { setDarkMode, setLanguage } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import AlertList from "@/components/alertList/alertList";
+import "@gravity-ui/uikit/styles/fonts.css";
+import "@gravity-ui/uikit/styles/styles.css";
 import "@/shared/styles/globals.css";
 
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
@@ -33,7 +33,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const [loadingPage, setLoadingPage] = React.useState(false);
   const theme = ThemeSettings();
 
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
   const router = useRouter();
   const pathname = usePathname();
   const auth = getAuth(firebase_app);

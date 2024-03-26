@@ -12,3 +12,42 @@ body, header {
 .custom-white .MuiListItemButton-root:hover div{
     color: #5d87ff!important;
 }
+
+/* Logo Component */
+.custom-navigation .custom-compact-icon {
+    height: 27px;
+    width: 36px;
+}
+
+.custom-navigation .gn-logo {
+    justify-content: center;
+}
+
+.custom-navigation .gn-logo .gn-logo__logo-btn-place {
+    height: 27px;
+    display: none!important;
+}
+
+.gn-aside-header_compact.custom-navigation .gn-logo .gn-logo__logo-btn-place {
+    display: flex!important;
+}
+
+/* Card */
+.g-root {
+    --g-card-border-radius: 3px;
+}
+
+.g-root_theme_dark {
+    --g-color-base-brand: #b480f3;
+    --g-color-base-brand-hover: #a873e5;
+    --g-color-base-selection: #413b49;
+    --g-color-base-selection-hover: #4f435e;
+    --g-color-line-brand: #b480f3;
+    --g-color-text-brand: #c7a0f6;
+    --g-color-text-link: #c7a0f6;
+    --g-color-text-link-hover: #dac0f9;
+}
+
+th {
+    text-align: left;
+}

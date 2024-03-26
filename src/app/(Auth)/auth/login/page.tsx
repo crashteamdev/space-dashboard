@@ -3,7 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { Grid, Box, Card, Stack, Typography } from "@mui/material";
 import PageContainer from "@/components/ui/container/PageContainer";
-import AuthLogin from "../../../processes/auth/AuthLogin";
+import AuthLogin from "@/processes/auth/AuthLogin";
 import Image from "next/image";
 
 export default function Login2() {

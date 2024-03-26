@@ -6,7 +6,7 @@ import TokenContainer from "@/components/tokenContainer";
 
 const Extension = () => {
   return (
-    <PageContainer title='Extension' description='this is extension'>
+    <PageContainer title='Токен' description='Токен для расширения браузера'>
       {/* <Box mt={4}></Box> */}
       <Grid container spacing={3} mt={4}>
         <Grid item sm={12}>
