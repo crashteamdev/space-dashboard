@@ -1,37 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { HTMLAttributes, useEffect, useState } from "react";
 import { ExpandedState, flexRender, getCoreRowModel, getExpandedRowModel, useReactTable } from "@tanstack/react-table";
 import { Categories } from "../../types";
 import { getAuth } from "@firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
-import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
 import { updateSubRows } from "../../utils/updateSubRows";
-import { Loader } from "@gravity-ui/uikit";
+import Link from "next/link";
 
 type ITable = {
     market: string;
-    period: number;
+    period: string;
     sorting: string;
-}
+} & HTMLAttributes<HTMLTableElement>;
 
-export const Table = ({market, period, sorting}: ITable ) => {
+export const Table = ({market, period, sorting, ...props}: ITable ) => {
+    const urlCategoriesStats = "https://api.marketdb.pro/gateway/external-analytics/categories/stats";
+    const query = `?mp=${market}&period=${period}`;
+    const sort = sorting && `&sort=${sorting}`;
+
     const auth = getAuth(firebase_app) as any;
+    
+    const headers = {
+        "Authorization": `Bearer ${auth.currentUser.accessToken}`,
+        "X-Request-ID": uuidv4()
+    };
 
     const [data, setData] = useState<Categories[]>([]);
     const [expanded, setExpanded] = useState<ExpandedState>({});
     const [loader, setLoader] = useState(false);
 
-    const sort = `&sort=${sorting}`;
-
     useEffect(() => {
         const getCategories = async () => {
-            const url = "https://api.marketdb.pro/gateway/external-analytics/categories";
-            const q = `?mp=${market}&startDate=${moment().subtract(period, "days").format("YYYY-MM-DD")}&endDate=${moment().format("YYYY-MM-DD")}`;
-            const response = await fetch(url + q + sort, {
+            const response = await fetch(urlCategoriesStats + query + sort, {
                 method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${auth.currentUser.accessToken}`,
-                    "X-Request-ID": "428dc70a-373d-41a8-a9a8-9fa2a16e405d"
-                }
+                headers: headers
             });
             const data = await response.json();
             const newDate = data.map((item: any) => {
@@ -47,7 +49,7 @@ export const Table = ({market, period, sorting}: ITable ) => {
             setData(newDate);
             setTimeout(() => {
                 setLoader(false);
-            }, 3000);
+            }, 2000);
         };
         setLoader(true);
         getCategories();
@@ -58,7 +60,7 @@ export const Table = ({market, period, sorting}: ITable ) => {
             accessorKey: "name",
             header: "Категория",
             cell: ({ row, getValue}: any) => {
-
+                console.log(row);
                 const toggleRowExpansion = (rowId: string) => {
                     setExpanded((oldExpanded: any) => {
                         const isExpanded = oldExpanded[rowId];
@@ -71,14 +73,9 @@ export const Table = ({market, period, sorting}: ITable ) => {
 
                 const getChildrensRows = async (row: any) => {
                     if(!row.original.subRows) {
-                        const url = "https://api.marketdb.pro/gateway/external-analytics/categories";
-                        const q = `?mp=KE&startDate=2024-02-10&endDate=2024-03-10&id=${row.original.id}`;
-                        const response = await fetch(url + q + sort, {
+                        const response = await fetch(urlCategoriesStats + query + `&id=${row.original.id}` + sort, {
                             method: "GET",
-                            headers: {
-                                "Authorization": `Bearer ${auth.currentUser.accessToken}`,
-                                "X-Request-ID": "428dc70a-373d-41a8-a9a8-9fa2a16e405d"
-                            }
+                            headers: headers
                         });
                         
                         const responseData = await response.json();
@@ -124,7 +121,9 @@ export const Table = ({market, period, sorting}: ITable ) => {
                                     {row.getIsExpanded() ? "👇" : "👉"}
                                 </button>
                             )}
-                            {getValue()}
+                            <Link href={`/analytics/categories/${row.original.id}`}>
+                                {getValue()}
+                            </Link>
                         </>
                     </div>
                 );
@@ -186,17 +185,17 @@ export const Table = ({market, period, sorting}: ITable ) => {
     if(loader) {
         return (
             <div className='loader-div'>
-                <Loader size="m"/>
+                Загрузка...
             </div>
         );
     }
     return (
-        <table>
-            <thead style={{"position": "sticky", "top": "10px", "background": "gray"}}>
+        <table {...props}>
+            <thead style={{"position": "sticky", "top": "10px", "background": "gray"}} className="text-[12px] text-white">
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map(header => (
-                            <th key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
+                            <th className="p-2" key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
                         ))}
                     </tr>
                 ))}

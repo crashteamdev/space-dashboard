@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Box, AppBar, useMediaQuery, Toolbar, styled, Stack } from "@mui/material";
+import { IconButton, Box, AppBar, useMediaQuery, Toolbar, styled, Stack, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "@/shared/store/hooks";
 import { toggleMobileSidebar } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { IconMenu2 } from "@tabler/icons-react";
@@ -15,10 +15,11 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
-    boxShadow: "none",
+    // boxShadow: "none",
     background: theme.palette.background.paper,
     justifyContent: "center",
     backdropFilter: "blur(4px)",
+    marginBottom: "10px",
     [theme.breakpoints.up("lg")]: {
       minHeight: customizer.TopbarHeight
     }
@@ -42,10 +43,9 @@ const Header = () => {
         ) : (
           ""
         )}
-        {/* ------------------------------------------- */}
-        {/* Search Dropdown */}
-        {/* ------------------------------------------- */}
-        <Box flexGrow={1} />
+        <Box flexGrow={1}>
+          {/* <Typography variant="h3">Профиль</Typography> */}
+        </Box>
         <Stack spacing={1} direction='row' alignItems='center'>
           <SwitchTheme />
           <Language />
