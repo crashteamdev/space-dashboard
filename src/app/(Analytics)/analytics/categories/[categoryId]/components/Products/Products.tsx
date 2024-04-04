@@ -5,10 +5,11 @@ import firebase_app from "@/shared/firebase/firebase";
 import { getAuth } from "@firebase/auth";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
+import Image from "next/image";
 
 export const Products = (category: any) => {
     const urlCategoriesStats = `https://api.marketdb.pro/gateway/external-analytics/categories/${category.category}/products/stats`;
-    const query = "?mp=KE&period=WEEK&page=1";
+    const query = "?mp=KE&period=WEEK&page=0&limit=20";
 
     const [loading, setLoading] = useState<boolean>(true);
     const [data, setData] = useState<IProducts[]>([]);
@@ -119,11 +120,22 @@ export const Products = (category: any) => {
                     {table.getRowModel().rows.map(row => (
                         <>
                             <tr key={row.id}>
-                                {row.getVisibleCells().map(cell => (
-                                    <th key={cell.id}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </th>
-                                ))}
+                                {row.getVisibleCells().map(cell => {
+                                    if(cell.column.id === "image_url") {
+                                        return (
+                                            <th key={cell.id}>
+                                                <div className="relative w-full max-w-[50px] h-[60px]">
+                                                    <Image src={cell.row.original.image_url} fill alt="" />
+                                                </div>
+                                            </th>
+                                        );
+                                    }
+                                    return (
+                                        <th key={cell.id}>
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </th>
+                                    );
+                                })}
                             </tr>
                         </>
                     ))}
