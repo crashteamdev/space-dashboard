@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Box, AppBar, useMediaQuery, Toolbar, styled, Stack, Typography } from "@mui/material";
+import { IconButton, Box, AppBar, useMediaQuery, Toolbar, styled, Stack } from "@mui/material";
 import { useSelector, useDispatch } from "@/shared/store/hooks";
 import { toggleMobileSidebar } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { IconMenu2 } from "@tabler/icons-react";
@@ -16,7 +16,7 @@ const Header = () => {
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
     // boxShadow: "none",
-    background: theme.palette.background.paper,
+    // background: theme.palette.background.paper,
     justifyContent: "center",
     backdropFilter: "blur(4px)",
     marginBottom: "10px",
@@ -30,7 +30,7 @@ const Header = () => {
   })) as any;
 
   return (
-    <AppBarStyled position='sticky' color='default'>
+    <AppBarStyled position='sticky' color='default' className="bg-black-800">
       <ToolbarStyled>
         {lgDown ? (
           <IconButton
