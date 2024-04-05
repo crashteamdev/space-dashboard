@@ -88,7 +88,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <NextTopLoader color='#5D87FF' showSpinner={false} />
-      <NextAppDirEmotionCacheProvider options={{ key: "modernize" }}>
+      <NextAppDirEmotionCacheProvider options={{ key: "mdb" }}>
         <ThemeProvider theme={theme}>
           {/* Верно ли так хранить notifications? В <AlertList> и оборачивать еще в придачу весь контент */}
             <AlertList> 

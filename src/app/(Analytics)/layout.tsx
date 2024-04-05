@@ -22,7 +22,7 @@ const PageWrapper = styled("div")(() => ({
   paddingBottom: "60px",
   flexDirection: "column",
   zIndex: 1,
-  backgroundColor: "transparent"
+  // backgroundColor: "transparent"
 })) as any;
 
 export default function Pages({ children }: { children: React.ReactNode }) {
@@ -64,13 +64,7 @@ export default function Pages({ children }: { children: React.ReactNode }) {
         }}
       >
         {customizer.isHeader && <Header /> }
-        <Container
-          sx={{
-            maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important"
-          }}
-        >
-          <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
-        </Container>
+        <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
       </PageWrapper>
     </MainWrapper>
   );

@@ -30,7 +30,7 @@ const Sidebar = () => {
       >
         <Box
           className={clsx(
-            "bg-black-800",
+            "bg-black-800 border-r-[1px] border-[#535263]",
             styles.sidebar
           )}
           sx={{

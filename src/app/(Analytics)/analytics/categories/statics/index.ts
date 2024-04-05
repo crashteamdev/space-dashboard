@@ -32,3 +32,22 @@ export const sortingDropdown = [
         "value": "average_bill"
     },
 ];
+
+export const period = [
+    {
+        period: "WEEK",
+        text: "Неделя"
+    },
+    {
+        period: "TWO_WEEK",
+        text: "Две недели"
+    },
+    {
+        period: "MONTH",
+        text: "Месяц"
+    },
+    {
+        period: "TWO_MONTH",
+        text: "Два месяца"
+    },
+];

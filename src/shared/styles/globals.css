@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body, header {
-    @apply dark:bg-blueGray-900;
+    /* @apply dark:bg-blueGray-900; */
 }
 .custom-white div {
     color: #fff!important;
@@ -50,4 +50,86 @@ body, header {
 
 th {
     text-align: left;
+}
+
+.mdb-heading-1 {
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.heading-layout {
+    border-bottom: 2px solid #393848;
+    padding: 15px 0;
+}
+
+.middle-layout {
+    padding-top: 40px;
+}
+
+.mdb-button-1 {
+    background: #e5e5e5;
+    border: 1px solid #d9d9d9;
+    color: #000000;
+}
+
+.mdb-button-1-active {
+    color: #fff;
+    background-color: #3e4784;
+}
+
+.mdb-table {
+    width: 100%;
+}
+
+.mdb-table-thead {
+    position: static;
+    top: 10px;
+    background-color: #ebebeb;
+}
+
+.mdb-table-thead tr th {
+    font-size: 12px;
+}
+
+.mdb-table-tbody {
+
+}
+
+.mdb-table-tbody tr th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ebebeb;
+    font-size: 13px;
+    font-weight: 400;
+    transition: all 0.2s linear;
+}
+
+.mdb-table-tbody tr:hover {
+    background-color: #ebebeb;
+    transition: all 0.2s linear;
+}
+
+.mdb-table-block-button {
+    width: 10px;
+    height: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.mdb-table-block-button--open {
+
+}
+
+.mdb-table-block-button--close {
+
+}
+
+.mdb-table-link {
+    font-weight: 600;
+}
+
+.mdb-table-link:hover {
+    text-decoration: underline;
 }

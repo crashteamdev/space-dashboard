@@ -19,7 +19,7 @@ const Header = () => {
     // background: theme.palette.background.paper,
     justifyContent: "center",
     backdropFilter: "blur(4px)",
-    marginBottom: "10px",
+    // marginBottom: "10px",
     [theme.breakpoints.up("lg")]: {
       minHeight: customizer.TopbarHeight
     }
@@ -30,7 +30,7 @@ const Header = () => {
   })) as any;
 
   return (
-    <AppBarStyled position='sticky' color='default' className="bg-black-800">
+    <AppBarStyled position='sticky' color='default' className="!bg-black-800 border-b-[1px] border-[#535263]">
       <ToolbarStyled>
         {lgDown ? (
           <IconButton

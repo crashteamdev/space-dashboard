@@ -6,6 +6,7 @@ import firebase_app from "@/shared/firebase/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { updateSubRows } from "../../utils/updateSubRows";
 import Link from "next/link";
+import { AppButton } from "@/shared/components/AppButton";
 
 type ITable = {
     market: string;
@@ -60,7 +61,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             accessorKey: "name",
             header: "Категория",
             cell: ({ row, getValue}: any) => {
-                console.log(row);
+                // console.log(row);
                 const toggleRowExpansion = (rowId: string) => {
                     setExpanded((oldExpanded: any) => {
                         const isExpanded = oldExpanded[rowId];
@@ -109,19 +110,21 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                 };
                 
                 return (
-                    <div style={{paddingLeft: `${row.depth * 2}rem`}} >
+                    <div className="flex gap-2 items-center" style={{paddingLeft: `${row.depth * 2}rem`}} >
                         <>
                             {row.original.childrens.length !== 0 && (
-                                <button
+                                <AppButton
+                                    tag="button"
+                                    className="mdb-table-block-button"
                                     {...{
                                         onClick: () => getChildrensRows(row),
                                         style: { cursor: "pointer" },
                                     }}
                                 >
-                                    {row.getIsExpanded() ? "👇" : "👉"}
-                                </button>
+                                    {row.getIsExpanded() ? "-" : "+"}
+                                </AppButton>
                             )}
-                            <Link href={`/analytics/categories/${row.original.id}`}>
+                            <Link className="mdb-table-link" href={`/analytics/categories/${row.original.id}`}>
                                 {getValue()}
                             </Link>
                         </>
@@ -190,8 +193,8 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         );
     }
     return (
-        <table {...props}>
-            <thead style={{"position": "sticky", "top": "10px", "background": "gray"}} className="text-[12px] text-white">
+        <table {...props} className="mdb-table">
+            <thead className="mdb-table-thead">
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map(header => (
@@ -200,12 +203,12 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                     </tr>
                 ))}
             </thead>
-            <tbody>
+            <tbody className="mdb-table-tbody">
                 {table.getRowModel().rows.map(row => (
                     <>
                         <tr key={row.id}>
                             {row.getVisibleCells().map(cell => (
-                                <th key={cell.id}>
+                                <th key={cell.id} className={`md-th-${cell.id}`}>
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </th>
                             ))}
@@ -216,7 +219,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                                     <React.Fragment key={rows.id}>
                                         <tr>
                                             {rows.getVisibleCells().map(cell => (
-                                                <th key={cell.id}>
+                                                <th key={cell.id} className={`md-th-${cell.id}`}>
                                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                 </th>
                                             ))}
@@ -228,7 +231,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                                                 <React.Fragment key={subRow.id}>
                                                     <tr>
                                                         {subRow.getVisibleCells().map(cell => (
-                                                            <th key={cell.id}>
+                                                            <th key={cell.id} className={`md-th-${cell.id}`}>
                                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                                 
                                                             </th>
@@ -240,7 +243,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                                                             subRow.getIsExpanded() && (
                                                                 <tr key={innerSubRow.id}>
                                                                     {innerSubRow.getVisibleCells().map(cell => (
-                                                                        <th key={cell.id}>
+                                                                        <th key={cell.id} className={`md-th-${cell.id}`}>
                                                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                                             
                                                                         </th>
