@@ -19,6 +19,7 @@
     "@emotion/styled": "latest",
     "@gravity-ui/navigation": "^2.4.0",
     "@gravity-ui/uikit": "^6.2.0",
+    "@headlessui/react": "^1.7.18",
     "@mui/icons-material": "latest",
     "@mui/lab": "^5.0.0-alpha.117",
     "@mui/material": "latest",

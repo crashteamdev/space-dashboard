@@ -8,6 +8,15 @@ import clsx from "clsx";
 import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import { AppButton } from "@/shared/components/AppButton";
+import { Listbox } from "@headlessui/react";
+
+const people = [
+  { id: 1, name: "Durward Reynolds", unavailable: false },
+  { id: 2, name: "Kenton Towne", unavailable: false },
+  { id: 3, name: "Therese Wunsch", unavailable: false },
+  { id: 4, name: "Benedict Kessler", unavailable: true },
+  { id: 5, name: "Katelyn Rohan", unavailable: false },
+]
 
 const Categories = () => {
   const customizer = useSelector((state: AppState) => state.customizer);
@@ -15,7 +24,9 @@ const Categories = () => {
   const [market, setMarket] = useState<string>("KE");
   const [sorting, setSorting] = useState<string>("");
   const [periodDay, setPeriodDay] = useState<string>("WEEK");
-  
+
+  const [selectedPerson, setSelectedPerson] = useState(people[0]);
+
   // const handleUpdateSorting = (value: string) => {
   //   const isAscending = sorting === "+" + value;
   //   const isDescending = sorting === "-" + value;
@@ -56,6 +67,20 @@ const Categories = () => {
                 </AppButton>
               ))}
             </div>
+            <Listbox value={selectedPerson} onChange={setSelectedPerson}>
+              <Listbox.Button>{selectedPerson.name}</Listbox.Button>
+              <Listbox.Options>
+                {people.map((person) => (
+                  <Listbox.Option
+                    key={person.id}
+                    value={person}
+                    disabled={person.unavailable}
+                  >
+                    {person.name}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Listbox>
             {/* <FormControl variant="standard">
               <Select
                 labelId="demo-simple-select-standard-label"

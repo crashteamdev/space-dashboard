@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import { updateSubRows } from "../../utils/updateSubRows";
 import Link from "next/link";
 import { AppButton } from "@/shared/components/AppButton";
+import clsx from "clsx";
+import { Skeleton } from "@mui/material";
 
 type ITable = {
     market: string;
@@ -29,6 +31,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
     const [data, setData] = useState<Categories[]>([]);
     const [expanded, setExpanded] = useState<ExpandedState>({});
     const [loader, setLoader] = useState(false);
+    const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
 
     useEffect(() => {
         const getCategories = async () => {
@@ -43,7 +46,8 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                     name: item.category.name,
                     mp: item.category.mp,
                     childrens: item.category.childrens,
-                    analytics: item.analytics
+                    analytics: item.analytics,
+                    difference_percent: item.difference_percent,
                 };
             });
 
@@ -63,17 +67,23 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             cell: ({ row, getValue}: any) => {
                 // console.log(row);
                 const toggleRowExpansion = (rowId: string) => {
-                    setExpanded((oldExpanded: any) => {
-                        const isExpanded = oldExpanded[rowId];
-                        return {
-                            ...oldExpanded,
-                            [rowId]: !isExpanded,
-                        };
-                    });
+                    setTimeout(() => {
+                        setExpanded((oldExpanded: any) => {
+                            const isExpanded = oldExpanded[rowId];
+                            return {
+                                ...oldExpanded,
+                                [rowId]: !isExpanded,
+                            };
+                        });
+                    }, 5000);
                 };
 
                 const getChildrensRows = async (row: any) => {
                     if(!row.original.subRows) {
+                        setLoaderSubRows({
+                            load: true,
+                            rowId: row.id
+                        });
                         const response = await fetch(urlCategoriesStats + query + `&id=${row.original.id}` + sort, {
                             method: "GET",
                             headers: headers
@@ -87,7 +97,8 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                                 name: item.category.name,
                                 mp: item.category.mp,
                                 childrens: item.category.childrens,
-                                analytics: item.analytics
+                                analytics: item.analytics,
+                                difference_percent: item.difference_percent,
                             };
                         });
         
@@ -101,6 +112,10 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
 
                         if (categoryUpdated) {
                             setData([...data]);
+                            setLoaderSubRows({
+                                load: false,
+                                rowId: null
+                            });
                         } else {
                             console.log("Категория не найдена");
                         }
@@ -139,34 +154,130 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         {
             accessorKey: "analytics.revenue",
             header: "Выручка",
+            cell: ({ row, getValue}: any) => {
+                return (
+                    <div className="relative">
+                        <div>{getValue()}</div>
+                        <div className={clsx("text-[9px] leading-[10px]", {
+                            "text-[red]": row.original.difference_percent.revenue < 0,
+                            "text-[green]": row.original.difference_percent.revenue > 0,
+                            "text-[gray]": row.original.difference_percent.revenue === 0,
+                        })}>{row.original.difference_percent.revenue}%</div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "analytics.revenue_per_product",
             header: "Выручка на продукт",
+            cell: ({ row, getValue}: any) => {
+                return (
+                    <div className="relative">
+                        <div>{getValue()}</div>
+                        <div className={clsx("text-[9px] leading-[10px]", {
+                            "text-[red]": row.original.difference_percent.revenue_per_product < 0,
+                            "text-[green]": row.original.difference_percent.revenue_per_product > 0,
+                            "text-[gray]": row.original.difference_percent.revenue_per_product === 0,
+                        })}>{row.original.difference_percent.revenue_per_product}%</div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "analytics.order_amount",
             header: "Продаж, шт",
+            cell: ({ row, getValue}: any) => {
+                return (
+                    <div className="relative">
+                        <div>{getValue()}</div>
+                        <div className={clsx("text-[9px] leading-[10px]", {
+                            "text-[red]": row.original.difference_percent.order_amount < 0,
+                            "text-[green]": row.original.difference_percent.order_amount > 0,
+                            "text-[gray]": row.original.difference_percent.order_amount === 0,
+                        })}>{row.original.difference_percent.order_amount}%</div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "analytics.order_per_product",
             header: "Продаж на товар",
+            cell: ({ row, getValue}: any) => {
+                return (
+                    <div className="relative">
+                        <div>{getValue()}</div>
+                        <div className={clsx("text-[9px] leading-[10px]", {
+                            "text-[red]": row.original.difference_percent.order_per_product < 0,
+                            "text-[green]": row.original.difference_percent.order_per_product > 0,
+                            "text-[gray]": row.original.difference_percent.order_per_product === 0,
+                        })}>{row.original.difference_percent.order_per_product}%</div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "analytics.product_count",
             header: "Товаров всего",
+            cell: ({ row, getValue}: any) => {
+                return (
+                    <div className="relative">
+                        <div>{getValue()}</div>
+                        <div className={clsx("text-[9px] leading-[10px]", {
+                            "text-[red]": row.original.difference_percent.product_count < 0,
+                            "text-[green]": row.original.difference_percent.product_count > 0,
+                            "text-[gray]": row.original.difference_percent.product_count === 0,
+                        })}>{row.original.difference_percent.product_count}%</div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "analytics.seller_count",
             header: "Продавцов",
+            cell: ({ row, getValue}: any) => {
+                return (
+                    <div className="relative">
+                        <div>{getValue()}</div>
+                        <div className={clsx("text-[9px] leading-[10px]", {
+                            "text-[red]": row.original.difference_percent.seller_count < 0,
+                            "text-[green]": row.original.difference_percent.seller_count > 0,
+                            "text-[gray]": row.original.difference_percent.seller_count === 0,
+                        })}>{row.original.difference_percent.seller_count}%</div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "analytics.order_per_seller",
             header: "Продаж на продавца",
+            cell: ({ row, getValue}: any) => {
+                return (
+                    <div>
+                        <div>{getValue()}</div>
+                        <div className={clsx("text-[9px] leading-[10px]", {
+                            "text-[red]": row.original.difference_percent.order_per_seller < 0,
+                            "text-[green]": row.original.difference_percent.order_per_seller > 0,
+                            "text-[gray]": row.original.difference_percent.order_per_seller === 0,
+                        })}>{row.original.difference_percent.order_per_seller}%</div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "analytics.average_bill",
             header: "Средний чек",
+            cell: ({ row, getValue}: any) => {
+                return (
+                    <div>
+                        <div>{getValue()}</div>
+                        <div className={clsx("text-[9px] leading-[10px]", {
+                            "text-[red]": row.original.difference_percent.average_bill < 0,
+                            "text-[green]": row.original.difference_percent.average_bill > 0,
+                            "text-[gray]": row.original.difference_percent.average_bill === 0,
+                        })}>{row.original.difference_percent.average_bill}%</div>
+                    </div>
+                );
+            }
         },
     ];
 
@@ -184,84 +295,101 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         manualExpanding: true,
     });
 
+    useEffect(() => {
+        console.log(expanded);
+    }, [expanded]);
 
-    if(loader) {
-        return (
-            <div className='loader-div'>
-                Загрузка...
-            </div>
-        );
-    }
     return (
         <table {...props} className="mdb-table">
             <thead className="mdb-table-thead">
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map(header => (
-                            <th className="p-2" key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
+                            <th className="py-2" key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
                         ))}
                     </tr>
                 ))}
             </thead>
             <tbody className="mdb-table-tbody">
-                {table.getRowModel().rows.map(row => (
+                {loader ? (
                     <>
-                        <tr key={row.id}>
-                            {row.getVisibleCells().map(cell => (
-                                <th key={cell.id} className={`md-th-${cell.id}`}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </th>
-                            ))}
-                        </tr>
-                        {row.getIsExpanded() &&  (
-                            <>
-                                {row.subRows.map(rows => (
-                                    <React.Fragment key={rows.id}>
-                                        <tr>
-                                            {rows.getVisibleCells().map(cell => (
-                                                <th key={cell.id} className={`md-th-${cell.id}`}>
-                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                </th>
-                                            ))}
-                                        </tr>
-                                        {/* Рекурсивно отображаем подкатегории */}
-                                        {rows.subRows && rows.subRows.length > 0 && (
-                                            rows.subRows.map(subRow => (
-                                                rows.getIsExpanded() && (
-                                                <React.Fragment key={subRow.id}>
-                                                    <tr>
-                                                        {subRow.getVisibleCells().map(cell => (
-                                                            <th key={cell.id} className={`md-th-${cell.id}`}>
-                                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                                
-                                                            </th>
-                                                        ))}
-                                                    </tr>
-                                                    {/* Продолжаем рекурсивно отображать подкатегории, если они есть */}
-                                                    {subRow.subRows && subRow.subRows.length > 0 && (
-                                                        subRow.subRows.map(innerSubRow => (
-                                                            subRow.getIsExpanded() && (
-                                                                <tr key={innerSubRow.id}>
-                                                                    {innerSubRow.getVisibleCells().map(cell => (
-                                                                        <th key={cell.id} className={`md-th-${cell.id}`}>
-                                                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                                            
-                                                                        </th>
-                                                                    ))}
-                                                                </tr>
-                                                            )
-                                                        ))
-                                                    )}
-                                                </React.Fragment>
-                                                )
-                                            ))
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                            </>
-                        )}
+                        {columns.map((item, key) => (
+                            <React.Fragment key={key}>
+                                <tr>
+                                    {columns.map((item, key) => (
+                                        <th key={key}>
+                                            <Skeleton variant="rectangular" height={20} />
+                                        </th>
+                                    ))}
+                                </tr>
+                            </React.Fragment>
+                        ))}
                     </>
-                ))}
+                ) 
+                :
+                <>
+                    {table.getRowModel().rows.map(row => (
+                        <>
+                            <tr key={row.id}>
+                                {row.getVisibleCells().map(cell => (
+                                    <th key={cell.id} className={`md-th-${cell.id}`}>
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    </th>
+                                ))}
+                            </tr>
+                            {row.getIsExpanded() && (
+                                <> 
+                                    {row.subRows.map(rows => (
+                                        <React.Fragment key={rows.id}>
+
+                                            <tr>
+                                                {rows.getVisibleCells().map(cell => (
+                                                    <th key={cell.id} className={`md-th-${cell.id}`}>
+                                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                    </th>
+                                                ))}
+                                            </tr>
+
+                                            {/* Рекурсивно отображаем подкатегории */}
+                                            {rows.subRows && rows.subRows.length > 0 && (
+                                                rows.subRows.map(subRow => (
+                                                    rows.getIsExpanded() && (
+                                                    <React.Fragment key={subRow.id}>
+                                                        <tr>
+                                                            {subRow.getVisibleCells().map(cell => (
+                                                                <th key={cell.id} className={`md-th-${cell.id}`}>
+                                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                                </th>
+                                                            ))}
+                                                        </tr>
+
+                                                        {/* Продолжаем рекурсивно отображать подкатегории, если они есть */}
+                                                        {subRow.subRows && subRow.subRows.length > 0 && (
+                                                            subRow.subRows.map(innerSubRow => (
+                                                                subRow.getIsExpanded() && (
+                                                                    <tr key={innerSubRow.id}>
+                                                                        {innerSubRow.getVisibleCells().map(cell => (
+                                                                            <th key={cell.id} className={`md-th-${cell.id}`}>
+                                                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                                                
+                                                                            </th>
+                                                                        ))}
+                                                                    </tr>
+                                                                )
+                                                            ))
+                                                        )}
+                                                    </React.Fragment>
+                                                    )
+                                                ))
+                                            )}
+                                        </React.Fragment>
+                                    ))}
+                                </>
+                            )}
+                        </>
+                    ))}
+                </>
+                }
             </tbody>
         </table>
     );

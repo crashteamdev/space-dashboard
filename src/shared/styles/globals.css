@@ -111,6 +111,18 @@ th {
     transition: all 0.2s linear;
 }
 
+.mdb-table-tbody tr th:first-child {
+    border-right: 1px solid #ebebeb;
+}
+
+.mdb-table-thead tr th:nth-child(2) {
+    padding-left: 10px;
+}
+
+.mdb-table-tbody tr th:nth-child(2) {
+    padding-left: 10px;
+}
+
 .mdb-table-block-button {
     width: 10px;
     height: 10px;
