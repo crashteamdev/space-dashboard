@@ -51,3 +51,14 @@ export const period = [
         text: "Два месяца"
     },
 ];
+
+export const marketplace = [
+    {
+        name: "Uzum",
+        value: "UZ"
+    },
+    {
+        name: "KazanExpress",
+        value: "KE"
+    }
+];

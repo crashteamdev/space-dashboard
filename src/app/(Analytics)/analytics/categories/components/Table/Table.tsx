@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useEffect, useState } from "react";
+import React, { HTMLAttributes, useEffect, useMemo, useState } from "react";
 import { ExpandedState, flexRender, getCoreRowModel, getExpandedRowModel, useReactTable } from "@tanstack/react-table";
 import { Categories } from "../../types";
 import { getAuth } from "@firebase/auth";
@@ -17,21 +17,28 @@ type ITable = {
 } & HTMLAttributes<HTMLTableElement>;
 
 export const Table = ({market, period, sorting, ...props}: ITable ) => {
+    console.log("рендер таблицы");
     const urlCategoriesStats = "https://api.marketdb.pro/gateway/external-analytics/categories/stats";
     const query = `?mp=${market}&period=${period}`;
     const sort = sorting && `&sort=${sorting}`;
 
     const auth = getAuth(firebase_app) as any;
     
-    const headers = {
+    const headers = useMemo(() => ({
         "Authorization": `Bearer ${auth.currentUser.accessToken}`,
         "X-Request-ID": uuidv4()
-    };
+    }), [auth.currentUser.accessToken]);
 
     const [data, setData] = useState<Categories[]>([]);
     const [expanded, setExpanded] = useState<ExpandedState>({});
     const [loader, setLoader] = useState(false);
     const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
+
+    const formatNumber = (number: number) => {
+        return number.toLocaleString("ru-RU", {
+          maximumFractionDigits: 0,
+        });
+      }
 
     useEffect(() => {
         const getCategories = async () => {
@@ -157,7 +164,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             cell: ({ row, getValue}: any) => {
                 return (
                     <div className="relative">
-                        <div>{getValue()}</div>
+                        <div>{formatNumber(getValue())}</div>
                         <div className={clsx("text-[9px] leading-[10px]", {
                             "text-[red]": row.original.difference_percent.revenue < 0,
                             "text-[green]": row.original.difference_percent.revenue > 0,
@@ -173,7 +180,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             cell: ({ row, getValue}: any) => {
                 return (
                     <div className="relative">
-                        <div>{getValue()}</div>
+                        <div>{formatNumber(getValue())}</div>
                         <div className={clsx("text-[9px] leading-[10px]", {
                             "text-[red]": row.original.difference_percent.revenue_per_product < 0,
                             "text-[green]": row.original.difference_percent.revenue_per_product > 0,
@@ -189,7 +196,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             cell: ({ row, getValue}: any) => {
                 return (
                     <div className="relative">
-                        <div>{getValue()}</div>
+                        <div>{formatNumber(getValue())}</div>
                         <div className={clsx("text-[9px] leading-[10px]", {
                             "text-[red]": row.original.difference_percent.order_amount < 0,
                             "text-[green]": row.original.difference_percent.order_amount > 0,
@@ -221,7 +228,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             cell: ({ row, getValue}: any) => {
                 return (
                     <div className="relative">
-                        <div>{getValue()}</div>
+                        <div>{formatNumber(getValue())}</div>
                         <div className={clsx("text-[9px] leading-[10px]", {
                             "text-[red]": row.original.difference_percent.product_count < 0,
                             "text-[green]": row.original.difference_percent.product_count > 0,
@@ -237,7 +244,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             cell: ({ row, getValue}: any) => {
                 return (
                     <div className="relative">
-                        <div>{getValue()}</div>
+                        <div>{formatNumber(getValue())}</div>
                         <div className={clsx("text-[9px] leading-[10px]", {
                             "text-[red]": row.original.difference_percent.seller_count < 0,
                             "text-[green]": row.original.difference_percent.seller_count > 0,
@@ -253,7 +260,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             cell: ({ row, getValue}: any) => {
                 return (
                     <div>
-                        <div>{getValue()}</div>
+                        <div>{formatNumber(getValue())}</div>
                         <div className={clsx("text-[9px] leading-[10px]", {
                             "text-[red]": row.original.difference_percent.order_per_seller < 0,
                             "text-[green]": row.original.difference_percent.order_per_seller > 0,
@@ -269,7 +276,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             cell: ({ row, getValue}: any) => {
                 return (
                     <div>
-                        <div>{getValue()}</div>
+                        <div>{formatNumber(getValue())}</div>
                         <div className={clsx("text-[9px] leading-[10px]", {
                             "text-[red]": row.original.difference_percent.average_bill < 0,
                             "text-[green]": row.original.difference_percent.average_bill > 0,
@@ -291,13 +298,8 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         getSubRows: row => row.subRows,
         getCoreRowModel: getCoreRowModel(),
         getExpandedRowModel: getExpandedRowModel(),
-        debugTable: true,
         manualExpanding: true,
     });
-
-    useEffect(() => {
-        console.log(expanded);
-    }, [expanded]);
 
     return (
         <table {...props} className="mdb-table">
