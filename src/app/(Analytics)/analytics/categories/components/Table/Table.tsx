@@ -9,6 +9,7 @@ import Link from "next/link";
 import { AppButton } from "@/shared/components/AppButton";
 import clsx from "clsx";
 import { Skeleton } from "@mui/material";
+import { formatNumber } from "@/hooks/useFormatNumber";
 
 type ITable = {
     market: string;
@@ -17,7 +18,6 @@ type ITable = {
 } & HTMLAttributes<HTMLTableElement>;
 
 export const Table = ({market, period, sorting, ...props}: ITable ) => {
-    console.log("рендер таблицы");
     const urlCategoriesStats = "https://api.marketdb.pro/gateway/external-analytics/categories/stats";
     const query = `?mp=${market}&period=${period}`;
     const sort = sorting && `&sort=${sorting}`;
@@ -32,13 +32,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
     const [data, setData] = useState<Categories[]>([]);
     const [expanded, setExpanded] = useState<ExpandedState>({});
     const [loader, setLoader] = useState(false);
-    const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
-
-    const formatNumber = (number: number) => {
-        return number.toLocaleString("ru-RU", {
-          maximumFractionDigits: 0,
-        });
-      }
+    // const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
 
     useEffect(() => {
         const getCategories = async () => {
@@ -72,7 +66,6 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             accessorKey: "name",
             header: "Категория",
             cell: ({ row, getValue}: any) => {
-                // console.log(row);
                 const toggleRowExpansion = (rowId: string) => {
                     setTimeout(() => {
                         setExpanded((oldExpanded: any) => {
@@ -87,10 +80,10 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
 
                 const getChildrensRows = async (row: any) => {
                     if(!row.original.subRows) {
-                        setLoaderSubRows({
-                            load: true,
-                            rowId: row.id
-                        });
+                        // setLoaderSubRows({
+                        //     load: true,
+                        //     rowId: row.id
+                        // });
                         const response = await fetch(urlCategoriesStats + query + `&id=${row.original.id}` + sort, {
                             method: "GET",
                             headers: headers
@@ -119,10 +112,10 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
 
                         if (categoryUpdated) {
                             setData([...data]);
-                            setLoaderSubRows({
-                                load: false,
-                                rowId: null
-                            });
+                            // setLoaderSubRows({
+                            //     load: false,
+                            //     rowId: null
+                            // });
                         } else {
                             console.log("Категория не найдена");
                         }

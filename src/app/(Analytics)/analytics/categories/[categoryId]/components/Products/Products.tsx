@@ -6,6 +6,10 @@ import { getAuth } from "@firebase/auth";
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import Image from "next/image";
+import { Skeleton } from "@mui/material";
+import { StarIcon } from "@heroicons/react/20/solid";
+import { formatNumber } from "@/hooks/useFormatNumber";
+import { ChartBar } from "../chartBar";
 
 export const Products = (category: any) => {
     const urlCategoriesStats = `https://api.marketdb.pro/gateway/external-analytics/categories/${category.category}/products/stats`;
@@ -42,53 +46,105 @@ export const Products = (category: any) => {
             header: "Название",
             cell: ({ row, getValue}: any) => {
                 return (
-                    <div>
-                        <Link href={`/analytics/categories/${row.original.id}`}>
-                            {getValue()}
-                        </Link>
+                    <div className="flex gap-3">
+                        <div 
+                            className="rounded-md overflow-hidden w-full max-w-[35px] h-[40px] relative"
+                        >
+                            <Image src={row.original.image_url} alt={row.original.title} fill/>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <Link className="text-sm hover:underline" target="_blank" href={`/analytics/product/${row.original.product_id}`}>
+                                {getValue()}
+                            </Link>
+                            <div className="flex gap-3 items-center">
+                                <Link className="text-blueGray-600 hover:underline" href={`https://kazanexpress.ru/product/${row.original.product_id}`}>Открыть на сайте</Link>
+                                <div className="flex gap-1 items-center text-xs">
+                                    <StarIcon width={14} height={15} fill="#ffb72c" className="relative top-[-1px]" />
+                                    {row.original.rating}
+                                </div>
+                                <div className="flex gap-1 items-center text-xs text-[#979797]">
+                                    {row.original.reviews_amount}
+                                    <span> отзывов</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 );
             },
         },
         {
-            accessorKey: "product_id",
-            header: "ProductID",
-        },
-        {
-            accessorKey: "mp",
-            header: "Маркетплейс",
-        },
-        {
-            accessorKey: "image_url",
-            header: "Изображение",
-        },
-        {
             accessorKey: "revenue",
             header: "Выручка",
+            cell: ({ getValue }: any) => {
+                return (
+                    <div className="relative">
+                        <div>
+                            {formatNumber(getValue())}
+                            {/* <span className="text-[10px] text-[gray]">{row.original.mp === "KE" ? "₽" : "Сум"}</span> */}
+                        </div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "order_amount",
             header: "Продажи, шт",
+            cell: ({ getValue }: any) => {
+                return (
+                    <div className="relative">
+                        <div>
+                            {formatNumber(getValue())}
+                        </div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "price",
             header: "Цена",
+            cell: ({ getValue }: any) => {
+                return (
+                    <div className="relative">
+                        <div>
+                            {formatNumber(getValue())}
+                        </div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "available_amount",
             header: "Остатки, шт",
-        },
-        {
-            accessorKey: "rating",
-            header: "Рейтинг",
-        },
-        {
-            accessorKey: "reviews_amount",
-            header: "Отзывов",
+            cell: ({ getValue }: any) => {
+                return (
+                    <div className="relative">
+                        <div>
+                            {formatNumber(getValue())}
+                        </div>
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "sales_chart",
             header: "График",
+            cell: ({ getValue }: any) => {
+                return (
+                    <div className="relative">
+                        <div>
+                        {/* <ChartBar 
+                                title=""
+                                datasets={[
+                                    {
+                                        label: "",
+                                        data: getValue(),
+                                        backgroundColor: "red"
+                                    }
+                                ]} labels={[]}                    /> */}
+                        </div>
+                    </div>
+                );
+            }
         },
     ];
 
@@ -98,47 +154,51 @@ export const Products = (category: any) => {
         getCoreRowModel: getCoreRowModel(),
     });
 
-
-    if(loading) {
-        return (
-            <>Загрузка...</>
-        );
-    }
     return (
         <>
-            <table>
-                <thead style={{"position": "sticky", "top": "10px", "background": "gray"}}>
+            <table className="mdb-table">
+                <thead className="mdb-table-thead">
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map(header => (
-                                <th key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
+                                <th className="py-2" key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
                             ))}
                         </tr>
                     ))}
                 </thead>
-                <tbody>
-                    {table.getRowModel().rows.map(row => (
+                <tbody className="mdb-table-tbody">
+                    {loading ? (
                         <>
-                            <tr key={row.id}>
-                                {row.getVisibleCells().map(cell => {
-                                    if(cell.column.id === "image_url") {
+                            {columns.map((item, key) => (
+                                <React.Fragment key={key}>
+                                    <tr>
+                                        {columns.map((item, key) => (
+                                            <th key={key}>
+                                                <Skeleton variant="rectangular" height={20} />
+                                            </th>
+                                        ))}
+                                    </tr>
+                                </React.Fragment>
+                            ))}
+                        </>
+                    ) 
+                    :
+                    <>
+                        {table.getRowModel().rows.map(row => (
+                            <>
+                                <tr key={row.id}>
+                                    {row.getVisibleCells().map(cell => {
                                         return (
                                             <th key={cell.id}>
-                                                <div className="relative w-full max-w-[50px] h-[60px]">
-                                                    <Image src={cell.row.original.image_url} fill alt="" />
-                                                </div>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </th>
                                         );
-                                    }
-                                    return (
-                                        <th key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </th>
-                                    );
-                                })}
-                            </tr>
-                        </>
-                    ))}
+                                    })}
+                                </tr>
+                            </>
+                        ))}
+                    </>
+                    }
                 </tbody>
             </table>
         </>
