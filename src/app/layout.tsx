@@ -24,10 +24,15 @@ import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import AlertList from "@/components/alertList/alertList";
-import "@gravity-ui/uikit/styles/fonts.css";
-import "@gravity-ui/uikit/styles/styles.css";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+
 import "@/shared/styles/globals.css";
 
+const queryClient = new QueryClient()
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   
   const [loadingPage, setLoadingPage] = React.useState(false);
@@ -86,7 +91,8 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+
       <NextTopLoader color='#5D87FF' showSpinner={false} />
       <NextAppDirEmotionCacheProvider options={{ key: "mdb" }}>
         <ThemeProvider theme={theme}>
@@ -113,7 +119,8 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
             </AlertList>
         </ThemeProvider>
       </NextAppDirEmotionCacheProvider>
-    </>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 };
 

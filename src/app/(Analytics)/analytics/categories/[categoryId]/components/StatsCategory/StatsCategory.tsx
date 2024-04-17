@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { ChartBar } from "../chartBar";
 import moment from "moment";
 import { getAuth } from "@firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { StatsCategories } from "../../types";
 import { v4 as uuidv4 } from "uuid";
+import { ChartLine } from "@/components/chartLine";
 
 export const StatsCategory = (category: any) => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -33,8 +33,7 @@ export const StatsCategory = (category: any) => {
 
     return (
         <div className="w-full max-w-[450px]">
-            <ChartBar 
-                title="Выручка"
+            <ChartLine
                 labels={data.map((item: any) => moment(item.date).format("YYYY-MM-DD"))}
                 datasets={[
                     {
@@ -44,8 +43,7 @@ export const StatsCategory = (category: any) => {
                     }
                 ]}
             />
-            <ChartBar 
-                title="Остатки"
+            <ChartLine 
                 labels={data.map((item: any) => moment(item.date).format("YYYY-MM-DD"))}
                 datasets={[
                     {
@@ -55,8 +53,7 @@ export const StatsCategory = (category: any) => {
                     }
                 ]}
             />
-            <ChartBar 
-                title="Средний чек"
+            <ChartLine 
                 labels={data.map((item: any) => moment(item.date).format("YYYY-MM-DD"))}
                 datasets={[
                     {
@@ -66,8 +63,7 @@ export const StatsCategory = (category: any) => {
                     }
                 ]}
             />
-            <ChartBar 
-                title="Средний чек"
+            <ChartLine 
                 labels={data.map((item: any) => moment(item.date).format("YYYY-MM-DD"))}
                 datasets={[
                     {

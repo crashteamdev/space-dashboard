@@ -9,7 +9,10 @@ import Image from "next/image";
 import { Skeleton } from "@mui/material";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { formatNumber } from "@/hooks/useFormatNumber";
-import { ChartBar } from "../chartBar";
+import { period } from "../../../statics";
+import { AppButton } from "@/shared/components/AppButton";
+import clsx from "clsx";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 export const Products = (category: any) => {
     const urlCategoriesStats = `https://api.marketdb.pro/gateway/external-analytics/categories/${category.category}/products/stats`;
@@ -19,6 +22,8 @@ export const Products = (category: any) => {
     const [data, setData] = useState<IProducts[]>([]);
     const auth = getAuth(firebase_app) as any;
     
+    const [periodDay, setPeriodDay] = useLocalStorage("period", "WEEK");
+
     const headers = {
         "Authorization": `Bearer ${auth.currentUser.accessToken}`,
         "X-Request-ID": uuidv4()
@@ -128,7 +133,7 @@ export const Products = (category: any) => {
         {
             accessorKey: "sales_chart",
             header: "График",
-            cell: ({ getValue }: any) => {
+            cell: () => {
                 return (
                     <div className="relative">
                         <div>
@@ -156,6 +161,21 @@ export const Products = (category: any) => {
 
     return (
         <>
+            <div className="heading-layout">
+                <div className="mdb-heading-1">Категории</div>
+                <div className="flex gap-3 justify-between">
+                    <div className="flex gap-2 w-full">
+                    {period.map((item, key) => (
+                        <AppButton themeType="sorting" tag="button" key={key} onClick={() => setPeriodDay(item.period)} className={clsx("mdb-button-1", {
+                            "mdb-button-1-active": periodDay === item.period
+                        })}>
+                            {item.text}
+                        </AppButton>
+                    ))}
+                    </div>
+                    {/* тут сортирофка и фильтр можно */}
+                </div>
+            </div>
             <table className="mdb-table">
                 <thead className="mdb-table-thead">
                     {table.getHeaderGroups().map(headerGroup => (
@@ -201,6 +221,14 @@ export const Products = (category: any) => {
                     }
                 </tbody>
             </table>
+            <div className="mt-5 flex justify-center">
+                <AppButton themeType="sorting" tag="button" 
+                className={
+                    clsx("mdb-button-1")
+                }>
+                    Загрузить еще
+                </AppButton>
+            </div>
         </>
     );
 };

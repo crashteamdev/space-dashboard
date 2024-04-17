@@ -9,14 +9,14 @@ import { AppState } from "@/shared/store/store";
 import { AppButton } from "@/shared/components/AppButton";
 import { Listbox } from "@headlessui/react";
 import { ArrowLongDownIcon, ArrowLongUpIcon, CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 const Categories = () => {
-  console.log("рендер Категории");
   const customizer = useSelector((state: AppState) => state.customizer);
-
-  const [market, setMarket] = useState(marketplace[1]);
   const [sorting, setSorting] = useState(sortingDropdown[0]);
-  const [periodDay, setPeriodDay] = useState<string>("WEEK");
+
+  const [periodDay, setPeriodDay] = useLocalStorage("period", "WEEK");
+  const [market, setMarket] = useLocalStorage("market", marketplace[1]);
 
   const handleUpdateSorting = ({name, value}: any) => {
     const isAscending = sorting.value === "+" + value;
