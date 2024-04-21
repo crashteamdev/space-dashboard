@@ -55,7 +55,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             setData(newDate);
             setTimeout(() => {
                 setLoader(false);
-            }, 2000);
+            }, 500);
         };
         setLoader(true);
         getCategories();

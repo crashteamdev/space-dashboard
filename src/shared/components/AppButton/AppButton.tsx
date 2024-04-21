@@ -64,7 +64,8 @@ export const AppButton: React.FC<PropsWithChildren<Props>> = ({
         "bg-gray-800 !text-gray-400 hover:bg-gray-800": props.disabled
       })}
     >
-      {props.loading && <AppSpinner className='absolute w-6 h-6' themeType='primary' />}
+      {props.loading && <> <AppSpinner className='w-4 h-4 m-auto left-0 right-0 top-[9px]' themeType='primary' />
+      </>}
       {children && (
         <span
           className={clsx("leading-none", {

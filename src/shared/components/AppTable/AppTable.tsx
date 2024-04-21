@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Table = () => {
+export const AppTable = () => {
     return (
         <>
             Table

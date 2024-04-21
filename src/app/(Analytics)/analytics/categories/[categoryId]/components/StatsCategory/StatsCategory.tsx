@@ -5,15 +5,25 @@ import firebase_app from "@/shared/firebase/firebase";
 import { StatsCategories } from "../../types";
 import { v4 as uuidv4 } from "uuid";
 import { ChartLine } from "@/components/chartLine";
+import { useLocalStorage } from "@uidotdev/usehooks";
+import { marketplace } from "../../../statics";
+import useDateRange from "@/hooks/useDateRange";
 
 export const StatsCategory = (category: any) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [data, setData] = useState<StatsCategories[]>([]);
     const auth = getAuth(firebase_app) as any;
 
+    const [market] = useLocalStorage("market", marketplace[1]);
+    const [periodDay] = useLocalStorage("period", "WEEK");
+
+    const {startDate, endDate} = useDateRange(periodDay);
+
     useEffect(() => {
+        const url = `https://api.marketdb.pro/gateway/external-analytics/categories/${category.category}/stats`;
         const fetchData = async () => {
-            const response = await fetch(`https://api.marketdb.pro/gateway/external-analytics/categories/${category.category}/stats?mp=KE&startDate=2024-03-20&endDate=2024-03-31`, {
+            console.log(`?mp=${market}&startDate=${startDate}&endDate=${endDate}`);
+            const response = await fetch(url + "?mp=KE&startDate=2024-04-14&endDate=2024-04-21", {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${auth.currentUser.accessToken}`,
@@ -25,7 +35,7 @@ export const StatsCategory = (category: any) => {
             setLoading(false);
         };
         fetchData();
-    }, []);
+    }, [startDate, endDate]);
 
     if(loading) (
         <div>Загрузка...</div>

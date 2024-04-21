@@ -22,6 +22,10 @@ const Enot = dynamic(() => import("./components/Enot").then((module) => module.E
     ssr: true
 });
 
+const Filter = dynamic(() => import("./components/Filter").then((module) => module.Filter), {
+    ssr: true
+});
+
 type Props = {
     type: IconType;
     className?: string;
@@ -35,6 +39,7 @@ const icons: Record<IconType, (className: string, color: string) => ReactNode> =
     "click-up": (className, color) => <ClickUp className={className} color={color} />,
     "logo": (className, color) => <Logo className={className} color={color} />,
     "enot": (className, color) => <Enot className={className} color={color} />,
+    "filter": (className, color) => <Filter className={className} color={color} />,
 };
 
 
