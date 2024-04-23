@@ -31,8 +31,8 @@ export const Table = ({period, sorting, category, market}: ITable ) => {
 
     const urlCategoriesStats = `https://api.marketdb.pro/gateway/external-analytics/categories/${category.category}/products/stats`;
     const query = `?mp=${market}&period=${period}&page=${page}&limit=${limit}`;
-    // const sort = sorting && `&sort=${sorting}`;
-    const filter = "&filter=revenue:1000..100000";
+    const sort = sorting && `&sort=${sorting}`;
+    // const filter = "&filter=revenue:1000..100000";
 
     const headers = useMemo(() => ({
         "Authorization": `Bearer ${auth.currentUser.accessToken}`,
@@ -41,7 +41,7 @@ export const Table = ({period, sorting, category, market}: ITable ) => {
 
     useEffect(() => {
         const getCategories = async () => {
-            const response = await fetch(urlCategoriesStats + query + filter, {
+            const response = await fetch(urlCategoriesStats + query + sort, {
                 method: "GET",
                 headers: headers
             });
@@ -178,7 +178,7 @@ export const Table = ({period, sorting, category, market}: ITable ) => {
     return (
         <>
             <table className="mdb-table">
-                <thead className="mdb-table-thead">
+                <thead className="mdb-table-thead !sticky top-2 z-50">
                     {table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
                             {headerGroup.headers.map(header => (

@@ -9,6 +9,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { marketplace } from "../../../statics";
 import useDateRange from "@/hooks/useDateRange";
 
+
 export const StatsCategory = (category: any) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [data, setData] = useState<StatsCategories[]>([]);

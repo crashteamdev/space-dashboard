@@ -44,12 +44,22 @@ export const ChartLine = ({labels, datasets}: IChartLine) => {
                     display: false, // Отключить горизонтальные линии сетки
                 },
                 ticks: {
-                    tickFormat: {
-                        prefix: "$",
-                        notation: "compact",
-                        useGrouping: true,
+                    // Форматирование сумм по оси Y для сокращения и добавления интервалов
+                    callback: function(value: any, index: any, values: any) {
+                      // Определите максимальное значение на оси Y
+                      const maxVal = Math.max(...values.map((tick: any) => tick.value));
+                      // Определяем порядок максимального значения (для миллионов, миллиардов и т.д.)
+                      const order = Math.floor(Math.log(maxVal) / Math.log(1000));
+              
+                      // Форматируем значение в зависимости от его порядка
+                      const unitNames = ["", "тыс", "млн", "млрд"]; // Список единиц измерения
+                      const divisor = Math.pow(1000, order);
+                      const unitName = unitNames[order];
+              
+                      // Форматирование значения с учётом порядка и соответствующей единицы измерения
+                      return (value / divisor).toLocaleString(undefined, { maximumFractionDigits: 0 }) + " " + unitName;
                     },
-                },
+                  },
             },
             x: {
                 ticks: {
@@ -72,6 +82,11 @@ export const ChartLine = ({labels, datasets}: IChartLine) => {
                 enabled: false,
                 position: "nearest",
                 external: externalTooltipHandler,
+            },
+        },
+        elements: {
+            line: {
+              tension: 0.5, // Сглаживание линии
             },
         },
     };

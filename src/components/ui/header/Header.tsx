@@ -30,7 +30,7 @@ const Header = () => {
   })) as any;
 
   return (
-    <AppBarStyled position='sticky' color='default' className="!bg-black-800 border-b-[1px] border-[#535263]">
+    <AppBarStyled position='static' color='default' className="!bg-black-800 border-b-[1px] border-[#535263]">
       <ToolbarStyled>
         {lgDown ? (
           <IconButton
