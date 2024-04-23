@@ -19,9 +19,54 @@ type ITable = {
     };
     period: string;
     sorting: string;
+    filters: any;
 } & HTMLAttributes<HTMLTableElement>;
 
-export const Table = ({period, sorting, category, market}: ITable ) => {
+const createFilterQueryString = (filters: any) => {
+    // Проверяем и формируем фильтр для выручки
+    const revenueRange = filters.revenueRange && filters.revenueRange.length === 2
+        ? `revenue:${filters.revenueRange[0]}..${filters.revenueRange[1]}`
+        : "";
+
+    // Проверяем и формируем фильтр для количества заказов
+    const orderAmountRange = filters.orderAmountRange && filters.orderAmountRange.length === 2
+        ? `order_amount:${filters.orderAmountRange[0]}..${filters.orderAmountRange[1]}`
+        : "";
+
+    // Проверяем и формируем фильтр для цены
+    // const priceRange = filters.priceRange && filters.priceRange.length === 2
+    //     ? `price:${filters.priceRange[0]}..${filters.priceRange[1]}`
+    //     : "";
+
+    // Проверяем и формируем фильтр для доступного количества
+    const availableAmountRange = filters.availableAmountRange && filters.availableAmountRange.length === 2
+        ? `available_amount:${filters.availableAmountRange[0]}..${filters.availableAmountRange[1]}`
+        : "";
+
+    // Проверяем и формируем фильтр для рейтинга
+    const rating = filters.rating && filters.rating.length === 2
+        ? `rating:${filters.rating[0]}..${filters.rating[1]}`
+        : "";
+
+    // Проверяем и формируем фильтр для количества отзывов
+    const reviewsAmount = filters.reviewsAmount && filters.reviewsAmount.length === 2
+        ? `reviews_amount:${filters.reviewsAmount[0]}..${filters.reviewsAmount[1]}`
+        : "";
+
+    // Создаём итоговую строку запроса, добавляя только те фильтры, которые не пусты
+    const filterString = [
+        revenueRange,
+        orderAmountRange,
+        // priceRange,
+        availableAmountRange,
+        rating,
+        reviewsAmount
+    ].filter(Boolean).join(";");
+
+    return filterString ? `&filter=${filterString}` : "";
+};
+
+export const Table = ({period, sorting, category, market, filters}: ITable ) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [loadingButton, setLoadingButton] = useState<boolean>(false);
     const [data, setData] = useState<IProducts[]>([]);
@@ -32,7 +77,8 @@ export const Table = ({period, sorting, category, market}: ITable ) => {
     const urlCategoriesStats = `https://api.marketdb.pro/gateway/external-analytics/categories/${category.category}/products/stats`;
     const query = `?mp=${market}&period=${period}&page=${page}&limit=${limit}`;
     const sort = sorting && `&sort=${sorting}`;
-    // const filter = "&filter=revenue:1000..100000";
+
+    const filterString = createFilterQueryString(filters);
 
     const headers = useMemo(() => ({
         "Authorization": `Bearer ${auth.currentUser.accessToken}`,
@@ -41,7 +87,7 @@ export const Table = ({period, sorting, category, market}: ITable ) => {
 
     useEffect(() => {
         const getCategories = async () => {
-            const response = await fetch(urlCategoriesStats + query + sort, {
+            const response = await fetch(urlCategoriesStats + query + sort + filterString.slice(0, -1), {
                 method: "GET",
                 headers: headers
             });
@@ -54,7 +100,7 @@ export const Table = ({period, sorting, category, market}: ITable ) => {
             setLoading(true);
         }
         getCategories();
-    }, [period, sorting, page]);
+    }, [period, sorting, page, filters]);
 
     const loadNextPage = () => {
         setLoadingButton(true);

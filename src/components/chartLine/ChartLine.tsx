@@ -35,7 +35,7 @@ type IChartLine = {
 }
 
 export const ChartLine = ({labels, datasets}: IChartLine) => {
-
+      
     const options = {
         responsive: true,
         scales: {

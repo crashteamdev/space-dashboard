@@ -14,9 +14,15 @@ export const Products = (category: any) => {
     const [market,] = useLocalStorage("market", marketplace[1]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
+    const [filters, setFilters] = useState({});
+
+    const handleFilters = (newFilters: any) => {
+        setFilters(newFilters);
+    };
+    
     return (
         <>  
-            <Filter isOpen={isOpen} setIsOpen={setIsOpen}  />
+            <Filter isOpen={isOpen} setIsOpen={setIsOpen} onApplyFilters={handleFilters} />
             <div className="heading-layout">
                 <div className="mdb-heading-1">Категории</div>
                 <div className="flex gap-3 justify-between">
@@ -37,7 +43,7 @@ export const Products = (category: any) => {
                     </div>
                 </div>
             </div>
-            <Table sorting={sorting.value} period={periodDay} category={category} market={market.value} />
+            <Table sorting={sorting.value} period={periodDay} category={category} market={market.value} filters={filters} />
         </>
     );
 };

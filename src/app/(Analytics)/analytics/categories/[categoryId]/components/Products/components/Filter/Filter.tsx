@@ -6,11 +6,29 @@ import { AppSlider } from "@/shared/components/AppSlider";
 type IFilter = {
     isOpen: boolean;
     setIsOpen: (arg: boolean) => void;
+    onApplyFilters: any;
 }
 
-export const Filter = ({isOpen, setIsOpen}: IFilter) => {
+export const Filter = ({isOpen, setIsOpen, onApplyFilters}: IFilter) => {
     const [revenueRange, setRevenueRange] = useState([0, 999999999]);
-    const [salesRange, setSalesRange] = useState([0, 999999999]);
+    const [orderAmountRange, setOrderAmountRange] = useState([0, 999999999]);
+    const [priceRange, setPriceRange] = useState([0, 999999999]);
+    const [availableAmountRange, setAvailableAmountRange] = useState([0, 999999999]);
+    const [rating, setRating] = useState([0, 5]);
+    const [reviewsAmount, setReviewsAmount] = useState([0, 999999999]);
+
+    const applyFilters = () => {
+        const newFilters = {
+            revenueRange,
+            orderAmountRange,
+            priceRange,
+            availableAmountRange,
+            rating,
+            reviewsAmount
+        };
+        onApplyFilters(newFilters);
+        setIsOpen(false);
+    };
 
     return (
         <>
@@ -53,13 +71,17 @@ export const Filter = ({isOpen, setIsOpen}: IFilter) => {
                                 </div>
                                 <div className="mt-2">
                                     <AppSlider label="Выручка" range={revenueRange} setRange={setRevenueRange} max={999999999} />
-                                    <AppSlider label="Продажи" range={salesRange} setRange={setSalesRange} max={999999999} />
+                                    <AppSlider label="Продажи" range={orderAmountRange} setRange={setOrderAmountRange} max={999999999} />
+                                    <AppSlider label="Цена" range={priceRange} setRange={setPriceRange} max={999999999} />
+                                    <AppSlider label="Остатки" range={availableAmountRange} setRange={setAvailableAmountRange} max={999999999} />
+                                    <AppSlider minDistance={0} label="Рейтинг" range={rating} setRange={setRating} max={5} />
+                                    <AppSlider label="Отзывов" range={reviewsAmount} setRange={setReviewsAmount} max={999999999} />
                                 </div>
                                 <div className="mt-4">
                                     <button
                                     type="button"
                                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={applyFilters}
                                     >
                                         Применить
                                     </button>

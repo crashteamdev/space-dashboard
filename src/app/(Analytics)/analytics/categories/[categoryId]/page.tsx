@@ -12,7 +12,7 @@ import firebase_app from "@/shared/firebase/firebase";
 import { getAuth } from "firebase/auth";
 
 export default function Page({ params }: { params: { categoryId: string } }) {
-    const [value, setValue] = React.useState("1");
+    const [value, setValue] = React.useState("2");
     const auth = getAuth(firebase_app) as any;
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);

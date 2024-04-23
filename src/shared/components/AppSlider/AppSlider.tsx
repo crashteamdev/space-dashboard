@@ -6,14 +6,14 @@ interface RangeSliderProps {
   range: number[];
   setRange: React.Dispatch<React.SetStateAction<number[]>>;
   max: number;
+  minDistance?: number;
 }
 
 function valuetext(value: number): string {
   return `${value}`;
 }
 
-export const AppSlider: React.FC<RangeSliderProps> = ({ label, range, setRange, max }) => {
-  const minDistance = 10;
+export const AppSlider: React.FC<RangeSliderProps> = ({ label, range, setRange, max, minDistance = 10 }) => {
 
   const handleChange = (event: Event, newValue: number | number[], activeThumb: number) => {
     if (!Array.isArray(newValue)) {
