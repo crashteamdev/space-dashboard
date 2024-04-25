@@ -9,6 +9,7 @@ import { getAuth, onIdTokenChanged } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
+import { AppScroll } from "@/shared/components/AppScroll";
 
 const MainWrapper = styled("div")(() => ({
   display: "flex",
@@ -65,6 +66,7 @@ export default function Pages({ children }: { children: React.ReactNode }) {
       >
         {customizer.isHeader && <Header /> }
         <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{children}</Box>
+        <AppScroll />
       </PageWrapper>
     </MainWrapper>
   );

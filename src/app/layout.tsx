@@ -24,7 +24,7 @@ import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import AlertList from "@/components/alertList/alertList";
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import {
   QueryClient,
   QueryClientProvider,
@@ -119,7 +119,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
             </AlertList>
         </ThemeProvider>
       </NextAppDirEmotionCacheProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false}  /> */}
     </QueryClientProvider>
   );
 };

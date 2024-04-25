@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { Skeleton } from "@mui/material";
 import { formatNumber } from "@/hooks/useFormatNumber";
 import { TableBody } from "./utils/tableRow";
+import { useWindowScroll } from "@uidotdev/usehooks";
 
 type ITable = {
     market: string;
@@ -34,6 +35,8 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
     const [expanded, setExpanded] = useState<ExpandedState>({});
     const [loader, setLoader] = useState(false);
     const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
+
+    const [{ y }] = useWindowScroll();
 
     useEffect(() => {
         const getCategories = async () => {
@@ -309,7 +312,12 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
 
     return (
         <table {...props} className="mdb-table">
-            <thead className="mdb-table-thead">
+            <thead 
+                className="mdb-table-thead sticky"
+                style={{
+                    boxShadow: y! > 100 ? "rgb(0 0 0 / 19%) 0 3px 10px 0px" : "none"
+                }}
+            >
                 {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map(header => (
