@@ -28,7 +28,7 @@ const Categories = () => {
           sx={{
             maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important"
           }}>
-          <div className="mdb-heading-1">Категории</div>
+          <div className="mdb-heading-1">Список категорий</div>
           <div className="flex gap-3 justify-between">
             <div className="flex gap-2 w-full">
               {period.map((item, key) => (

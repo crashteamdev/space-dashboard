@@ -1,3 +1,7 @@
+"use client";
+import dynamic from "next/dynamic";
+
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import React, { HTMLAttributes, useEffect, useMemo, useState } from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { getAuth } from "@firebase/auth";
@@ -67,6 +71,39 @@ const createFilterQueryString = (filters: any) => {
 };
 
 export const Table = ({period, sorting, category, market, filters}: ITable ) => {
+
+    const optionsrow1chart: any = {
+        chart: {
+          type: "area",
+        //   fontFamily:
+          foreColor: "#adb0bb",
+          toolbar: {
+            show: false,
+          },
+          height: 35,
+          width: 100,
+          sparkline: {
+            enabled: true,
+          },
+          group: "sparklines",
+        },
+        stroke: {
+          curve: "smooth",
+          width: 2,
+        },
+        fill: {
+          colors: ["#ECF2FF"],
+          type: "solid",
+          opacity: 0.05,
+        },
+        markers: {
+          size: 0,
+        },
+        tooltip: {
+          enabled: true,
+        },
+    };
+
     const [loading, setLoading] = useState<boolean>(true);
     const [loadingButton, setLoadingButton] = useState<boolean>(false);
     const [data, setData] = useState<IProducts[]>([]);
@@ -195,19 +232,24 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
         {
             accessorKey: "sales_chart",
             header: "График",
-            cell: () => {
+            cell: ({row}: any) => {
+                const seriesrow1chart = [
+                    {
+                        // name: "Customers",
+                        color: "#556cd6",
+                        data: row.original.sales_chart,
+                    },
+                ];
                 return (
                     <div className="relative">
                         <div>
-                        {/* <ChartBar 
-                                title=""
-                                datasets={[
-                                    {
-                                        label: "",
-                                        data: getValue(),
-                                        backgroundColor: "red"
-                                    }
-                                ]} labels={[]}                    /> */}
+                        <Chart
+                            options={optionsrow1chart}
+                            series={seriesrow1chart}
+                            type="area"
+                            height="35px"
+                            width="100px"
+                        />
                         </div>
                     </div>
                 );

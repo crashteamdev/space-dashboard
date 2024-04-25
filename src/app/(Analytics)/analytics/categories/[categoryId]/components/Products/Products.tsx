@@ -24,7 +24,6 @@ export const Products = (category: any) => {
         <>  
             <Filter isOpen={isOpen} setIsOpen={setIsOpen} onApplyFilters={handleFilters} />
             <div className="heading-layout">
-                <div className="mdb-heading-1">Категории</div>
                 <div className="flex gap-3 justify-between">
                     <div className="flex gap-2 w-full">
                     {period.map((item, key) => (

@@ -12,6 +12,7 @@ import { Skeleton } from "@mui/material";
 import { formatNumber } from "@/hooks/useFormatNumber";
 import { TableBody } from "./utils/tableRow";
 import { useWindowScroll } from "@uidotdev/usehooks";
+import Image from "next/image";
 
 type ITable = {
     market: string;
@@ -148,6 +149,16 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         {
             accessorKey: "mp",
             header: "Маркетплейс",
+            cell: ({ getValue }: any) => {
+                return (
+                    <div className="relative">
+                        {getValue() === "KE" 
+                            ? <Image src="/mm.png" alt="Магнит Маркет" width={20} height={20} /> 
+                            : <Image src="/uzum.svg" alt="Магнит Маркет" width={20} height={20} /> 
+                        }
+                    </div>
+                );
+            }
         },
         {
             accessorKey: "analytics.revenue",
@@ -295,17 +306,31 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
     const loadingSkeleton = (children?: any) => {
         return (
             <>
-                {children?.original.childrens.map((item: any, key: number) => (
-                    <React.Fragment key={key}>
-                        <tr>
-                            {columns.map((item, key) => (
-                                <th key={key}>
-                                    <Skeleton variant="rectangular" height={20} />
-                                </th>
-                            ))}
-                        </tr>
-                    </React.Fragment>
-                ))}
+                {children ? (
+                    <>
+                        {children?.original.childrens.map((item: any, key: number) => (
+                            <tr key={key}>
+                                {columns.map((item, key) => (
+                                    <th key={key}>
+                                        <Skeleton variant="rectangular" height={20} />
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
+                    </>
+                ) : (
+                    <>
+                        {columns.map((item: any, key: number) => (
+                            <tr key={key}>
+                                {columns.map((item, key) => (
+                                    <th key={key}>
+                                        <Skeleton variant="rectangular" height={20} />
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
+                    </>
+                )}
             </>
         );
     };

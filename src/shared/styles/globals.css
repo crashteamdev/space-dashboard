@@ -87,7 +87,7 @@ th {
     position: sticky;
     top: 10px;
     background-color: #ebebeb;
-    z-index: 9999;
+    z-index: 999;
 }
 
 .mdb-table-thead tr th {
