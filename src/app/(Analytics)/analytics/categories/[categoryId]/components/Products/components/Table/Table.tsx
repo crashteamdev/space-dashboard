@@ -34,9 +34,9 @@ const createFilterQueryString = (filters: any) => {
         : "";
 
     // Проверяем и формируем фильтр для цены
-    // const priceRange = filters.priceRange && filters.priceRange.length === 2
-    //     ? `price:${filters.priceRange[0]}..${filters.priceRange[1]}`
-    //     : "";
+    const priceRange = filters.priceRange && filters.priceRange.length === 2
+        ? `price:${filters.priceRange[0]}..${filters.priceRange[1]}`
+        : "";
 
     // Проверяем и формируем фильтр для доступного количества
     const availableAmountRange = filters.availableAmountRange && filters.availableAmountRange.length === 2
@@ -57,7 +57,7 @@ const createFilterQueryString = (filters: any) => {
     const filterString = [
         revenueRange,
         orderAmountRange,
-        // priceRange,
+        priceRange,
         availableAmountRange,
         rating,
         reviewsAmount

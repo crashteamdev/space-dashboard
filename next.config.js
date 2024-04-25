@@ -27,6 +27,11 @@ const nextConfig = {
         hostname: "image.kazanexpress.ru",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "images.uzum.uz",
+        port: "",
+      },
     ],
   },
 };

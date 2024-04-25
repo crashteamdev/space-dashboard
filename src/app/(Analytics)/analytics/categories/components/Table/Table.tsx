@@ -10,6 +10,7 @@ import { AppButton } from "@/shared/components/AppButton";
 import clsx from "clsx";
 import { Skeleton } from "@mui/material";
 import { formatNumber } from "@/hooks/useFormatNumber";
+import { TableBody } from "./utils/tableRow";
 
 type ITable = {
     market: string;
@@ -32,7 +33,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
     const [data, setData] = useState<Categories[]>([]);
     const [expanded, setExpanded] = useState<ExpandedState>({});
     const [loader, setLoader] = useState(false);
-    // const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
+    const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
 
     useEffect(() => {
         const getCategories = async () => {
@@ -68,6 +69,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             cell: ({ row, getValue}: any) => {
                 const toggleRowExpansion = (rowId: string) => {
                     setTimeout(() => {
+                        setLoaderSubRows({load: false, rowId: null});
                         setExpanded((oldExpanded: any) => {
                             const isExpanded = oldExpanded[rowId];
                             return {
@@ -75,15 +77,12 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                                 [rowId]: !isExpanded,
                             };
                         });
-                    }, 5000);
+                    }, 500);
                 };
 
                 const getChildrensRows = async (row: any) => {
                     if(!row.original.subRows) {
-                        // setLoaderSubRows({
-                        //     load: true,
-                        //     rowId: row.id
-                        // });
+                        setLoaderSubRows({load: true, rowId: row.id});
                         const response = await fetch(urlCategoriesStats + query + `&id=${row.original.id}` + sort, {
                             method: "GET",
                             headers: headers
@@ -112,10 +111,6 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
 
                         if (categoryUpdated) {
                             setData([...data]);
-                            // setLoaderSubRows({
-                            //     load: false,
-                            //     rowId: null
-                            // });
                         } else {
                             console.log("Категория не найдена");
                         }
@@ -294,6 +289,24 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         manualExpanding: true,
     });
 
+    const loadingSkeleton = (children?: any) => {
+        return (
+            <>
+                {children?.original.childrens.map((item: any, key: number) => (
+                    <React.Fragment key={key}>
+                        <tr>
+                            {columns.map((item, key) => (
+                                <th key={key}>
+                                    <Skeleton variant="rectangular" height={20} />
+                                </th>
+                            ))}
+                        </tr>
+                    </React.Fragment>
+                ))}
+            </>
+        );
+    };
+
     return (
         <table {...props} className="mdb-table">
             <thead className="mdb-table-thead">
@@ -306,85 +319,12 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                 ))}
             </thead>
             <tbody className="mdb-table-tbody">
-                {loader ? (
-                    <>
-                        {columns.map((item, key) => (
-                            <React.Fragment key={key}>
-                                <tr>
-                                    {columns.map((item, key) => (
-                                        <th key={key}>
-                                            <Skeleton variant="rectangular" height={20} />
-                                        </th>
-                                    ))}
-                                </tr>
-                            </React.Fragment>
-                        ))}
-                    </>
-                ) 
-                :
-                <>
-                    {table.getRowModel().rows.map(row => (
-                        <>
-                            <tr key={row.id}>
-                                {row.getVisibleCells().map(cell => (
-                                    <th key={cell.id} className={`md-th-${cell.id}`}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </th>
-                                ))}
-                            </tr>
-                            {row.getIsExpanded() && (
-                                <> 
-                                    {row.subRows.map(rows => (
-                                        <React.Fragment key={rows.id}>
-
-                                            <tr>
-                                                {rows.getVisibleCells().map(cell => (
-                                                    <th key={cell.id} className={`md-th-${cell.id}`}>
-                                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                    </th>
-                                                ))}
-                                            </tr>
-
-                                            {/* Рекурсивно отображаем подкатегории */}
-                                            {rows.subRows && rows.subRows.length > 0 && (
-                                                rows.subRows.map(subRow => (
-                                                    rows.getIsExpanded() && (
-                                                    <React.Fragment key={subRow.id}>
-                                                        <tr>
-                                                            {subRow.getVisibleCells().map(cell => (
-                                                                <th key={cell.id} className={`md-th-${cell.id}`}>
-                                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                                </th>
-                                                            ))}
-                                                        </tr>
-
-                                                        {/* Продолжаем рекурсивно отображать подкатегории, если они есть */}
-                                                        {subRow.subRows && subRow.subRows.length > 0 && (
-                                                            subRow.subRows.map(innerSubRow => (
-                                                                subRow.getIsExpanded() && (
-                                                                    <tr key={innerSubRow.id}>
-                                                                        {innerSubRow.getVisibleCells().map(cell => (
-                                                                            <th key={cell.id} className={`md-th-${cell.id}`}>
-                                                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                                                
-                                                                            </th>
-                                                                        ))}
-                                                                    </tr>
-                                                                )
-                                                            ))
-                                                        )}
-                                                    </React.Fragment>
-                                                    )
-                                                ))
-                                            )}
-                                        </React.Fragment>
-                                    ))}
-                                </>
-                            )}
-                        </>
-                    ))}
-                </>
-                }
+                <TableBody 
+                    rows={table.getRowModel().rows} 
+                    loader={loader} 
+                    loadingSkeleton={loadingSkeleton} 
+                    loaderSubRows={loaderSubRows}
+                />
             </tbody>
         </table>
     );
