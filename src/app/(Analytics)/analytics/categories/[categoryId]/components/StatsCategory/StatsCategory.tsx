@@ -1,14 +1,13 @@
 import React from "react";
-import moment from "moment";
 import { getAuth } from "@firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { ChartLine } from "@/components/chartLine";
+import { ChartCard } from "@/components/chartLine";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { marketplace } from "../../../statics";
 import useDateRange from "@/hooks/useDateRange";
 import axios from "axios";
-import { Box } from "@mui/material";
+import {Box } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
 export const StatsCategory = (category: any) => {
@@ -53,51 +52,35 @@ export const StatsCategory = (category: any) => {
         );
     }
 
-    if(isLoading) (
-        <div>Загрузка...</div>
-    );
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error loading data</div>;
+
+    const revenue = data?.map((item: any) => item.revenue);
+    const remainings = data?.map((item: any) => item.remainings);
+    const average_bill = data?.map((item: any) => item.average_bill);
+    const sales = data?.map((item: any) => item.sales);
 
     return (
-        <div className="w-full max-w-[450px]">
-            <ChartLine
-                labels={data?.map((item: any) => moment(item.date).format("YYYY-MM-DD"))}
-                datasets={[
-                    {
-                        label: "Выручка",
-                        data: data?.map((item: any) => item.revenue),
-                        backgroundColor: "black"
-                    }
-                ]}
+        <div className="flex gap-5">
+            <ChartCard
+                data={revenue || []}
+                title="Выручка"
+                tooltipValue={market.value === "KE" ? "₽" : "Сум"}
             />
-            <ChartLine 
-                labels={data?.map((item: any) => moment(item.date).format("YYYY-MM-DD"))}
-                datasets={[
-                    {
-                        label: "Остатки",
-                        data: data?.map((item: any) => item.remainings),
-                        backgroundColor: "black"
-                    }
-                ]}
+            <ChartCard
+                data={remainings || []}
+                title="Остатки, шт"
+                tooltipValue="шт"
             />
-            <ChartLine 
-                labels={data?.map((item: any) => moment(item.date).format("YYYY-MM-DD"))}
-                datasets={[
-                    {
-                        label: "Средний чек",
-                        data: data?.map((item: any) => item.average_bill),
-                        backgroundColor: "black"
-                    }
-                ]}
+            <ChartCard
+                data={average_bill || []}
+                title="Средний чек"
+                tooltipValue={market.value === "KE" ? "₽" : "Сум"}
             />
-            <ChartLine 
-                labels={data?.map((item: any) => moment(item.date).format("YYYY-MM-DD"))}
-                datasets={[
-                    {
-                        label: "Продажи, шт",
-                        data: data?.map((item: any) => item.sales),
-                        backgroundColor: "black"
-                    }
-                ]}
+            <ChartCard
+                data={sales || []}
+                title="Продаж, шт"
+                tooltipValue="шт"
             />
         </div>
     );

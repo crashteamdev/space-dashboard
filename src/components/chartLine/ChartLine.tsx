@@ -1,102 +1,90 @@
 import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import dynamic from "next/dynamic";
+import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
+import { formatNumber } from "@/hooks/useFormatNumber";
 
-import { Line } from "react-chartjs-2";
-import { externalTooltipHandler } from "./utils/externalTooltipHandler";
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
-
-type IDatasets = {
-    label: string,
-    data: number[],
-    backgroundColor: string
-}
-
-type IChartLine = {
-    labels: string[],
-    datasets: IDatasets[],
-}
-
-export const ChartLine = ({labels, datasets}: IChartLine) => {
-      
-    const options = {
-        responsive: true,
-        scales: {
-            y: {
-                grid: {
-                    display: false, // Отключить горизонтальные линии сетки
-                },
-                ticks: {
-                    // Форматирование сумм по оси Y для сокращения и добавления интервалов
-                    callback: function(value: any, index: any, values: any) {
-                      // Определите максимальное значение на оси Y
-                      const maxVal = Math.max(...values.map((tick: any) => tick.value));
-                      // Определяем порядок максимального значения (для миллионов, миллиардов и т.д.)
-                      const order = Math.floor(Math.log(maxVal) / Math.log(1000));
-              
-                      // Форматируем значение в зависимости от его порядка
-                      const unitNames = ["", "тыс", "млн", "млрд"]; // Список единиц измерения
-                      const divisor = Math.pow(1000, order);
-                      const unitName = unitNames[order];
-              
-                      // Форматирование значения с учётом порядка и соответствующей единицы измерения
-                      return (value / divisor).toLocaleString(undefined, { maximumFractionDigits: 0 }) + " " + unitName;
-                    },
-                  },
+export const ChartCard = ({data, title, tooltipValue}: any) => {
+    const optionscolumnchart: any = {
+        chart: {
+            type: "area",
+            foreColor: "#adb0bb",
+            toolbar: {
+                show: false,
             },
-            x: {
-                ticks: {
-                    // callback: customXLabelCallback, // тут редактируется labels снизу
-                    font: {
-                        size: "10px",
-                        weight: "bold",
-                        style: "normal",
-                    },
-                },
+            height: 60,
+            sparkline: {
+                enabled: true,
             },
+            group: "sparklines",
         },
-        interaction: {
-            mode: "nearest",
-            axis: "x",
-            intersect: false,
+        stroke: {
+            curve: "smooth",
+            width: 2,
         },
-        plugins: {
-            tooltip: {
-                enabled: false,
-                position: "nearest",
-                external: externalTooltipHandler,
-            },
+        fill: {
+            colors: ["E8F7FF"],
+            type: "solid",
+            opacity: 0.05,
         },
-        elements: {
-            line: {
-              tension: 0.5, // Сглаживание линии
-            },
+        markers: {
+            size: 0,
         },
+        enabled: true,
+        tooltip: {
+            enabled: true,
+            custom: function({series, seriesIndex, dataPointIndex}: any) {
+                const value = series[seriesIndex][dataPointIndex];
+                return `
+                    <div class="p-2 rounded-md">
+                        <span>${title}: ${formatNumber(value)} ${tooltipValue}</span>
+                    </div>
+                `;
+            }
+        }
     };
-
-    const data = {
-        labels,
-        datasets
-    };
-
+    const seriescolumnchart = [
+        {
+            name: "",
+            color: "#49BEFF",
+            data: data,
+        },
+    ];
     return (
-        <Line options={options as any} data={data} />
+        <Card
+            sx={{ 
+                padding: 0, 
+                boxShadow: "rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;",
+
+            }}
+            className="w-full max-w-[350px]"
+        >
+            <CardContent sx={{p: "15px"}}>
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    justifyContent="space-between"
+                    alignItems={"center"}
+                    mb={3}
+                >
+                    <Box>
+                        <Typography variant="h5">{title}</Typography>
+                    </Box>
+                </Stack>
+                <>
+                    <Typography variant="subtitle2" fontWeight="500" mt="-20px">
+                        {formatNumber(data.reduce((accumulator: number, current: number) => accumulator + current, 0))} {tooltipValue}
+                    </Typography>
+                </>
+            </CardContent>
+            <Chart
+                options={optionscolumnchart} 
+                series={seriescolumnchart} 
+                type="area" 
+                height={100} 
+                width={"100%"} 
+            />
+        </Card>
     );
 };
