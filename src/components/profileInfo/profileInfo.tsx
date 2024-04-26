@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
 import ParentCard from "../ui/shared/ParentCard";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { fetchProfileStatus } from "@/shared/store/slices/userProfile/UserProfileSlice";
 import firebase_app from "@/shared/firebase/firebase";
 import { AppState } from "@/shared/store/store";
@@ -21,7 +22,7 @@ const ProfileInfo = () => {
   const auth = getAuth(firebase_app) as any;
 
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const getSubRepricer = async () => {
     const data = await dispatch(getSubscription(company.activeCompany));

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Delete } from "@mui/icons-material";
 import { getAuth } from "firebase/auth";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppState } from "@/shared/store/store";
 import firebase_app from "@/shared/firebase/firebase";
 import { deleteAccount, syncAccount } from "@/shared/store/slices/account/AccountSlice";
@@ -12,7 +13,7 @@ import moment from "moment";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 const RepricerAccountItem = ({ item, getFirstData }: any) => {
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const [open, setOpen] = useState(false);
   const auth = getAuth(firebase_app) as any;

@@ -7,7 +7,8 @@ import TabList from "@mui/lab/TabList";
 import TabContext from "@mui/lab/TabContext";
 import { useParams } from "next/navigation";
 import { getItemShop, setCurrentItem } from "@/shared/store/slices/reprice/repriceSlice";
-import { useSelector, useDispatch } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppState } from "@/shared/store/store";
 import firebase_app from "@/shared/firebase/firebase";
 import { getAuth } from "firebase/auth";
@@ -23,7 +24,7 @@ const ProductTableEditConcurents = ({ getFirstData, open, setOpen }: any) => {
   const auth = getAuth(firebase_app) as any;
   const [value, setValue] = React.useState("set") as any;
   const [data, setData] = useState({}) as any;
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;

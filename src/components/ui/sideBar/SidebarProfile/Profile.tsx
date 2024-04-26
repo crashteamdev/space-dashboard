@@ -10,7 +10,7 @@ import { useSelector } from "@/shared/store/hooks";
 import { IconPower } from "@tabler/icons-react";
 import { AppState } from "@/shared/store/store";
 import Link from "next/link";
-import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { logout } from "@/api/auth/logout/logout";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
@@ -24,7 +24,7 @@ export const Profile = () => {
 
   const user = useSelector((state: AppState) => state.user);
 
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
   const auth = getAuth(firebase_app);
 
   const exit = () => {

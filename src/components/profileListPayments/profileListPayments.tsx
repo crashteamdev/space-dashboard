@@ -20,7 +20,8 @@ import { visuallyHidden } from "@mui/utils";
 import { getAuth } from "@firebase/auth";
 import { getListPayments } from "@/shared/store/slices/userProfile/UserProfileSlice";
 import firebase_app from "@/shared/firebase/firebase";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppState } from "@/shared/store/store";
 import statusChecker from "@/processes/statusChecker/StatusChecker";
 
@@ -143,7 +144,7 @@ const ProductTableList = () => {
 
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const userPost = useSelector((state: AppState) => state.userpostsReducer) as any;
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const [rows, setRows] = React.useState<any>(userPost.paymentList);
 

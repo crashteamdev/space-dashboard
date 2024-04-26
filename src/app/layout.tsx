@@ -17,7 +17,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { usePathname, useRouter } from "next/navigation";
 import { setUser } from "@/shared/store/slices/user/userSlice";
-import { IUser } from "@/shared/types/apps/user";
+// import { IUser } from "@/shared/types/apps/user";
 import { logout } from "../api/auth/logout/logout";
 import { setDarkMode, setLanguage } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { lang } from "@/shared/i18n/i18n";
@@ -77,7 +77,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
         displayName,
         email,
         photoURL
-      } as IUser;
+      } as any;
       dispatch(setUser(userdata));
       setLoadingPage(true);
     }

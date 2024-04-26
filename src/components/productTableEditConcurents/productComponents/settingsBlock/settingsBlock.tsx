@@ -9,20 +9,21 @@ import {
   Avatar
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { getStrategiesTypes, getStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
 import StrategiesCheck from "@/components/ui/strategiesCheck/strategiesCheck";
 import ValuesSettings from "./ui/valuesSettings/valuesSettings";
 
 const SettingsBlock = ({ getFirstData, item, open }: any) => {
-  const [strategies, setStrategies] = useState([]);
+  const [strategies, setStrategies] = useState() as any;
   const [strategy, setStrategy] = useState({}) as any;
   const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState(false);
   const [dataS, setDataS] = useState({ min: false, max: false, step: false, discount: false });
 
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
 
@@ -44,14 +45,13 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
   const getProms = useCallback(async () => {
     if (repricer.currentItem) {
       setLoading(false);
-      console.log("fwfw");
-      const strategiData = await getStrategyIdHandler();
+      const strategiData = await getStrategyIdHandler() as any;
       if (strategiData?.strategyType) {
         setSelected(strategiData?.strategyType);
       }
       if (strategiData?.strategyType === "close_to_minimal") {
         setDataS({ min: true, max: true, step: true, discount: true });
-      } else if (strategiData?.strategyType === "quantity_dependent") {
+      } else if (strategiData.strategyType === "quantity_dependent") {
         setDataS({ min: true, max: true, step: true, discount: true });
       } else if (strategiData?.strategyType === "equal_price") {
         setDataS({ min: true, max: true, step: false, discount: true });
@@ -83,7 +83,6 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
       setLoading(false);
       setSelected("");
       setStrategy({});
-      console.log(open);
       setDataS({ min: false, max: false, step: false, discount: false });
     }
   }, [open]);

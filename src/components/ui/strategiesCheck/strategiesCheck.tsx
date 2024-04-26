@@ -3,14 +3,15 @@ import { Box, MenuItem } from "@mui/material";
 import CustomFormLabel from "../theme-elements/CustomFormLabel";
 import CustomSelect from "../theme-elements/CustomSelect";
 import CustomTextField from "../theme-elements/CustomTextField";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { deleteStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
 import { AppButton } from "@/shared/components/AppButton";
 
 const StrategiesCheck = ({ getProms, item, strategy, selected, setSelected, strategies }: any) => {
 
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const checkStrategy = (value: string) => {
