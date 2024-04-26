@@ -46,8 +46,8 @@ export default function Product({ params }: { params: { productId: string } }) {
 
     const customizer = useSelector((state: AppState) => state.customizer);
 
-    const [periodDay, setPeriodDay] = useLocalStorage("period", "WEEK");
-    const [market, setMarket] = useLocalStorage("market", marketplace[1]);
+    const [periodDay,] = useLocalStorage("period", "WEEK");
+    const [market,] = useLocalStorage("market", marketplace[1]);
     const {startDate, endDate} = useDateRange(periodDay);
 
 
