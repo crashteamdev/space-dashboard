@@ -5,7 +5,6 @@ export const forgotPassword = (email: string) => {
   sendPasswordResetEmail(auth, email)
     .then(() => {
       // Password reset email sent!
-      // ..
     })
     .catch((error) => {
       const errorCode = error.code;

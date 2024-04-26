@@ -11,7 +11,7 @@ import {
   styled,
   Tooltip
 } from "@mui/material";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
 import { useParams } from "next/navigation";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
@@ -22,10 +22,11 @@ import {
 import BlankCard from "@/components/ui/shared/BlankCard";
 import { IconTrash } from "@tabler/icons-react";
 import { AppButton } from "@/shared/components/AppButton";
+import { useDispatch as useReduxDispatch } from "react-redux";
 
 const ProductTableConcurentsAdds = ({getComp, dataConc } : any) => {
   const { accountId } = useParams() as any;
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;

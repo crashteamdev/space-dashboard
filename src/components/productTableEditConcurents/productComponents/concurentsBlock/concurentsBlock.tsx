@@ -16,7 +16,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import React, { useState, useEffect, useCallback } from "react";
 import ProductTableConcurentsAdds from "../../productTableConcurentsAdds/productTableConcurentsAdds";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import {
   addComcurentItem,
   getCompetitiveProducts,
@@ -47,7 +48,7 @@ const ConcurentsBlock = (item: any) => {
   const [dataConc, setDataConc] = useState([]) as any;
 
   const auth = getAuth(firebase_app) as any;
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const getItems = async () => {
     const result = await dispatch(

@@ -22,6 +22,16 @@ const nextConfig = {
         pathname:
           "/uploads/articles/1222/article-original.png",
       },
+      {
+        protocol: "https",
+        hostname: "image.kazanexpress.ru",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "images.uzum.uz",
+        port: "",
+      },
     ],
   },
 };

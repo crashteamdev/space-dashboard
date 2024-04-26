@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body, header {
-    @apply dark:bg-blueGray-900;
+    /* @apply dark:bg-blueGray-900; */
 }
 .custom-white div {
     color: #fff!important;
@@ -11,4 +11,142 @@ body, header {
 
 .custom-white .MuiListItemButton-root:hover div{
     color: #5d87ff!important;
+}
+
+/* Logo Component */
+.custom-navigation .custom-compact-icon {
+    height: 27px;
+    width: 36px;
+}
+
+.custom-navigation .gn-logo {
+    justify-content: center;
+}
+
+.custom-navigation .gn-logo .gn-logo__logo-btn-place {
+    height: 27px;
+    display: none!important;
+}
+
+.gn-aside-header_compact.custom-navigation .gn-logo .gn-logo__logo-btn-place {
+    display: flex!important;
+}
+
+/* Card */
+.g-root {
+    --g-card-border-radius: 3px;
+}
+
+.g-root_theme_dark {
+    --g-color-base-brand: #b480f3;
+    --g-color-base-brand-hover: #a873e5;
+    --g-color-base-selection: #413b49;
+    --g-color-base-selection-hover: #4f435e;
+    --g-color-line-brand: #b480f3;
+    --g-color-text-brand: #c7a0f6;
+    --g-color-text-link: #c7a0f6;
+    --g-color-text-link-hover: #dac0f9;
+}
+
+th {
+    text-align: left;
+}
+
+.mdb-heading-1 {
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.heading-layout {
+    border-bottom: 2px solid #393848;
+    padding: 15px 0;
+}
+
+.middle-layout {
+    padding-top: 40px;
+}
+
+.mdb-button-1 {
+    background: #e5e5e5;
+    border: 1px solid #d9d9d9;
+    color: #000000;
+}
+
+.mdb-button-1-active {
+    color: #fff;
+    background-color: #3e4784;
+}
+
+.mdb-table {
+    width: 100%;
+}
+
+.mdb-table-thead {
+    position: sticky;
+    top: 10px;
+    background-color: #ebebeb;
+    z-index: 999;
+}
+
+.mdb-table-thead tr th {
+    font-size: 12px;
+}
+
+.mdb-table-thead tr th:first-child {
+    padding-left: 10px;
+}
+
+.mdb-table-tbody {
+
+}
+
+.mdb-table-tbody tr th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ebebeb;
+    font-size: 13px;
+    font-weight: 400;
+    transition: all 0.2s linear;
+}
+
+.mdb-table-tbody tr:hover {
+    background-color: #ebebeb;
+    transition: all 0.2s linear;
+}
+
+.mdb-table-tbody tr th:first-child {
+    border-right: 1px solid #ebebeb;
+}
+
+.mdb-table-thead tr th:nth-child(2) {
+    padding-left: 10px;
+}
+
+.mdb-table-tbody tr th:nth-child(2) {
+    padding-left: 10px;
+}
+
+.mdb-table-block-button {
+    width: 10px;
+    height: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.mdb-table-block-button--open {
+
+}
+
+.mdb-table-block-button--close {
+
+}
+
+.mdb-table-link {
+    font-weight: 600;
+}
+
+.mdb-table-link:hover {
+    text-decoration: underline;
 }

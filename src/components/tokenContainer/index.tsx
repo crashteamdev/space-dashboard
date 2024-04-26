@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
 import ParentCard from "../ui/shared/ParentCard";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import {
   fetchToken,
   fetchRefreshToken,
@@ -35,7 +36,7 @@ const TokenContainer = () => {
 
   const token = useSelector((state: AppState) => state.userpostsReducer) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const refreshToken = () => {
     if (auth.currentUser) {

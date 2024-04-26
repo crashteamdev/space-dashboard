@@ -97,7 +97,18 @@ export const getSubscription = (context: string) => async () => {
   }
 };
 
-export const getAccount = (token: string, context: string, id: string) => async () => {
+interface Account {
+  id: string;
+  name: string;
+  email: string;
+  login: string;
+  lastUpdate: string;
+  monitorState: "suspended" | "active";
+  updateState: "not_started" | "in_progress" | "completed";
+  initializeState: "not_started" | "in_progress" | "completed";
+}
+
+export const getAccount = (token: string, context: string, id: string): (() => Promise<Account | Error>) => async () => {
   try {
     const config = {
       method: "get",
@@ -111,13 +122,13 @@ export const getAccount = (token: string, context: string, id: string) => async 
     return axiosApiInstance
       .request(config)
       .then((response) => {
-        return response.data;
+        return response.data as Account;
       })
       .catch((error) => {
-        return error;
+        return new Error(error.response?.data?.message || error.message);
       });
   } catch (err: any) {
-    throw new Error(err);
+    throw new Error(err.message);
   }
 };
 

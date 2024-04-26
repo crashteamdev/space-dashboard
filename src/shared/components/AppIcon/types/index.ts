@@ -3,4 +3,5 @@ export type IconType =
     | "freekassa"
     | "logo"
     | "click-up"
-    | "enot";
+    | "enot"
+    | "filter";

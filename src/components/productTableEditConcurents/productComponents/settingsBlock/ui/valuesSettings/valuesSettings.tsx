@@ -4,7 +4,8 @@ import { Box, Stack } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { addStrategyId, editStrategyId } from "@/shared/store/slices/reprice/repriceSlice";
 import { AppState } from "@/shared/store/store";
 import { AppButton } from "@/shared/components/AppButton";
@@ -47,7 +48,7 @@ const ValuesSettings = ({
       })
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
   const [step, setStep] = useState(false);
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 

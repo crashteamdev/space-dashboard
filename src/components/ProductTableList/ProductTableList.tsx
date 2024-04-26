@@ -21,7 +21,8 @@ import {
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { IconSearch, IconPlus, IconMinus } from "@tabler/icons-react";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import CustomCheckbox from "../ui/forms/CustomCheckbox";
 import ProductTableEditConcurents from "../productTableEditConcurents/productTableEditConcurents";
 import {
@@ -295,7 +296,7 @@ const ProductTableList = () => {
 
   const params = useParams() as any;
 
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;

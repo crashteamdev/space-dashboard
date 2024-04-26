@@ -12,7 +12,8 @@ import {
   Tooltip
 } from "@mui/material";
 import BlankCard from "../ui/shared/BlankCard";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { useParams } from "next/navigation";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
@@ -25,7 +26,7 @@ import { AppButton } from "@/shared/components/AppButton";
 
 const ProductTableEditConcurentsTable = ({ getItems, dataAdds, getComp } : any) => {
   const { accountId, shopId } = useParams() as any;
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const repricer = useSelector((state: AppState) => state.repriceReducer) as any;

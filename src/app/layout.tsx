@@ -1,12 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
+import { Provider } from "react-redux";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeSettings } from "../shared/theme/Theme";
 import { store } from "@/shared/store/store";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
-import { AppState } from "@/shared/store/store";
-import { Provider } from "react-redux";
+import { useDispatch as useReduxDispatch } from 'react-redux';
 import NextTopLoader from "nextjs-toploader";
 import firebase_app from "../shared/firebase/firebase";
 import { getAuth } from "firebase/auth";
@@ -18,22 +17,28 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { usePathname, useRouter } from "next/navigation";
 import { setUser } from "@/shared/store/slices/user/userSlice";
-import { IUser } from "@/shared/types/apps/user";
-import RTL from "../components/customizer/RTL";
+// import { IUser } from "@/shared/types/apps/user";
 import { logout } from "../api/auth/logout/logout";
 import { setDarkMode, setLanguage } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import AlertList from "@/components/alertList/alertList";
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+
 import "@/shared/styles/globals.css";
 
+const queryClient = new QueryClient()
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
+  
   const [loadingPage, setLoadingPage] = React.useState(false);
   const theme = ThemeSettings();
 
-  const customizer = useSelector((state: AppState) => state.customizer);
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
   const router = useRouter();
   const pathname = usePathname();
   const auth = getAuth(firebase_app);
@@ -72,7 +77,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
         displayName,
         email,
         photoURL
-      } as IUser;
+      } as any;
       dispatch(setUser(userdata));
       setLoadingPage(true);
     }
@@ -86,12 +91,13 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <>
-      <NextTopLoader color='#5D87FF' />
-      <NextAppDirEmotionCacheProvider options={{ key: "modernize" }}>
+    <QueryClientProvider client={queryClient}>
+
+      <NextTopLoader color='#5D87FF' showSpinner={false} />
+      <NextAppDirEmotionCacheProvider options={{ key: "mdb" }}>
         <ThemeProvider theme={theme}>
-          <RTL direction={customizer.activeDir}>
-            <AlertList>
+          {/* Верно ли так хранить notifications? В <AlertList> и оборачивать еще в придачу весь контент */}
+            <AlertList> 
               {loadingPage ? (
                 <>
                   <CssBaseline />
@@ -111,10 +117,10 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
                 </Box>
               )}
             </AlertList>
-          </RTL>
         </ThemeProvider>
       </NextAppDirEmotionCacheProvider>
-    </>
+      {/* <ReactQueryDevtools initialIsOpen={false}  /> */}
+    </QueryClientProvider>
   );
 };
 
@@ -131,12 +137,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body>
-        <Provider store={store}>
-          {
-            // eslint-disable-next-line react/no-children-prop
+          <Provider store={store}>
             <MyApp children={children} />
-          }
-        </Provider>
+          </Provider>
         {/* TODO: Вынести отдельно */}
         <script
             dangerouslySetInnerHTML={{

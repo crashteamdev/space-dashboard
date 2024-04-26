@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
-const auth = getAuth();
 export const registrationEmail = async (email: string, password: string) => {
+  const auth = getAuth();
   return createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Учетная запись успешно создана

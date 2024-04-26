@@ -8,7 +8,9 @@
     "plugin:react-hooks/recommended",
     "plugin:xss/recommended",
     "plugin:security/recommended",
-    "prettier"
+    "prettier",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended"
   ],
   "overrides": [
     {

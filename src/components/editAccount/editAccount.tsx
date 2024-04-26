@@ -8,7 +8,7 @@ import * as yup from "yup";
 import { updateAccount } from "@/shared/store/slices/account/AccountSlice";
 import { useSelector } from "react-redux";
 import { useParams } from "next/navigation";
-import { useDispatch } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppButton } from "@/shared/components/AppButton";
 
 const EditAccount = ({ getFirstData, open, setOpen, id }: any) => {
@@ -30,7 +30,7 @@ const EditAccount = ({ getFirstData, open, setOpen, id }: any) => {
       .required("Password is required")
   });
   const company = useSelector((state: AppState) => state.companyChanger) as any;
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const formik = useFormik({
     initialValues: {

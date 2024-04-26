@@ -129,7 +129,7 @@ const baseDarkTheme = {
     background: {
       default: "#171c23",
       dark: "#171c23",
-      paper: "#171c23"
+      paper: ""
     }
   }
 };

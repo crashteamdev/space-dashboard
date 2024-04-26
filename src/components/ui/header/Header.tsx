@@ -15,10 +15,11 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
-    boxShadow: "none",
-    background: theme.palette.background.paper,
+    // boxShadow: "none",
+    // background: theme.palette.background.paper,
     justifyContent: "center",
     backdropFilter: "blur(4px)",
+    // marginBottom: "10px",
     [theme.breakpoints.up("lg")]: {
       minHeight: customizer.TopbarHeight
     }
@@ -29,7 +30,7 @@ const Header = () => {
   })) as any;
 
   return (
-    <AppBarStyled position='sticky' color='default'>
+    <AppBarStyled position='static' color='default' className="!bg-black-800 border-b-[1px] border-[#535263]">
       <ToolbarStyled>
         {lgDown ? (
           <IconButton
@@ -42,10 +43,9 @@ const Header = () => {
         ) : (
           ""
         )}
-        {/* ------------------------------------------- */}
-        {/* Search Dropdown */}
-        {/* ------------------------------------------- */}
-        <Box flexGrow={1} />
+        <Box flexGrow={1}>
+          {/* <Typography variant="h3">Профиль</Typography> */}
+        </Box>
         <Stack spacing={1} direction='row' alignItems='center'>
           <SwitchTheme />
           <Language />

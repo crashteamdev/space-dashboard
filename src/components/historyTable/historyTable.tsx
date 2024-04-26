@@ -16,7 +16,8 @@ import {
   Tooltip
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { setCurrentItem } from "@/shared/store/slices/reprice/repriceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
@@ -172,7 +173,7 @@ const HistoryTable = () => {
 
   const params = useParams() as any;
 
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const auth = getAuth(firebase_app) as any;

@@ -8,7 +8,7 @@ import { AppIcon } from "@/shared/components/AppIcon";
 
 type CommonProps = {
   themeSize?: "small" | "default" | "large";
-  themeType?: "primary" | "secondary" | "outline" | "success" | "cancel";
+  themeType?: "primary" | "secondary" | "outline" | "success" | "cancel" | "sorting";
   themeColor?: "primary" | "secondary" | "danger";
   iconType?: IconType;
   rounded?: boolean;
@@ -46,6 +46,7 @@ export const AppButton: React.FC<PropsWithChildren<Props>> = ({
     {
       "bg-blueGray-600 hover:bg-blueGray-700 text-white": themeType === "primary",
       "bg-white text-blue hover:bg-white-hover": themeType === "secondary",
+      "bg-blueGray-600 text-white hover:bg-white-hover p-[10px] text-[12px]": themeType === "sorting",
       "bg-[#138100] text-white": themeType === "success",
       "bg-[#acacac] text-white": themeType === "cancel",
       "!rounded-full": rounded
@@ -63,7 +64,8 @@ export const AppButton: React.FC<PropsWithChildren<Props>> = ({
         "bg-gray-800 !text-gray-400 hover:bg-gray-800": props.disabled
       })}
     >
-      {props.loading && <AppSpinner className='absolute w-6 h-6' themeType='primary' />}
+      {props.loading && <> <AppSpinner className='w-4 h-4 m-auto left-0 right-0 top-[9px]' themeType='primary' />
+      </>}
       {children && (
         <span
           className={clsx("leading-none", {

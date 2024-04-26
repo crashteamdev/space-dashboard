@@ -4,7 +4,8 @@ import { IconRefresh, IconEdit, IconPlayerPause,IconPlayerPlay } from "@tabler/i
 import { getAccount, getLimits, syncAccount } from "@/shared/store/slices/account/AccountSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppState } from "@/shared/store/store";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -48,13 +49,13 @@ const checkStatusAccount = (status: any, lastUpdate: any, initializeState: any) 
 };
 
 const HeaderAccount = () => {
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const { accountId } = useParams() as any;
 
   const [open, setOpen] = useState(false) as any;
-  const [data, setData] = useState({}) as any;
-  const [date, setDate] = useState("") as any;
+  const [data, setData] = useState() as any;
+  const [date, setDate] = useState() as any;
   const auth = getAuth(firebase_app) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
@@ -72,10 +73,11 @@ const HeaderAccount = () => {
     await getFirstData();
   };
 
-  const getFirstData = async () => {
+  
+  const getFirstData = async (): Promise<void> => {
     const data = await dispatch(
       getAccount(auth.currentUser.accessToken, company.activeCompany, accountId)
-    );
+    ) as any;
     setData(data);
     setDate(data.lastUpdate ? format(new Date(data.lastUpdate), "yyyy-MM-dd HH:mm") : "");
   };
@@ -94,7 +96,7 @@ const HeaderAccount = () => {
       <div className="flex gap-4 justify-between">
         <div className="flex flex-col gap-2 bg-white rounded-[8px] p-3 w-1/5">
           <div className="text-[16px] font-semibold">Выбранный аккаунт:</div>
-          <div>{data.login || data.email}</div>
+          <div>{data?.login || data?.email}</div>
           <Tooltip title='Изменить данные аккаунта'>
             <button onClick={() => setOpen(true)} className={clsx(
               "bg-blueGray-600 hover:bg-blueGray-700 flex items-center text-white",
@@ -111,13 +113,13 @@ const HeaderAccount = () => {
         </div>
         <div className="flex flex-col gap-2 bg-white rounded-[8px] p-3 w-1/5">
           <div className="text-[16px] font-semibold">Мониторинг аккаунта:</div>
-          <div>{data.monitorState === "active" ? "Активнен" : "Приостановлен"}</div>
-          <Tooltip title={data.monitorState === "active" ? "Остановить мониторинг аккаунта" : "Включить мониторинг аккаунта"}>
+          <div>{data?.monitorState === "active" ? "Активнен" : "Приостановлен"}</div>
+          <Tooltip title={data?.monitorState === "active" ? "Остановить мониторинг аккаунта" : "Включить мониторинг аккаунта"}>
             <button onClick={() => monitoringAccountHandler()} className={clsx(
               "bg-blueGray-600 hover:bg-blueGray-700 flex items-center text-white",
               "rounded-[8px] px-2 py-1"
               )} >
-              {data.monitorState === "active" ? ( 
+              {data?.monitorState === "active" ? ( 
                 <>
                   <IconPlayerPause/>
                   <span>Выключить</span>
@@ -140,7 +142,7 @@ const HeaderAccount = () => {
               </button>
             </Tooltip>
           </div>
-          <div>{checkStatusAccount(data.updateState, data.lastUpdate, data.initializeState).title}</div>
+          <div>{checkStatusAccount(data?.updateState, data?.lastUpdate, data?.initializeState).title}</div>
         </div>
         <div className="flex flex-col gap-2 bg-white rounded-[8px] p-3 w-1/5">
           <div className="text-[16px] font-semibold">Товаров в пуле:</div>

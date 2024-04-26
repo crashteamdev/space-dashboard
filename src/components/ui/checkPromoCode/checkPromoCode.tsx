@@ -3,13 +3,14 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import CustomFormLabel from "../theme-elements/CustomFormLabel";
 import CustomTextField from "../theme-elements/CustomTextField";
 import { checkPromoCode } from "@/shared/store/slices/balance/BalanceSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
+import { useDispatch as useReduxDispatch } from "react-redux";
 
 const checkStep = (value: string) => {
   switch (value) {
@@ -31,7 +32,7 @@ const CheckPromoCode = () => {
   const [error, setError] = React.useState("");
   const auth = getAuth(firebase_app) as any;
   const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const checkPromo = () => {
     console.log(balanceReducer);
