@@ -24,7 +24,7 @@ export const ChartCard = ({data, title, tooltipValue}: any) => {
             width: 2,
         },
         fill: {
-            colors: ["E8F7FF"],
+            colors: ["#E8F7FF"],
             type: "solid",
             opacity: 0.05,
         },
@@ -47,7 +47,7 @@ export const ChartCard = ({data, title, tooltipValue}: any) => {
     const seriescolumnchart = [
         {
             name: "",
-            color: "#49BEFF",
+            color: "#3E4784",
             data: data,
         },
     ];

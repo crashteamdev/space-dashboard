@@ -74,6 +74,7 @@ const Payment = () => {
   };
 
   useEffect(() => {
+    
     router.push(balanceReducer.linkPayment);
     dispatch(getExchange(auth.currentUser.accessToken, "RUB"));
     // eslint-disable-next-line react-hooks/exhaustive-deps

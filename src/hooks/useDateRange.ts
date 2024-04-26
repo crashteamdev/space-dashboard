@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 const useDateRange = (periodDay: string) => {
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
-
     useEffect(() => {
         switch (periodDay) {
             case "WEEK":

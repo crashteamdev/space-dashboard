@@ -15,6 +15,10 @@ import { marketplace } from "../statics";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Skeleton from "@mui/material/Skeleton";
+import styled from "@emotion/styled";
+import { Typography } from "@mui/material";
+import Image from "next/image";
+import Link from "next/link";
 
 interface IPropsCategory {
     name: string;
@@ -22,8 +26,20 @@ interface IPropsCategory {
     id: number;
     parent_id: number;
     childrens: number[];
-
 }
+
+const StyledTab = styled(Tab)`
+    font-weight: 700;
+    &.Mui-selected {
+        color: #3E4784;
+    }
+`;
+
+const StyledTabs = styled(TabList)`
+    & .MuiTabs-indicator {
+        background-color: #3E4784;
+    }
+`;
 
 export default function Page({ params }: { params: { categoryId: string } }) {
     const [value, setValue] = React.useState("1");
@@ -65,19 +81,34 @@ export default function Page({ params }: { params: { categoryId: string } }) {
 
     return (
         <Box sx={{ width: "100%", typography: "body1" }}>
-            <div className="p-5">
+            <div className="px-[24px] py-[20px] flex flex-col gap-2">
                 {isLoading 
                     ? <Skeleton variant="rectangular" height={20} width={200} />
-                    : <div className="mdb-heading-1">Категория: {data?.name}</div>
+                    : <Typography variant="h4" className="flex items-center gap-2">
+                        Категория: {data?.name} 
+                        {market.value === "KE" 
+                            ? <Image src="/mm.png" alt="Магнит Маркет" width={20} height={20} /> 
+                            : <Image src="/uzum.svg" alt="Магнит Маркет" width={20} height={20} /> 
+                        }
+                    </Typography>
                     
+                }
+                {isLoading 
+                    ? <Skeleton variant="rectangular" height={20} width={200} />
+                    : <Typography variant="subtitle1" className="font-semibold underline text-grayModern-400">
+                        <Link target="_blank" href={market.value === "KE" ? `https://kazanexpress.ru/category/${data?.id}` : `https://uzum.uz/category/${data?.id}`}>Категория на маркетплейсе</Link>
+                    </Typography>
                 }
             </div>
             <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <TabList onChange={handleChange} aria-label="lab API tabs example">
-                    <Tab label="Сводка" value="1" />
-                    <Tab label="Продукты" value="2" />
-                </TabList>
+                <Box sx={{ 
+                        padding: "0 24px",
+                        border: "none"
+                    }}>
+                    <StyledTabs onChange={handleChange} className="border-b border-[#e5e7eb]">
+                        <StyledTab label="Сводка" value="1" />
+                        <StyledTab label="Продукты" value="2" />
+                    </StyledTabs>
                 </Box>
                 <TabPanel value="1">
                     <StatsCategory category={params.categoryId} />

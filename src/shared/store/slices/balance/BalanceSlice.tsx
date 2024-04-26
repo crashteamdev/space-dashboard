@@ -1,5 +1,5 @@
-import { AppDispatch } from "@/shared/store/store";
-import { createSlice } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "@/shared/store/store";
+import { Action, ThunkAction, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { addItem } from "../alerts/AlertsSlice";
@@ -129,7 +129,7 @@ export const getListPayments =
     }
   };
 
-export const topUpBalance = (amount: number, provider: string) => async (dispatch: AppDispatch) => {
+export const topUpBalance = (amount: number, provider: string): ThunkAction<void, RootState, unknown, Action> => async (dispatch: AppDispatch) => {
   try {
     const data = JSON.stringify({
       amount: +amount,
