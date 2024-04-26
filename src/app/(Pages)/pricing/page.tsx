@@ -23,7 +23,8 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import BlankCard from "@/components/ui/shared/BlankCard";
 import Popup from "@/components/ui/popup/popup";
 import CheckPromoCode from "@/components/ui/checkPromoCode/checkPromoCode";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppState } from "@/shared/store/store";
 import { getExchange, purchaseService } from "@/shared/store/slices/balance/BalanceSlice";
 import { getAuth } from "firebase/auth";
@@ -42,7 +43,7 @@ const Pricing = () => {
   const [empty, setEmpty] = React.useState("") as any;
   const auth = getAuth(firebase_app) as any;
 
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
   const theme = useTheme();

@@ -7,7 +7,8 @@ import PageContainer from "@/components/ui/container/PageContainer";
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
 import ParentCard from "@/components/ui/shared/ParentCard";
 import { Stack } from "@mui/system";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppState } from "@/shared/store/store";
 import { setValue } from "@/shared/store/slices/walletPopup/WalletPopupSlice";
 import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
@@ -23,7 +24,7 @@ const Payment = () => {
   const walletPopup = useSelector((state: AppState) => state.walletPopup);
   const auth = getAuth(firebase_app) as any;
   const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const [activeStep, setActiveStep] = React.useState(walletPopup.value ? 1 : 0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -65,7 +66,9 @@ const Payment = () => {
     setSkipped(newSkipped);
     if (activeStep === 2) {
       // dispatch(addItem({title: 'Ожидайте', description: "Происходит редирект на страницу оплаты", status: 'info', timelife: 4000, id: uuidv4()}));
-      dispatch(topUpBalance(walletPopup.value, context));
+      dispatch(
+        topUpBalance(walletPopup.value, context)
+      );
     }
   };
 

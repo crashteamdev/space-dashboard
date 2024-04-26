@@ -7,7 +7,7 @@ import CreateNewAccount from "@/components/createNewAccount/createNewAccount";
 import { useSelector } from "react-redux";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
-import { useDispatch } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { getAccounts, getLimits } from "@/shared/store/slices/account/AccountSlice";
 import { AppState } from "@/shared/store/store";
 import { AppButton } from "@/shared/components/AppButton";
@@ -15,10 +15,10 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Link from "next/link";
 
 const Reprice = () => {
-  const [data, setData] = useState([]);
-  const [open, setOpen] = useState(false) as any;
-  const [loading, setLoading] = useState(false) as any;
-  const dispatch = useDispatch();
+  const [data, setData] = useState() as any;
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useReduxDispatch();
 
   const auth = getAuth(firebase_app) as any;
   const company = useSelector((state: AppState) => state.companyChanger) as any;
@@ -31,7 +31,7 @@ const Reprice = () => {
     } else {
       setData([]);
     }
-    await setLoading(true);
+    setLoading(true);
   };
 
   const getLimitsData = () => {

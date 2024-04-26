@@ -4,7 +4,8 @@ import { IconRefresh, IconEdit, IconPlayerPause,IconPlayerPlay } from "@tabler/i
 import { getAccount, getLimits, syncAccount } from "@/shared/store/slices/account/AccountSlice";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
-import { useDispatch, useSelector } from "@/shared/store/hooks";
+import { useSelector } from "@/shared/store/hooks";
+import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppState } from "@/shared/store/store";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -48,7 +49,7 @@ const checkStatusAccount = (status: any, lastUpdate: any, initializeState: any) 
 };
 
 const HeaderAccount = () => {
-  const dispatch = useDispatch();
+  const dispatch = useReduxDispatch();
 
   const { accountId } = useParams() as any;
 
