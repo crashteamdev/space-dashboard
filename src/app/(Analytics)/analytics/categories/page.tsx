@@ -31,6 +31,7 @@ const Categories = () => {
           <div className="mdb-heading-1">Список категорий</div>
           <div className="flex gap-3 justify-between">
             <div className="flex gap-2 w-full">
+              
               {period.map((item, key) => (
                 <AppButton themeType="sorting" tag="button" key={key} onClick={() => setPeriodDay(item.period)} className={clsx("mdb-button-1", {
                   "mdb-button-1-active": periodDay === item.period
@@ -38,6 +39,7 @@ const Categories = () => {
                   {item.text}
                 </AppButton>
               ))}
+
               <Listbox value={market} onChange={setMarket}>
                 <div className="w-full max-w-[150px] relative">
                   <Listbox.Button className="mdb-button-1 rounded h-full w-full flex justify-between items-center">

@@ -45,7 +45,6 @@ const ProfileInfo = () => {
   useEffect(() => {
     if (auth.currentUser) {
       getSubRepricer();
-      console.log("w");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [company.activeCompany]);
@@ -114,13 +113,9 @@ const ProfileInfo = () => {
                       </Typography>
                     </>
                   ) : (
-                    // <Typography color='h4' mb={0}>
-                    //   <b>{t("profileT.tarifNotFound")}</b>
-                    // </Typography>
-                    <div className="flex flex-col gap-3 justify-center items-center h-full">
-                      <div className="text-[20px] font-semibold">Управление ценами</div>
-                      <div className="text-[18px] font-medium">Скоро! 😉</div>
-                    </div>
+                    <Typography color='h4' mb={0}>
+                      <b>{t("profileT.tarifNotFound")}</b>
+                    </Typography>
                   )}
                 </CardContent>
               </BlankCard>
