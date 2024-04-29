@@ -145,31 +145,7 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
             }
         }
     }, [data?.pages, isSuccess, filters]);
-    
 
-    // useEffect(() => {
-    //     const getCategories = async () => {
-    //         const response = await fetch(urlCategoriesStats + query + sort + filterString.slice(0, -1), {
-    //             method: "GET",
-    //             headers: headers
-    //         });
-    //         const data = await response.json();
-    //         setData(prevData => [...prevData, ...data]);
-    //         setLoading(false);
-    //         setLoadingButton(false);
-
-
-    //     };
-    //     if(data.length === 0) {
-    //         setLoading(true);
-    //     }
-    //     getCategories();
-    // }, [period, sorting, page, filters]);
-
-    // const loadNextPage = () => {
-    //     setLoadingButton(true);
-    //     setPage(prevPage => prevPage + 20); // Увеличиваем значение page на 20
-    // };
 
     const columns = [
         {

@@ -16,6 +16,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { StarIcon } from "@heroicons/react/20/solid";
 import useDateRange from "@/hooks/useDateRange";
+import { formatNumber } from "@/hooks/useFormatNumber";
+import { ChartCard } from "@/components/chartLine";
 
 interface ProductStats {
     mp: string;
@@ -42,6 +44,18 @@ interface ProductStats {
     remainings_chart: number[];
 }
 
+function getDatesInRange(startDate: string, endDate: string) {
+    const dateArray = [];
+    const currentDate = new Date(startDate);
+  
+    while (currentDate <= new Date(endDate)) {
+      dateArray.push(new Date(currentDate).toISOString().split("T")[0]);  // Форматируем дату в формат YYYY-MM-DD
+      currentDate.setDate(currentDate.getDate() + 1);  // Увеличиваем дату на один день
+    }
+  
+    return dateArray;
+  }
+
 export default function Product({ params }: { params: { productId: string } }) {
 
     const customizer = useSelector((state: AppState) => state.customizer);
@@ -50,6 +64,7 @@ export default function Product({ params }: { params: { productId: string } }) {
     const [market,] = useLocalStorage("market", marketplace[1]);
     const {startDate, endDate} = useDateRange(periodDay);
 
+    const dateArray = getDatesInRange(startDate, endDate);
 
     const auth = getAuth(firebase_app) as any;
     const headers = useMemo(() => ({
@@ -147,15 +162,21 @@ export default function Product({ params }: { params: { productId: string } }) {
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td style={{width: "140px"}}>Выручка</td>
+                                        <td>
+                                            {formatNumber(data?.revenue)} {data?.mp === "KE" ? " ₽" : " сум"}
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td style={{width: "140px"}}>Цена без скидки</td>
                                         <td>
-                                            {data?.full_price} {data?.mp === "KE" ? " ₽" : " сум"}
+                                            {data && formatNumber(data.full_price / 100)} {data?.mp === "KE" ? " ₽" : " сум"}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: "140px"}}>Цена со скидкой</td>
                                         <td>
-                                            {data?.price} {data?.mp === "KE" ? " ₽" : " сум"}
+                                            {data && formatNumber(data.price / 100)} {data?.mp === "KE" ? " ₽" : " сум"}
                                         </td>
                                     </tr>
                                     <tr>
@@ -166,7 +187,34 @@ export default function Product({ params }: { params: { productId: string } }) {
                                     </tr>
                                 </tbody>
                             </table>
-                                <b>Скоро добавим еще много нового...</b>
+                        </div>
+                    </Grid>
+                    <Grid item md={12} xs={12}>
+                        <div className="flex flex-wrap justify-between gap-y-3">
+                            <ChartCard
+                                data={data?.revenue_chart || []}
+                                title="Выручка"
+                                tooltipValue={market.value === "KE" ? "₽" : "Сум"}
+                                formattedDates={dateArray}
+                            />
+                            <ChartCard
+                                data={data?.price_chart || []}
+                                title="Цена без скидки"
+                                tooltipValue={market.value === "KE" ? "₽" : "Сум"}
+                                formattedDates={dateArray}
+                            />
+                            <ChartCard
+                                data={data?.sales_chart || []}
+                                title="Продажи, шт"
+                                tooltipValue={"шт"}
+                                formattedDates={dateArray}
+                            />
+                            <ChartCard
+                                data={data?.remainings_chart || []}
+                                title="Остатки"
+                                tooltipValue={"шт"}
+                                formattedDates={dateArray}
+                            />
                         </div>
                     </Grid>
                 </Grid>

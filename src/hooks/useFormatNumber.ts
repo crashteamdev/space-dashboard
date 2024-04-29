@@ -1,5 +1,5 @@
-export const formatNumber = (number: number) => {
-    return number.toLocaleString("ru-RU", {
+export const formatNumber = (number: number | undefined) => {
+    return number?.toLocaleString("ru-RU", {
         maximumFractionDigits: 0,
     });
 };
