@@ -44,6 +44,7 @@ const StyledTabs = styled(TabList)`
 `;
 
 export default function Page({ params }: { params: { categoryId: string } }) {
+    
     const [value, setValue] = React.useState("2");
     const [market,] = useLocalStorage("market", marketplace[1]);
     const auth = getAuth(firebase_app) as any;
@@ -70,7 +71,7 @@ export default function Page({ params }: { params: { categoryId: string } }) {
     };
 
     const { isLoading, isError, data } = useQuery({
-        queryKey: ["catInfo"], 
+        queryKey: ["catInfo", params], 
         queryFn: getCategoriesInfo,
         staleTime: 1000 * 60 * 10
     });
