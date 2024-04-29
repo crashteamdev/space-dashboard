@@ -24,8 +24,8 @@ import {
   IconTicket,
 } from "@tabler/icons-react";
 import PersonIcon from "@mui/icons-material/Person";
-import BarChartIcon from "@mui/icons-material/BarChart";
 import BallotIcon from "@mui/icons-material/Ballot";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
 const MenuitemsKazan: MenuitemsT = {
   ke: [
@@ -41,23 +41,21 @@ const MenuitemsKazan: MenuitemsT = {
     },
     {
       id: uniqueId(),
-      title: "Аналитика",
-      icon: BarChartIcon,
-      href: "/apps/blog/",
-      children: [
-        {
-          id: uniqueId(),
-          title: "Расширение",
-          icon: IconPoint,
-          href: "/extension",
-        },
-        {
-          id: uniqueId(),
-          title: "Тарифы",
-          icon: IconTicket,
-          href: "/pricing",
-        },
-      ],
+      title: "Аналитика категорий",
+      icon: QueryStatsIcon,
+      href: "/analytics/categories"
+    },
+    {
+      id: uniqueId(),
+      title: "Расширение",
+      icon: IconPoint,
+      href: "/extension",
+    },
+    {
+      id: uniqueId(),
+      title: "Тарифы",
+      icon: IconTicket,
+      href: "/pricing",
     },
     {
       id: uniqueId(),
@@ -79,23 +77,21 @@ const MenuitemsKazan: MenuitemsT = {
     },
     {
       id: uniqueId(),
-      title: "Аналитика",
-      icon: BarChartIcon,
-      href: "/",
-      children: [
-        {
-          id: uniqueId(),
-          title: "Расширение",
-          icon: IconPoint,
-          href: "/extension",
-        },
-        {
-          id: uniqueId(),
-          title: "Тарифы",
-          icon: IconTicket,
-          href: "/pricing",
-        },
-      ],
+      title: "Аналитика категорий",
+      icon: QueryStatsIcon,
+      href: "/analytics/categories"
+    },
+    {
+      id: uniqueId(),
+      title: "Расширение",
+      icon: IconPoint,
+      href: "/extension",
+    },
+    {
+      id: uniqueId(),
+      title: "Тарифы",
+      icon: IconTicket,
+      href: "/pricing",
     },
     {
       id: uniqueId(),

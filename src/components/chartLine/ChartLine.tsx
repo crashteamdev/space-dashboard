@@ -2,10 +2,14 @@ import React from "react";
 import dynamic from "next/dynamic";
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
 import { formatNumber } from "@/hooks/useFormatNumber";
+import moment from "moment";
+import "moment/locale/ru";
+
+moment.locale("ru");
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export const ChartCard = ({data, title, tooltipValue}: any) => {
+export const ChartCard = ({data, title, tooltipValue, formattedDates}: any) => {
     const optionscolumnchart: any = {
         chart: {
             type: "area",
@@ -31,13 +35,20 @@ export const ChartCard = ({data, title, tooltipValue}: any) => {
         markers: {
             size: 0,
         },
+        xaxis: {
+            categories: formattedDates,
+            tooltip: {
+                enabled: false,
+            }
+        },
         enabled: true,
         tooltip: {
             enabled: true,
             custom: function({series, seriesIndex, dataPointIndex}: any) {
                 const value = series[seriesIndex][dataPointIndex];
                 return `
-                    <div class="p-2 rounded-md">
+                    <div class="p-3 rounded-md flex flex-col gap-1 !z-[9999px]">
+                        <span class="font-bold">${moment(formattedDates[dataPointIndex]).format("DD MMMM")}</span>
                         <span>${title}: ${formatNumber(value)} ${tooltipValue}</span>
                     </div>
                 `;
@@ -58,7 +69,7 @@ export const ChartCard = ({data, title, tooltipValue}: any) => {
                 boxShadow: "rgba(145, 158, 171, 0.3) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;",
 
             }}
-            className="w-full max-w-[350px]"
+            className="w-full max-w-[330px]"
         >
             <CardContent sx={{p: "15px"}}>
                 <Stack

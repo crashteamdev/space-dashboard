@@ -54,6 +54,7 @@ export const StatsCategory = (category: any) => {
     const remainings = data?.map((item: any) => item.remainings);
     const average_bill = data?.map((item: any) => item.average_bill);
     const sales = data?.map((item: any) => item.sales);
+    const date = data?.map((item: any) => item.date);
 
     return (
         <>
@@ -70,10 +71,10 @@ export const StatsCategory = (category: any) => {
                     </div>
                 </div>
             </div>
-            <div className="flex gap-5 mt-[20px]">
+            <div className="flex justify-between mt-[20px]">
                 {isLoading && (
                     [1,2,3,4].map((item, index) => (
-                        <Skeleton key={index} variant="rectangular" height={181} width={350} />
+                        <Skeleton key={index} variant="rectangular" height={181} width={330} />
                     ))
                 )}
                 {isError && (
@@ -87,21 +88,25 @@ export const StatsCategory = (category: any) => {
                             data={revenue || []}
                             title="Выручка"
                             tooltipValue={market.value === "KE" ? "₽" : "Сум"}
+                            formattedDates={date}
                         />
                         <ChartCard
                             data={remainings || []}
                             title="Остатки, шт"
                             tooltipValue="шт"
+                            formattedDates={date}
                         />
                         <ChartCard
                             data={average_bill || []}
                             title="Средний чек"
                             tooltipValue={market.value === "KE" ? "₽" : "Сум"}
+                            formattedDates={date}
                         />
                         <ChartCard
                             data={sales || []}
                             title="Продаж, шт"
                             tooltipValue="шт"
+                            formattedDates={date}
                         />
                     </>
                 }

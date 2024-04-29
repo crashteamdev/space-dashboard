@@ -19,6 +19,8 @@ import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { AppIcon } from "@/shared/components/AppIcon";
+import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 
 interface IPropsCategory {
     name: string;
@@ -42,7 +44,8 @@ const StyledTabs = styled(TabList)`
 `;
 
 export default function Page({ params }: { params: { categoryId: string } }) {
-    const [value, setValue] = React.useState("1");
+    
+    const [value, setValue] = React.useState("2");
     const [market,] = useLocalStorage("market", marketplace[1]);
     const auth = getAuth(firebase_app) as any;
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -68,7 +71,7 @@ export default function Page({ params }: { params: { categoryId: string } }) {
     };
 
     const { isLoading, isError, data } = useQuery({
-        queryKey: ["catInfo"], 
+        queryKey: ["catInfo", params], 
         queryFn: getCategoriesInfo,
         staleTime: 1000 * 60 * 10
     });
@@ -82,6 +85,12 @@ export default function Page({ params }: { params: { categoryId: string } }) {
     return (
         <Box sx={{ width: "100%", typography: "body1" }}>
             <div className="px-[24px] py-[20px] flex flex-col gap-2">
+                <div className="mb-[40px]">
+                    <Link href="/analytics/categories/" className="flex gap-1 items-center">
+                        <ChevronLeftIcon width={20} height={20} />
+                        Назад к списку категорий
+                    </Link>
+                </div>
                 {isLoading 
                     ? <Skeleton variant="rectangular" height={20} width={200} />
                     : <Typography variant="h4" className="flex items-center gap-2">
@@ -96,7 +105,10 @@ export default function Page({ params }: { params: { categoryId: string } }) {
                 {isLoading 
                     ? <Skeleton variant="rectangular" height={20} width={200} />
                     : <Typography variant="subtitle1" className="font-semibold underline text-grayModern-400">
-                        <Link target="_blank" href={market.value === "KE" ? `https://kazanexpress.ru/category/${data?.id}` : `https://uzum.uz/category/${data?.id}`}>Категория на маркетплейсе</Link>
+                        <Link className="flex gap-1 items-center" target="_blank" href={market.value === "KE" ? `https://kazanexpress.ru/category/${data?.id}` : `https://uzum.uz/category/${data?.id}`}>
+                            Категория на маркетплейсе
+                            <AppIcon type="arrowTopRightOnSquare" className="w-4 h-4" />
+                        </Link>
                     </Typography>
                 }
             </div>

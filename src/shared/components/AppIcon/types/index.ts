@@ -4,4 +4,5 @@ export type IconType =
     | "logo"
     | "click-up"
     | "enot"
-    | "filter";
+    | "filter"
+    | "arrowTopRightOnSquare";

@@ -26,6 +26,10 @@ const Filter = dynamic(() => import("./components/Filter").then((module) => modu
     ssr: true
 });
 
+const ArrowTopRightOnSquare = dynamic(() => import("./components/ArrowTopRightOnSquare").then((module) => module.ArrowTopRightOnSquare), {
+    ssr: true
+});
+
 type Props = {
     type: IconType;
     className?: string;
@@ -40,6 +44,7 @@ const icons: Record<IconType, (className: string, color: string) => ReactNode> =
     "logo": (className, color) => <Logo className={className} color={color} />,
     "enot": (className, color) => <Enot className={className} color={color} />,
     "filter": (className, color) => <Filter className={className} color={color} />,
+    "arrowTopRightOnSquare": (className, color) => <ArrowTopRightOnSquare className={className} color={color} />,
 };
 
 

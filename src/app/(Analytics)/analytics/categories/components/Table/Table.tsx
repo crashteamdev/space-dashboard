@@ -1,8 +1,6 @@
-import React, { HTMLAttributes, useEffect, useMemo, useState } from "react";
+import React, { HTMLAttributes, useEffect, useState } from "react";
 import { ExpandedState, flexRender, getCoreRowModel, getExpandedRowModel, useReactTable } from "@tanstack/react-table";
 import { Categories } from "../../types";
-import { getAuth } from "@firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { updateSubRows } from "../../utils/updateSubRows";
 import Link from "next/link";
@@ -13,6 +11,7 @@ import { formatNumber } from "@/hooks/useFormatNumber";
 import { TableBody } from "./utils/tableRow";
 import { useWindowScroll } from "@uidotdev/usehooks";
 import Image from "next/image";
+import {useFirebaseToken} from "@/hooks/useFirebaseToken";
 
 type ITable = {
     market: string;
@@ -25,22 +24,24 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
     const query = `?mp=${market}&period=${period}`;
     const sort = sorting && `&sort=${sorting}`;
 
-    const auth = getAuth(firebase_app) as any;
-    
-    const headers = useMemo(() => ({
-        "Authorization": `Bearer ${auth.currentUser.accessToken}`,
-        "X-Request-ID": uuidv4()
-    }), [auth.currentUser.accessToken]);
-
     const [data, setData] = useState<Categories[]>([]);
     const [expanded, setExpanded] = useState<ExpandedState>({});
     const [loader, setLoader] = useState(false);
     const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
 
     const [{ y }] = useWindowScroll();
+    const token = useFirebaseToken();
 
     useEffect(() => {
         const getCategories = async () => {
+            // eslint-disable-next-line security/detect-possible-timing-attacks
+            if(token === null) {
+                return true;
+            }
+            const headers = {
+                "Authorization": `Bearer ${token}`,
+                "X-Request-ID": uuidv4()
+            };
             const response = await fetch(urlCategoriesStats + query + sort, {
                 method: "GET",
                 headers: headers
@@ -64,7 +65,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         };
         setLoader(true);
         getCategories();
-    }, [market, period, sorting]);
+    }, [market, period, sorting, token]);
 
     const columns = [
         {
@@ -87,6 +88,15 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                 const getChildrensRows = async (row: any) => {
                     if(!row.original.subRows) {
                         setLoaderSubRows({load: true, rowId: row.id});
+                        // eslint-disable-next-line security/detect-possible-timing-attacks
+                        if(token === null) {
+                            return true;
+                        }
+                        const headers = {
+                            "Authorization": `Bearer ${token}`,
+                            "X-Request-ID": uuidv4()
+                        };
+                        
                         const response = await fetch(urlCategoriesStats + query + `&id=${row.original.id}` + sort, {
                             method: "GET",
                             headers: headers
