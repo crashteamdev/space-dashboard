@@ -27,9 +27,9 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
     const [data, setData] = useState<Categories[]>([]);
     const [expanded, setExpanded] = useState<ExpandedState>({});
     const [columnPinning] = useState<ColumnPinningState>({
-        left: ["analytics.revenue"],
+        left: [],
         right: [],
-      });
+    });
     const [loader, setLoader] = useState(false);
     const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
 

@@ -2,6 +2,8 @@ import React, {Fragment, useState} from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { AppSlider } from "@/shared/components/AppSlider";
+import { useLocalStorage } from "@uidotdev/usehooks";
+import { marketplace } from "@/app/(Analytics)/analytics/categories/statics";
 
 type IFilter = {
     isOpen: boolean;
@@ -10,13 +12,14 @@ type IFilter = {
 }
 
 export const Filter = ({isOpen, setIsOpen, onApplyFilters}: IFilter) => {
-    const [revenueRange, setRevenueRange] = useState([0, 999999999]);
-    const [orderAmountRange, setOrderAmountRange] = useState([0, 999999999]);
-    const [priceRange, setPriceRange] = useState([0, 999999999]);
-    const [availableAmountRange, setAvailableAmountRange] = useState([0, 999999999]);
+    const [market] = useLocalStorage("market", marketplace[1]);
+    const max = market.value === "KE" ? 999999999 : 999999999999;
+    const [revenueRange, setRevenueRange] = useState([0, max]);
+    const [orderAmountRange, setOrderAmountRange] = useState([0, max]);
+    const [priceRange, setPriceRange] = useState([0, max]);
+    const [availableAmountRange, setAvailableAmountRange] = useState([0, max]);
     const [rating, setRating] = useState([0, 5]);
-    const [reviewsAmount, setReviewsAmount] = useState([0, 999999999]);
-
+    const [reviewsAmount, setReviewsAmount] = useState([0, max]);
     const applyFilters = () => {
         const newFilters = {
             revenueRange,
@@ -28,6 +31,15 @@ export const Filter = ({isOpen, setIsOpen, onApplyFilters}: IFilter) => {
         };
         onApplyFilters(newFilters);
         setIsOpen(false);
+    };
+
+    const resetFilters = () => {
+        setRevenueRange([0, max]);
+        setOrderAmountRange([0, max]);
+        setPriceRange([0, max]);
+        setAvailableAmountRange([0, max]);
+        setRating([0, 5]);
+        setReviewsAmount([0, max]);
     };
 
     return (
@@ -70,20 +82,27 @@ export const Filter = ({isOpen, setIsOpen, onApplyFilters}: IFilter) => {
                                     </button>
                                 </div>
                                 <div className="mt-2">
-                                    <AppSlider label="Выручка" range={revenueRange} setRange={setRevenueRange} max={999999999} />
-                                    <AppSlider label="Продажи" range={orderAmountRange} setRange={setOrderAmountRange} max={999999999} />
-                                    <AppSlider label="Цена" range={priceRange} setRange={setPriceRange} max={999999999} />
-                                    <AppSlider label="Остатки" range={availableAmountRange} setRange={setAvailableAmountRange} max={999999999} />
+                                    <AppSlider label="Выручка" range={revenueRange} setRange={setRevenueRange} max={max} />
+                                    <AppSlider label="Продажи" range={orderAmountRange} setRange={setOrderAmountRange} max={max} />
+                                    <AppSlider label="Цена" range={priceRange} setRange={setPriceRange} max={max} />
+                                    <AppSlider label="Остатки" range={availableAmountRange} setRange={setAvailableAmountRange} max={max} />
                                     <AppSlider minDistance={0} label="Рейтинг" range={rating} setRange={setRating} max={5} />
-                                    <AppSlider label="Отзывов" range={reviewsAmount} setRange={setReviewsAmount} max={999999999} />
+                                    <AppSlider label="Отзывов" range={reviewsAmount} setRange={setReviewsAmount} max={max} />
                                 </div>
-                                <div className="mt-4">
+                                <div className="mt-4 flex gap-2">
                                     <button
                                     type="button"
-                                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     onClick={applyFilters}
                                     >
                                         Применить
+                                    </button>
+                                    <button
+                                    type="button"
+                                    className="w-full inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                    onClick={resetFilters}
+                                    >
+                                        Сбросить
                                     </button>
                                 </div>
                             </Dialog.Panel>

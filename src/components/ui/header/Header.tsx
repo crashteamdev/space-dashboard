@@ -33,13 +33,15 @@ const Header = () => {
   return (
     <AppBarStyled position='static' color='default' className="!bg-black-800 border-b-[1px] border-[#535263]">
       <ToolbarStyled>
-        <IconButton
+        {!lgUp &&
+          <IconButton
             color="inherit"
             aria-label="menu"
             onClick={lgUp ? () => dispatch(toggleSidebar()) : () => dispatch(toggleMobileSidebar())}
           >
             <IconMenu2 size="20" color="white" />
           </IconButton>
+        }
         <Box flexGrow={1}>
           {/* <Typography variant="h3">Профиль</Typography> */}
         </Box>

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { marketplace, period, sortingDropdown } from "../../../statics";
+import { marketplace, period, sortingDropdownProduct } from "../../../statics";
 import { AppButton } from "@/shared/components/AppButton";
 import clsx from "clsx";
 import { useLocalStorage } from "@uidotdev/usehooks";
@@ -38,7 +38,7 @@ export const Products = (category: any) => {
                         <AppButton iconType="filter" themeType="sorting" tag="button" onClick={() => setIsOpen(true)} className={clsx("mdb-button-1 items-center gap-[5px]")}>
                             Фильтр
                         </AppButton>
-                        <AppSelect sortingDropdown={sortingDropdown} sorting={sorting} handleUpdateSorting={handleUpdateSorting} renderArrow={renderArrow}  />
+                        <AppSelect sortingDropdown={sortingDropdownProduct} sorting={sorting} handleUpdateSorting={handleUpdateSorting} renderArrow={renderArrow}  />
                     </div>
                 </div>
             </div>
