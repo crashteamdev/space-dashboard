@@ -1,5 +1,5 @@
 import React, { HTMLAttributes, useEffect, useState } from "react";
-import { ExpandedState, flexRender, getCoreRowModel, getExpandedRowModel, useReactTable } from "@tanstack/react-table";
+import { ColumnPinningState, ExpandedState, flexRender, getCoreRowModel, getExpandedRowModel, useReactTable } from "@tanstack/react-table";
 import { Categories } from "../../types";
 import { v4 as uuidv4 } from "uuid";
 import { updateSubRows } from "../../utils/updateSubRows";
@@ -26,6 +26,10 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
 
     const [data, setData] = useState<Categories[]>([]);
     const [expanded, setExpanded] = useState<ExpandedState>({});
+    const [columnPinning] = useState<ColumnPinningState>({
+        left: ["analytics.revenue"],
+        right: [],
+      });
     const [loader, setLoader] = useState(false);
     const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
 
@@ -172,6 +176,7 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         },
         {
             accessorKey: "analytics.revenue",
+            id: "analytics.revenue",
             header: "Выручка",
             cell: ({ row, getValue}: any) => {
                 return (
@@ -304,13 +309,15 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         data,
         columns,
         state: {
-            expanded
+            expanded,
+            columnPinning
         },
         onExpandedChange: setExpanded,
         getSubRows: row => row.subRows,
         getCoreRowModel: getCoreRowModel(),
         getExpandedRowModel: getExpandedRowModel(),
         manualExpanding: true,
+        columnResizeMode: "onChange",
     });
 
     const loadingSkeleton = (children?: any) => {
