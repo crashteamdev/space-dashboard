@@ -33,6 +33,29 @@ export const sortingDropdown = [
     },
 ];
 
+export const sortingDropdownProduct = [
+    {
+        "name": "Выручка",
+        "value": "revenue"
+    },
+    {
+        "name": "Продаж",
+        "value": "order_amount"
+    },
+    {
+        "name": "Цена",
+        "value": "price"
+    },
+    {
+        "name": "Рейтинг",
+        "value": "rating"
+    },
+    {
+        "name": "Кол-во отзывов",
+        "value": "reviews_amount"
+    },
+];
+
 export const period = [
     {
         period: "WEEK",
