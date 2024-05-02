@@ -44,7 +44,7 @@ export const StatsCategory = (category: any) => {
     };
 
     const { isLoading, isError, isSuccess, data } = useQuery({
-        queryKey: ["statsCat", periodDay, startDate, endDate], 
+        queryKey: ["statsCat", periodDay, startDate, endDate, category.category], 
         queryFn: getStatsCategory,
         // enabled: !!startDate && !!endDate,
         staleTime: 1000 * 60 * 10
