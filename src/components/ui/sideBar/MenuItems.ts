@@ -41,8 +41,10 @@ const MenuitemsKazan: MenuitemsT = {
     },
     {
       id: uniqueId(),
-      title: "Аналитика категорий",
+      title: "Аналитика",
       icon: QueryStatsIcon,
+      chip: "Новое",
+      chipColor: "secondary",
       href: "/analytics/categories"
     },
     {
@@ -77,9 +79,11 @@ const MenuitemsKazan: MenuitemsT = {
     },
     {
       id: uniqueId(),
-      title: "Аналитика категорий",
+      title: "Аналитика",
       icon: QueryStatsIcon,
-      href: "/analytics/categories"
+      href: "/analytics/categories",
+      chip: "Новое",
+      chipColor: "secondary",
     },
     {
       id: uniqueId(),
