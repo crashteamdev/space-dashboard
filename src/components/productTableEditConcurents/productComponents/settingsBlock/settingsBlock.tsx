@@ -51,7 +51,7 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
       }
       if (strategiData?.strategyType === "close_to_minimal") {
         setDataS({ min: true, max: true, step: true, discount: true });
-      } else if (strategiData.strategyType === "quantity_dependent") {
+      } else if (strategiData?.strategyType === "quantity_dependent") {
         setDataS({ min: true, max: true, step: true, discount: true });
       } else if (strategiData?.strategyType === "equal_price") {
         setDataS({ min: true, max: true, step: false, discount: true });
@@ -60,7 +60,7 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
         setStrategy({});
         setDataS({ min: false, max: false, step: false, discount: false });
       }
-      await setLoading(true);
+      setLoading(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);

@@ -623,7 +623,7 @@ export const getStrategyId = (context: string, idItem: any) => async (dispatch: 
         return response.data;
       })
       .catch((error) => {
-        if (error.response.status !== 404 && error.response.status !== 400) {
+        if (error.response.status === 400 || error.response.status === 500 ) {
           dispatch(
             addItem({
               title: `Ошибка ${error.response.status}`,
