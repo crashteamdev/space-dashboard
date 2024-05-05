@@ -164,7 +164,7 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
                                 {getValue()}
                             </Link>
                             <div className="flex gap-3 items-center">
-                                <Link className="text-blueGray-600 hover:underline" href={`https://kazanexpress.ru/product/${row.original.product_id}`}>Открыть на сайте</Link>
+                                <Link className="text-blueGray-600 hover:underline" target="_blank" href={market === "KE" ? `https://kazanexpress.ru/product/${row.original.product_id}` : `https://uzum.uz/product/${row.original.product_id}`}>Открыть на сайте</Link>
                                 <div className="flex gap-1 items-center text-xs">
                                     <StarIcon width={14} height={15} fill="#ffb72c" className="relative top-[-1px]" />
                                     {row.original.rating}

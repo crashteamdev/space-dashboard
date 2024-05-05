@@ -24,10 +24,12 @@ const SidebarItems = () => {
 
   return (
     <Box sx={{ px: 3 }}>
-      <Box sx={{ pt: 0 }}>
-        <Wallet hideMenu={hideMenu} />
-        <SwitchCompany />
-      </Box>
+      {!customizer.isCollapse && 
+        <Box sx={{ pt: 0 }}>
+          <Wallet hideMenu={hideMenu} />
+          <SwitchCompany />
+        </Box>
+      }
       <List sx={{ pt: 0 }} className='sidebarNav'>
         {MenuitemsKazan[companyChanger.activeCompany].map((item) => {
           // {/********SubHeader**********/}

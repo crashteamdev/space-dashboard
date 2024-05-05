@@ -33,7 +33,7 @@ const Header = () => {
   return (
     <AppBarStyled position='static' color='default' className="!bg-black-800 border-b-[1px] border-[#535263]">
       <ToolbarStyled>
-        {!lgUp &&
+        {/* {!lgUp && */}
           <IconButton
             color="inherit"
             aria-label="menu"
@@ -41,7 +41,7 @@ const Header = () => {
           >
             <IconMenu2 size="20" color="white" />
           </IconButton>
-        }
+        {/* } */}
         <Box flexGrow={1}>
           {/* <Typography variant="h3">Профиль</Typography> */}
         </Box>
