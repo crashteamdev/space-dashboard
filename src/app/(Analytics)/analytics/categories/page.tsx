@@ -97,7 +97,7 @@ const Categories = () => {
               market={market.value} 
               period={periodDay}
               sorting={sorting.value}
-            />  
+            />
           </div>
         </Container>
     </div>

@@ -6,7 +6,7 @@ import { IconMenu2 } from "@tabler/icons-react";
 import Profile from "./Profile";
 import Language from "./Language";
 import { AppState } from "@/shared/store/store";
-import SwitchTheme from "@/components/switchTheme/SwitchTheme";
+// import SwitchTheme from "@/components/switchTheme/SwitchTheme";
 
 const Header = () => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
@@ -46,7 +46,7 @@ const Header = () => {
           {/* <Typography variant="h3">Профиль</Typography> */}
         </Box>
         <Stack spacing={1} direction='row' alignItems='center'>
-          <SwitchTheme />
+          {/* <SwitchTheme /> */}
           <Language />
           <Profile />
         </Stack>
