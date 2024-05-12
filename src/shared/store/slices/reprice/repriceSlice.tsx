@@ -653,7 +653,10 @@ export const addStrategyId =
             strategyType: data.strategyType,
             minimumThreshold: data.minimumThreshold,
             maximumThreshold: data.maximumThreshold,
-            discount: data.discount ? data.discount : 0
+            discount: data.discount ? data.discount : 0,
+            competitorAvailableAmount: data.competitorAvailableAmount !== 0 ? data.competitorAvailableAmount : null,
+            competitorSalesAmount: data.competitorSalesAmount !== 0 ? data.competitorSalesAmount : null,
+            changeNotAvailableItemPrice: data.changeNotAvailableItemPrice === "true" ? true : null,
           }
         }
       };
@@ -688,6 +691,7 @@ export const addStrategyId =
   export const editStrategyId =
   (context: string, itemId: any, data: any) => async (dispatch: AppDispatch) => {
     try {
+      console.log(data);
       const config = {
         method: "patch",
         maxBodyLength: Infinity,
@@ -698,7 +702,10 @@ export const addStrategyId =
             strategyType: data.strategyType,
             minimumThreshold: data.minimumThreshold,
             maximumThreshold: data.maximumThreshold,
-            discount: data.discount ? data.discount : 0
+            discount: data.discount ? data.discount : 0,
+            competitorAvailableAmount: data.competitorAvailableAmount !== 0 ? data.competitorAvailableAmount : null,
+            competitorSalesAmount: data.competitorSalesAmount !== 0 ? data.competitorSalesAmount : null,
+            changeNotAvailableItemPrice: data.changeNotAvailableItemPrice === "true" ? true : null,
           }
         }
       };

@@ -59,7 +59,6 @@ export default function Page({ params }: { params: { categoryId: string } }) {
 
     const getCategoriesInfo = async () => {
         const url = `https://api.marketdb.pro/gateway/external-analytics/categories/${params.categoryId}/info?mp=${market.value}`;
-
         try {
             const response = await axios.get<IPropsCategory>(url, {
                 headers: headers
