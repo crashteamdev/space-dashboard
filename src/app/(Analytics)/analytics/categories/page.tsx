@@ -41,7 +41,7 @@ const Categories = () => {
               ))}
 
               <Listbox value={market} onChange={setMarket}>
-                <div className="w-full max-w-[150px] relative">
+                <div className="w-full max-w-[160px] relative">
                   <Listbox.Button className="mdb-button-1 rounded h-full w-full flex justify-between items-center">
                     <span className="pl-[16px]">{market.name}</span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">

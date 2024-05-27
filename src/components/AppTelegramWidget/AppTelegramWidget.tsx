@@ -4,7 +4,7 @@ import React from "react";
 
 export const AppTelegramWidget = () => {
     return (
-        <Link href="https://t.me/marketdbchat" target="_blank" className="flex gap-3 bg-white rounded-lg m-6 p-2">
+        <Link href="https://t.me/marketdbchat" target="_blank" className="flex gap-3 bg-white rounded-lg m-6 p-2 items-center">
             <div className="w-8 h-8 rounded-full overflow-hidden relative">
                 <Image 
                     src="/chat-avatar.jpg"
