@@ -129,7 +129,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                         <h2>{data?.title}</h2>
                         <div className="flex flex-col gap-1">
                             <div className="flex gap-3 items-center">
-                                <Link className="text-blueGray-600 hover:underline" href={market.value === "KE" ? `https://kazanexpress.ru/product/${data?.product_id}` : `https://uzum.uz/product/${data?.product_id}`}>Открыть на сайте</Link>
+                                <Link className="text-blueGray-600 hover:underline" href={market.value === "KE" ? `https://mm.ru/product/${data?.product_id}` : `https://uzum.uz/product/${data?.product_id}`}>Открыть на сайте</Link>
                                 <div className="flex gap-1 items-center text-base">
                                     <StarIcon width={14} height={15} fill="#ffb72c" className="relative top-[-1px]" />
                                     <span>{data?.rating}</span>
@@ -152,13 +152,13 @@ export default function Product({ params }: { params: { productId: string } }) {
                                     <tr>
                                         <td style={{width: "140px"}}>Категория</td>
                                         <td>
-                                            <Link href={market.value === "KE" ? "https://kazanexpress.ru/category/" : "https://uzum.uz/category/" + data?.category.id}>{data?.category.name}</Link>
+                                            <Link href={market.value === "KE" ? "https://mm.ru/category/" : "https://uzum.uz/category/" + data?.category.id}>{data?.category.name}</Link>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: "140px"}}>Продавец</td>
                                         <td>
-                                            <Link href={market.value === "KE" ? "https://kazanexpress.ru/" : "https://uzum.uz/" + data?.seller.seller_link}>{data?.seller.seller_title}</Link>
+                                            <Link href={market.value === "KE" ? "https://mm.ru/" : "https://uzum.uz/" + data?.seller.seller_link}>{data?.seller.seller_title}</Link>
                                         </td>
                                     </tr>
                                     <tr>
@@ -199,7 +199,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                             />
                             <ChartCard
                                 data={data?.price_chart || []}
-                                title="Цена без скидки"
+                                title="Цена со скидкой"
                                 tooltipValue={market.value === "KE" ? "₽" : "Сум"}
                                 formattedDates={dateArray}
                             />

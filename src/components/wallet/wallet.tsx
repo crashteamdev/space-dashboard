@@ -24,10 +24,12 @@ const Wallet = ({ hideMenu }: any) => {
     <>
       {!hideMenu ? (
         <Box className="bg-white" mt={4} p={2}>
-          <div className="text-black-800 font-semibold text-lg">
-            {t("balance.title")}:
+          <div className="flex gap-1">
+            <div className="text-black-800 font-semibold text-lg">
+                {t("balance.title")}:
+              </div>
+              <div className="text-black-800 font-semibold text-lg">${balanceReducer.amount}</div>
           </div>
-          <div className="text-black-800 font-semibold text-lg">$ {balanceReducer.amount }</div>
           <Box mt={2}>
             <AppButton 
               tag="button" 

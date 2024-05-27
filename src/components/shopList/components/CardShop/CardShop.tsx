@@ -25,7 +25,7 @@ export const CardShop: React.FC<Props> = ({ item, accountId }) => {
                 {item.name}
             </div>
             <div className="font-normal text-xs text-[gray]">
-                KazanExpress
+                Магнит Маркет
             </div>
             <AppButton tag="a" href={`/reprice/${accountId}/${item.id}`}className="absolute right-3 top-3 !p-2 bg-blueGray-100">
                 <NavigateNextIcon className="text-white" />

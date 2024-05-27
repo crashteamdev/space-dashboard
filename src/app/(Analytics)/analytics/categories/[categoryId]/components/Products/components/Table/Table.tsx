@@ -1,7 +1,7 @@
 "use client";
-// import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 
-// const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import React, { HTMLAttributes, useEffect, useMemo, useState } from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { getAuth } from "@firebase/auth";
@@ -67,37 +67,21 @@ const createFilterQueryString = (filters: any) => {
 
 export const Table = ({period, sorting, category, market, filters}: ITable ) => {
 
-    // const optionsrow1chart: any = {
-    //     chart: {
-    //         type: "area",
-    //         //   fontFamily:
-    //         foreColor: "#adb0bb",
-    //         toolbar: {
-    //             show: false,
-    //         },
-    //         height: 35,
-    //         width: 100,
-    //         sparkline: {
-    //             enabled: true,
-    //         },
-    //         group: "sparklines",
-    //     },
-    //     stroke: {
-    //         curve: "smooth",
-    //         width: 2,
-    //     },
-    //     fill: {
-    //         colors: ["#ECF2FF"],
-    //         type: "solid",
-    //         opacity: 0.05,
-    //     },
-    //     markers: {
-    //         size: 0,
-    //     },
-    //     tooltip: {
-    //         enabled: false,
-    //     },
-    // };
+    const optionsrow1chart = useMemo(() => ({
+        chart: {
+            type: "area",
+            foreColor: "#adb0bb",
+            toolbar: { show: false },
+            height: 35,
+            width: 100,
+            sparkline: { enabled: true },
+            group: "sparklines",
+        },
+        stroke: { curve: "smooth", width: 2 },
+        fill: { colors: ["#ECF2FF"], type: "solid", opacity: 0.05 },
+        markers: { size: 0 },
+        tooltip: { enabled: false },
+    }), []);
 
     const [catalogData, setCatalogData] = useState<IProducts[]>([]);
     const [limit] = useState<number>(10);
@@ -147,7 +131,7 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
     }, [data?.pages, isSuccess, filters]);
 
 
-    const columns = [
+    const columns = useMemo(() =>[
         {
             accessorKey: "title",
             header: "Название",
@@ -164,7 +148,7 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
                                 {getValue()}
                             </Link>
                             <div className="flex gap-3 items-center">
-                                <Link className="text-blueGray-600 hover:underline" target="_blank" href={market === "KE" ? `https://kazanexpress.ru/product/${row.original.product_id}` : `https://uzum.uz/product/${row.original.product_id}`}>Открыть на сайте</Link>
+                                <Link className="text-blueGray-600 hover:underline" target="_blank" href={market === "KE" ? `https://mm.ru/product/${row.original.product_id}` : `https://uzum.uz/product/${row.original.product_id}`}>Открыть на сайте</Link>
                                 <div className="flex gap-1 items-center text-xs">
                                     <StarIcon width={14} height={15} fill="#ffb72c" className="relative top-[-1px]" />
                                     {row.original.rating}
@@ -232,34 +216,34 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
                 );
             }
         },
-        // {
-        //     accessorKey: "sales_chart",
-        //     header: "График",
-        //     cell: ({row}: any) => {
-        //         const seriesrow1chart = [
-        //             {
-        //                 // name: "Customers",
-        //                 color: "#556cd6",
-        //                 data: row.original.sales_chart,
-        //             },
-        //         ];
-        //         return (
-        //             <div className="relative">
-        //                 <div>
+        {
+            accessorKey: "sales_chart",
+            header: "График продаж",
+            cell: ({row}: any) => {
+                const seriesrow1chart = [
+                    {
+                        // name: "Customers",
+                        color: "#556cd6",
+                        data: row.original.sales_chart,
+                    },
+                ];
+                return (
+                    <div className="relative">
+                        <div>
 
-        //                 {/* <Chart
-        //                     options={optionsrow1chart}
-        //                     series={seriesrow1chart}
-        //                     type="area"
-        //                     height="35px"
-        //                     width="100px"
-        //                 /> */}
-        //                 </div>
-        //             </div>
-        //         );
-        //     }
-        // },
-    ];
+                        <Chart
+                            options={optionsrow1chart as any}
+                            series={seriesrow1chart}
+                            type="area"
+                            height="35px"
+                            width="100px"
+                        />
+                        </div>
+                    </div>
+                );
+            }
+        },
+    ], [market, optionsrow1chart]);
 
     const table = useReactTable({
         data: catalogData || [],

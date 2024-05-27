@@ -5,4 +5,9 @@ export type IconType =
     | "click-up"
     | "enot"
     | "filter"
-    | "arrowTopRightOnSquare";
+    | "arrowTopRightOnSquare"
+    | "arrowIcon"
+    | "plusIcon"
+    | "minusIcon"
+    | "telegram"
+    | "questions";

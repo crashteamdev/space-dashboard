@@ -89,8 +89,28 @@ const Sidebar = () => {
             <SidebarItems />
           </Scrollbar>
           {!customizer.isCollapse && 
-            <AppTelegramWidget />
-          }
+          (
+            <div className="flex flex-col gap-3 mb-4 mx-6">
+              <div className="flex gap-2 items-center">
+                <span className="font-bold text-white">Мы в Telegram:</span>
+                <div>
+                  <Link href="https://t.me/marketdbchat" target="_blank">
+                    <AppIcon type="telegram" className="w-full max-w-[20px]" color="white"/>
+                  </Link>
+                </div>
+              </div>
+              <Link href="https://doc.marketdb.pro/documentation/index.html" target="_blank" className="flex gap-3 bg-white rounded-lg my-1 p-2 items-center">
+                <div className="w-8 h-8 rounded-full overflow-hidden relative">
+                  <AppIcon type="questions" />
+                </div>
+                <div className="flex flex-col gap">
+                    <div className="text-base text-black-800 font-semibold">Инструкция</div>
+                    <div className="text-xs text-gray font-medium text-[#a7a7a7]">Ваш личный помощник</div>
+                </div>
+              </Link>
+              {/* <AppTelegramWidget /> */}
+            </div>
+          )}
         </Drawer>
       </Box>
     );

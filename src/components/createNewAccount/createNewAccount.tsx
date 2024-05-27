@@ -63,11 +63,11 @@ const CreateNewAccount = ({ open, setOpen, getFirstData }: any) => {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle mt={2}>{(company.activeCompany === "uzum") ?  "Добавить аккаунт Uzum" : "Добавить аккаунт KazanExpress"}</DialogTitle>
+      <DialogTitle mt={2}>{(company.activeCompany === "uzum") ?  "Добавить аккаунт Uzum" : "Добавить аккаунт Магнит Маркет"}</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Для того чтобы использовать систему изменения цен, необходимо добавить аккаунт указав
-          логин и пароль. Вы можете создать отдельный аккаунт через раздел на KazanExpress
+          логин и пароль. Вы можете создать отдельный аккаунт через раздел на Магнит Маркет
           Сотрудники
         </DialogContentText>
       </DialogContent>
