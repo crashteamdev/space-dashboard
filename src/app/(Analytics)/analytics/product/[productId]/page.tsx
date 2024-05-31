@@ -152,13 +152,13 @@ export default function Product({ params }: { params: { productId: string } }) {
                                     <tr>
                                         <td style={{width: "140px"}}>Категория</td>
                                         <td>
-                                            <Link href={market.value === "KE" ? "https://mm.ru/category/" : "https://uzum.uz/category/" + data?.category.id}>{data?.category.name}</Link>
+                                            <Link href={market.value === "KE" ? "https://mm.ru/category/" + data?.category.id : "https://uzum.uz/category/" + data?.category.id}>{data?.category.name}</Link>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: "140px"}}>Продавец</td>
                                         <td>
-                                            <Link href={market.value === "KE" ? "https://mm.ru/" : "https://uzum.uz/" + data?.seller.seller_link}>{data?.seller.seller_title}</Link>
+                                            <Link href={market.value === "KE" ? "https://mm.ru/" + data?.seller.seller_link : "https://uzum.uz/" + data?.seller.seller_link}>{data?.seller.seller_title}</Link>
                                         </td>
                                     </tr>
                                     <tr>
