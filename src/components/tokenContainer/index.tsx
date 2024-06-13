@@ -169,7 +169,7 @@ const TokenContainer = () => {
                   <Typography color='h6' mb={1}>
                     <CustomLink
                       isExternal={false}
-                      href='https://wiki.marketdb.ru/ru/base/getting-started'
+                      href='https://doc.marketdb.pro/documentation/getting-started.html'
                     >
                       {t("MoreInfo.desc3")}
                     </CustomLink>
