@@ -35,6 +35,7 @@ export const Products = (category: any) => {
                     ))}
                     </div>
                     <div className="flex gap-2 justify-end w-full">
+                        {/* <input placeholder="Поиск" className="bg-white rounded border border-[#E1E4EA] p-2.5 text-black text-[14px] font-normal w-full max-w-[256px]" /> */}
                         <AppButton iconType="filter" themeType="sorting" tag="button" onClick={() => setIsOpen(true)} className={clsx("mdb-button-1 items-center gap-[5px]")}>
                             Фильтр
                         </AppButton>

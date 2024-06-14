@@ -11,8 +11,8 @@ import { formatNumber } from "@/hooks/useFormatNumber";
 import { TableBody } from "./utils/tableRow";
 import Image from "next/image";
 import {useFirebaseToken} from "@/hooks/useFirebaseToken";
-// import { useCheckSubscription } from "@/hooks/useCheckSubscription";
 import axios from "axios";
+import { axiosApi } from "@/api/axios/axios";
 
 type ITable = {
     market: string;
@@ -54,10 +54,6 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             }
 
             setError(false);
-            const headers = {
-                "Authorization": `Bearer ${token}`,
-                "X-Request-ID": uuidv4()
-            };
 
             const responseSubscribes = await axios.get<SubscriptionResponse>(`https://${market === "KE" ? "ke" : "uzum"}-api.marketdb.pro/v1/user/subscription`, {
                 headers: {
@@ -68,14 +64,11 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
 
             if(responseSubscribes.data.active) {
                 setActive(true);
-                const response = await fetch(urlCategoriesStats + query + sort, {
-                    method: "GET",
-                    headers: headers
-                });
+                const response = await axiosApi.get(urlCategoriesStats + query + sort);
                 if(response.status === 403) {
                     setError(true);
                 }
-                const data = await response?.json();
+                const data = await response.data;
                 const newDate = data.map((item: any) => {
                     return {
                         id: item.category.id,
@@ -125,17 +118,10 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                         if(token === null) {
                             return true;
                         }
-                        const headers = {
-                            "Authorization": `Bearer ${token}`,
-                            "X-Request-ID": uuidv4()
-                        };
                         
-                        const response = await fetch(urlCategoriesStats + query + `&id=${row.original.id}` + sort, {
-                            method: "GET",
-                            headers: headers
-                        });
+                        const response = await axiosApi.get(urlCategoriesStats + query + `&id=${row.original.id}` + sort);
                         
-                        const responseData = await response.json();
+                        const responseData = await response.data;
 
                         const tableArray = responseData.map((item: any) => {
                             return {
