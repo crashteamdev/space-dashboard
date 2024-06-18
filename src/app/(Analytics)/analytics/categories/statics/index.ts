@@ -81,7 +81,7 @@ export const marketplace = [
         value: "UZ"
     },
     {
-        name: "KazanExpress",
+        name: "Магнит Маркет",
         value: "KE"
     }
 ];

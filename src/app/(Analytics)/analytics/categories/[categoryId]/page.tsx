@@ -59,7 +59,6 @@ export default function Page({ params }: { params: { categoryId: string } }) {
 
     const getCategoriesInfo = async () => {
         const url = `https://api.marketdb.pro/gateway/external-analytics/categories/${params.categoryId}/info?mp=${market.value}`;
-
         try {
             const response = await axios.get<IPropsCategory>(url, {
                 headers: headers
@@ -105,7 +104,7 @@ export default function Page({ params }: { params: { categoryId: string } }) {
                 {isLoading 
                     ? <Skeleton variant="rectangular" height={20} width={200} />
                     : <Typography variant="subtitle1" className="font-semibold underline text-grayModern-400">
-                        <Link className="flex gap-1 items-center" target="_blank" href={market.value === "KE" ? `https://kazanexpress.ru/category/${data?.id}` : `https://uzum.uz/category/${data?.id}`}>
+                        <Link className="flex gap-1 items-center" target="_blank" href={market.value === "KE" ? `https://mm.ru/category/${data?.id}` : `https://uzum.uz/category/${data?.id}`}>
                             Категория на маркетплейсе
                             <AppIcon type="arrowTopRightOnSquare" className="w-4 h-4" />
                         </Link>

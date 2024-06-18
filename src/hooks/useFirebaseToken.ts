@@ -15,7 +15,7 @@ export const useFirebaseToken = () => {
             }
         });
         return () => unsubscribe();
-    }, []);
+    }, [auth]);
 
     return token;
 };

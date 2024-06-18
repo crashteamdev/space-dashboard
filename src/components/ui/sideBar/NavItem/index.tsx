@@ -52,13 +52,14 @@ export default function NavItem({ item, level, pathDirect, hideMenu, onClick }: 
   const itemIcon =
     level > 1 ? <Icon stroke={1.5} size='1rem' /> : <Icon stroke={1.5} size='1.3rem' />;
 
-  const ListItemStyled = styled(ListItemButton)(() => ({
-    whiteSpace: "nowrap",
-    marginBottom: "2px",
-    padding: "8px 10px",
-    borderRadius: `${customizer.borderRadius}px`,
-    backgroundColor: level > 1 ? "transparent !important" : "inherit",
-    color:
+    const ListItemStyled = styled(ListItemButton)(() => ({
+      whiteSpace: "nowrap",
+      padding: "8px 10px",
+      marginBottom: "2px",
+      gap: "10px",
+      borderRadius: `${customizer.borderRadius}px`,
+      backgroundColor: level > 1 ? "transparent !important" : "inherit",
+      color:
       level > 1 && pathDirect === item?.href
         // ? `${theme.palette.primary.main}!important`
         ? "#fff"
@@ -102,7 +103,7 @@ export default function NavItem({ item, level, pathDirect, hideMenu, onClick }: 
         >
           <ListItemIcon
             sx={{
-              minWidth: "36px",
+              minWidth: "auto",
               p: "3px 0",
               color:
                 level > 1 && pathDirect === item?.href
@@ -115,10 +116,10 @@ export default function NavItem({ item, level, pathDirect, hideMenu, onClick }: 
           <ListItemText>
             {hideMenu ? "" : <>{t(`${item?.title}`)}</>}
             <br />
-            {item?.subtitle ? (
-              <Typography variant='caption'>{hideMenu ? "" : item?.subtitle}</Typography>
-            ) : (
-              ""
+            {item?.subtitle && (
+              <>
+                {hideMenu && <Typography variant='caption'>{item?.subtitle}</Typography>}
+              </>
             )}
           </ListItemText>
 

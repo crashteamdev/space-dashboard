@@ -6,7 +6,7 @@ import { IconMenu2 } from "@tabler/icons-react";
 import Profile from "./Profile";
 import Language from "./Language";
 import { AppState } from "@/shared/store/store";
-import SwitchTheme from "@/components/switchTheme/SwitchTheme";
+// import SwitchTheme from "@/components/switchTheme/SwitchTheme";
 
 const Header = () => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
@@ -33,7 +33,7 @@ const Header = () => {
   return (
     <AppBarStyled position='static' color='default' className="!bg-black-800 border-b-[1px] border-[#535263]">
       <ToolbarStyled>
-        {!lgUp &&
+        {/* {!lgUp && */}
           <IconButton
             color="inherit"
             aria-label="menu"
@@ -41,12 +41,12 @@ const Header = () => {
           >
             <IconMenu2 size="20" color="white" />
           </IconButton>
-        }
+        {/* } */}
         <Box flexGrow={1}>
           {/* <Typography variant="h3">Профиль</Typography> */}
         </Box>
         <Stack spacing={1} direction='row' alignItems='center'>
-          <SwitchTheme />
+          {/* <SwitchTheme /> */}
           <Language />
           <Profile />
         </Stack>

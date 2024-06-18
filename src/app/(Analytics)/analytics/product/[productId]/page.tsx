@@ -2,22 +2,17 @@
 import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import { Box, Container, Grid, Skeleton } from "@mui/material";
-import React, { useMemo } from "react";
-import {
-    useQuery
-  } from "@tanstack/react-query";
-import { getAuth } from "firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
-import { v4 as uuidv4 } from "uuid";
+import React from "react";
+import {useQuery} from "@tanstack/react-query";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { marketplace } from "../../categories/statics";
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { StarIcon } from "@heroicons/react/20/solid";
 import useDateRange from "@/hooks/useDateRange";
 import { formatNumber } from "@/hooks/useFormatNumber";
 import { ChartCard } from "@/components/chartLine";
+import { axiosApi } from "@/api/axios/axios";
 
 interface ProductStats {
     mp: string;
@@ -66,19 +61,11 @@ export default function Product({ params }: { params: { productId: string } }) {
 
     const dateArray = getDatesInRange(startDate, endDate);
 
-    const auth = getAuth(firebase_app) as any;
-    const headers = useMemo(() => ({
-        "Authorization": `Bearer ${auth.currentUser.accessToken}`,
-        "X-Request-ID": uuidv4()
-    }), [auth.currentUser.accessToken]);
-
     const getProductStats = async () => {
-        const url = `https://api.marketdb.pro/gateway/external-analytics/products/${params.productId}/stats?mp=${market.value}&startDate=${startDate}&endDate=${endDate}`;
+        const url = `gateway/external-analytics/products/${params.productId}/stats?mp=${market.value}&startDate=${startDate}&endDate=${endDate}`;
 
         try {
-            const response = await axios.get<ProductStats>(url, {
-                headers: headers
-            });
+            const response = await axiosApi.get<ProductStats>(url);
             return response.data;
         } catch (error) {
             throw new Error("Failed to fetch product stats");
@@ -112,7 +99,7 @@ export default function Product({ params }: { params: { productId: string } }) {
         </Container>
     );
 
-    if (isError) return <div>Error fetching product stats</div>;
+    if (isError) return <div>Неизвестная ошибка!</div>;
 
     return (
         <Container sx={{
@@ -129,7 +116,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                         <h2>{data?.title}</h2>
                         <div className="flex flex-col gap-1">
                             <div className="flex gap-3 items-center">
-                                <Link className="text-blueGray-600 hover:underline" href={`https://kazanexpress.ru/product/${data?.product_id}`}>Открыть на сайте</Link>
+                                <Link className="text-blueGray-600 hover:underline" href={market.value === "KE" ? `https://mm.ru/product/${data?.product_id}` : `https://uzum.uz/product/${data?.product_id}`}>Открыть на сайте</Link>
                                 <div className="flex gap-1 items-center text-base">
                                     <StarIcon width={14} height={15} fill="#ffb72c" className="relative top-[-1px]" />
                                     <span>{data?.rating}</span>
@@ -152,13 +139,13 @@ export default function Product({ params }: { params: { productId: string } }) {
                                     <tr>
                                         <td style={{width: "140px"}}>Категория</td>
                                         <td>
-                                            <Link href={"https://kazanexpress.ru/category/" + data?.category.id}>{data?.category.name}</Link>
+                                            <Link href={market.value === "KE" ? "https://mm.ru/category/" + data?.category.id : "https://uzum.uz/category/" + data?.category.id}>{data?.category.name}</Link>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: "140px"}}>Продавец</td>
                                         <td>
-                                            <Link href={"https://kazanexpress.ru/" + data?.seller.seller_link}>{data?.seller.seller_title}</Link>
+                                            <Link href={market.value === "KE" ? "https://mm.ru/" + data?.seller.seller_link : "https://uzum.uz/" + data?.seller.seller_link}>{data?.seller.seller_title}</Link>
                                         </td>
                                     </tr>
                                     <tr>
@@ -199,7 +186,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                             />
                             <ChartCard
                                 data={data?.price_chart || []}
-                                title="Цена без скидки"
+                                title="Цена со скидкой"
                                 tooltipValue={market.value === "KE" ? "₽" : "Сум"}
                                 formattedDates={dateArray}
                             />

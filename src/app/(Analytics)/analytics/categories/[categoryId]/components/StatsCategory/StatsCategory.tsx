@@ -1,42 +1,29 @@
-import React, { useEffect } from "react";
-import { getAuth } from "@firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
-import { v4 as uuidv4 } from "uuid";
+import React from "react";
 import { ChartCard } from "@/components/chartLine";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { marketplace, period } from "../../../statics";
 import useDateRange from "@/hooks/useDateRange";
-import axios from "axios";
 import {Skeleton } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { AppButton } from "@/shared/components/AppButton";
 import clsx from "clsx";
+import { axiosApi } from "@/api/axios/axios";
 
 export const StatsCategory = (category: any) => {
-    const auth = getAuth(firebase_app) as any;
 
     const [market] = useLocalStorage("market", marketplace[1]);
     const [periodDay, setPeriodDay] = useLocalStorage("period", "WEEK");
 
     const {startDate, endDate} = useDateRange(periodDay);
-    useEffect(() => {
-        console.log(periodDay);
-    }, [periodDay]);
-    const headers = {
-        "Authorization": `Bearer ${auth.currentUser.accessToken}`,
-        "X-Request-ID": uuidv4()
-    };
 
     const getStatsCategory = async () => {
         if (!startDate || !endDate) {
             return;
         }
-        const url = `https://api.marketdb.pro/gateway/external-analytics/categories/${category.category}/stats?mp=${market.value}&startDate=${startDate}&endDate=${endDate}`;
+        const url = `gateway/external-analytics/categories/${category.category}/stats?mp=${market.value}&startDate=${startDate}&endDate=${endDate}`;
 
         try {
-            const response = await axios.get<any>(url, {
-                headers: headers
-            });
+            const response = await axiosApi.get<any>(url);
             return response.data;
         } catch (error) {
             throw new Error("Failed to fetch product stats");

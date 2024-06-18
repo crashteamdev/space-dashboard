@@ -5,6 +5,9 @@
 body, header {
     /* @apply dark:bg-blueGray-900; */
 }
+input:focus-visible {
+    outline: none;
+}
 .custom-white div {
     color: #fff!important;
 }

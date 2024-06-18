@@ -223,7 +223,7 @@ const Pricing = () => {
         >
           <>
             <Stack px={3}>
-              <Alert className="flex items-center mb-3 !bg-blueGray-600" variant="filled" severity="info">Вы выбрали тариф для {(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}</Alert>
+              <Alert className="flex items-center mb-3 !bg-blueGray-600" variant="filled" severity="info">Вы выбрали тариф для {(company.activeCompany === "ke" ) ? "Магнит Маркет" : "Uzum"}</Alert>
               <Typography variant="h6" sx={{ mt: 1 }}>
                 Тариф: {pricing[open - 1]?.packageRu}
               </Typography>
@@ -257,7 +257,7 @@ const Pricing = () => {
                 Отменить
               </AppButton>
               <AppButton tag="button" themeType="primary" onClick={handleLink}>
-                Оплатить тариф {(company.activeCompany === "ke" ) ? "KazanExpress" : "Uzum"}
+                Оплатить тариф {(company.activeCompany === "ke" ) ? "Магнит Маркет" : "Uzum"}
               </AppButton>
             </Stack>
           </>

@@ -21,7 +21,15 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
   const [strategy, setStrategy] = useState({}) as any;
   const [selected, setSelected] = useState("");
   const [loading, setLoading] = useState(false);
-  const [dataS, setDataS] = useState({ min: false, max: false, step: false, discount: false });
+  const [dataS, setDataS] = useState({ 
+    min: false, 
+    max: false, 
+    step: false, 
+    discount: false,
+    competitorAvailableAmount: false,
+    competitorSalesAmount: false,
+    changeNotAvailableItemPrice: false
+  });
 
   const dispatch = useReduxDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
@@ -50,17 +58,17 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
         setSelected(strategiData?.strategyType);
       }
       if (strategiData?.strategyType === "close_to_minimal") {
-        setDataS({ min: true, max: true, step: true, discount: true });
-      } else if (strategiData.strategyType === "quantity_dependent") {
-        setDataS({ min: true, max: true, step: true, discount: true });
+        setDataS({ min: true, max: true, step: true, discount: true, competitorAvailableAmount: true, competitorSalesAmount: true, changeNotAvailableItemPrice: true });
+      } else if (strategiData?.strategyType === "quantity_dependent") {
+        setDataS({ min: true, max: true, step: true, discount: true, competitorAvailableAmount: true, competitorSalesAmount: true, changeNotAvailableItemPrice: true });
       } else if (strategiData?.strategyType === "equal_price") {
-        setDataS({ min: true, max: true, step: false, discount: true });
+        setDataS({ min: true, max: true, step: false, discount: true, competitorAvailableAmount: true, competitorSalesAmount: true, changeNotAvailableItemPrice: true });
       } else {
         setSelected("");
         setStrategy({});
-        setDataS({ min: false, max: false, step: false, discount: false });
+        setDataS({ min: false, max: false, step: false, discount: false, competitorAvailableAmount: false, competitorSalesAmount: false, changeNotAvailableItemPrice: false });
       }
-      await setLoading(true);
+      setLoading(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item]);
@@ -68,13 +76,13 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
   const changeStrategy = (value: any) => {
     setSelected(value);
     if (value === "close_to_minimal") {
-      return setDataS({ min: true, max: true, step: true, discount: true });
+      return setDataS({ min: true, max: true, step: true, discount: true, competitorAvailableAmount: true, competitorSalesAmount: true, changeNotAvailableItemPrice: true });
     } else if (value === "quantity_dependent") {
-      return setDataS({ min: true, max: true, step: true, discount: true });
+      return setDataS({ min: true, max: true, step: true, discount: true, competitorAvailableAmount: true, competitorSalesAmount: true, changeNotAvailableItemPrice: true  });
     } else if (value === "equal_price") {
-      return setDataS({ min: true, max: true, step: false, discount: true });
+      return setDataS({ min: true, max: true, step: false, discount: true, competitorAvailableAmount: true, competitorSalesAmount: true, changeNotAvailableItemPrice: true  });
     } else {
-      return setDataS({ min: false, max: false, step: false, discount: false });
+      return setDataS({ min: false, max: false, step: false, discount: false, competitorAvailableAmount: true, competitorSalesAmount: true, changeNotAvailableItemPrice: true  });
     }
   };
 
@@ -83,7 +91,7 @@ const SettingsBlock = ({ getFirstData, item, open }: any) => {
       setLoading(false);
       setSelected("");
       setStrategy({});
-      setDataS({ min: false, max: false, step: false, discount: false });
+      setDataS({ min: false, max: false, step: false, discount: false, competitorAvailableAmount: false, competitorSalesAmount: false, changeNotAvailableItemPrice: false });
     }
   }, [open]);
 

@@ -37,7 +37,7 @@ const RepricerAccountItem = ({ item, getFirstData }: any) => {
           {item.login || item.email}
         </div>
         <div className="font-normal text-xs text-[gray] dark:text-white">
-          {company.activeCompany === "ke" ? "KazanExpress" : "Uzum"}
+          {company.activeCompany === "ke" ? "Магнит Маркет" : "Uzum"}
         </div>
         <AppButton tag="a" href={`/reprice/${item.id}`} className="absolute right-3 top-3 !p-2 bg-blueGray-100">
           <NavigateNextIcon className="text-white" />

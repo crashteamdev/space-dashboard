@@ -9,15 +9,24 @@ import clsx from "clsx";
 import { Skeleton } from "@mui/material";
 import { formatNumber } from "@/hooks/useFormatNumber";
 import { TableBody } from "./utils/tableRow";
-import { useWindowScroll } from "@uidotdev/usehooks";
 import Image from "next/image";
 import {useFirebaseToken} from "@/hooks/useFirebaseToken";
+import axios from "axios";
+import { axiosApi } from "@/api/axios/axios";
 
 type ITable = {
     market: string;
     period: string;
     sorting: string;
 } & HTMLAttributes<HTMLTableElement>;
+
+interface SubscriptionResponse {
+    active: boolean;
+    createdAt: string;
+    endAt: string;
+    type: string;
+    typeNumeric: number;
+  }
 
 export const Table = ({market, period, sorting, ...props}: ITable ) => {
     const urlCategoriesStats = "https://api.marketdb.pro/gateway/external-analytics/categories/stats";
@@ -31,10 +40,11 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         right: [],
     });
     const [loader, setLoader] = useState(false);
+    const [error, setError] = useState<boolean>();
     const [loaderSubRows, setLoaderSubRows] = useState({load: false, rowId: null});
-
-    const [{ y }] = useWindowScroll();
     const token = useFirebaseToken();
+    const [active, setActive] = useState<boolean>();
+    // const { isAllowed, loading } = useCheckSubscription();
 
     useEffect(() => {
         const getCategories = async () => {
@@ -42,30 +52,42 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
             if(token === null) {
                 return true;
             }
-            const headers = {
-                "Authorization": `Bearer ${token}`,
-                "X-Request-ID": uuidv4()
-            };
-            const response = await fetch(urlCategoriesStats + query + sort, {
-                method: "GET",
-                headers: headers
-            });
-            const data = await response.json();
-            const newDate = data.map((item: any) => {
-                return {
-                    id: item.category.id,
-                    name: item.category.name,
-                    mp: item.category.mp,
-                    childrens: item.category.childrens,
-                    analytics: item.analytics,
-                    difference_percent: item.difference_percent,
-                };
+
+            setError(false);
+
+            const responseSubscribes = await axios.get<SubscriptionResponse>(`https://${market === "KE" ? "ke" : "uzum"}-api.marketdb.pro/v1/user/subscription`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "X-Request-ID": uuidv4()
+                }
             });
 
-            setData(newDate);
-            setTimeout(() => {
-                setLoader(false);
-            }, 500);
+            if(responseSubscribes.data.active) {
+                setActive(true);
+                const response = await axiosApi.get(urlCategoriesStats + query + sort);
+                if(response.status === 403) {
+                    setError(true);
+                }
+                const data = await response.data;
+                const newDate = data.map((item: any) => {
+                    return {
+                        id: item.category.id,
+                        name: item.category.name,
+                        mp: item.category.mp,
+                        childrens: item.category.childrens,
+                        analytics: item.analytics,
+                        difference_percent: item.difference_percent,
+                    };
+                });
+
+                setData(newDate);
+                
+                setTimeout(() => {
+                    setLoader(false);
+                }, 500);
+            } else {
+                setActive(false);
+            }
         };
         setLoader(true);
         getCategories();
@@ -96,17 +118,10 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
                         if(token === null) {
                             return true;
                         }
-                        const headers = {
-                            "Authorization": `Bearer ${token}`,
-                            "X-Request-ID": uuidv4()
-                        };
                         
-                        const response = await fetch(urlCategoriesStats + query + `&id=${row.original.id}` + sort, {
-                            method: "GET",
-                            headers: headers
-                        });
+                        const response = await axiosApi.get(urlCategoriesStats + query + `&id=${row.original.id}` + sort);
                         
-                        const responseData = await response.json();
+                        const responseData = await response.data;
 
                         const tableArray = responseData.map((item: any) => {
                             return {
@@ -353,29 +368,47 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
     };
 
     return (
-        <table {...props} className="mdb-table">
-            <thead 
-                className="mdb-table-thead sticky"
-                style={{
-                    boxShadow: y! > 100 ? "rgb(0 0 0 / 19%) 0 3px 10px 0px" : "none"
-                }}
-            >
-                {table.getHeaderGroups().map(headerGroup => (
-                    <tr key={headerGroup.id}>
-                        {headerGroup.headers.map(header => (
-                            <th className="py-2" key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
+        <>
+            {active ? 
+                <table {...props} className="mdb-table">
+                    <thead 
+                        className="mdb-table-thead sticky"
+                        // style={{
+                        //     boxShadow: y! > 100 ? "rgb(0 0 0 / 19%) 0 3px 10px 0px" : "none"
+                        // }}
+                    >
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id}>
+                                {headerGroup.headers.map(header => (
+                                    <th className="py-2" key={header.id}>{flexRender(header.column.columnDef.header, header.getContext())}</th>
+                                ))}
+                            </tr>
                         ))}
-                    </tr>
-                ))}
-            </thead>
-            <tbody className="mdb-table-tbody">
-                <TableBody 
-                    rows={table.getRowModel().rows} 
-                    loader={loader} 
-                    loadingSkeleton={loadingSkeleton} 
-                    loaderSubRows={loaderSubRows}
-                />
-            </tbody>
-        </table>
+                    </thead>
+                    {error 
+                        ? 
+                        <tr>
+                            <span>У вас нет доступа!</span>
+                        </tr>
+                        :
+                        <tbody className="mdb-table-tbody">
+                            <TableBody 
+                                rows={table.getRowModel().rows} 
+                                loader={loader} 
+                                loadingSkeleton={loadingSkeleton} 
+                                loaderSubRows={loaderSubRows}
+                            />
+                        </tbody>
+                    }
+                </table>
+            : 
+            <div className="h-full w-full flex items-center justify-center">
+                <div className="text-[20px]">
+                    У вас отсутствует активный тариф для выбранного маркетплейса!
+                    <Link className="block text-blueGray-600 text-center mt-3" href="/pricing">Список тарифов.</Link>
+                </div>
+            </div>
+            }
+        </>
     );
 };

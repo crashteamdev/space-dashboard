@@ -1,20 +1,17 @@
 "use client";
-// import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 
-// const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import React, { HTMLAttributes, useEffect, useMemo, useState } from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { getAuth } from "@firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
-import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import { Skeleton } from "@mui/material";
 import { formatNumber } from "@/hooks/useFormatNumber";
 import { IProducts } from "../../../../types";
 import Image from "next/image";
 import { StarIcon } from "@heroicons/react/20/solid";
-import axios from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { axiosApi } from "@/api/axios/axios";
 
 type ITable = {
     market: string;
@@ -51,7 +48,6 @@ const createFilterQueryString = (filters: any) => {
     const rating = formatRangeFilter("rating", filters.rating, MAX_RATING);
     const reviewsAmount = formatRangeFilter("reviews_amount", filters.reviewsAmount, MAX_RANGE);
 
-    // Создаём итоговую строку запроса, добавляя только те фильтры, которые не пусты
     const filterString = [
         revenueRange,
         orderAmountRange,
@@ -67,57 +63,33 @@ const createFilterQueryString = (filters: any) => {
 
 export const Table = ({period, sorting, category, market, filters}: ITable ) => {
 
-    // const optionsrow1chart: any = {
-    //     chart: {
-    //         type: "area",
-    //         //   fontFamily:
-    //         foreColor: "#adb0bb",
-    //         toolbar: {
-    //             show: false,
-    //         },
-    //         height: 35,
-    //         width: 100,
-    //         sparkline: {
-    //             enabled: true,
-    //         },
-    //         group: "sparklines",
-    //     },
-    //     stroke: {
-    //         curve: "smooth",
-    //         width: 2,
-    //     },
-    //     fill: {
-    //         colors: ["#ECF2FF"],
-    //         type: "solid",
-    //         opacity: 0.05,
-    //     },
-    //     markers: {
-    //         size: 0,
-    //     },
-    //     tooltip: {
-    //         enabled: false,
-    //     },
-    // };
+    const optionsrow1chart = useMemo(() => ({
+        chart: {
+            type: "area",
+            foreColor: "#adb0bb",
+            toolbar: { show: false },
+            height: 35,
+            width: 100,
+            sparkline: { enabled: true },
+            group: "sparklines",
+        },
+        stroke: { curve: "smooth", width: 2 },
+        fill: { colors: ["#ECF2FF"], type: "solid", opacity: 0.05 },
+        markers: { size: 0 },
+        tooltip: { enabled: false },
+    }), []);
 
     const [catalogData, setCatalogData] = useState<IProducts[]>([]);
     const [limit] = useState<number>(10);
-    const auth = getAuth(firebase_app) as any;
-
-    const headers = useMemo(() => ({
-        "Authorization": `Bearer ${auth.currentUser.accessToken}`,
-        "X-Request-ID": uuidv4()
-    }), [auth.currentUser.accessToken]);
 
     const GetProductsCatalog = async (page: number, limit: number, category: any, market: string, period: string, sorting: any): Promise<any> => {
         const filterString = createFilterQueryString(filters);
         const sort = sorting && `&sort=${sorting}`;
         const filter = filterString !== undefined ? filterString : "";
-        const url = `https://api.marketdb.pro/gateway/external-analytics/categories/${category}/products/stats?mp=${market}&period=${period}&page=${page}&limit=${limit}` + sort + filter;
+        const url = `/gateway/external-analytics/categories/${category}/products/stats?mp=${market}&period=${period}&page=${page}&limit=${limit}` + sort + filter;
 
         try {
-            const response = await axios.get<any>(url, {
-                headers: headers
-            });
+            const response = await axiosApi.get<any>(url);
             return response.data;
         } catch (error) {
             throw new Error("Failed to fetch product stats");
@@ -147,7 +119,7 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
     }, [data?.pages, isSuccess, filters]);
 
 
-    const columns = [
+    const columns = useMemo(() =>[
         {
             accessorKey: "title",
             header: "Название",
@@ -164,7 +136,7 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
                                 {getValue()}
                             </Link>
                             <div className="flex gap-3 items-center">
-                                <Link className="text-blueGray-600 hover:underline" href={`https://kazanexpress.ru/product/${row.original.product_id}`}>Открыть на сайте</Link>
+                                <Link className="text-blueGray-600 hover:underline" target="_blank" href={market === "KE" ? `https://mm.ru/product/${row.original.product_id}` : `https://uzum.uz/product/${row.original.product_id}`}>Открыть на сайте</Link>
                                 <div className="flex gap-1 items-center text-xs">
                                     <StarIcon width={14} height={15} fill="#ffb72c" className="relative top-[-1px]" />
                                     {row.original.rating}
@@ -232,34 +204,34 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
                 );
             }
         },
-        // {
-        //     accessorKey: "sales_chart",
-        //     header: "График",
-        //     cell: ({row}: any) => {
-        //         const seriesrow1chart = [
-        //             {
-        //                 // name: "Customers",
-        //                 color: "#556cd6",
-        //                 data: row.original.sales_chart,
-        //             },
-        //         ];
-        //         return (
-        //             <div className="relative">
-        //                 <div>
+        {
+            accessorKey: "sales_chart",
+            header: "График продаж",
+            cell: ({row}: any) => {
+                const seriesrow1chart = [
+                    {
+                        // name: "Customers",
+                        color: "#556cd6",
+                        data: row.original.sales_chart,
+                    },
+                ];
+                return (
+                    <div className="relative">
+                        <div>
 
-        //                 {/* <Chart
-        //                     options={optionsrow1chart}
-        //                     series={seriesrow1chart}
-        //                     type="area"
-        //                     height="35px"
-        //                     width="100px"
-        //                 /> */}
-        //                 </div>
-        //             </div>
-        //         );
-        //     }
-        // },
-    ];
+                        <Chart
+                            options={optionsrow1chart as any}
+                            series={seriesrow1chart}
+                            type="area"
+                            height="35px"
+                            width="100px"
+                        />
+                        </div>
+                    </div>
+                );
+            }
+        },
+    ], [market, optionsrow1chart]);
 
     const table = useReactTable({
         data: catalogData || [],
