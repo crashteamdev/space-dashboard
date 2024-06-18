@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import { clsx } from "clsx";
 import { AppAccordion } from "../AppAccordion";
 
@@ -21,7 +21,7 @@ type T = {
 };
 type Props<T> = {
   items: T[];
-  accordionContentSlot: (item: T) => ReactNode;
+  accordionContentSlot: any; // было (item: T) => ReactNode;
   isFirstOpen?: boolean;
   uncontrolled?: boolean;
   className?: string;
