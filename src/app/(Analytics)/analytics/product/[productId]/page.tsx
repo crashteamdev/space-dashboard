@@ -2,22 +2,17 @@
 import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import { Box, Container, Grid, Skeleton } from "@mui/material";
-import React, { useMemo } from "react";
-import {
-    useQuery
-  } from "@tanstack/react-query";
-import { getAuth } from "firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
-import { v4 as uuidv4 } from "uuid";
+import React from "react";
+import {useQuery} from "@tanstack/react-query";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { marketplace } from "../../categories/statics";
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { StarIcon } from "@heroicons/react/20/solid";
 import useDateRange from "@/hooks/useDateRange";
 import { formatNumber } from "@/hooks/useFormatNumber";
 import { ChartCard } from "@/components/chartLine";
+import { axiosApi } from "@/api/axios/axios";
 
 interface ProductStats {
     mp: string;
@@ -66,19 +61,11 @@ export default function Product({ params }: { params: { productId: string } }) {
 
     const dateArray = getDatesInRange(startDate, endDate);
 
-    const auth = getAuth(firebase_app) as any;
-    const headers = useMemo(() => ({
-        "Authorization": `Bearer ${auth.currentUser.accessToken}`,
-        "X-Request-ID": uuidv4()
-    }), [auth.currentUser.accessToken]);
-
     const getProductStats = async () => {
-        const url = `https://api.marketdb.pro/gateway/external-analytics/products/${params.productId}/stats?mp=${market.value}&startDate=${startDate}&endDate=${endDate}`;
+        const url = `gateway/external-analytics/products/${params.productId}/stats?mp=${market.value}&startDate=${startDate}&endDate=${endDate}`;
 
         try {
-            const response = await axios.get<ProductStats>(url, {
-                headers: headers
-            });
+            const response = await axiosApi.get<ProductStats>(url);
             return response.data;
         } catch (error) {
             throw new Error("Failed to fetch product stats");
@@ -190,7 +177,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                         </div>
                     </Grid>
                     <Grid item md={12} xs={12}>
-                        <div className="flex flex-wrap justify-between gap-y-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-[20px] gap-5">
                             <ChartCard
                                 data={data?.revenue_chart || []}
                                 title="Выручка"

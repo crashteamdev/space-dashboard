@@ -4,17 +4,14 @@ import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import React, { HTMLAttributes, useEffect, useMemo, useState } from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { getAuth } from "@firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
-import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import { Skeleton } from "@mui/material";
 import { formatNumber } from "@/hooks/useFormatNumber";
 import { IProducts } from "../../../../types";
 import Image from "next/image";
 import { StarIcon } from "@heroicons/react/20/solid";
-import axios from "axios";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { axiosApi } from "@/api/axios/axios";
 
 type ITable = {
     market: string;
@@ -51,7 +48,6 @@ const createFilterQueryString = (filters: any) => {
     const rating = formatRangeFilter("rating", filters.rating, MAX_RATING);
     const reviewsAmount = formatRangeFilter("reviews_amount", filters.reviewsAmount, MAX_RANGE);
 
-    // Создаём итоговую строку запроса, добавляя только те фильтры, которые не пусты
     const filterString = [
         revenueRange,
         orderAmountRange,
@@ -85,23 +81,15 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
 
     const [catalogData, setCatalogData] = useState<IProducts[]>([]);
     const [limit] = useState<number>(10);
-    const auth = getAuth(firebase_app) as any;
-
-    const headers = useMemo(() => ({
-        "Authorization": `Bearer ${auth.currentUser.accessToken}`,
-        "X-Request-ID": uuidv4()
-    }), [auth.currentUser.accessToken]);
 
     const GetProductsCatalog = async (page: number, limit: number, category: any, market: string, period: string, sorting: any): Promise<any> => {
         const filterString = createFilterQueryString(filters);
         const sort = sorting && `&sort=${sorting}`;
         const filter = filterString !== undefined ? filterString : "";
-        const url = `https://api.marketdb.pro/gateway/external-analytics/categories/${category}/products/stats?mp=${market}&period=${period}&page=${page}&limit=${limit}` + sort + filter;
+        const url = `/gateway/external-analytics/categories/${category}/products/stats?mp=${market}&period=${period}&page=${page}&limit=${limit}` + sort + filter;
 
         try {
-            const response = await axios.get<any>(url, {
-                headers: headers
-            });
+            const response = await axiosApi.get<any>(url);
             return response.data;
         } catch (error) {
             throw new Error("Failed to fetch product stats");

@@ -4,12 +4,26 @@ export const formattedAccordion = [
         name: "Внешняя аналитика Магнит Маркет",
         tariffs: [
             {
+                id: 1,
                 name: "Базовый тариф",
-                price: "15"
+                nameInCart: "Базовый тариф (МагнитМаркет)",
+                price: "15",
+                discounts: {
+                    "1": 0,
+                    "3": 5,
+                    "6": 10,
+                },
             },
             {
+                id: 2,
                 name: "Продвинутый тариф",
-                price: "30"
+                nameInCart: "Продвинутый тариф (МагнитМаркет)",
+                price: "30",
+                discounts: {
+                    "1": 0,
+                    "3": 10,
+                    "6": 20,
+                },
             },
         ]
     },
@@ -18,12 +32,26 @@ export const formattedAccordion = [
         name: "Внешняя аналитика Uzum Market",
         tariffs: [
             {
+                id: 1,
                 name: "Базовый тариф",
-                price: "15"
+                nameInCart: "Базовый тариф (Uzum)",
+                price: "15",
+                discounts: {
+                    "1": 0,
+                    "3": 5,
+                    "6": 10,
+                },
             },
             {
+                id: 2,
                 name: "Продвинутый тариф",
-                price: "30"
+                nameInCart: "Продвинутый тариф (Uzum)",
+                price: "30",
+                discounts: {
+                    "1": 0,
+                    "3": 10,
+                    "6": 20,
+                },
             },
         ]
     },

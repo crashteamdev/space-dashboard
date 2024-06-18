@@ -96,7 +96,7 @@ export const AppAccordion: React.FC<Props> = ({
       <div className='overflow-hidden duration-1000 max-h-0' style={panelStyle} id={controlId}>
         <div
           className={clsx(
-            "text-white pt-6 max-md:pt-0 px-[24px] pb-[24px] text-[16px] max-md:text-[14px] max-md:leading-[20px] font-normal leading-[24px] max-md:p-4", 
+            "pt-6 max-md:pt-0 px-[24px] pb-[24px] text-[16px] max-md:text-[14px] max-md:leading-[20px] font-normal leading-[24px] max-md:p-4", 
             contentClassName,
             {
               "!text-[#061C3D]": open
