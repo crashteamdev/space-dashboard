@@ -71,16 +71,14 @@ export const StatsCategory = (category: any) => {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-between mt-[20px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-[20px] gap-5">
                 {isLoading && (
                     [1,2,3,4].map((item, index) => (
-                        <Skeleton key={index} variant="rectangular" height={181} width={330} />
+                        <Skeleton key={index} variant="rectangular" height={181} />
                     ))
                 )}
                 {isError && (
-                    [1,2,3,4].map((item, index) => (
-                        <div key={index}>Не удалось загрузить данные.</div>
-                    ))
+                    <div>Ошибка загрузки данных!</div>
                 )}
                 {isSuccess && 
                     <>

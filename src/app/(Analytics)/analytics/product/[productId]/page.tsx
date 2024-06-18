@@ -190,7 +190,7 @@ export default function Product({ params }: { params: { productId: string } }) {
                         </div>
                     </Grid>
                     <Grid item md={12} xs={12}>
-                        <div className="flex flex-wrap justify-between gap-y-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-[20px] gap-5">
                             <ChartCard
                                 data={data?.revenue_chart || []}
                                 title="Выручка"
