@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    /* background: #fff; */
+}
+
 body, header {
     /* @apply dark:bg-blueGray-900; */
 }

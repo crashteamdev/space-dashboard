@@ -5,7 +5,7 @@ import { Box, Container, Grid, Skeleton } from "@mui/material";
 import React from "react";
 import {useQuery} from "@tanstack/react-query";
 import { useLocalStorage } from "@uidotdev/usehooks";
-import { marketplace } from "../../categories/statics";
+import { marketplace, period } from "../../categories/statics";
 import Image from "next/image";
 import Link from "next/link";
 import { StarIcon } from "@heroicons/react/20/solid";
@@ -13,6 +13,8 @@ import useDateRange from "@/hooks/useDateRange";
 import { formatNumber } from "@/hooks/useFormatNumber";
 import { ChartCard } from "@/components/chartLine";
 import { axiosApi } from "@/api/axios/axios";
+import { AppButton } from "@/shared/components/AppButton";
+import clsx from "clsx";
 
 interface ProductStats {
     mp: string;
@@ -42,20 +44,18 @@ interface ProductStats {
 function getDatesInRange(startDate: string, endDate: string) {
     const dateArray = [];
     const currentDate = new Date(startDate);
-  
+
     while (currentDate <= new Date(endDate)) {
-      dateArray.push(new Date(currentDate).toISOString().split("T")[0]);  // Форматируем дату в формат YYYY-MM-DD
-      currentDate.setDate(currentDate.getDate() + 1);  // Увеличиваем дату на один день
+        dateArray.push(new Date(currentDate).toISOString().split("T")[0]);  // Форматируем дату в формат YYYY-MM-DD
+        currentDate.setDate(currentDate.getDate() + 1);  // Увеличиваем дату на один день
     }
-  
     return dateArray;
-  }
+}
 
 export default function Product({ params }: { params: { productId: string } }) {
-
     const customizer = useSelector((state: AppState) => state.customizer);
 
-    const [periodDay,] = useLocalStorage("period", "WEEK");
+    const [periodDay,setPeriodDay] = useLocalStorage("period", "WEEK");
     const [market,] = useLocalStorage("market", marketplace[1]);
     const {startDate, endDate} = useDateRange(periodDay);
 
@@ -72,7 +72,11 @@ export default function Product({ params }: { params: { productId: string } }) {
         }
     };
 
-    const { isLoading, isError, data } = useQuery({queryKey: ["product"], queryFn: getProductStats});
+    const { isLoading, isError, data } = useQuery({
+        queryKey: ["product", startDate, endDate], 
+        queryFn: getProductStats,
+        enabled: !!startDate && !!endDate
+    });
 
     if (isLoading) return (
         <Container sx={{
@@ -177,6 +181,15 @@ export default function Product({ params }: { params: { productId: string } }) {
                         </div>
                     </Grid>
                     <Grid item md={12} xs={12}>
+                        <div className="flex gap-2 w-full">
+                            {period.map((item, key) => (
+                                <AppButton themeType="sorting" tag="button" key={key} onClick={() => setPeriodDay(item.period)} className={clsx("mdb-button-1", {
+                                    "mdb-button-1-active": periodDay === item.period
+                                    })}>
+                                    {item.text}
+                                </AppButton>
+                            ))}
+                        </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-[20px] gap-5">
                             <ChartCard
                                 data={data?.revenue_chart || []}

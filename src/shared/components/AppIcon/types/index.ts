@@ -10,4 +10,5 @@ export type IconType =
     | "plusIcon"
     | "minusIcon"
     | "telegram"
-    | "questions";
+    | "questions"
+    | "search";

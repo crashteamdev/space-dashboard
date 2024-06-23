@@ -21,13 +21,14 @@ type ITable = {
     period: string;
     sorting: string;
     filters: any;
+    search: string;
 } & HTMLAttributes<HTMLTableElement>;
 
 const MAX_RANGE = 999999999;
 const MIN_RANGE = 0;
 const MAX_RATING = 5;
 
-const createFilterQueryString = (filters: any) => {
+const createFilterQueryString = (filters: any, search: string) => {
     
     if (Object.keys(filters).length === 0) {
         return;
@@ -54,14 +55,14 @@ const createFilterQueryString = (filters: any) => {
         priceRange,
         availableAmountRange,
         rating,
-        reviewsAmount
+        reviewsAmount,
+        search && `title:${search}`
     ].filter(Boolean).join(";");
 
     return filterString ? `&filter=${filterString}` : "";
 };
 
-
-export const Table = ({period, sorting, category, market, filters}: ITable ) => {
+export const Table = ({period, sorting, category, market, filters, search}: ITable ) => {
 
     const optionsrow1chart = useMemo(() => ({
         chart: {
@@ -82,8 +83,16 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
     const [catalogData, setCatalogData] = useState<IProducts[]>([]);
     const [limit] = useState<number>(10);
 
-    const GetProductsCatalog = async (page: number, limit: number, category: any, market: string, period: string, sorting: any): Promise<any> => {
-        const filterString = createFilterQueryString(filters);
+    const GetProductsCatalog = async (
+        page: number, 
+        limit: number, 
+        category: any, 
+        market: string, 
+        period: string, 
+        sorting: any,
+        search: string
+    ): Promise<any> => {
+        const filterString = createFilterQueryString(filters, search);
         const sort = sorting && `&sort=${sorting}`;
         const filter = filterString !== undefined ? filterString : "";
         const url = `/gateway/external-analytics/categories/${category}/products/stats?mp=${market}&period=${period}&page=${page}&limit=${limit}` + sort + filter;
@@ -97,8 +106,8 @@ export const Table = ({period, sorting, category, market, filters}: ITable ) => 
     };
 
     const { data, isSuccess, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-        queryKey: ["productsCatalog", category, market, period, sorting, filters],
-        queryFn: ({ pageParam = 0 }) => GetProductsCatalog(pageParam, limit, category.category, market, period, sorting),
+        queryKey: ["productsCatalog", category, market, period, sorting, filters, search],
+        queryFn: ({ pageParam = 0 }) => GetProductsCatalog(pageParam, limit, category.category, market, period, sorting, search),
         getNextPageParam: (lastPage, allPages) => {
             const nextPageOffset = allPages.length * limit;
             return lastPage.length < limit ? undefined : nextPageOffset;
