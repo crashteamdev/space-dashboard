@@ -50,7 +50,7 @@ const Reprice = () => {
     <PageContainer title='Автоизменение цен | MarketDB' description='Автоизменение цен на маркетплейсах Магнит Маркет и Uzum'>
       <div className="mb-10">
         <h1 className="text-[22px] font-bold">Сервис автоматического изменения цен</h1>
-        <Link target="_blank" className="flex items-center gap-1 mt-2" href="https://wiki.marketdb.ru/ru/additionally/repricer#h-1-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0-%D1%81-%D0%B0%D0%BA%D0%BA%D0%B0%D1%83%D0%BD%D1%82%D0%B0%D0%BC%D0%B8">
+        <Link target="_blank" className="flex items-center gap-1 mt-2" href="https://doc.marketdb.pro/documentation/repricer.html">
           <span className="text-grayModern-500 text-[14px]">Инструкция</span>
           <BookmarkIcon className="!w-[17px] !h-[17px] !fill-blueGray-600" />
         </Link>
