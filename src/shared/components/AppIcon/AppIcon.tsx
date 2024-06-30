@@ -14,6 +14,7 @@ const MinusIcon = dynamic(() => import("./components/MinusIcon").then((module) =
 const PlusIcon = dynamic(() => import("./components/PlusIcon").then((module) => module.PlusIcon), {ssr: true});
 const TelegramIcon = dynamic(() => import("./components/Telegram").then((module) => module.TelegramIcon), {ssr: true});
 const QuestionsIcon = dynamic(() => import("./components/Questions").then((module) => module.QuestionsIcon), {ssr: true});
+const SearchIcon = dynamic(() => import("./components/Search").then((module) => module.SearchIcon), {ssr: true});
 
 
 type Props = {
@@ -36,6 +37,7 @@ const icons: Record<IconType, (className: string, color: string) => ReactNode> =
     "plusIcon": (className, color) => <PlusIcon className={className} color={color} />,
     "telegram": (className, color) => <TelegramIcon className={className} color={color}/>,
     "questions": (className) => <QuestionsIcon className={className} />,
+    "search": (className) => <SearchIcon className={className} />,
 };
 
 
