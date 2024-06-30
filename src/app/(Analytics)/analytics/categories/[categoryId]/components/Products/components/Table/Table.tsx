@@ -12,6 +12,7 @@ import Image from "next/image";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { axiosApi } from "@/api/axios/axios";
+import { useFilter } from "@/shared/hooks/useFilter";
 
 type ITable = {
     market: string;
@@ -24,43 +25,13 @@ type ITable = {
     search: string;
 } & HTMLAttributes<HTMLTableElement>;
 
-const MAX_RANGE = 999999999;
-const MIN_RANGE = 0;
-const MAX_RATING = 5;
 
-const createFilterQueryString = (filters: any, search: string) => {
-    
-    if (Object.keys(filters).length === 0) {
-        return;
-    }
-
-    const formatRangeFilter = (key: string, range: number[], maxVal: number) => {
-        if (range[0] === MIN_RANGE && range[1] === maxVal) {
-            return "";
-        } else {
-            return `${key}:${range[0]}..${range[1]}`;
-        }
-    };
-
-    const revenueRange = formatRangeFilter("revenue", filters.revenueRange, MAX_RANGE);
-    const orderAmountRange = formatRangeFilter("order_amount", filters.orderAmountRange, MAX_RANGE);
-    const priceRange = formatRangeFilter("price", filters.priceRange, MAX_RANGE);
-    const availableAmountRange = formatRangeFilter("available_amount", filters.availableAmountRange, MAX_RANGE);
-    const rating = formatRangeFilter("rating", filters.rating, MAX_RATING);
-    const reviewsAmount = formatRangeFilter("reviews_amount", filters.reviewsAmount, MAX_RANGE);
-
-    const filterString = [
-        revenueRange,
-        orderAmountRange,
-        priceRange,
-        availableAmountRange,
-        rating,
-        reviewsAmount,
-        search && `title:${search}`
-    ].filter(Boolean).join(";");
-
-    return filterString ? `&filter=${filterString}` : "";
+const setting = {
+    MAX_RANGE: 999999999,
+    MIN_RANGE: 0,
+    MAX_RATING: 5
 };
+
 
 export const Table = ({period, sorting, category, market, filters, search}: ITable ) => {
 
@@ -83,16 +54,9 @@ export const Table = ({period, sorting, category, market, filters, search}: ITab
     const [catalogData, setCatalogData] = useState<IProducts[]>([]);
     const [limit] = useState<number>(10);
 
-    const GetProductsCatalog = async (
-        page: number, 
-        limit: number, 
-        category: any, 
-        market: string, 
-        period: string, 
-        sorting: any,
-        search: string
-    ): Promise<any> => {
-        const filterString = createFilterQueryString(filters, search);
+    const filterString = useFilter({filters, search, setting});
+
+    const GetProductsCatalog = async (page: number, limit: number, category: any, market: string, period: string, sorting: any): Promise<any> => {
         const sort = sorting && `&sort=${sorting}`;
         const filter = filterString !== undefined ? filterString : "";
         const url = `/gateway/external-analytics/categories/${category}/products/stats?mp=${market}&period=${period}&page=${page}&limit=${limit}` + sort + filter;
@@ -107,7 +71,7 @@ export const Table = ({period, sorting, category, market, filters, search}: ITab
 
     const { data, isSuccess, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: ["productsCatalog", category, market, period, sorting, filters, search],
-        queryFn: ({ pageParam = 0 }) => GetProductsCatalog(pageParam, limit, category.category, market, period, sorting, search),
+        queryFn: ({ pageParam = 0 }) => GetProductsCatalog(pageParam, limit, category.category, market, period, sorting),
         getNextPageParam: (lastPage, allPages) => {
             const nextPageOffset = allPages.length * limit;
             return lastPage.length < limit ? undefined : nextPageOffset;
@@ -125,7 +89,7 @@ export const Table = ({period, sorting, category, market, filters, search}: ITab
                 setCatalogData(prevData => [...prevData, ...data.pages[lastIndex - 1]]);
             }
         }
-    }, [data?.pages, isSuccess, filters]);
+    }, [data?.pages, isSuccess, filters, search]);
 
 
     const columns = useMemo(() =>[

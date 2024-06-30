@@ -14,6 +14,7 @@ export const Products = (category: any) => {
     const { sorting, handleUpdateSorting, renderArrow } = useSorting();
     const [market,] = useLocalStorage("market", marketplace[1]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [searchInput, setSearchInput] = useState("");
     const [searchQuery, setSearchQuery] = useState("");
 
     const [filters, setFilters] = useState({});
@@ -23,11 +24,11 @@ export const Products = (category: any) => {
     };
 
     const handleSearch = () => {
-        console.log(searchQuery);
+        setSearchQuery(searchInput);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if ( e.key === "Enter") {
+        if (e.key === "Enter") {
             handleSearch();
         }
     };
@@ -55,10 +56,10 @@ export const Products = (category: any) => {
                                 <AppIcon type="search" className="w-full h-full"/>
                             </button>
                             <input 
-                                placeholder="Поиск" 
+                                placeholder="Поиск / ProductID" 
                                 className="bg-[#e5e5e5] rounded border border-none p-2.5 text-black text-[14px] font-normal w-full placeholder:text-[#000]"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
                                 onKeyDown={handleKeyDown}
                             />
                         </div>
