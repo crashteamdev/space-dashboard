@@ -3,9 +3,10 @@
 import PageContainer from "@/components/ui/container/PageContainer";
 import { AppAccordionGroup } from "@/shared/components/AppAccordionGroup";
 import { AppButton } from "@/shared/components/AppButton";
-import React, { useState } from "react";
+import React from "react";
 import { formattedAccordion } from "./statics";
 import { RadioButton } from "@/shared/components/AppRadioButton";
+import { useCart } from "@/shared/hooks/useCart";
 
 interface Discount {
     "1": number;
@@ -28,33 +29,14 @@ interface AccordionItem {
 }
 
 const NewPricing = () => {
-    const [selectedTariffs, setSelectedTariffs] = useState<Tariff[]>([]);
-    const [selectedPeriod, setSelectedPeriod] = useState<1 | 3 | 6>(1);
-
-    const handleTariffChange = (tariff: Tariff) => {
-        setSelectedTariffs((prevSelected) => {
-            const updatedSelection = prevSelected.filter(t => t.parentId !== tariff.parentId);
-            return [...updatedSelection, tariff];
-        });
-    };
-
-    const handleTariffRemove = (tariffId: number) => {
-        setSelectedTariffs((prevSelected) => prevSelected.filter(t => t.id !== tariffId));
-    };
-
-    const handlePeriodChange = (period: 1 | 3 | 6) => {
-        setSelectedPeriod(period);
-    };
-
-    const calculateDiscountedPrice = (tariff: Tariff): number => {
-        const basePrice = parseInt(tariff.price, 10);
-        const discount = tariff.discounts[selectedPeriod];
-        return basePrice * selectedPeriod * (1 - discount / 100);
-    };
-
-    const getTotalPrice = (): number => {
-        return selectedTariffs.reduce((total, tariff) => total + calculateDiscountedPrice(tariff), 0);
-    };
+    const {
+        selectedTariffs,
+        selectedPeriod,
+        handleTariffChange,
+        handleTariffRemove,
+        handlePeriodChange,
+        getTotalPrice
+    } = useCart();
 
     return (
         <PageContainer title="Тарифы" description="Тарифы">
