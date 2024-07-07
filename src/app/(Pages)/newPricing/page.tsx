@@ -3,8 +3,10 @@
 import PageContainer from "@/components/ui/container/PageContainer";
 import { AppAccordionGroup } from "@/shared/components/AppAccordionGroup";
 import { AppButton } from "@/shared/components/AppButton";
-import React, { useState } from "react";
+import React from "react";
 import { formattedAccordion } from "./statics";
+import { RadioButton } from "@/shared/components/AppRadioButton";
+import { useCart } from "@/shared/hooks/useCart";
 
 interface Discount {
     "1": number;
@@ -25,89 +27,16 @@ interface AccordionItem {
     name: string;
     tariffs: Tariff[];
 }
-const RadioButton: React.FC<{
-    name: string;
-    value: string;
-    checked: boolean;
-    onChange: () => void;
-    children: React.ReactNode;
-}> = ({ name, value, checked, onChange, children }) => {
-    return (
-        <label className="custom-radio">
-            <input
-                type="radio"
-                name={name}
-                value={value}
-                checked={checked}
-                onChange={onChange}
-                className="hidden"
-            />
-            <div className={`radio-button ${checked ? "checked" : ""}`} />
-            {children}
-            <style jsx>{`
-                .custom-radio {
-                    display: flex;
-                    align-items: center;
-                    cursor: pointer;
-                    margin-bottom: 10px;
-                }
-                .radio-button {
-                    width: 20px;
-                    height: 20px;
-                    border: 2px solid #000;
-                    border-radius: 50%;
-                    margin-right: 10px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: background 0.3s;
-                }
-                .radio-button.checked {
-                    background: #000;
-                }
-                .radio-button.checked::after {
-                    content: '';
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 50%;
-                    background: #fff;
-                }
-                input[type="radio"].hidden {
-                    display: none;
-                }
-            `}</style>
-        </label>
-    );
-};
 
 const NewPricing = () => {
-    const [selectedTariffs, setSelectedTariffs] = useState<Tariff[]>([]);
-    const [selectedPeriod, setSelectedPeriod] = useState<1 | 3 | 6>(1);
-
-    const handleTariffChange = (tariff: Tariff) => {
-        setSelectedTariffs((prevSelected) => {
-            const updatedSelection = prevSelected.filter(t => t.parentId !== tariff.parentId);
-            return [...updatedSelection, tariff];
-        });
-    };
-
-    const handleTariffRemove = (tariffId: number) => {
-        setSelectedTariffs((prevSelected) => prevSelected.filter(t => t.id !== tariffId));
-    };
-
-    const handlePeriodChange = (period: 1 | 3 | 6) => {
-        setSelectedPeriod(period);
-    };
-
-    const calculateDiscountedPrice = (tariff: Tariff): number => {
-        const basePrice = parseInt(tariff.price, 10);
-        const discount = tariff.discounts[selectedPeriod];
-        return basePrice * selectedPeriod * (1 - discount / 100);
-    };
-
-    const getTotalPrice = (): number => {
-        return selectedTariffs.reduce((total, tariff) => total + calculateDiscountedPrice(tariff), 0);
-    };
+    const {
+        selectedTariffs,
+        selectedPeriod,
+        handleTariffChange,
+        handleTariffRemove,
+        handlePeriodChange,
+        getTotalPrice
+    } = useCart();
 
     return (
         <PageContainer title="Тарифы" description="Тарифы">
@@ -115,8 +44,8 @@ const NewPricing = () => {
                 <div className="font-bold text-[26px] text-[#000]">Корзина тарифов</div>
                 
             </div>
-            <div className="flex gap-2.5 months">
-            <RadioButton
+            <div className="flex gap-2.5 months mt-3">
+                <RadioButton
                     name="period"
                     value="1"
                     checked={selectedPeriod === 1}
@@ -180,6 +109,11 @@ const NewPricing = () => {
                                 </li>
                             ))}
                         </ul>
+                        <hr className="bg-[#efefef] my-[15px] h-[1px] border-none" />
+                        <div className="px-[15px] ">
+                            <div className="text-[14px] font-semibold mb-1">Промокод ( если есть ):</div>
+                            <input placeholder="Промокод" className="border border-blueGray-100 px-2 py-1 w-full" />
+                        </div>
                         <hr className="bg-[#efefef] my-[15px] h-[1px] border-none" />
                         <div className="flex flex-col px-[15px]">
                             <div className="font-semibold text-[16px] mb-[10px]">Итого:</div>

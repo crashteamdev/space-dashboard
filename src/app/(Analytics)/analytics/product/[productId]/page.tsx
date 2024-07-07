@@ -2,7 +2,7 @@
 import { useSelector } from "@/shared/store/hooks";
 import { AppState } from "@/shared/store/store";
 import { Box, Container, Grid, Skeleton } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {useQuery} from "@tanstack/react-query";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { marketplace, period } from "../../categories/statics";
@@ -55,6 +55,9 @@ function getDatesInRange(startDate: string, endDate: string) {
 export default function Product({ params }: { params: { productId: string } }) {
     const customizer = useSelector((state: AppState) => state.customizer);
 
+    const [productData, setProductData] = useState<ProductStats>();
+    const [showSkeleton, setShowSkeleton] = useState(true);
+
     const [periodDay,setPeriodDay] = useLocalStorage("period", "WEEK");
     const [market,] = useLocalStorage("market", marketplace[1]);
     const {startDate, endDate} = useDateRange(periodDay);
@@ -68,7 +71,7 @@ export default function Product({ params }: { params: { productId: string } }) {
             const response = await axiosApi.get<ProductStats>(url);
             return response.data;
         } catch (error) {
-            throw new Error("Failed to fetch product stats");
+            console.error(error);
         }
     };
 
@@ -78,62 +81,76 @@ export default function Product({ params }: { params: { productId: string } }) {
         enabled: !!startDate && !!endDate
     });
 
-    if (isLoading) return (
-        <Container sx={{
-            maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important"
-        }}>
-            <Box sx={{ flexGrow: 1, paddingTop: 5 }}>
-                <Grid container spacing={2}>
-                    <Grid item md={12} xs={12}>
-                        <Skeleton variant="rectangular" height={20} width={523} />
-                    </Grid>
-                    <Grid item md={3} xs={12}>
-                        <Skeleton variant="rectangular" height={400} />
-                    </Grid>
-                    <Grid item md={9} xs={12} spacing={2}>
-                        <div className="flex flex-col gap-4">
-                            <Skeleton variant="rectangular" height={20} />
-                            <Skeleton variant="rectangular" height={20} />
-                            <Skeleton variant="rectangular" height={20} />
-                            <Skeleton variant="rectangular" height={20} />
-                        </div>
-                    </Grid>
-                </Grid>
-            </Box>
-        </Container>
-    );
+    useEffect(() => {
+        if (data) {
+            setProductData(data);
+            setShowSkeleton(false);
+        }
+    }, [data]);
 
-    if (isError) return <div>Неизвестная ошибка!</div>;
+    if(isError) {
+        return (
+            <Container sx={{
+                maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important"
+            }}>
+                <div className="flex gap-2 w-full mt-3">
+                    {period.map((item, key) => (
+                        <AppButton themeType="sorting" tag="button" key={key} onClick={() => setPeriodDay(item.period)} className={clsx("mdb-button-1", {
+                            "mdb-button-1-active": periodDay === item.period
+                            })}>
+                            {item.text}
+                        </AppButton>
+                    ))}
+                </div>
+                <Box sx={{ flexGrow: 1 }}>
+                    <b className="mt-3">Неизвестная ошибка! Попробуйте выбрать другой период.</b>
+                </Box>
+            </Container>
+        );
+    }
 
     return (
         <Container sx={{
             maxWidth: customizer.isLayout === "boxed" ? "lg" : "100%!important"
         }}>
+            <div className="flex gap-2 w-full mt-3">
+                {period.map((item, key) => (
+                    <AppButton themeType="sorting" tag="button" key={key} onClick={() => setPeriodDay(item.period)} className={clsx("mdb-button-1", {
+                        "mdb-button-1-active": periodDay === item.period
+                        })}>
+                        {item.text}
+                    </AppButton>
+                ))}
+            </div>
+
             <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2} className="prose lg:prose-base max-w-full prose-img:m-0 prose-h2:mb-0 prose-table:m-0">
+                <Grid container spacing={2} className="!mt-0 prose lg:prose-base max-w-full prose-img:m-0 prose-h2:mb-0 prose-table:m-0">
                     <Grid item md={12} xs={12}>
-                        <Link href={`/analytics/categories/${data?.category.id}`}>
-                            Вернуться в категорию
-                        </Link>
-                    </Grid>
-                    <Grid item md={12} xs={12}>
-                        <h2>{data?.title}</h2>
+                        <h2>{showSkeleton ? <Skeleton variant="text" /> : productData?.title}</h2>
                         <div className="flex flex-col gap-1">
                             <div className="flex gap-3 items-center">
-                                <Link className="text-blueGray-600 hover:underline" href={market.value === "KE" ? `https://mm.ru/product/${data?.product_id}` : `https://uzum.uz/product/${data?.product_id}`}>Открыть на сайте</Link>
-                                <div className="flex gap-1 items-center text-base">
-                                    <StarIcon width={14} height={15} fill="#ffb72c" className="relative top-[-1px]" />
-                                    <span>{data?.rating}</span>
-                                </div>
+                                {showSkeleton ? <Skeleton variant="rectangular" height={20} /> :
+                                    <Link className="text-blueGray-600 hover:underline" href={market.value === "KE" ? `https://mm.ru/product/${productData?.product_id}` : `https://uzum.uz/product/${productData?.product_id}`}>Открыть на сайте</Link> 
+                                }
+                                {showSkeleton ? <Skeleton variant="rectangular" height={20} /> :
+                                    <div className="flex gap-1 items-center text-base">
+                                        <StarIcon width={14} height={15} fill="#ffb72c" className="relative top-[-1px]" />
+                                        <span>{productData?.rating}</span>
+                                    </div>
+                                }
                                 <div className="flex gap-1 items-center text-base text-[#979797]">
-                                    <span>{data?.reviews_amount} отзывов</span>
+                                    {showSkeleton ? <Skeleton variant="rectangular" height={20} /> : <span>{productData?.reviews_amount} отзывов</span> }
                                 </div>
                             </div>
                         </div>
                     </Grid>
                     <Grid item md={3} xs={12}>
                         <div className="relative w-full h-[450px]">
-                            <Image src={data?.image_url as string} alt={data?.title as string} fill/>
+                        {showSkeleton ? (
+                            <Skeleton variant="rectangular" width="100%" height="450px" />
+                        ) : (
+                            <Image src={productData?.image_url as string} alt={productData?.title as string} fill/>
+                        )}
                         </div>
                     </Grid>
                     <Grid item md={9} xs={12} spacing={2}>
@@ -143,37 +160,47 @@ export default function Product({ params }: { params: { productId: string } }) {
                                     <tr>
                                         <td style={{width: "140px"}}>Категория</td>
                                         <td>
-                                            <Link href={market.value === "KE" ? "https://mm.ru/category/" + data?.category.id : "https://uzum.uz/category/" + data?.category.id}>{data?.category.name}</Link>
+                                            {showSkeleton ? <Skeleton variant="text" /> :
+                                                <Link href={market.value === "KE" ? "https://mm.ru/category/" + productData?.category.id : "https://uzum.uz/category/" + productData?.category.id}>
+                                                    {productData?.category.name}
+                                                </Link>
+                                            }
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: "140px"}}>Продавец</td>
                                         <td>
-                                            <Link href={market.value === "KE" ? "https://mm.ru/" + data?.seller.seller_link : "https://uzum.uz/" + data?.seller.seller_link}>{data?.seller.seller_title}</Link>
+                                            {showSkeleton ? <Skeleton variant="text" /> :
+                                                <Link href={market.value === "KE" ? "https://mm.ru/" + productData?.seller.seller_link : "https://uzum.uz/" + productData?.seller.seller_link}>
+                                                    {productData?.seller.seller_title}
+                                                </Link>
+                                            }
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: "140px"}}>Выручка</td>
-                                        <td>
-                                            {formatNumber(data?.revenue)} {data?.mp === "KE" ? " ₽" : " сум"}
+                                        <td className="flex">
+                                            {isLoading ? <Skeleton variant="rectangular" height={20} /> : <>{formatNumber(data?.revenue)} {productData?.mp === "KE" ? " ₽" : " сум"}</>}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: "140px"}}>Цена без скидки</td>
-                                        <td>
-                                            {data && formatNumber(data.full_price / 100)} {data?.mp === "KE" ? " ₽" : " сум"}
+                                        <td className="flex">
+                                            {showSkeleton && <Skeleton variant="rectangular" height={20} />} 
+                                            {productData && formatNumber(productData.full_price / 100)} {productData?.mp === "KE" ? " ₽" : " сум"}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: "140px"}}>Цена со скидкой</td>
-                                        <td>
-                                            {data && formatNumber(data.price / 100)} {data?.mp === "KE" ? " ₽" : " сум"}
+                                        <td className="flex">
+                                            {showSkeleton && <Skeleton variant="rectangular" height={20} />}
+                                            {productData && formatNumber(productData?.price / 100)} {productData?.mp === "KE" ? " ₽" : " сум"}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style={{width: "140px"}}>Обнаружено</td>
                                         <td>
-                                            {data?.appear_at}
+                                            {showSkeleton ? <Skeleton variant="rectangular" height={20} /> : productData?.appear_at}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -181,44 +208,37 @@ export default function Product({ params }: { params: { productId: string } }) {
                         </div>
                     </Grid>
                     <Grid item md={12} xs={12}>
-                        <div className="flex gap-2 w-full">
-                            {period.map((item, key) => (
-                                <AppButton themeType="sorting" tag="button" key={key} onClick={() => setPeriodDay(item.period)} className={clsx("mdb-button-1", {
-                                    "mdb-button-1-active": periodDay === item.period
-                                    })}>
-                                    {item.text}
-                                </AppButton>
-                            ))}
-                        </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-[20px] gap-5">
-                            <ChartCard
+                            {isLoading ? <Skeleton variant="rectangular" height={181} /> : <ChartCard
                                 data={data?.revenue_chart || []}
                                 title="Выручка"
                                 tooltipValue={market.value === "KE" ? "₽" : "Сум"}
                                 formattedDates={dateArray}
-                            />
-                            <ChartCard
+                            />}
+                            {isLoading ? <Skeleton variant="rectangular" height={181} /> :<ChartCard
                                 data={data?.price_chart || []}
                                 title="Цена со скидкой"
                                 tooltipValue={market.value === "KE" ? "₽" : "Сум"}
                                 formattedDates={dateArray}
-                            />
-                            <ChartCard
+                            /> }
+                            {isLoading ? <Skeleton variant="rectangular" height={181} /> : <ChartCard
                                 data={data?.sales_chart || []}
                                 title="Продажи, шт"
                                 tooltipValue={"шт"}
                                 formattedDates={dateArray}
-                            />
-                            <ChartCard
+                            /> }
+                            {isLoading ? <Skeleton variant="rectangular" height={181} /> : <ChartCard
                                 data={data?.remainings_chart || []}
                                 title="Остатки"
                                 tooltipValue={"шт"}
                                 formattedDates={dateArray}
                             />
+                            }
                         </div>
                     </Grid>
                 </Grid>
             </Box>
+
         </Container>
     );
 };
