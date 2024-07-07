@@ -15,7 +15,7 @@ interface paymentListProps {
   pricing?: number;
 }
 
-const PaymentList = ({ company, setContext, context, error, pay, pricing }: paymentListProps) => {
+const PaymentList = ({ setContext, context, error, pay, pricing }: paymentListProps) => {
 
   const theme = useSelector((state: AppState) => state.customizer) as any;
   const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
@@ -41,11 +41,11 @@ const PaymentList = ({ company, setContext, context, error, pay, pricing }: paym
               // <MenuItem key="enot" value={"enot"} className="flex">
               //   <AppIcon className="h-[30px]" type="enot" color={theme.activeMode === "light" ? "#0D1019" : "white"} />
               // </MenuItem>,
-              (company === "uzum" || !pay) && (
-                <MenuItem key="uz-click" value={"uz-click"}>
-                  <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
-                </MenuItem>
-              )
+              // (company === "uzum" || !pay) && (
+              //   <MenuItem key="uz-click" value={"uz-click"}>
+              //     <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
+              //   </MenuItem>
+              // )
             ]
           ) : (
             [
@@ -55,11 +55,11 @@ const PaymentList = ({ company, setContext, context, error, pay, pricing }: paym
               // <MenuItem key="enot" value={"enot"} className="flex">
               //   <AppIcon className="h-[30px]" type="enot" color={theme.activeMode === "light" ? "#0D1019" : "white"} />
               // </MenuItem>,
-              (company === "uzum" || !pay) && (
-                <MenuItem key="uz-click" value={"uz-click"}>
-                  <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
-                </MenuItem>
-              )
+              // (company === "uzum" || !pay) && (
+              //   <MenuItem key="uz-click" value={"uz-click"}>
+              //     <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
+              //   </MenuItem>
+              // )
             ]
           )
         ) : (
@@ -70,11 +70,11 @@ const PaymentList = ({ company, setContext, context, error, pay, pricing }: paym
             // <MenuItem key="enot" value={"enot"} className="flex">
             //   <AppIcon className="h-[30px]" type="enot" color={theme.activeMode === "light" ? "#0D1019" : "white"} />
             // </MenuItem>,
-            (company === "uzum" || !pay) && (
-              <MenuItem key="uz-click" value={"uz-click"}>
-                <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
-              </MenuItem>
-            )
+            // (company === "uzum" || !pay) && (
+            //   <MenuItem key="uz-click" value={"uz-click"}>
+            //     <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
+            //   </MenuItem>
+            // )
           ]
         )}
       </CustomSelect>
