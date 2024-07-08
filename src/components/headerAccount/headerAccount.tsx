@@ -17,17 +17,17 @@ import clsx from "clsx";
 const checkStatusAccount = (status: any, lastUpdate: any, initializeState: any) => {
   if (status === "finished" && initializeState === "finished") {
     return {
-      title: "Синхронизирован с базой",
+      title: "Синхронизирован",
       status: "active"
     };
   } else if (status === "not_started" && lastUpdate === null && initializeState !== "error") {
     return {
-      title: "Мы включаем ваш аккаунт в нашу базу данных, необходимо подождать",
+      title: "Синхронизируем данные вашего аккаунта, необходимо подождать",
       status: "progress"
     };
   } else if (status === "not_started" && lastUpdate) {
     return {
-      title: "идет синхронизация с личным кабинетом",
+      title: "Идет синхронизация с личным кабинетом",
       status: "progress"
     };
   } else if (status === "in_progress") {
@@ -37,12 +37,12 @@ const checkStatusAccount = (status: any, lastUpdate: any, initializeState: any) 
     };
   } else if (initializeState === "error") {
     return {
-      title: "Произошла ошибка при синхронизация, попробуйте повторить",
+      title: "Произошла ошибка при синхронизация, попробуйте запустить заново",
       status: "error"
     };
   } else {
     return {
-      title: "Произошла ошибка",
+      title: "Произошла ошибка, попробуйте запустить заново",
       status: "error"
     };
   }
@@ -99,45 +99,42 @@ const HeaderAccount = () => {
           <div>{data?.login || data?.email}</div>
           <Tooltip title='Изменить данные аккаунта'>
             <button onClick={() => setOpen(true)} className={clsx(
-              "bg-blueGray-600 hover:bg-blueGray-700 flex items-center text-white",
-              "rounded-[8px] px-2 py-1"
-              )}>
+                "bg-blueGray-600 hover:bg-blueGray-700 flex items-center text-white",
+                "rounded-[8px] px-2 py-1"
+            )}>
               <IconEdit/>
               <span>Изменить данные аккаунта</span>
             </button>
           </Tooltip>
         </div>
         <div className="flex flex-col gap-2 bg-white rounded-[8px] p-3 w-1/5">
-          <div className="text-[16px] font-semibold">Последний обход:</div>
-          <div>{date}</div>
-        </div>
-        <div className="flex flex-col gap-2 bg-white rounded-[8px] p-3 w-1/5">
           <div className="text-[16px] font-semibold">Мониторинг аккаунта:</div>
           <div>{data?.monitorState === "active" ? "Активнен" : "Приостановлен"}</div>
-          <Tooltip title={data?.monitorState === "active" ? "Остановить мониторинг аккаунта" : "Включить мониторинг аккаунта"}>
+          <Tooltip
+              title={data?.monitorState === "active" ? "Остановить мониторинг аккаунта" : "Включить мониторинг аккаунта"}>
             <button onClick={() => monitoringAccountHandler()} className={clsx(
-              "bg-blueGray-600 hover:bg-blueGray-700 flex items-center text-white",
-              "rounded-[8px] px-2 py-1"
-              )} >
-              {data?.monitorState === "active" ? ( 
-                <>
-                  <IconPlayerPause/>
-                  <span>Выключить</span>
-                </>
+                "bg-blueGray-600 hover:bg-blueGray-700 flex items-center text-white",
+                "rounded-[8px] px-2 py-1"
+            )}>
+              {data?.monitorState === "active" ? (
+                  <>
+                    <IconPlayerPause/>
+                    <span>Выключить</span>
+                  </>
               ) : (
-                <>
-                  <IconPlayerPlay/>
-                  <span>Включить</span>
-                </>
+                  <>
+                    <IconPlayerPlay/>
+                    <span>Включить</span>
+                  </>
               )}
             </button>
           </Tooltip>
         </div>
         <div className="flex flex-col gap-2 bg-white rounded-[8px] p-3 w-1/5">
           <div className="text-[16px] font-semibold relative flex items-center">
-            Статус:
+            Статус синхронизации:
             <Tooltip className="ml-3" title='Запустить синхронизацию данных с системой'>
-              <button onClick={() => syncAccountHandler()} >
+              <button onClick={() => syncAccountHandler()}>
                 <IconRefresh/>
               </button>
             </Tooltip>
@@ -145,15 +142,19 @@ const HeaderAccount = () => {
           <div>{checkStatusAccount(data?.updateState, data?.lastUpdate, data?.initializeState).title}</div>
         </div>
         <div className="flex flex-col gap-2 bg-white rounded-[8px] p-3 w-1/5">
+          <div className="text-[16px] font-semibold">Дата синхронизации:</div>
+          <div>{date}</div>
+        </div>
+        <div className="flex flex-col gap-2 bg-white rounded-[8px] p-3 w-1/5">
           <div className="text-[16px] font-semibold">Товаров в пуле:</div>
           <div>{company.limits.itemPoolLimitCurrent} из {company.limits.itemPoolLimit}</div>
           <Link className={clsx(
               "bg-blueGray-600 hover:bg-blueGray-700 flex items-center text-white",
               "rounded-[8px] px-2 py-1"
-              )} href={`/reprice/${accountId}/history`}>История изменения цен</Link>
+          )} href={`/reprice/${accountId}/history`}>История изменения цен</Link>
         </div>
       </div>
-      <EditAccount getFirstData={getFirstData} setOpen={setOpen} open={open} />
+      <EditAccount getFirstData={getFirstData} setOpen={setOpen} open={open}/>
     </div>
   );
 };
