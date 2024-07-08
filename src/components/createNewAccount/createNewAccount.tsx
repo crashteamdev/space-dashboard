@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import CustomTextField from "../ui/theme-elements/CustomTextField";
 import CustomFormLabel from "../ui/theme-elements/CustomFormLabel";
-import ShieldIcon from '@mui/icons-material/Shield';
+import ShieldIcon from "@mui/icons-material/Shield";
 import { useFormik } from "formik";
 import { AppState } from "@/shared/store/store";
 import * as yup from "yup";
@@ -110,11 +110,11 @@ const CreateNewAccount = ({ open, setOpen, getFirstData }: any) => {
             mt={2}
             p={2}
             style={{
-                backgroundColor: 'rgba(55, 164, 88, 0.5)',
-                borderRadius: '8px',
-                border: '1px solid rgba(0, 128, 0, 0.5)',
-                display: 'flex',
-                alignItems: 'center' }}
+                backgroundColor: "rgba(55, 164, 88, 0.5)",
+                borderRadius: "8px",
+                border: "1px solid rgba(0, 128, 0, 0.5)",
+                display: "flex",
+                alignItems: "center" }}
         >
             <Stack direction="row" alignItems="center" spacing={1}>
                 <ShieldIcon />
