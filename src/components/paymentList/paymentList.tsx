@@ -31,52 +31,10 @@ const PaymentList = ({ company, setContext, context, error, pay, pricing }: paym
         onChange={(e: any) => setContext(e.target.value)}
         fullWidth
       >
-        {(pricing && pay) ? (
-            (balanceReducer.amount >= pricing) ? (
-            [
-              <MenuItem key="" value={"Оплата с баланса"}>Оплата с баланса</MenuItem>,
-              <MenuItem key="freekassa" value={"Freekassa"}>
-                <AppIcon className="h-[20px]" type="freekassa" color={theme.activeMode === "light" ? "black" : "white"} />
-              </MenuItem>,
-              // <MenuItem key="enot" value={"enot"} className="flex">
-              //   <AppIcon className="h-[30px]" type="enot" color={theme.activeMode === "light" ? "#0D1019" : "white"} />
-              // </MenuItem>,
-              (company === "uzum" || !pay) && (
-                <MenuItem key="uz-click" value={"uz-click"}>
-                  <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
-                </MenuItem>
-              )
-            ]
-          ) : (
-            [
-              <MenuItem key="freekassa" value={"Freekassa"}>
-                <AppIcon className="h-[20px]" type="freekassa" color={theme.activeMode === "light" ? "black" : "white"} />
-              </MenuItem>,
-              // <MenuItem key="enot" value={"enot"} className="flex">
-              //   <AppIcon className="h-[30px]" type="enot" color={theme.activeMode === "light" ? "#0D1019" : "white"} />
-              // </MenuItem>,
-              (company === "uzum" || !pay) && (
-                <MenuItem key="uz-click" value={"uz-click"}>
-                  <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
-                </MenuItem>
-              )
-            ]
-          )
-        ) : (
-          [
-            <MenuItem key="freekassa" value={"Freekassa"}>
-              <AppIcon className="h-[20px]" type="freekassa" color={theme.activeMode === "light" ? "black" : "white"} />
-            </MenuItem>,
-            // <MenuItem key="enot" value={"enot"} className="flex">
-            //   <AppIcon className="h-[30px]" type="enot" color={theme.activeMode === "light" ? "#0D1019" : "white"} />
-            // </MenuItem>,
-            (company === "uzum" || !pay) && (
-              <MenuItem key="uz-click" value={"uz-click"}>
-                <AppIcon className="h-[30px]" type="click-up" color={theme.activeMode === "light" ? "black" : "white"} />
-              </MenuItem>
-            )
-          ]
-        )}
+        <MenuItem key="" value={"Оплата с баланса"}>Оплата с баланса</MenuItem>,
+        <MenuItem key="freekassa" value={"Freekassa"}>
+          <AppIcon className="h-[20px]" type="freekassa" color={theme.activeMode === "light" ? "black" : "white"} />
+        </MenuItem>,
       </CustomSelect>
       {error ? "Выберите провайдера" : ""}
       {/* {context === "enot" && "Enot поддерживает карты Узбекистана и России"} */}
