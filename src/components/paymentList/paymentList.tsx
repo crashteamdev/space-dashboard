@@ -15,10 +15,10 @@ interface paymentListProps {
   pricing?: number;
 }
 
-const PaymentList = ({ company, setContext, context, error, pay, pricing }: paymentListProps) => {
+const PaymentList = ({ setContext, context, error }: paymentListProps) => {
 
   const theme = useSelector((state: AppState) => state.customizer) as any;
-  const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
+  // const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
 
   return (
     <Grid item xs={12} sm={12} lg={12}>
