@@ -10,7 +10,6 @@ import firebase_app from "@/shared/firebase/firebase";
 import { AppState } from "@/shared/store/store";
 import { getAuth } from "firebase/auth";
 import { useTranslation } from "react-i18next";
-import { format } from "date-fns";
 import Link from "next/link";
 import ProfileListPayments from "../profileListPayments/profileListPayments";
 import { getSubscription } from "@/shared/store/slices/account/AccountSlice";
@@ -18,7 +17,7 @@ import { getSubscription } from "@/shared/store/slices/account/AccountSlice";
 const ProfileInfo = () => {
   const company = useSelector((state: AppState) => state.companyChanger) as any;
   const token = useSelector((state: AppState) => state.userpostsReducer) as any;
-  const [repriceData, setRepriceData] = useState({}) as any;
+  const [, setRepriceData] = useState({}) as any;
   const auth = getAuth(firebase_app) as any;
 
   const { t } = useTranslation();
@@ -95,7 +94,7 @@ const ProfileInfo = () => {
                 </CardContent>
               </BlankCard>
             </Grid>
-            <Grid item lg={6} md={12} sm={12}>
+            {/* <Grid item lg={6} md={12} sm={12}>
               <BlankCard className="h-full">
                 <CardContent className="h-full">
                   <Typography variant='h5' mb={2}>
@@ -119,7 +118,7 @@ const ProfileInfo = () => {
                   )}
                 </CardContent>
               </BlankCard>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} lg={12}>
               <Grid item xs={12} lg={12}>
                 <ProfileListPayments />

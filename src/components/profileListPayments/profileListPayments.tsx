@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import BlankCard from "../ui/shared/BlankCard";
 import { useTheme } from "@mui/material/styles";
-import { format } from "date-fns";
 import {
   Box,
   Table,
@@ -9,7 +8,6 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
   TableSortLabel,
   CardContent,
@@ -24,6 +22,7 @@ import { useSelector } from "@/shared/store/hooks";
 import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppState } from "@/shared/store/store";
 import statusChecker from "@/processes/statusChecker/StatusChecker";
+import moment from "moment";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -138,8 +137,8 @@ const ProductTableList = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<any>("calories");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [page, ] = React.useState(0);
+  const [rowsPerPage, ] = React.useState(30);
   const auth = getAuth(firebase_app) as any;
 
   const company = useSelector((state: AppState) => state.companyChanger) as any;
@@ -186,15 +185,6 @@ const ProductTableList = () => {
     setSelected([]);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -225,7 +215,7 @@ const ProductTableList = () => {
                       <TableRow hover tabIndex={-1} key={row.title} selected={isItemSelected}>
                         <TableCell>
                           <Typography>
-                            {format(new Date(row.createdAt), "E, MMM d yyyy")}
+                            {moment(row.createdAt).format("E MMM DD.MM.YYYY")}
                           </Typography>
                         </TableCell>
                         <TableCell>
@@ -251,7 +241,7 @@ const ProductTableList = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <TablePagination
+          {/* <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component='div'
             count={rows.length}
@@ -259,7 +249,7 @@ const ProductTableList = () => {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          /> */}
         </Paper>
       </Box>
     </Box>
