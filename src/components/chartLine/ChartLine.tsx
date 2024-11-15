@@ -9,7 +9,7 @@ moment.locale("ru");
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-export const ChartCard = ({data, title, tooltipValue, formattedDates}: any) => {
+export const ChartCard = ({data, title, tooltipValue, formattedDates, subtitle, lastIndex}: any) => {
     const optionscolumnchart: any = {
         chart: {
             type: "area",
@@ -83,11 +83,16 @@ export const ChartCard = ({data, title, tooltipValue, formattedDates}: any) => {
                         <Typography variant="h5">{title}</Typography>
                     </Box>
                 </Stack>
-                <>
+                {subtitle &&
                     <Typography variant="subtitle2" fontWeight="500" mt="-20px">
                         {formatNumber(data.reduce((accumulator: number, current: number) => accumulator + current, 0))} {tooltipValue}
                     </Typography>
-                </>
+                }
+                {lastIndex && 
+                    <Typography variant="subtitle2" fontWeight="500" mt="-20px">
+                        {data[data.length - 1]} {tooltipValue}
+                    </Typography>
+                }
             </CardContent>
             <Chart
                 options={optionscolumnchart} 

@@ -24,7 +24,6 @@ import {
   IconTicket,
 } from "@tabler/icons-react";
 import PersonIcon from "@mui/icons-material/Person";
-import BallotIcon from "@mui/icons-material/Ballot";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
 const MenuitemsKazan: MenuitemsT = {
@@ -59,12 +58,6 @@ const MenuitemsKazan: MenuitemsT = {
       icon: IconTicket,
       href: "/pricing",
     },
-    {
-      id: uniqueId(),
-      title: "Управление ценами",
-      icon: BallotIcon,
-      href: "/reprice"
-    }
   ],
   uzum: [
     {
@@ -97,12 +90,6 @@ const MenuitemsKazan: MenuitemsT = {
       icon: IconTicket,
       href: "/pricing",
     },
-    {
-      id: uniqueId(),
-      title: "Управление ценами",
-      icon: BallotIcon,
-      href: "/reprice"
-    }
   ]
 };
 

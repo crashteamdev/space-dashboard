@@ -206,12 +206,11 @@ export default function Product({ params }: { params: { productId: string } }) {
                                 </tbody>
                             </table>
                         </div>
-                    </Grid>
-                    <Grid item md={12} xs={12}>
                         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-[20px] gap-5">
                             {isLoading ? <Skeleton variant="rectangular" height={181} /> : <ChartCard
                                 data={data?.revenue_chart || []}
                                 title="Выручка"
+                                subtitle={true}
                                 tooltipValue={market.value === "KE" ? "₽" : "Сум"}
                                 formattedDates={dateArray}
                             />}
@@ -220,17 +219,20 @@ export default function Product({ params }: { params: { productId: string } }) {
                                 title="Цена со скидкой"
                                 tooltipValue={market.value === "KE" ? "₽" : "Сум"}
                                 formattedDates={dateArray}
+                                lastIndex={true}
                             /> }
                             {isLoading ? <Skeleton variant="rectangular" height={181} /> : <ChartCard
                                 data={data?.sales_chart || []}
                                 title="Продажи, шт"
                                 tooltipValue={"шт"}
+                                subtitle={true}
                                 formattedDates={dateArray}
                             /> }
                             {isLoading ? <Skeleton variant="rectangular" height={181} /> : <ChartCard
                                 data={data?.remainings_chart || []}
                                 title="Остатки"
                                 tooltipValue={"шт"}
+                                lastIndex={true}
                                 formattedDates={dateArray}
                             />
                             }
