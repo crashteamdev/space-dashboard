@@ -223,7 +223,7 @@ const ProductTableList = () => {
                         </TableCell>
                         <TableCell>
                           <Typography fontWeight={600} variant='h6'>
-                            ${row.amount}
+                            {row.amount} ₽
                           </Typography>
                         </TableCell>
                       </TableRow>

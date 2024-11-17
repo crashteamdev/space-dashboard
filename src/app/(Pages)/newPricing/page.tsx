@@ -99,7 +99,7 @@ const NewPricing = () => {
                         <ul className="px-[15px] pt-[15px] flex flex-col gap-2.5">
                             {selectedTariffs.map((tariff: any, index: any) => (
                                 <li className="text-sm font-medium" key={index}>
-                                    {tariff.nameInCart}: {tariff.price} $/мес.
+                                    {tariff.nameInCart}: {tariff.price} ₽/мес.
                                     <button
                                             onClick={() => handleTariffRemove(tariff.id)}
                                         className="ml-4 p-2 bg-red-500 text-black rounded"
@@ -117,7 +117,7 @@ const NewPricing = () => {
                         <hr className="bg-[#efefef] my-[15px] h-[1px] border-none" />
                         <div className="flex flex-col px-[15px]">
                             <div className="font-semibold text-[16px] mb-[10px]">Итого:</div>
-                            <div className="font-semibold text-[24px] mb-[20px]">{getTotalPrice()} $/мес.</div>
+                            <div className="font-semibold text-[24px] mb-[20px]">{getTotalPrice()} ₽/мес.</div>
                             <AppButton tag="a" href="/" className="flex justify-center font-bold">Купить</AppButton>
                         </div>
                     </div>

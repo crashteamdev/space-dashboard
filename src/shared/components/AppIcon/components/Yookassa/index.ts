@@ -1,0 +1,1 @@
+export {Yookassa} from "./Yookassa";

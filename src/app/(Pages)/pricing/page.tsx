@@ -16,7 +16,6 @@ import {
   Stack,
   Alert
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
 import PageContainer from "@/components/ui/container/PageContainer";
 import { IconCheck, IconX } from "@tabler/icons-react";
@@ -39,27 +38,28 @@ import { AppButton } from "@/shared/components/AppButton";
 const Pricing = () => {
   const [show, setShow] = React.useState(false);
   const [open, setOpen] = React.useState(0);
-  const [context, setContext] = React.useState("Freekassa") as any;
+  const [context, setContext] = React.useState("yookassa") as any;
   const [empty, setEmpty] = React.useState("") as any;
   const auth = getAuth(firebase_app) as any;
 
   const dispatch = useReduxDispatch();
   const company = useSelector((state: AppState) => state.companyChanger) as any;
 
-  const theme = useTheme();
-  const warninglight = theme.palette.warning.light;
-  const warning = theme.palette.warning.main;
   const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
   const router = useRouter();
 
   const StyledChip = styled(Chip)({
     position: "absolute",
-    top: "15px",
-    right: "30px",
-    backgroundColor: warninglight,
-    color: warning,
+    top: "-13px",
+    right: "0",
+    left: "0",
+    width: "200px",
+    margin: "0 auto",
+    backgroundColor: "#5D87FF",
+    color: "#fff",
     textTransform: "uppercase",
-    fontSize: "11px"
+    fontSize: "15px",
+    zIndex: "9999"
   });
 
   const handleLink = () => {
@@ -112,9 +112,9 @@ const Pricing = () => {
       <Grid container spacing={3} mt={5}>
         {pricing.map((price: any, i) => (
           <Grid item xs={12} lg={4} sm={6} key={i}>
-            <BlankCard className="relative">
+            <BlankCard className="relative !overflow-visible">
               <CardContent sx={{ p: "30px" }}>
-                {price.badge ? <StyledChip label='Popular' size='small'></StyledChip> : null}
+                {price.badge ? <StyledChip label='Популярное' size='small'></StyledChip> : null}
 
                 <Typography
                   variant='subtitle1'
@@ -134,7 +134,7 @@ const Pricing = () => {
                   ) : (
                     <Box display='flex'>
                       <Typography variant='h6' mr='8px' mt='-12px'>
-                        $
+                        ₽
                       </Typography>
                       {show ? (
                         <>
@@ -228,17 +228,10 @@ const Pricing = () => {
                 Тариф: {pricing[open - 1]?.packageRu}
               </Typography>
               <Typography variant="h6" sx={{ mt: 1 }}>
-                Сумма: $
+                Сумма: ₽
                 {show
                   ? pricing[open - 1]?.monthlyplan * 3 - (pricing[open - 1]?.monthlyplan * 3 * pricing[open - 1]?.diccountMath)
                   : pricing[open - 1]?.monthlyplan}{" "}
-                ~{" "}
-                {Math.floor(
-                  show
-                    ? pricing[open - 1]?.monthlyplan * 3 * balanceReducer.exchange
-                    : pricing[open - 1]?.monthlyplan * balanceReducer.exchange
-                )}
-                рублей
               </Typography>
               <Typography variant="h6" sx={{ mt: 1 }}>
                 Срок: {show ? 1 * 3 : 1} {getPluralNoun(show ? 1 * 3 : 1 || 0, "месяц", "месяца", "месяцев")}

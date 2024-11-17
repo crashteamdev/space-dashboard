@@ -1,6 +1,6 @@
 export type IconType =
     | "lava-pay"
-    | "freekassa"
+    | "Yookassa"
     | "logo"
     | "click-up"
     | "enot"

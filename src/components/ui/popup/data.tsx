@@ -1,11 +1,11 @@
-export const data = ["freekassa", "ClickUp", "Оплата с баланса"];
+export const data = ["yookassa", "ClickUp", "Оплата с баланса"];
 
 export const pricing = [
   {
     id: 1,
     package: "Default",
     packageRu: "Базовый",
-    monthlyplan: 15,
+    monthlyplan: 1990,
     discount: 10,
     diccountMath: .10,
     avatar: "/images/backgrounds/silver.png",
@@ -58,11 +58,11 @@ export const pricing = [
     id: 2,
     package: "Advanced",
     packageRu: "Расширенный",
-    monthlyplan: 30,
+    monthlyplan: 2590,
     discount: 15,
     diccountMath: .15,
     avatar: "/images/backgrounds/bronze.png",
-    badge: false,
+    badge: true,
     btntext: "Выбрать",
     rules: [
       {
@@ -111,7 +111,7 @@ export const pricing = [
     id: 3,
     package: "Pro",
     packageRu: "Профессиональный",
-    monthlyplan: 40,
+    monthlyplan: 3290,
     discount: 20,
     diccountMath: .20,
     avatar: "/images/backgrounds/gold.png",

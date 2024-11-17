@@ -32,8 +32,8 @@ const PaymentList = ({ setContext, context, error }: paymentListProps) => {
         fullWidth
       >
         <MenuItem key="" value={"Оплата с баланса"}>Оплата с баланса</MenuItem>,
-        <MenuItem key="freekassa" value={"Freekassa"}>
-          <AppIcon className="h-[20px]" type="freekassa" color={theme.activeMode === "light" ? "black" : "white"} />
+        <MenuItem key="yookassa" value={"yookassa"}>
+          <AppIcon className="h-[20px]" type="Yookassa" color={theme.activeMode === "light" ? "black" : "white"} />
         </MenuItem>,
       </CustomSelect>
       {error ? "Выберите провайдера" : ""}

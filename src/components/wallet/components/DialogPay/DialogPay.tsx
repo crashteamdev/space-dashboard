@@ -52,7 +52,7 @@ export const DialogPay = () => {
             <CustomFormLabel>Сумма к пополнению</CustomFormLabel>
             <CustomTextField
               fullWidth
-              value={"$ " + valueText}
+              value={"₽ " + valueText}
               onChange={(input: any) => handleChange(input.currentTarget.value)}
               margin='dense'
               id='email'
@@ -63,17 +63,17 @@ export const DialogPay = () => {
         <Grid item xs={12} lg={4} sm={6} display='flex' alignItems='stretch'>
           <ChildCard>
             <Stack direction='row' gap={3} justifyContent={"space-between"}>
-              <Button onClick={() => handleChange("10")} fullWidth>
-                $ 10
+              <Button onClick={() => handleChange("2000")} fullWidth>
+                2000 ₽
               </Button>
-              <Button onClick={() => handleChange("15")} fullWidth>
-                $ 15
+              <Button onClick={() => handleChange("2600")} fullWidth>
+                2600 ₽
               </Button>
-              <Button onClick={() => handleChange("20")} fullWidth>
-                $ 20
+              <Button onClick={() => handleChange("3300")} fullWidth>
+                3300 ₽
               </Button>
-              <Button onClick={() => handleChange("30")} fullWidth>
-                $ 30
+              <Button onClick={() => handleChange("4500")} fullWidth>
+                4500 ₽
               </Button>
             </Stack>
           </ChildCard>

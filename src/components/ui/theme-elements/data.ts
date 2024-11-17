@@ -1,6 +1,6 @@
 const data = [
   { 
-    title: "freekassa", photo: "https://alllogos.ru/images/logotip-free-kassa.png", 
+    title: "yookassa", photo: "https://alllogos.ru/images/logotip-free-kassa.png", 
     key: 1 
   },
   {

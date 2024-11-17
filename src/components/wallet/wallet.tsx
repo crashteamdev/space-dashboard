@@ -28,7 +28,7 @@ const Wallet = ({ hideMenu }: any) => {
             <div className="text-black-800 font-semibold text-lg">
                 {t("balance.title")}:
               </div>
-              <div className="text-black-800 font-semibold text-lg">${balanceReducer.amount}</div>
+              <div className="text-black-800 font-semibold text-lg">{balanceReducer.amount}₽</div>
           </div>
           <Box mt={2}>
             <AppButton 
