@@ -27,7 +27,7 @@ const formatSearchFilter = (
 ): string | null => {
     if (typeof search === "string") {
         // Проверяем, содержит ли строка только цифры
-        const isNumericString = /^[0-9]+$/.test(search);
+        const isNumericString = /^\d+$/.test(search);
 
         if (isNumericString) {
             // Если строка состоит только из цифр, возвращаем число

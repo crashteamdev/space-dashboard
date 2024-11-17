@@ -1,9 +1,11 @@
+import React from "react";
+
 type Props = {
     className?: string;
     color?: string;
 };
 
-export const Yookassa: React.FC<Props> = ({ className = "", color = "white" }) => (
+export const Yookassa: React.FC<Props> = ({ className = "" }) => (
     <svg className={className} fill="none" height="64" viewBox="0 0 266 64" width="100" xmlns="http://www.w3.org/2000/svg">
         <g fill="#0a2540">
             <path d="m136.578 19.3674h-8.748l-6.191 10.7836h-3.187l-.101-23.33758h-8.282v42.14848h8.282l.101-11.5682h3.167l8.22 11.5682h9.175l-10.717-15.3304z"></path>
