@@ -31,6 +31,8 @@ import {
 } from '@tanstack/react-query';
 
 import "@/shared/styles/globals.css";
+import {Providers} from "@/app/providers/providers";
+import {usePostHog} from "posthog-js/react";
 
 const queryClient = new QueryClient()
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
@@ -68,7 +70,6 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       setLoadingPage(true);
     }
     if (user) {
-      console.log(user);
       const { uid, accessToken, displayName, email, photoURL } = user as any;
       dispatch(getBalance());
       const userdata = {
@@ -80,6 +81,12 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       } as any;
       dispatch(setUser(userdata));
       setLoadingPage(true);
+      const posthog = usePostHog();
+      posthog.identify(uid);
+      posthog.capture('User Logged In', {
+        userId: uid,
+        email: email,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, pathname]);
@@ -92,33 +99,34 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-
-      <NextTopLoader color='#5D87FF' showSpinner={false} />
-      <NextAppDirEmotionCacheProvider options={{ key: "mdb" }}>
-        <ThemeProvider theme={theme}>
-          {/* Верно ли так хранить notifications? В <AlertList> и оборачивать еще в придачу весь контент */}
-            <AlertList> 
-              {loadingPage ? (
-                <>
-                  <CssBaseline />
-                  {children}
-                </>
-              ) : (
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
-                    height: "100vh"
-                  }}
-                >
-                  <CircularProgress />
-                </Box>
-              )}
-            </AlertList>
-        </ThemeProvider>
-      </NextAppDirEmotionCacheProvider>
+      <Providers>
+        <NextTopLoader color='#5D87FF' showSpinner={false} />
+        <NextAppDirEmotionCacheProvider options={{ key: "mdb" }}>
+          <ThemeProvider theme={theme}>
+            {/* Верно ли так хранить notifications? В <AlertList> и оборачивать еще в придачу весь контент */}
+              <AlertList>
+                {loadingPage ? (
+                  <>
+                    <CssBaseline />
+                    {children}
+                  </>
+                ) : (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "100%",
+                      height: "100vh"
+                    }}
+                  >
+                    <CircularProgress />
+                  </Box>
+                )}
+              </AlertList>
+          </ThemeProvider>
+        </NextAppDirEmotionCacheProvider>
+      </Providers>
       {/* <ReactQueryDevtools initialIsOpen={false}  /> */}
     </QueryClientProvider>
   );
