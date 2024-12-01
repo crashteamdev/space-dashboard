@@ -45,6 +45,7 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const auth = getAuth(firebase_app);
   const [user, loading] = useAuthState(auth);
+  const posthog = usePostHog();
 
   useEffect(() => {
     const curLang = localStorage.getItem("lng") as string;
@@ -81,7 +82,6 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
       } as any;
       dispatch(setUser(userdata));
       setLoadingPage(true);
-      const posthog = usePostHog();
       posthog.identify(uid);
       posthog.capture('User Logged In', {
         userId: uid,
