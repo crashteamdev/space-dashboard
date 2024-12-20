@@ -38,10 +38,10 @@ const Payment = () => {
   const handleChange = (value: string) => {
     setValueText(
       value
-        .replace(/\d $/, "")
+        .replace(/\d ₽/, "")
         .replace(/\D/g, "")
         // eslint-disable-next-line security/detect-unsafe-regex
-        .replace(/(\d)(?=(\d{3})+(\D|$))/g, "$1 ")
+        .replace(/(\d)(?=(\d{3})+(\D|₽))/g, "$1 ")
     );
   };
 
@@ -67,7 +67,7 @@ const Payment = () => {
     if (activeStep === 2) {
       // dispatch(addItem({title: 'Ожидайте', description: "Происходит редирект на страницу оплаты", status: 'info', timelife: 4000, id: uuidv4()}));
       dispatch(
-        topUpBalance(walletPopup.value, context)
+        topUpBalance(+walletPopup.value, context)
       );
     }
   };
@@ -93,7 +93,7 @@ const Payment = () => {
               <CustomFormLabel>Сумма к пополнению</CustomFormLabel>
               <CustomTextField
                 fullWidth
-                value={"₽ " + valueText}
+                value={"₽" + valueText}
                 onChange={(input: any) => handleChange(input.currentTarget.value)}
                 margin='dense'
                 id='email'
