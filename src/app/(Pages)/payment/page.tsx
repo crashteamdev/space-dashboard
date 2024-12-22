@@ -93,7 +93,7 @@ const Payment = () => {
               <CustomFormLabel>Сумма к пополнению</CustomFormLabel>
               <CustomTextField
                 fullWidth
-                value={"₽" + valueText}
+                value={"₽ " + valueText}
                 onChange={(input: any) => handleChange(input.currentTarget.value)}
                 margin='dense'
                 id='email'
