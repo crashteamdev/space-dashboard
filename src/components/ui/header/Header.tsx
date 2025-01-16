@@ -43,7 +43,7 @@ const Header = () => {
           </IconButton>
         {/* } */}
         <Box flexGrow={1}>
-          {/* <Typography variant="h3">Профиль</Typography> */}
+
         </Box>
         <Stack spacing={1} direction='row' alignItems='center'>
           {/* <SwitchTheme /> */}

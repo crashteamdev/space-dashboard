@@ -14,6 +14,7 @@ import { AppTelegramWidget } from "@/components/AppTelegramWidget";
 import Link from "next/link";
 import { AppIcon } from "@/shared/components/AppIcon";
 import clsx from "clsx";
+import posthog from "posthog-js";
 
 const Sidebar = () => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
@@ -33,6 +34,12 @@ const Sidebar = () => {
 
   const onHoverLeave = () => {
     dispatch(hoverSidebar(false));
+  };
+
+  const OpenTelegramLink = () => {
+    posthog.capture("openTelegramBot", {
+      button_name: "Бесплатный бот",
+    });
   };
 
   if (lgUp) {
@@ -99,9 +106,18 @@ const Sidebar = () => {
                   </Link>
                 </div>
               </div>
+              <Link onClick={OpenTelegramLink} href="https://t.me/MarketDBAnalyticsBot" target="_blank" className="flex gap-3 bg-white rounded-lg my-1 p-2 items-center">
+                <div className="w-8 h-8 flex items-center justify-center text-[24px]">
+                  🤖
+                </div>
+                <div className="flex flex-col gap">
+                  <div className="text-base text-black-800 font-semibold">Бесплатный бот</div>
+                  <div className="text-xs text-gray font-medium text-[#a7a7a7]">Уведомления о продажах</div>
+                </div>
+              </Link>
               <Link href="https://doc.marketdb.pro/documentation/index.html" target="_blank" className="flex gap-3 bg-white rounded-lg my-1 p-2 items-center">
-                <div className="w-8 h-8 rounded-full overflow-hidden relative">
-                  <AppIcon type="questions" />
+                <div className="w-8 h-8 flex items-center justify-center text-[24px]">
+                  ⚙️
                 </div>
                 <div className="flex flex-col gap">
                     <div className="text-base text-black-800 font-semibold">Инструкция</div>
