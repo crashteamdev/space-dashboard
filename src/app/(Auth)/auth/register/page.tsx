@@ -28,91 +28,75 @@ export default function Register2() {
   };
 
   return (
-    <PageContainer title='Register Page' description='this is Sample page'>
-      <Box
-        sx={{
-          position: "relative",
-          "&:before": {
-            content: "''",
-            background: "radial-gradient(#d2f1df, #d3d7fa, #bad8f4)",
-            backgroundSize: "400% 400%",
-            animation: "gradient 15s ease infinite",
-            position: "absolute",
-            height: "100%",
-            width: "100%",
-            opacity: "0.3"
-          }
-        }}
-      >
-        <Grid container spacing={0} justifyContent='center' sx={{ height: "100vh" }}>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            lg={5}
-            xl={4}
-            display='flex'
-            justifyContent='center'
-            alignItems='center'
-          >
-            <Card elevation={9} sx={{ p: 4, zIndex: 1, width: "100%", maxWidth: "450px" }}>
-              <Box display='flex' alignItems='center' justifyContent='center'>
-                <Image
-                  src='/images/logos/logo-horizontal.svg'
-                  alt='logo'
-                  height={70}
-                  width={174}
-                  priority
-                />
-              </Box>
-              {isCreated ? (
-                <>
-                  <Typography variant='h6' fontWeight='500' mb={2}>
-                    Вы успешно зарегистрировались!
+    <PageContainer title='Регистрация' description='Регистрация аккаунта на MarketDB'>
+      <Grid container spacing={0} justifyContent='center' sx={{ height: "100vh" }}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          lg={5}
+          xl={4}
+          display='flex'
+          justifyContent='center'
+          alignItems='center'
+        >
+          <Card elevation={9} sx={{ p: 4, zIndex: 1, width: "100%", maxWidth: "450px" }}>
+            <Box display='flex' alignItems='center' justifyContent='center'>
+              <Image
+                src='/images/logos/logo-horizontal.svg'
+                alt='logo'
+                height={70}
+                width={174}
+                priority
+              />
+            </Box>
+            {isCreated ? (
+              <>
+                <Typography variant='h6' fontWeight='500' mb={2}>
+                  Вы успешно зарегистрировались!
+                </Typography>
+                <Button
+                  component={Link}
+                  color='primary'
+                  fullWidth
+                  variant='contained'
+                  href={"/auth/login"}
+                  type='submit'
+                >
+                  Перейти к авторизации
+                </Button>
+              </>
+            ) : (
+              <AuthRegister
+                setIsCreated={setState}
+                subtext={
+                  <Typography variant='subtitle1' textAlign='center' color='textSecondary' mb={1}>
+                    Аналитика маркетплейсов
                   </Typography>
-                  <Button
-                    component={Link}
-                    color='primary'
-                    fullWidth
-                    variant='contained'
-                    href={"/auth/login"}
-                    type='submit'
-                  >
-                    Перейти к авторизации
-                  </Button>
-                </>
-              ) : (
-                <AuthRegister
-                  setIsCreated={setState}
-                  subtext={
-                    <Typography variant='subtitle1' textAlign='center' color='textSecondary' mb={1}>
-                      Аналитика маркетплейсов
+                }
+                subtitle={
+                  <Stack direction='row' spacing={1} mt={3}>
+                    <Typography color='textSecondary' variant='h6' fontWeight='400'>
+                      У вас уже есть учетная запись?
                     </Typography>
-                  }
-                  subtitle={
-                    <Stack direction='row' spacing={1} mt={3}>
-                      <Typography color='textSecondary' variant='h6' fontWeight='400'>
-                        У вас уже есть учетная запись?
-                      </Typography>
-                      <Typography
-                        component={Link}
-                        href='/auth/login'
-                        fontWeight='500'
-                        sx={{
-                          textDecoration: "none",
-                          color: "primary.main"
-                        }}
-                      >
-                        Войти
-                      </Typography>
-                    </Stack>
-                  }
-                />
-              )}
-            </Card>
-          </Grid>
+                    <Typography
+                      component={Link}
+                      href='/auth/login'
+                      fontWeight='500'
+                      sx={{
+                        textDecoration: "none",
+                        color: "primary.main"
+                      }}
+                    >
+                      Войти
+                    </Typography>
+                  </Stack>
+                }
+              />
+            )}
+          </Card>
         </Grid>
-      </Box>
+      </Grid>
     </PageContainer>
   );
 }

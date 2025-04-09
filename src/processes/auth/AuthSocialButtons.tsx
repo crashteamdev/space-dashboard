@@ -2,16 +2,15 @@ import React from "react";
 import CustomSocialButton from "@/components/ui/theme-elements/CustomSocialButton";
 import { Stack } from "@mui/system";
 import { Avatar, Box } from "@mui/material";
-import { signInType } from "@/shared/types/auth/auth";
 import { signInGoogle } from "@/api/auth/google/google";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "@/shared/store/hooks";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
-import { IUser } from "@/shared/types/apps/user";
 import { setUser } from "@/shared/store/slices/user/userSlice";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { v4 as uuidv4 } from "uuid";
+import { IUser, signInType } from "@/shared/types";
 
 const AuthSocialButtons = ({ title }: signInType) => {
   const router = useRouter();

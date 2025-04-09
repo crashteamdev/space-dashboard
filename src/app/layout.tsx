@@ -13,18 +13,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import "@/shared/i18n/i18n";
 import { NextAppDirEmotionCacheProvider } from "@/shared/theme/EmotionCache";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { usePathname, useRouter } from "next/navigation";
 import { setUser } from "@/shared/store/slices/user/userSlice";
-// import { IUser } from "@/shared/types/apps/user";
 import { logout } from "../api/auth/logout/logout";
 import { setDarkMode, setLanguage } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { lang } from "@/shared/i18n/i18n";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getBalance } from "@/shared/store/slices/balance/BalanceSlice";
 import AlertList from "@/components/alertList/alertList";
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import {
   QueryClient,
   QueryClientProvider,
@@ -117,7 +113,8 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
                       justifyContent: "center",
                       alignItems: "center",
                       width: "100%",
-                      height: "100vh"
+                      height: "100vh",
+                      background: "linear-gradient(45deg, rgb(6, 28, 61), rgb(13, 13, 13))"
                     }}
                   >
                     <CircularProgress />

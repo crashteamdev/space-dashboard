@@ -1,15 +1,15 @@
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 
-export const plus = Inter({
-  weight: ["100", "300", "400", "500", "700"],
-  subsets: ["latin", "cyrillic"],
-  display: "optional",
-  fallback: ["Montserrat", "sans-serif"],
-  preload: true,
+
+export const robotoFont = Roboto({
+  subsets: ["cyrillic", "latin"],
+  weight: ["400", "500", "700", "900"],
+  display: "swap",
+  variable: "--font-roboto"
 });
 
 const typography: any = {
-  fontFamily: plus.style.fontFamily,
+  fontFamily: robotoFont.style.fontFamily,
   h1: {
     fontWeight: 600,
     fontSize: "2.25rem",

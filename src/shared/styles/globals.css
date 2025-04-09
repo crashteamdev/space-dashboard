@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    /* background: #fff; */
-}
-
-body, header {
-    /* @apply dark:bg-blueGray-900; */
-}
 input:focus-visible {
     outline: none;
 }
@@ -107,10 +100,6 @@ th {
     padding-left: 10px;
 }
 
-.mdb-table-tbody {
-
-}
-
 .mdb-table-tbody tr th {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -142,14 +131,6 @@ th {
     height: 10px;
     justify-content: center;
     align-items: center;
-}
-
-.mdb-table-block-button--open {
-
-}
-
-.mdb-table-block-button--close {
-
 }
 
 .mdb-table-link {

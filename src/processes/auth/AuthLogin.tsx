@@ -9,7 +9,6 @@ import {
   Divider
 } from "@mui/material";
 import Link from "next/link";
-import { loginType } from "@/shared/types/auth/auth";
 import CustomCheckbox from "@/components/ui/theme-elements/CustomCheckbox";
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
 import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
@@ -22,10 +21,10 @@ import { useDispatch } from "@/shared/store/hooks";
 import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useState } from "react";
-import { IUser } from "@/shared/types/apps/user";
 import { setUser } from "@/shared/store/slices/user/userSlice";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { v4 as uuidv4 } from "uuid";
+import { IUser, loginType } from "@/shared/types";
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const router = useRouter();

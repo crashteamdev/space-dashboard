@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Typography, Button, Stack, Divider } from "@mui/material";
 import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
-import { registerType } from "@/shared/types/auth/auth";
 import { registrationEmail } from "@/api/auth/registrationEmail/registrationEmail";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -10,6 +9,7 @@ import AuthSocialButtons from "./AuthSocialButtons";
 import { useDispatch } from "@/shared/store/hooks";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { v4 as uuidv4 } from "uuid";
+import { registerType } from "@/shared/types";
 
 const AuthRegister = ({ title, subtitle, subtext, setIsCreated = () => {} }: registerType) => {
   const dispatch = useDispatch();

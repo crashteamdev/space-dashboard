@@ -11,7 +11,8 @@ export default function Loading() {
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
-        height: "100vh"
+        height: "100vh",
+        background: "linear-gradient(45deg, rgb(6, 28, 61), rgb(13, 13, 13))"
       }}
     >
       <CircularProgress />
