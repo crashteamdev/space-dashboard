@@ -43,10 +43,10 @@ const formatSearchFilter = (
 };
 
 export const useFilter = ({
-                              filters,
-                              search,
-                              setting,
-                          }: IPropsUseFilter): string | undefined => {
+    filters,
+    search,
+    setting,
+}: IPropsUseFilter): string | undefined => {
     if (!filters && !search) {
         return undefined;
     }
