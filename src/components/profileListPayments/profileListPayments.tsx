@@ -22,6 +22,7 @@ import { useSelector } from "@/shared/store/hooks";
 import { useDispatch as useReduxDispatch } from "react-redux";
 import { AppState } from "@/shared/store/store";
 import statusChecker from "@/processes/statusChecker/StatusChecker";
+import "moment/locale/ru";
 import moment from "moment";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
