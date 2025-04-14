@@ -6,9 +6,7 @@ import {
     Typography,
     FormGroup,
     FormControlLabel,
-    Button,
     Stack,
-    Divider
 } from "@mui/material";
 import Link from "next/link";
 import CustomCheckbox from "@/components/ui/theme-elements/CustomCheckbox";
@@ -19,8 +17,7 @@ import * as yup from "yup";
 import { signInEmail } from "@/api/auth/email/email";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "@/shared/store/hooks";
-import { getAuth } from "firebase/auth";
-import firebase_app from "@/shared/firebase/firebase";
+import { auth } from "@/shared/firebase/firebase";
 import { useState } from "react";
 import { setUser } from "@/shared/store/slices/user/userSlice";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
@@ -33,7 +30,6 @@ export const AuthForm = () => {
     const [checked, setChecked] = useState(false) as any;
     
     const dispatch = useDispatch();
-    const auth = getAuth(firebase_app);
     
     const validationSchema = yup.object({
         email: yup
@@ -47,53 +43,53 @@ export const AuthForm = () => {
     });
     
     const signIn = async (email: string, password: string) => {
-    //     const user = (await signInEmail(email, password)) as any;
-    //     if (!user) {
-    //       dispatch(
-    //         addItem({
-    //           title: "Не удалось войти в аккаунт",
-    //           description: "Возможно такого аккаунта не существует",
-    //           status: "error",
-    //           timelife: 5000,
-    //           id: uuidv4()
-    //         })
-    //       );
+        const user = (await signInEmail(email, password)) as any;
+        if (!user) {
+            dispatch(
+                addItem({
+                    title: "Не удалось войти в аккаунт",
+                    description: "Возможно такого аккаунта не существует",
+                    status: "error",
+                    timelife: 5000,
+                    id: uuidv4()
+                })
+            );
     
-    //       return false;
-    //     }
+          return false;
+        }
     
-    //     if (user.email) {
-    //       dispatch(
-    //         addItem({
-    //           title: "Вы успешно вошли в аккаунт",
-    //           status: "success",
-    //           timelife: 4000,
-    //           id: uuidv4()
-    //         })
-    //       );
-    //       router.push("/profile");
-    //     }
+        if (user.email) {
+          dispatch(
+            addItem({
+              title: "Вы успешно вошли в аккаунт",
+              status: "success",
+              timelife: 4000,
+              id: uuidv4()
+            })
+          );
+          router.push("/profile");
+        }
     
-    //     if (check) {
-    //       localStorage.setItem("remember", "on");
-    //       sessionStorage.setItem("remember", "on");
-    //     } else {
-    //       localStorage.setItem("remember", "off");
-    //       sessionStorage.setItem("remember", "on");
-    //     }
+        if (checked) {
+          localStorage.setItem("remember", "on");
+          sessionStorage.setItem("remember", "on");
+        } else {
+          localStorage.setItem("remember", "off");
+          sessionStorage.setItem("remember", "on");
+        }
     
-    //     if (auth.currentUser) {
-    //       const { uid, accessToken, displayName, email, photoURL } = auth.currentUser as any;
-    //       const user = {
-    //         uid,
-    //         accessToken,
-    //         displayName,
-    //         email,
-    //         photoURL
-    //       } as IUser;
+        if (auth.currentUser) {
+          const { uid, accessToken, displayName, email, photoURL } = auth.currentUser as any;
+          const user = {
+            uid,
+            accessToken,
+            displayName,
+            email,
+            photoURL
+          } as IUser;
     
-    //       dispatch(setUser(user));
-    //     }
+          dispatch(setUser(user));
+        }
     };
     
     const formik = useFormik({
@@ -109,23 +105,6 @@ export const AuthForm = () => {
     
     return (
         <>
-    
-          {/* <AuthSocialButtons title='Войти через' /> */}
-          {/* <Box mt={3}>
-            <Divider>
-              <Typography
-                component='span'
-                color='textSecondary'
-                variant='h6'
-                fontWeight='400'
-                position='relative'
-                px={2}
-              >
-                или войдите через
-              </Typography>
-            </Divider>
-          </Box> */}
-    
             <form className="w-full" onSubmit={formik.handleSubmit}>
                 <Stack>
                     <Box>
@@ -177,6 +156,7 @@ export const AuthForm = () => {
                     Войти
                 </button>
             </form>
+            <AuthSocialButtons title='Войти c помощью Google' />
             <Stack direction='row' spacing={1} justifyContent='center' mt={3}>
                 <Typography variant='h6' fontWeight='500'>
                     Нет аккаунта?

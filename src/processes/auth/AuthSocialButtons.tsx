@@ -50,18 +50,8 @@ const AuthSocialButtons = ({ title }: signInType) => {
   };
 
   return (
-    <Stack direction='row' justifyContent='center' spacing={2} mt={3}>
-      <CustomSocialButton onClick={() => signIn()} style={{ maxWidth: "340px", width: "100%" }}>
-        <Avatar
-          src={"/images/svgs/google-icon.svg"}
-          alt={"icon1"}
-          sx={{
-            width: 16,
-            height: 16,
-            borderRadius: 0,
-            mr: 1
-          }}
-        />
+    <Stack direction='row' justifyContent='center' mt={2} width={"100%"}>
+      <CustomSocialButton onClick={() => signIn()} style={{ width: "100%" }}>
         <Box
           sx={{
             display: { xs: "none", sm: "flex" },
@@ -69,9 +59,18 @@ const AuthSocialButtons = ({ title }: signInType) => {
             mr: { sm: "3px" }
           }}
         >
-          {title}{" "}
-        </Box>{" "}
-        Google
+          {title}
+        </Box>
+        <Avatar
+          src={"/images/svgs/google-icon.svg"}
+          alt={"icon1"}
+          sx={{
+            width: 16,
+            height: 16,
+            borderRadius: 0,
+            ml: 1
+          }}
+        />
       </CustomSocialButton>
     </Stack>
   );

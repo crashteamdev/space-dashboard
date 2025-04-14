@@ -5,7 +5,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             overflow: "hidden",
             height: "100vh"
         }}>
-            <div className="relative overflow-y-scroll h-full flex flex-col items-center justify-between">
+            <div className="relative overflow-y-auto h-full flex flex-col items-center justify-between">
                 {children}
                 <footer className="text-white w-full mt-auto mx-auto max-w-screen-2xl">
                     <div className="pb-8 w-full">
