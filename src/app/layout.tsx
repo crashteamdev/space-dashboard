@@ -25,6 +25,10 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+import { getDemoAccess } from "@/api/demo/demo-api";
+import { DemoSuccessModal } from "@/components/DemoSuccessModal/DemoSuccessModal";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
+import { v4 as uuidv4 } from "uuid";
 
 import "@/shared/styles/globals.css";
 import {Providers} from "@/app/providers/providers";
@@ -34,6 +38,7 @@ const queryClient = new QueryClient()
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
   
   const [loadingPage, setLoadingPage] = React.useState(false);
+  const [showDemoModal, setShowDemoModal] = React.useState(false);
   const theme = ThemeSettings();
 
   const dispatch = useReduxDispatch();
@@ -93,6 +98,45 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const checkDemoAccess = async () => {
+      // Проверяем наличие demo-токена в куки
+      const demoToken = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('demo_token='))
+        ?.split('=')[1];
+
+      if (demoToken && user) {
+        try {
+          const success = await getDemoAccess(demoToken);
+          if (success) {
+            setShowDemoModal(true);
+            // Удаляем токен из куки после успешной активации
+            document.cookie = 'demo_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            dispatch(addItem({
+              title: "Демо-доступ успешно активирован",
+              status: "success",
+              timelife: 4000,
+              id: uuidv4()
+            }));
+          }
+        } catch (error) {
+          console.error("Error activating demo access:", error);
+          dispatch(addItem({
+            title: "Ошибка при активации демо-доступа",
+            status: "error",
+            timelife: 4000,
+            id: uuidv4()
+          }));
+        }
+      }
+    };
+
+    if (user) {
+      checkDemoAccess();
+    }
+  }, [user, dispatch]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Providers>
@@ -121,6 +165,10 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
                   </Box>
                 )}
               </AlertList>
+            <DemoSuccessModal 
+              open={showDemoModal} 
+              onClose={() => setShowDemoModal(false)} 
+            />
           </ThemeProvider>
         </NextAppDirEmotionCacheProvider>
       </Providers>
