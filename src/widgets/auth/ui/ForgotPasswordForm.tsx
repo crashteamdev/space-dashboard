@@ -2,9 +2,9 @@
 
 import React from "react";
 import AuthForgotPassword from "@/processes/auth/AuthForgotPassword";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Box, Typography, Button } from "@mui/material";
+import {useState} from "react";
+import {useRouter} from "next/navigation";
+import {Typography, Button} from "@mui/material";
 
 export const ForgotPasswordForm = () => {
     const [isSend, setIsSend] = useState(false);
@@ -13,7 +13,7 @@ export const ForgotPasswordForm = () => {
     const back = () => {
         router.back();
     };
-    
+
     return (
         <>
             <Typography
@@ -22,9 +22,9 @@ export const ForgotPasswordForm = () => {
                 variant='subtitle2'
                 fontWeight='400'
             >
-            {isSend
-                ? "На ваш адрес электронной почты, отправлена ссылка для восстановления пароля!"
-                : "Пожалуйста, введите адрес электронной почты, связанный с вашей учетной записью, и мы вышлем вам ссылку для сброса пароля."}
+                {isSend
+                    ? "На ваш адрес электронной почты, отправлена ссылка для восстановления пароля!"
+                    : "Пожалуйста, введите адрес электронной почты, связанный с вашей учетной записью, и мы вышлем вам ссылку для сброса пароля."}
             </Typography>
             {isSend ? (
                 <></>
@@ -34,7 +34,7 @@ export const ForgotPasswordForm = () => {
                 //     </Button>
                 // </Box>
             ) : (
-                <AuthForgotPassword back={back} setIsSend={setIsSend} />
+                <AuthForgotPassword back={back} setIsSend={setIsSend}/>
             )}
         </>
     );

@@ -30,7 +30,8 @@ export function useCheckSubscription() {
                 "X-Request-ID": uuidv4()
             }
         });
-        setIsAllowed(response.data.active);
+        const isActive = response.data.active === true;
+        setIsAllowed(isActive);
       } catch (error) {
         console.error("Failed to check subscription:", error);
         setIsAllowed(false);

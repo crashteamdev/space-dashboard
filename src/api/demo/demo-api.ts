@@ -2,7 +2,7 @@ import { axiosApi } from "../axios/axios";
 
 export const getDemoAccess = async (token: string): Promise<boolean> => {
     try {
-        const response = await axiosApi.get(`/demo`, {
+        const response = await axiosApi.get("/demo", {
             params: { id: token }
         });
 
