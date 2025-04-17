@@ -20,6 +20,7 @@ export function useCheckSubscription() {
   const token = useFirebaseToken();
     
   useEffect(() => {
+    // eslint-disable-next-line security/detect-possible-timing-attacks
     if(token === null) return;
 
     const checkSubscription = async () => {
@@ -30,8 +31,7 @@ export function useCheckSubscription() {
                 "X-Request-ID": uuidv4()
             }
         });
-        const isActive = response.data.active === true;
-        setIsAllowed(isActive);
+        setIsAllowed(Boolean(response.data.active));
       } catch (error) {
         console.error("Failed to check subscription:", error);
         setIsAllowed(false);

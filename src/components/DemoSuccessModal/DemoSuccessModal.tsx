@@ -6,9 +6,9 @@ import {
     IconButton,
     Typography,
     Box,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+} from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 interface DemoSuccessModalProps {
     open: boolean;

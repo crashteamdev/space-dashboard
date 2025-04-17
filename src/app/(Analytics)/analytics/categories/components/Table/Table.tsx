@@ -91,8 +91,9 @@ export const Table = ({market, period, sorting, ...props}: ITable ) => {
         };
         setLoader(true);
         getCategories();
-    }, [query, sort]);
+    }, [query, sort, market, token]);
 
+    // Define columns for the table
     const columns = [
         {
             accessorKey: "name",
