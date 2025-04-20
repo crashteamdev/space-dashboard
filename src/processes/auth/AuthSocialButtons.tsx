@@ -11,6 +11,7 @@ import { setUser } from "@/shared/store/slices/user/userSlice";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { v4 as uuidv4 } from "uuid";
 import { IUser, signInType } from "@/shared/types";
+import { LogAction } from "@/features/logAction";
 
 const AuthSocialButtons = ({ title }: signInType) => {
   const router = useRouter();
@@ -46,6 +47,10 @@ const AuthSocialButtons = ({ title }: signInType) => {
 
       dispatch(setUser(user));
     }
+
+    console.log(auth);
+
+    await LogAction(`Авторизовался пользователь через "Гугл" кнопку!`);
 
   };
 
