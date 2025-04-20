@@ -16,6 +16,11 @@ const CustomTextField = styled((props: any) => <TextField {...props} />)(({ them
   },
   "& .Mui-disabled .MuiOutlinedInput-notchedOutline": {
     borderColor: theme.palette.grey[200]
+  },
+  "& p.Mui-error": {
+    position: "absolute",
+    right: "calc(0% - 10px)",
+    bottom: "calc(0% - 22px)"
   }
 }));
 

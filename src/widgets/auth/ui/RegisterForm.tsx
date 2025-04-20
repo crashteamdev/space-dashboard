@@ -7,44 +7,23 @@ import { useDispatch } from "@/shared/store/hooks";
 import { v4 as uuidv4 } from "uuid";
 import { Typography, Stack, Button, Box } from "@mui/material";
 import Link from "next/link";
-import * as yup from "yup";
 import { useFormik } from "formik";
 import { registrationEmail } from "@/api/auth/registrationEmail/registrationEmail";
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
 import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import AuthSocialButtons from "@/processes/auth/AuthSocialButtons";
+import { regFormValidateSchema } from "../model/validateSchema";
+import { useRouter } from "next/navigation";
 
 export const RegisterForm = () => {
 
+    const router = useRouter();
     const [isCreated, setIsCreated] = useState<boolean>(false);
     const dispatch = useDispatch();
 
-    const validationSchema = yup.object({
-      email: yup
-        .string()
-        .email("Введите действительный адрес электронной почты")
-        .required("Требуется электронная почта"),
-      password: yup
-        .string()
-        .min(8, "Длина пароля должна быть минимум 8 символов.")
-        .required("Необходим пароль")
-    });
-
     const signUp = async (email: string, password: string, displayName: string) => {
-      const user = await registrationEmail(email, password, displayName);
-      console.log(user);
-      if (!user) {
-        dispatch(
-          addItem({
-            title: "Не удалось создать аккаунт",
-            description: "Возможно такой аккаунт уже существует",
-            status: "error",
-            timelife: 6000,
-            id: uuidv4()
-          })
-        );
-        return false;
-      } else {
+      try {
+        await registrationEmail(email, password, displayName);
         setIsCreated(!isCreated);
         dispatch(
           addItem({
@@ -52,6 +31,17 @@ export const RegisterForm = () => {
             description: "Теперь вы можете зайти в личный кабинет",
             status: "success",
             timelife: 3000,
+            id: uuidv4()
+          })
+        );
+        router.push("/profile");
+      } catch (error: any) {
+        dispatch(
+          addItem({
+            title: "Не удалось создать аккаунт",
+            description: error.message,
+            status: "error",
+            timelife: 6000,
             id: uuidv4()
           })
         );
@@ -65,7 +55,7 @@ export const RegisterForm = () => {
         password: "",
         confirmPassword: ""
       },
-      validationSchema: validationSchema,
+      validationSchema: regFormValidateSchema,
       onSubmit: (values) => {
         signUp(values.email, values.password, values.displayName);
       }
@@ -95,6 +85,18 @@ export const RegisterForm = () => {
       <form className="w-full" onSubmit={formik.handleSubmit}>
         <Stack>
           <Box>
+            <CustomFormLabel>Имя</CustomFormLabel>
+            <CustomTextField
+              fullWidth
+              id='displayName'
+              name='displayName'
+              value={formik.values.displayName}
+              onChange={formik.handleChange}
+              error={formik.touched.displayName && Boolean(formik.errors.displayName)}
+              helperText={formik.touched.displayName && formik.errors.displayName}
+            />
+          </Box>
+          <Box>
             <CustomFormLabel>Электронная почта</CustomFormLabel>
             <CustomTextField
               fullWidth
@@ -119,7 +121,7 @@ export const RegisterForm = () => {
               helperText={formik.touched.password && formik.errors.password}
             />
           </Box>
-          <Box mb={3}>
+          <Box mb={4}>
             <CustomFormLabel>Повторите пароль</CustomFormLabel>
             <CustomTextField
               fullWidth
@@ -137,6 +139,22 @@ export const RegisterForm = () => {
           Зарегистрироваться
         </button>
         <AuthSocialButtons title='Зарегистрироваться через Google' />
+        <Stack direction='row' spacing={1} justifyContent='center' mt={3}>
+          <Typography variant='h6' fontWeight='500'>
+            Есть аккаунт?
+          </Typography>
+          <Typography
+            component={Link}
+            href='/auth/login'
+            fontWeight='500'
+            sx={{
+                textDecoration: "none",
+                color: "primary.main"
+            }}
+          >
+            Создать аккаунт
+          </Typography>
+        </Stack>
       </form>
     );
 };

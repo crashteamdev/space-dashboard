@@ -13,17 +13,14 @@ import CustomCheckbox from "@/components/ui/theme-elements/CustomCheckbox";
 import CustomFormLabel from "@/components/ui/theme-elements/CustomFormLabel";
 import CustomTextField from "@/components/ui/theme-elements/CustomTextField";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import { signInEmail } from "@/api/auth/email/email";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "@/shared/store/hooks";
-import { auth } from "@/shared/firebase/firebase";
 import { useState } from "react";
-import { setUser } from "@/shared/store/slices/user/userSlice";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { v4 as uuidv4 } from "uuid";
-import { IUser } from "@/shared/types";
 import AuthSocialButtons from "@/processes/auth/AuthSocialButtons";
+import { loginFormValidateSchema } from "../model/validateSchema";
 
 export const AuthForm = () => {
     const router = useRouter();
@@ -31,65 +28,35 @@ export const AuthForm = () => {
     
     const dispatch = useDispatch();
     
-    const validationSchema = yup.object({
-        email: yup
-            .string()
-            .email("Введите действительный адрес электронной почты")
-            .required("Требуется электронная почта"),
-        password: yup
-            .string()
-            .min(8, "Длина пароля должна быть минимум 8 символов.")
-            .required("Необходим пароль")
-    });
-    
     const signIn = async (email: string, password: string) => {
-        const user = (await signInEmail(email, password)) as any;
-        if (!user) {
+        try {
+            await signInEmail(email, password);
+            dispatch(
+                addItem({
+                    title: "Вы успешно вошли в аккаунт",
+                    status: "success",
+                    timelife: 4000,
+                    id: uuidv4()
+                })
+            );
+
+            const value = checked ? "on" : "off";
+            localStorage.setItem("remember", value);
+            sessionStorage.setItem("remember", "on");
+            
+            router.push("/profile");
+        } catch (error: any) {
             dispatch(
                 addItem({
                     title: "Не удалось войти в аккаунт",
-                    description: "Возможно такого аккаунта не существует",
+                    description: error.message,
                     status: "error",
                     timelife: 5000,
                     id: uuidv4()
                 })
             );
-    
-          return false;
         }
-    
-        if (user.email) {
-          dispatch(
-            addItem({
-              title: "Вы успешно вошли в аккаунт",
-              status: "success",
-              timelife: 4000,
-              id: uuidv4()
-            })
-          );
-          router.push("/profile");
-        }
-    
-        if (checked) {
-          localStorage.setItem("remember", "on");
-          sessionStorage.setItem("remember", "on");
-        } else {
-          localStorage.setItem("remember", "off");
-          sessionStorage.setItem("remember", "on");
-        }
-    
-        if (auth.currentUser) {
-          const { uid, accessToken, displayName, email, photoURL } = auth.currentUser as any;
-          const user = {
-            uid,
-            accessToken,
-            displayName,
-            email,
-            photoURL
-          } as IUser;
-    
-          dispatch(setUser(user));
-        }
+
     };
     
     const formik = useFormik({
@@ -97,7 +64,7 @@ export const AuthForm = () => {
             email: "",
             password: ""
         },
-        validationSchema: validationSchema,
+        validationSchema: loginFormValidateSchema,
         onSubmit: async (values) => {
             await signIn(values.email, values.password);
         }

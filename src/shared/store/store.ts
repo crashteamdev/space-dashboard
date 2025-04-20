@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
-import userReducer from "./slices/user/userSlice";
 import CustomizerReducer from "./slices/customizer/CustomizerSlice";
 import UserProfileReducer from "./slices/userProfile/UserProfileSlice";
 import WalletPopupReducer from "./slices/walletPopup/WalletPopupSlice";
@@ -13,7 +12,6 @@ import RepriceSlice from "./slices/reprice/repriceSlice";
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
     walletPopup: WalletPopupReducer,
     companyChanger: CompanyChangerReducer,
     customizer: CustomizerReducer,
@@ -27,7 +25,6 @@ export const store = configureStore({
 });
 
 const rootReducer = combineReducers({
-  user: userReducer,
   walletPopup: WalletPopupReducer,
   companyChanger: CompanyChangerReducer,
   customizer: CustomizerReducer,

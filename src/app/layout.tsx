@@ -14,7 +14,6 @@ import Box from "@mui/material/Box";
 import "@/shared/i18n/i18n";
 import { NextAppDirEmotionCacheProvider } from "@/shared/theme/EmotionCache";
 import { usePathname, useRouter } from "next/navigation";
-import { setUser } from "@/shared/store/slices/user/userSlice";
 import { logout } from "../api/auth/logout/logout";
 import { setDarkMode, setLanguage } from "@/shared/store/slices/customizer/CustomizerSlice";
 import { lang } from "@/shared/i18n/i18n";
@@ -76,7 +75,6 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
         email,
         photoURL
       } as any;
-      dispatch(setUser(userdata));
       setLoadingPage(true);
       posthog.identify(uid);
       posthog.capture('User Logged In', {
