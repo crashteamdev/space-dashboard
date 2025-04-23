@@ -4,7 +4,7 @@ import React from "react";
 import AuthForgotPassword from "@/processes/auth/AuthForgotPassword";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Box, Typography, Button } from "@mui/material";
+import { Typography } from "@mui/material";
 
 export const ForgotPasswordForm = () => {
     const [isSend, setIsSend] = useState(false);
