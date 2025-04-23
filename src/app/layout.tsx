@@ -28,6 +28,7 @@ import {
 import "@/shared/styles/globals.css";
 import {Providers} from "@/app/providers/providers";
 import {usePostHog} from "posthog-js/react";
+import { useDemoHandler } from "@/shared/hooks/useDemoHandler";
 
 const queryClient = new QueryClient()
 export const MyApp = ({ children }: { children: React.ReactNode }) => {
@@ -41,6 +42,8 @@ export const MyApp = ({ children }: { children: React.ReactNode }) => {
   const auth = getAuth(firebase_app);
   const [user, loading] = useAuthState(auth);
   const posthog = usePostHog();
+
+  useDemoHandler();
 
   useEffect(() => {
     const curLang = localStorage.getItem("lng") as string;

@@ -25,3 +25,10 @@ export const loginFormValidateSchema = yup.object({
         .min(8, "Длина пароля должна быть минимум 8 символов.")
         .required("Необходим пароль")
 });
+
+export const forgotPasswordValidationSchema = yup.object({
+        email: yup
+            .string()
+            .email("Введите действительный адрес электронной почты")
+            .required("Требуется электронная почта")
+    });
