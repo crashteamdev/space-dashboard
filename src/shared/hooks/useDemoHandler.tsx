@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { auth } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import axios from "axios";
 import { useDispatch } from "../store/hooks";
 import { addItem } from "../store/slices/alerts/AlertsSlice";
 import { v4 as uuidv4 } from "uuid";
+import axiosApiInstance from "../api/api";
 
 export function useDemoHandler() {
     const dispatch = useDispatch();
@@ -21,7 +21,9 @@ export function useDemoHandler() {
             const demo = localStorage.getItem("demo");
             if (user && demo) {
                 try {
-                    await axios.post("https://space.marketdb.ru/v1/demo", { demo });
+                    await axiosApiInstance.get("https://api.marketdb.pro/gateway/demo", {
+                        params: { id: demo }
+                    });
                     localStorage.removeItem("demo");
 
                     dispatch(
