@@ -16,8 +16,8 @@ export function useDemoHandler() {
         if (demoParam && typeof window !== "undefined") {
             localStorage.setItem("demo", demoParam);
         }
-    
-        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+
+        const handleDemoAccess = async (user: any) => {
             const demo = localStorage.getItem("demo");
             if (user && demo) {
                 try {
@@ -39,7 +39,14 @@ export function useDemoHandler() {
                     console.error("Ошибка выдачи демо: ", error);
                 }
             }
-        });
+        };
+
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+            handleDemoAccess(currentUser);
+        }
+
+        const unsubscribe = onAuthStateChanged(auth, handleDemoAccess);
     
         return () => unsubscribe();
     }, []);
