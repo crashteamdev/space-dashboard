@@ -17,7 +17,6 @@ export function useDemoHandler() {
             localStorage.setItem("demo", demoParam);
         }
 
-        // Функция для обработки демо-доступа
         const handleDemoAccess = async (user: any) => {
             const demo = localStorage.getItem("demo");
             if (user && demo) {
@@ -41,15 +40,12 @@ export function useDemoHandler() {
                 }
             }
         };
-    
-        // Проверяем, авторизован ли пользователь уже сейчас
+
         const currentUser = auth.currentUser;
         if (currentUser) {
             handleDemoAccess(currentUser);
         }
-    
-        // Слушаем изменения состояния авторизации для случаев,
-        // когда пользователь авторизуется позже
+
         const unsubscribe = onAuthStateChanged(auth, handleDemoAccess);
     
         return () => unsubscribe();
