@@ -8,7 +8,6 @@ import { useDispatch } from "@/shared/store/hooks";
 import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 import { v4 as uuidv4 } from "uuid";
 import { signInType } from "@/shared/types";
-import { LogAction } from "@/features/logAction";
 
 const AuthSocialButtons = ({ title }: signInType) => {
   const router = useRouter();
@@ -28,7 +27,7 @@ const AuthSocialButtons = ({ title }: signInType) => {
         })
       );
 
-      await LogAction(`Авторизовался пользователь через "Гугл" кнопку!\nEmail: ${user.email}\nИмя: ${user.displayName ? user.displayName : "Отсутствует"}`);
+      // await LogAction(`Авторизовался пользователь через "Гугл" кнопку!\nEmail: ${user.email}\nИмя: ${user.displayName ? user.displayName : "Отсутствует"}`);
     }
 
     localStorage.setItem("remember", "on");

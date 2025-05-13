@@ -1,7 +1,7 @@
 import { auth } from "@/shared/firebase/firebase";
 import { createUserWithEmailAndPassword, updateProfile, User } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
-import { LogAction } from "@/features/logAction";
+// import { LogAction } from "@/features/logAction";
 
 export const registrationEmail = async (email: string, password: string, displayName: string): Promise<User> => {
   try {
@@ -11,9 +11,9 @@ export const registrationEmail = async (email: string, password: string, display
       await updateProfile(user, { displayName });
     }
 
-    if(user) {
-      await LogAction(`Зарегистрировался новый юзер по логину и паролю!\nEmail: ${user.email}\nИмя: ${user.displayName ? user.displayName : "Отсутствует"}`);
-    }
+    // if(user) {
+    //   await LogAction(`Зарегистрировался новый юзер по логину и паролю!\nEmail: ${user.email}\nИмя: ${user.displayName ? user.displayName : "Отсутствует"}`);
+    // }
 
     return user;
   }catch (error) {

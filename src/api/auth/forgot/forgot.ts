@@ -1,4 +1,3 @@
-import { LogAction } from "@/features/logAction";
 import { auth } from "@/shared/firebase/firebase";
 import { FirebaseError } from "firebase/app";
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -6,7 +5,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 export const forgotPassword = async (email: string): Promise<void> => {
   try {
     await sendPasswordResetEmail(auth, email);
-    await LogAction(`Пользователь запросил сброс пароля.\nEmail: ${email}`);
+    // await LogAction(`Пользователь запросил сброс пароля.\nEmail: ${email}`);
   } catch (error) {
     if (error instanceof FirebaseError) {
       switch (error.code) {
