@@ -14,7 +14,7 @@ interface SubscriptionResponse {
 }
 
 export function useCheckSubscription() {
-    const [market] = useLocalStorage("market", marketplace[1]);
+    const [market] = useLocalStorage("market", marketplace[0]);
   const [isAllowed, setIsAllowed] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const token = useFirebaseToken();

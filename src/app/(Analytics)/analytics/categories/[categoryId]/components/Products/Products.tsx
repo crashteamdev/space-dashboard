@@ -12,7 +12,7 @@ import { AppIcon } from "@/shared/components/AppIcon";
 export const Products = (category: any) => {    
     const [periodDay, setPeriodDay] = useLocalStorage("period", "WEEK");
     const { sorting, handleUpdateSorting, renderArrow } = useSorting();
-    const [market,] = useLocalStorage("market", marketplace[1]);
+    const [market,] = useLocalStorage("market", marketplace[0]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [searchInput, setSearchInput] = useState("");
     const [searchQuery, setSearchQuery] = useState("");

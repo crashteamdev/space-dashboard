@@ -11,7 +11,7 @@ import { axiosApi } from "@/api/axios/axios";
 
 export const StatsCategory = (category: any) => {
 
-    const [market] = useLocalStorage("market", marketplace[1]);
+    const [market] = useLocalStorage("market", marketplace[0]);
     const [periodDay, setPeriodDay] = useLocalStorage("period", "WEEK");
 
     const {startDate, endDate} = useDateRange(periodDay);

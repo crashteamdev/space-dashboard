@@ -249,9 +249,11 @@ const Pricing = () => {
               <AppButton tag="button" themeType="cancel" onClick={() => setOpen(0)}>
                 Отменить
               </AppButton>
-              <AppButton tag="button" themeType="primary" onClick={handleLink}>
-                Оплатить тариф {(company.activeCompany === "ke" ) ? "Магнит Маркет" : "Uzum"}
-              </AppButton>
+              {company.activeCompany === "ke" &&
+                <AppButton tag="button" themeType="primary" onClick={handleLink}>
+                  Оплатить тариф {(company.activeCompany === "ke" ) ? "Магнит Маркет" : "Uzum"}
+                </AppButton>
+              } 
             </Stack>
           </>
         </Popup>

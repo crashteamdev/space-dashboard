@@ -17,7 +17,7 @@ const Categories = () => {
   const customizer = useSelector((state: AppState) => state.customizer);
 
   const [periodDay, setPeriodDay] = useLocalStorage("period", "WEEK");
-  const [market, setMarket] = useLocalStorage("market", marketplace[1]);
+  const [market, setMarket] = useLocalStorage("market", marketplace[0]);
 
   const { sorting, handleUpdateSorting, renderArrow } = useSorting();
 

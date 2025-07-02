@@ -11,8 +11,7 @@ import styled from "./switchCompany.module.scss";
 import { useRouter } from "next/navigation";
 
 const COMMON_TAB = [
-  { value: "1", icon: "", label: "Магнит Маркет", ul: "ke", disabled: false },
-  { value: "2", icon: "", label: "Uzum", ul: "uzum", disabled: false }
+  { value: "1", icon: "", label: "Магнит Маркет", ul: "ke", disabled: false }
 ];
 
 const SwitchCompany = () => {

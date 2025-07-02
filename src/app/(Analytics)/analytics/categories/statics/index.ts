@@ -77,10 +77,6 @@ export const period = [
 
 export const marketplace = [
     {
-        name: "Uzum",
-        value: "UZ"
-    },
-    {
         name: "Магнит Маркет",
         value: "KE"
     }

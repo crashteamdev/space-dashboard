@@ -59,7 +59,7 @@ export default function Product({ params }: { params: { productId: string } }) {
     const [showSkeleton, setShowSkeleton] = useState(true);
 
     const [periodDay,setPeriodDay] = useLocalStorage("period", "WEEK");
-    const [market,] = useLocalStorage("market", marketplace[1]);
+    const [market,] = useLocalStorage("market", marketplace[0]);
     const {startDate, endDate} = useDateRange(periodDay);
 
     const dateArray = getDatesInRange(startDate, endDate);

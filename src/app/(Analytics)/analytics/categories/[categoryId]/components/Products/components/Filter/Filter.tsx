@@ -12,7 +12,7 @@ type IFilter = {
 }
 
 export const Filter = ({isOpen, setIsOpen, onApplyFilters}: IFilter) => {
-    const [market] = useLocalStorage("market", marketplace[1]);
+    const [market] = useLocalStorage("market", marketplace[0]);
     const max = market.value === "KE" ? 999999999 : 999999999999;
     const [revenueRange, setRevenueRange] = useState([0, max]);
     const [orderAmountRange, setOrderAmountRange] = useState([0, max]);
