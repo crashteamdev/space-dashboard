@@ -1,4 +1,9 @@
 import { useState } from "react";
+import {
+    SUBSCRIPTION_ALLOWED_MONTHS,
+    SUBSCRIPTION_DEFAULT_MONTHS,
+    type SubscriptionPeriod
+} from "@/shared/config/subscription";
 
 interface Discount {
     "1": number;
@@ -16,7 +21,7 @@ interface Tariff {
 
 export const useCart = () => {
     const [selectedTariffs, setSelectedTariffs] = useState<Tariff[]>([]);
-    const [selectedPeriod, setSelectedPeriod] = useState<1 | 3 | 6>(1);
+    const [selectedPeriod, setSelectedPeriod] = useState<SubscriptionPeriod>(SUBSCRIPTION_DEFAULT_MONTHS);
 
     const handleTariffChange = (tariff: Tariff) => {
         setSelectedTariffs((prevSelected) => {
@@ -29,7 +34,10 @@ export const useCart = () => {
         setSelectedTariffs((prevSelected) => prevSelected.filter(t => t.id !== tariffId));
     };
 
-    const handlePeriodChange = (period: 1 | 3 | 6) => {
+    const handlePeriodChange = (period: SubscriptionPeriod) => {
+        if (!(SUBSCRIPTION_ALLOWED_MONTHS as readonly number[]).includes(period)) {
+            return;
+        }
         setSelectedPeriod(period);
     };
 

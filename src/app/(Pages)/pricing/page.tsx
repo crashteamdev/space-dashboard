@@ -34,6 +34,10 @@ import { useRouter } from "next/navigation";
 import { getPluralNoun } from "@/shared/lib/getPluralNoun";
 import { motion } from "framer-motion";
 import { AppButton } from "@/shared/components/AppButton";
+import {
+  MULTI_MONTH_PURCHASE_ENABLED,
+  SUBSCRIPTION_DEFAULT_MONTHS
+} from "@/shared/config/subscription";
 
 const Pricing = () => {
   const [show, setShow] = React.useState(false);
@@ -47,6 +51,13 @@ const Pricing = () => {
 
   const balanceReducer = useSelector((state: AppState) => state.balanceReducer) as any;
   const router = useRouter();
+  const selectedMonths = MULTI_MONTH_PURCHASE_ENABLED && show ? 3 : SUBSCRIPTION_DEFAULT_MONTHS;
+  const isMultiMonthSelected = selectedMonths > 1;
+
+  const getPriceForSelectedPeriod = (price: any) =>
+    isMultiMonthSelected
+      ? price.monthlyplan * selectedMonths - price.monthlyplan * selectedMonths * price.diccountMath
+      : price.monthlyplan;
 
   const StyledChip = styled(Chip)({
     position: "absolute",
@@ -78,7 +89,7 @@ const Pricing = () => {
         `${company.activeCompany}-analytics`,
         pricing[open - 1]?.package.toLowerCase(),
         window.localStorage.getItem("promocode") ? window.localStorage.getItem("promocode") : "",
-        show ? 3 : 1,
+        selectedMonths,
         context.toLowerCase(),
         context === "Оплата с баланса" ? context.toLowerCase() : "one-time"
       )
@@ -102,11 +113,13 @@ const Pricing = () => {
           <Typography variant="h5" mt={2}>
             Без привязки карты. Доступы мгновенно
           </Typography>
-          <Box display='flex' alignItems='center' mt={3} justifyContent='center'>
-            <Typography variant='subtitle1'>1 месяц</Typography>
-            <Switch onChange={() => setShow(!show)} />
-            <Typography variant='subtitle1'>3 месяца</Typography>
-          </Box>
+          {MULTI_MONTH_PURCHASE_ENABLED && (
+            <Box display='flex' alignItems='center' mt={3} justifyContent='center'>
+              <Typography variant='subtitle1'>1 месяц</Typography>
+              <Switch onChange={() => setShow(!show)} />
+              <Typography variant='subtitle1'>3 месяца</Typography>
+            </Box>
+          )}
         </Grid>
       </Grid>
       <Grid container spacing={3} mt={5}>
@@ -125,7 +138,7 @@ const Pricing = () => {
                 >
                   {price.packageRu}
                 </Typography>
-                {show ? <div className="absolute right-[30px] top-[30px] text-base font-semibold">{price.discount}% скидка</div>  : <></>}
+                {isMultiMonthSelected ? <div className="absolute right-[30px] top-[30px] text-base font-semibold">{price.discount}% скидка</div> : <></>}
                 <Box my={4}>
                   {price.plan == "Free" ? (
                     <Box fontSize='50px' mt={5} fontWeight='600'>
@@ -136,7 +149,7 @@ const Pricing = () => {
                       <Typography variant='h6' mr='8px' mt='-12px'>
                         ₽
                       </Typography>
-                      {show ? (
+                      {isMultiMonthSelected ? (
                         <>
                           <motion.div
                           variants={itemsd}
@@ -144,7 +157,7 @@ const Pricing = () => {
                           animate="show"
                             >
                             <Typography fontSize="48px" fontWeight="600">
-                              {(price.monthlyplan * 3 - (price.monthlyplan * 3 * price.diccountMath))}
+                              {getPriceForSelectedPeriod(price)}
                             </Typography>
                           </motion.div>
                           <Typography
@@ -154,7 +167,7 @@ const Pricing = () => {
                             color='textSecondary'
                             mt={1}
                           >
-                            / 3 месяца
+                            / {selectedMonths} {getPluralNoun(selectedMonths, "месяц", "месяца", "месяцев")}
                           </Typography>
                         </>
                       ) : (
@@ -229,18 +242,14 @@ const Pricing = () => {
               </Typography>
               <Typography variant="h6" sx={{ mt: 1 }}>
                 Сумма: ₽
-                {show
-                  ? pricing[open - 1]?.monthlyplan * 3 - (pricing[open - 1]?.monthlyplan * 3 * pricing[open - 1]?.diccountMath)
-                  : pricing[open - 1]?.monthlyplan}{" "}
+                {pricing[open - 1] ? getPriceForSelectedPeriod(pricing[open - 1]) : 0}{" "}
               </Typography>
               <Typography variant="h6" sx={{ mt: 1 }}>
-                Срок: {show ? 1 * 3 : 1} {getPluralNoun(show ? 1 * 3 : 1 || 0, "месяц", "месяца", "месяцев")}
+                Срок: {selectedMonths} {getPluralNoun(selectedMonths, "месяц", "месяца", "месяцев")}
               </Typography>
                 <Box mt={2}>
                   <PaymentList pricing={
-                    show
-                      ? pricing[open - 1]?.monthlyplan * 3 - (pricing[open - 1]?.monthlyplan * 3 * pricing[open - 1]?.diccountMath)
-                      : pricing[open - 1]?.monthlyplan
+                    pricing[open - 1] ? getPriceForSelectedPeriod(pricing[open - 1]) : 0
                   } company={company.activeCompany} pay={true} error={empty} context={context} setContext={setContext} />
                 </Box>
               {context !== "Оплата с баланса" && <CheckPromoCode /> }

@@ -7,6 +7,10 @@ import React from "react";
 import { formattedAccordion } from "./statics";
 import { RadioButton } from "@/shared/components/AppRadioButton";
 import { useCart } from "@/shared/hooks/useCart";
+import {
+    SUBSCRIPTION_ALLOWED_MONTHS,
+    type SubscriptionPeriod
+} from "@/shared/config/subscription";
 
 interface Discount {
     "1": number;
@@ -38,6 +42,12 @@ const NewPricing = () => {
         getTotalPrice
     } = useCart();
 
+    const periodLabels: Record<SubscriptionPeriod, string> = {
+        1: "1 месяц",
+        3: "3 месяца",
+        6: "6 месяцев"
+    };
+
     return (
         <PageContainer title="Тарифы" description="Тарифы">
             <div className="flex flex-col gap-3 mt-[30px]">
@@ -45,30 +55,17 @@ const NewPricing = () => {
                 
             </div>
             <div className="flex gap-2.5 months mt-3">
-                <RadioButton
-                    name="period"
-                    value="1"
-                    checked={selectedPeriod === 1}
-                    onChange={() => handlePeriodChange(1)}
-                >
-                    1 месяц
-                </RadioButton>
-                <RadioButton
-                    name="period"
-                    value="3"
-                    checked={selectedPeriod === 3}
-                    onChange={() => handlePeriodChange(3)}
-                >
-                    3 месяца
-                </RadioButton>
-                <RadioButton
-                    name="period"
-                    value="6"
-                    checked={selectedPeriod === 6}
-                    onChange={() => handlePeriodChange(6)}
-                >
-                    6 месяцев
-                </RadioButton>
+                {SUBSCRIPTION_ALLOWED_MONTHS.map((period) => (
+                    <RadioButton
+                        key={period}
+                        name="period"
+                        value={String(period)}
+                        checked={selectedPeriod === period}
+                        onChange={() => handlePeriodChange(period)}
+                    >
+                        {periodLabels[period]}
+                    </RadioButton>
+                ))}
             </div>
             <div className="grid grid-cols-12 gap-4 mt-[40px]">
                 <div className="col-span-9">
