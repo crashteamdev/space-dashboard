@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { addItem } from "../alerts/AlertsSlice";
 import { errorHandler } from "@/hooks/errorHandler/errorHandler";
 import axiosApiInstance from "@/shared/api/api";
+import { PAYMENTS_ENABLED, createPaymentsUnavailableAlert } from "@/shared/config/payments";
 
 interface StateType {
   amount: number;
@@ -131,6 +132,11 @@ export const getListPayments =
 
 export const topUpBalance = (amount: number, provider: string) => async (dispatch: AppDispatch) => {
   try {
+    if (!PAYMENTS_ENABLED) {
+      dispatch(addItem(createPaymentsUnavailableAlert()));
+      return;
+    }
+
     const data = JSON.stringify({
       amount: +amount,
       successRedirectUrl: "https://space.marketdb.pro/payment/success",
@@ -203,6 +209,11 @@ export const purchaseService =
   ) =>
   async (dispatch: AppDispatch) => {
     try {
+      if (!PAYMENTS_ENABLED) {
+        dispatch(addItem(createPaymentsUnavailableAlert()));
+        return;
+      }
+
       const data = JSON.stringify({
         service: {
           context: serviceContext,

@@ -38,6 +38,8 @@ import {
   MULTI_MONTH_PURCHASE_ENABLED,
   SUBSCRIPTION_DEFAULT_MONTHS
 } from "@/shared/config/subscription";
+import { PAYMENTS_ENABLED, createPaymentsUnavailableAlert } from "@/shared/config/payments";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 
 const Pricing = () => {
   const [show, setShow] = React.useState(false);
@@ -74,6 +76,11 @@ const Pricing = () => {
   });
 
   const handleLink = () => {
+    if (!PAYMENTS_ENABLED) {
+      dispatch(addItem(createPaymentsUnavailableAlert()));
+      return null;
+    }
+
     if (!context) {
       setEmpty("Выберите провайдера выше");
       setTimeout(() => {

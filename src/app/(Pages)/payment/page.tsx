@@ -17,6 +17,8 @@ import { getAuth } from "firebase/auth";
 import firebase_app from "@/shared/firebase/firebase";
 import { useRouter } from "next/navigation";
 import PaymentList from "@/components/paymentList/paymentList";
+import { PAYMENTS_ENABLED, createPaymentsUnavailableAlert } from "@/shared/config/payments";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 
 const steps = ["Сумма пополнения", "Выбор платежного средства", "Оплата"];
 
@@ -56,6 +58,11 @@ const Payment = () => {
       }, 2000);
       return null;
     }
+    if (activeStep === 2 && !PAYMENTS_ENABLED) {
+      dispatch(addItem(createPaymentsUnavailableAlert()));
+      return null;
+    }
+
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());

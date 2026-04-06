@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "@/shared/store/hooks";
 import { setOpen, setValue } from "@/shared/store/slices/walletPopup/WalletPopupSlice";
 import { AppState } from "@/shared/store/store";
 import Link from "next/link";
+import { PAYMENTS_ENABLED, createPaymentsUnavailableAlert } from "@/shared/config/payments";
+import { addItem } from "@/shared/store/slices/alerts/AlertsSlice";
 
 export const DialogPay = () => {
     const [valueText, setValueText] = React.useState("");
@@ -23,7 +25,12 @@ export const DialogPay = () => {
     const walletPopup = useSelector((state: AppState) => state.walletPopup);
 
   const dispatch = useDispatch();
-    const handleLink = () => {
+    const handleLink = (event: React.MouseEvent<HTMLElement>) => {
+        if (!PAYMENTS_ENABLED) {
+          event.preventDefault();
+          dispatch(addItem(createPaymentsUnavailableAlert()));
+          return;
+        }
         dispatch(setValue(valueText));
         dispatch(setOpen(false));
       };
